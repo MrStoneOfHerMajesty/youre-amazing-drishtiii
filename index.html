@@ -86,6 +86,7 @@
         );
 animation: shimmer-link 2s infinite;
 opacity: 0; 
+        pointer-events: none;
       }
       .theme-link-button:hover::after {
         opacity: 1;
@@ -812,168 +813,89 @@ opacity: 0;
           font-size: 0.9em;
         }
       }
-      /* Password Modal Styles */
-.password-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
 
-.password-modal.active {
-  opacity: 1;
-  pointer-events: all;
-}
+      @media (max-width: 480px) {
+        body {
+          padding: 0 8px;
+        }
 
-.password-modal-content {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(25px);
-  border: 2px solid rgba(168, 94, 234, 0.4);
-  border-radius: 20px;
-  padding: 40px 50px;
-  box-shadow: 
-    0 8px 32px rgba(100, 200, 255, 0.3),
-    0 0 40px rgba(168, 94, 234, 0.3),
-    inset 0 0 20px rgba(255, 255, 255, 0.1);
-  position: relative;
-  text-align: center;
-  max-width: 400px;
-  width: 90%;
-  animation: modalSlideIn 0.4s ease;
-}
+        .countdown-container {
+          top: 16px;
+          left: 50%;
+          transform: translate(-50%, 0);
+          width: calc(100% - 24px);
+          max-width: 420px;
+          padding: 16px 14px;
+          border-radius: 16px;
+          box-shadow: 0 10px 28px rgba(100, 200, 255, 0.35);
+        }
 
-@keyframes modalSlideIn {
-  from {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+        .countdown-message {
+          font-size: 1em;
+          line-height: 1.4;
+        }
 
-.password-modal h3 {
-  color: #ffffff;
-  font-size: 1.8em;
-  margin-bottom: 20px;
-  text-shadow: 0 0 15px rgba(100, 200, 255, 0.5);
-}
+        .countdown-timer {
+          font-size: 2.6em;
+        }
 
-.password-modal p {
-  color: #b8e6ff;
-  font-size: 1.1em;
-  margin-bottom: 25px;
-  line-height: 1.6;
-}
+        .countdown-label {
+          font-size: 0.95em;
+          line-height: 1.4;
+        }
 
-.password-input {
-  width: 100%;
-  padding: 15px 20px;
-  font-size: 1.1em;
-  border: 2px solid rgba(100, 200, 255, 0.3);
-  border-radius: 50px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  text-align: center;
-  font-family: "Georgia", serif;
-  margin-bottom: 10px;
-  transition: all 0.3s ease;
-  outline: none;
-}
+        .nav-toggle {
+          width: 46px;
+          height: 46px;
+        }
 
-.password-input:focus {
-  border-color: rgba(100, 200, 255, 0.6);
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
-}
+        .container {
+          max-width: 100%;
+          padding: 32px 16px 48px;
+        }
 
-.password-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
+        h1 {
+          font-size: 2.2em;
+          letter-spacing: 1px;
+        }
 
-.password-error {
-  color: #ff6b9d;
-  font-size: 0.95em;
-  margin-bottom: 15px;
-  min-height: 20px;
-  text-shadow: 0 0 10px rgba(255, 107, 157, 0.5);
-  animation: shake 0.5s ease;
-}
+        .message {
+          font-size: 1.05em;
+          line-height: 1.6;
+          margin-bottom: 32px;
+        }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-10px); }
-  75% { transform: translateX(10px); }
-}
+        .lyrics-container {
+          padding: 20px;
+          max-height: 260px;
+        }
 
-.password-buttons {
-  display: flex;
-  gap: 15px;
-  margin-top: 20px;
-}
+        .theme-link-button {
+          width: 100%;
+          text-align: center;
+          margin-top: 12px;
+        }
 
-.password-btn {
-  flex: 1;
-  padding: 12px 25px;
-  border: 2px solid rgba(100, 200, 255, 0.4);
-  border-radius: 50px;
-  background: rgba(100, 200, 255, 0.15);
-  color: #ffffff;
-  font-size: 1em;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: "Georgia", serif;
-  box-shadow: 0 4px 20px rgba(100, 200, 255, 0.2);
-}
+        .playlist {
+          padding: 18px;
+        }
 
-.password-btn:hover {
-  background: rgba(100, 200, 255, 0.25);
-  box-shadow: 0 6px 30px rgba(100, 200, 255, 0.4);
-  transform: translateY(-2px);
-}
+        .song-item {
+          padding: 12px 14px;
+          gap: 10px;
+        }
 
-.password-btn.cancel {
-  border-color: rgba(255, 107, 157, 0.4);
-  background: rgba(255, 107, 157, 0.15);
-}
-.password-btn.cancel:hover {
-  background: rgba(255, 107, 157, 0.25);
-  box-shadow: 0 6px 30px rgba(255,107, 157, 0.4);
-}
+        .surprise-button {
+          top: 10px;
+          right: 10px;
+          padding: 10px 14px;
+          font-size: 0.85em;
+        }
+      }
 </style>
   </head>
   <body>
-    <!-- Password Modal -->
-<div class="password-modal" id="passwordModal">
-  <div class="password-modal-content">
-    <h3>🔒 Enter Password</h3>
-    <p>This galaxy is protected ✨</p>
-    <input 
-      type="password" 
-      class="password-input" 
-      id="passwordInput" 
-      placeholder="Enter password..."
-      autocomplete="off"
-    />
-    <div class="password-error" id="passwordError"></div>
-    <div class="password-buttons">
-      <button class="password-btn cancel" id="cancelBtn">Cancel</button>
-      <button class="password-btn" id="submitBtn">Enter</button>
-    </div>
-  </div>
-</div>
+    
     <div class="countdown-container" id="countdownContainer">
       <div class="countdown-message" id="countdownMessage"></div>
       <div class="countdown-timer" id="countdownTimer"></div>
@@ -1006,34 +928,18 @@ opacity: 0;
 </button>
 <br />
 <span style="display: none;">https://ksneoge1-pixel.github.io/testing/ </span>
-        Nov 19th : ) i hope you're doing amazingggghhh, drishti!! I hope your days went stress-free, peacefully and were productive : ) can't wait to hear from you again..<br/>
-        Nov 13th sighhhhh... how is your taste in music so good? now I've been listening to this "i can't sleep" constantlyyyy.
-        gosh youuuu : ) i hope you had a day as amazing as you are. and productive too ofc hehe. good night in advance, drishti^_^
-        <br/><br/>
-        4th Nov, 20:49 Study wellll, drishtiiii. Take careeee, take some breaks as well, occassionally in your study hours. 
-        Do some stretching to avoid getting a sore backk, walk for some time. Stay focuseddd like Alwaaayyss hehehe : )
-        <br />
+
+
+<br/>Alsoooo, if you ever feel sad... or just not good, you are always welcome here. Feel like home :)
+    Just the way you make me feel whenever we talk...
     <br/>
-    02/11/25 15:07 Just in case, if youuu... "stumble X)" upon this site, i uhh... just wanted you to know,
-       that you're missing from me... Study welll, drishtiii, you're doing awesomeeeeeee hehehe : ))
-         <br/>
-         <br/>
-    
-    1st Oct heeyy i hope your day was awesomeee, drishti. and productive as always hehe. just wanted to share something. I've been listening to some focus frequencies. and they kinda helppp. you can give it a try. https://open.spotify.com/playlist/2F6LyTRo99Hy7ayFFLso9t?si=-lqW3l8cT5OEv0gDhgGlVQ <br/> you're missing from meeeeeee for your kindestttt and sweetest informationnnn : )) good nighttt in advance, shooting starrr. get some restttt.
-<br/><br/>
-31/10/25 22:04 I hope your day was and is going amazingggg, and hopefully was productive and fruitfulllll 
-      hehe. you're missing from me... a lot, drish. a long, deep sighhh..... I cant wait to talk to you again : (
-    
-      30/10/25 gosh i miss u already i dont know whyyyyy ?!! aahhh. :( Gooood nighttt drishti!! 
-      I hope you'll sleeep early tonight as wellll hehe. Good morninggg in advanceee.
-    I hope your day goesss musically (i dont know what im sayinggysfbybh), productive, fruitful and beautiful :))
-      Anddd hhehehe i printed itt. And omg it looks so lovely istg I Am In Love...  
-      <br/>Alsoooo, if you ever feel sad... or just not good, you are always welcome here. Feel like home :)
-    Just the way you make me feel whenever we talk...        
-    <br/><br/>
+    9th Dec 2025, I hopeee yourrr day goesss amazinglyyyy and that youuu have a niceeee cheerful
+    mood throughouttt the dayyy, helping you to focus on your preparationnnn : ))))))) 
+    LESSSSGOOOOOOOOOOOOOOOOOOOOOOOOOOO!!!     
+    <br/>
       (no changes after thisss, but you can read it if you want to hehe)<br /><br />  
       
-      <br /><br />
+      <br />
       You're missing from me each moment we're not talking...sigh.Be
       focused. Exams are closing in. And you're doinggg great, keep it up. I
       love your dedication. I know you're going to do great in your exams.
@@ -1153,7 +1059,7 @@ opacity: 0;
 
 <script>
   // Countdown Timer
-  const examDate = new Date("2025-12-07T00:00:00");
+  const examDate = new Date("2025-12-14T00:00:00");
   const countdownContainer = document.getElementById("countdownContainer");
   const countdownMessage = document.getElementById("countdownMessage");
   const countdownTimer = document.getElementById("countdownTimer");
@@ -1161,8 +1067,8 @@ opacity: 0;
 
   function updateCountdown() {
     const now = new Date();
-    const examDayStart = new Date("2025-12-07T00:00:00");
-    const examDayEnd = new Date("2025-12-07T23:59:59");
+    const examDayStart = new Date("2025-12-14T00:00:00");
+    const examDayEnd = new Date("2025-12-14T23:59:59");
 
     if (now >= examDayStart && now <= examDayEnd) {
       countdownMessage.innerHTML = "🌟 Today is THE DAY! 🌟";
@@ -1688,73 +1594,19 @@ opacity: 0;
       danceBtn.querySelector("span").textContent = "Stawwwppp XDDD";
     } else {
       songItems.forEach((item) => {
-            item.classList.remove("dancing");
-          });
-          danceBtn.querySelector("span").textContent = "make em' danceeee hehe";
-        }
+        item.classList.remove("dancing");
       });
-      // Password Modal Functionality
-const galaxyBtn = document.getElementById('galaxyBtn');
-const passwordModal = document.getElementById('passwordModal');
-const passwordInput = document.getElementById('passwordInput');
-const passwordError = document.getElementById('passwordError');
-const submitBtn = document.getElementById('submitBtn');
-const cancelBtn = document.getElementById('cancelBtn');
+      danceBtn.querySelector("span").textContent = "make em' danceeee hehe";
+    }
+  });
 
-const CORRECT_PASSWORD = 'cry';
-const GALAXY_LINK = 'https://ksneoge1-pixel.github.io/testing/';
+  // Galaxy link opener
+  const galaxyBtn = document.getElementById("galaxyBtn");
+  const GALAXY_LINK = "https://ksneoge1-pixel.github.io/testing/";
 
-galaxyBtn.addEventListener('click', (e) => {
-  e.preventDefault();
-  passwordModal.classList.add('active');
-  passwordInput.value = '';
-  passwordError.textContent = '';
-  setTimeout(() => passwordInput.focus(), 100);
-});
-
-function checkPassword() {
-  const enteredPassword = passwordInput.value.trim();
-  
-  if (enteredPassword === CORRECT_PASSWORD) {
-    passwordModal.classList.remove('active');
-    window.open(GALAXY_LINK, '_blank', 'noopener,noreferrer');
-    passwordInput.value = '';
-    passwordError.textContent = '';
-  } else {
-    passwordError.textContent = '❌ Incorrect password. Try again...';
-    passwordInput.value = '';
-    passwordInput.focus();
-    
-    // Add shake animation to input
-    passwordInput.style.animation = 'none';
-    setTimeout(() => {
-      passwordInput.style.animation = 'shake 0.5s ease';
-    }, 10);
-  }
-}
-
-submitBtn.addEventListener('click', checkPassword);
-
-passwordInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
-    checkPassword();
-  }
-});
-
-cancelBtn.addEventListener('click', () => {
-  passwordModal.classList.remove('active');
-  passwordInput.value = '';
-  passwordError.textContent = '';
-});
-
-// Close modal when clicking outside
-passwordModal.addEventListener('click', (e) => {
-  if (e.target === passwordModal) {
-    passwordModal.classList.remove('active');
-    passwordInput.value = '';
-    passwordError.textContent = '';
-  }
-});
+  galaxyBtn.addEventListener("click", () => {
+    window.open(GALAXY_LINK, "_blank", "noopener,noreferrer");
+  });
     </script>
   </body>
 </html>
