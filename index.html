@@ -1270,7 +1270,8 @@ opacity: 0;
 
       @media (max-width: 480px) {
         body {
-          padding: 0 8px;
+          padding: 0;
+          overflow-x: hidden;
         }
 
         .starfield {
@@ -1288,85 +1289,87 @@ opacity: 0;
         }
 
         .countdown-container {
-          top: 20px;
+          position: fixed;
+          top: 10px;
           left: 50%;
           transform: translate(-50%, 0);
-          width: calc(100% - 20px);
-          max-width: 420px;
-          padding: 24px 20px;
-          border-radius: 20px;
+          width: calc(100% - 30px);
+          max-width: 100%;
+          padding: 20px 16px;
+          border-radius: 16px;
           box-shadow: 
-            0 15px 40px rgba(100, 200, 255, 0.35),
-            0 0 30px rgba(168, 94, 234, 0.3);
+            0 10px 30px rgba(100, 200, 255, 0.3),
+            0 0 20px rgba(168, 94, 234, 0.25);
         }
 
         .countdown-message {
-          font-size: 1.1em;
-          line-height: 1.5;
-          margin-bottom: 16px;
+          font-size: 0.95em;
+          line-height: 1.4;
+          margin-bottom: 12px;
         }
 
         .countdown-timer {
-          font-size: 3em;
-          margin: 12px 0;
+          font-size: 2.5em;
+          margin: 10px 0;
         }
 
         .countdown-label {
-          font-size: 1em;
-          line-height: 1.5;
-          margin-top: 12px;
+          font-size: 0.9em;
+          line-height: 1.4;
+          margin-top: 8px;
         }
 
         .nav-toggle {
-          width: 55px;
-          height: 55px;
-          font-size: 1.6em;
-          top: 20px;
-          left: 20px;
+          width: 50px;
+          height: 50px;
+          font-size: 1.5em;
         }
 
         .nav-container {
-          top: 15px;
-          left: 15px;
+          top: 10px;
+          left: 10px;
         }
 
         .nav-menu {
-          top: 70px;
+          top: 60px;
           left: 0;
-          min-width: 200px;
-          max-width: calc(100vw - 40px);
+          min-width: 180px;
+          max-width: calc(100vw - 30px);
+          gap: 8px;
         }
 
         .nav-item {
-          padding: 12px 20px;
-          font-size: 0.95em;
+          padding: 10px 16px;
+          font-size: 0.9em;
           white-space: normal;
-          line-height: 1.4;
+          line-height: 1.3;
         }
 
         .container {
           max-width: 100%;
-          padding: 40px 20px 60px;
+          padding: 30px 15px 50px;
         }
 
         h1 {
-          font-size: 2.5em;
-          letter-spacing: 1.5px;
-          margin-bottom: 20px;
+          font-size: 2em;
+          letter-spacing: 1px;
+          margin-bottom: 16px;
           text-shadow: 
-            0 0 20px rgba(100, 200, 255, 0.7),
-            0 0 40px rgba(168, 94, 234, 0.4);
+            0 0 15px rgba(100, 200, 255, 0.7),
+            0 0 30px rgba(168, 94, 234, 0.4);
         }
 
         .message {
-          font-size: 1.15em;
-          line-height: 1.7;
-          margin-bottom: 36px;
-          letter-spacing: 0.3px;
+          font-size: 1.05em;
+          line-height: 1.6;
+          margin-bottom: 30px;
+          letter-spacing: 0.2px;
+          padding: 0 5px;
         }
 
         .word {
-          margin: 0 2px;
+          margin: 0 1px;
+          font-size: 0.98em;
         }
 
         .lyrics-container {
@@ -1381,67 +1384,7 @@ opacity: 0;
         }
 
         .lyric-line.active {
-          font-size: 1.4em;
-        }
-
-        .theme-link-button {
-          width: 100%;
-          text-align: center;
-          margin-top: 16px;
-          padding: 12px 24px;
-          font-size: 1em;
-        }
-
-        .playlist {
-          padding: 28px 20px;
-          border-radius: 20px;
-          margin-top: 40px;
-        }
-
-        .playlist h2 {
-          font-size: 1.8em;
-          margin-bottom: 28px;
-        }
-
-        .song-item {
-          padding: 16px 18px;
-          margin-bottom: 12px;
-          border-radius: 16px;
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 10px;
-        }
-
-        .song-info {
-          width: 100%;
-        }
-
-        .song-title {
-          font-size: 1.2em;
-          margin-bottom: 4px;
-        }
-
-        .song-artist {
-          font-size: 0.95em;
-        }
-
-        .play-icon {
-          font-size: 1.5em;
-          margin-left: 0;
-          align-self: flex-end;
-        }
-
-        .dance-button {
-          padding: 14px 28px;
-          font-size: 1.1em;
-          margin-top: 24px;
-        }
-
-        .surprise-button {
-          top: 20px;
-          right: 20px;
-          padding: 10px 16px;
-          font-size: 0.9em;
+          font-size: 1.25em;
         }
 
         /* Disable parallax effect on mobile for better performance */
@@ -1449,13 +1392,89 @@ opacity: 0;
         .nebula-2,
         .nebula-3 {
           transform: none !important;
+          animation: none !important;
         }
 
         /* Reduce star count effect on mobile */
         #starfield-canvas {
-          opacity: 0.8;
+          opacity: 0.7;
+        }
+
+        /* Optimize animations for mobile */
+        * {
+          -webkit-tap-highlight-color: transparent;
         }
       }
+
+        .playlist {
+          padding: 20px 15px;
+          border-radius: 16px;
+          margin-top: 30px;
+        }
+
+        .playlist h2 {
+          font-size: 1.6em;
+          margin-bottom: 20px;
+        }
+
+        .song-item {
+          padding: 14px 16px;
+          margin-bottom: 10px;
+          border-radius: 14px;
+          flex-direction: row;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .song-info {
+          width: 100%;
+          flex: 1;
+        }
+
+        .song-title {
+          font-size: 1.05em;
+          margin-bottom: 3px;
+        }
+
+        .song-artist {
+          font-size: 0.85em;
+        }
+
+        .play-icon {
+          font-size: 1.4em;
+          margin-left: 8px;
+          flex-shrink: 0;
+        }
+
+        .dance-button {
+          padding: 12px 24px;
+          font-size: 1em;
+          margin-top: 20px;
+          width: 100%;
+        }
+
+        .surprise-button {
+          top: 10px;
+          right: 10px;
+          padding: 8px 14px;
+          font-size: 0.85em;
+        }
+
+        .lyrics-container {
+          padding: 20px 15px;
+          max-height: 250px;
+          border-radius: 16px;
+          margin-top: 25px;
+        }
+
+        .lyric-line {
+          font-size: 1.05em;
+          padding: 8px 0;
+        }
+
+        .lyric-line.active {
+          font-size: 1.25em;
+        }
 
       @media (max-width: 768px) and (min-width: 481px) {
         .countdown-container {
