@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AIR 276, drishti! 🎉</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Lora:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Playfair Display", "Cormorant Garamond", "Georgia", serif;
+        overflow-x: hidden;
+        cursor: default;
+        background: #000000;
+        min-height: 100vh;
+        position: relative;
+      }
+
+      .starfield {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        background: radial-gradient(
+          ellipse at center,
+          #0a1628 0%,
+          #000000 100%
+        );
+      }
+
+      #starfield-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .nebula {
+        position: fixed;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.2;
+        pointer-events: none;
+        z-index: 0;
+        transition: transform 0.3s ease-out;
+      }
+
+      .nebula-1 {
+        top: 10%;
+        right: 15%;
+        background: radial-gradient(
+          circle,
+          rgba(100, 150, 255, 0.5),
+          transparent
+        );
+        animation: pulseNebula 8s ease-in-out infinite;
+      }
+
+      .nebula-2 {
+        bottom: 20%;
+        left: 10%;
+        background: radial-gradient(
+          circle,
+          rgba(150, 100, 255, 0.4),
+          transparent
+        );
+        animation: pulseNebula 10s ease-in-out infinite reverse;
+      }
+
+      .nebula-3 {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(
+          circle,
+          rgba(255, 100, 200, 0.3),
+          transparent
+        );
+        animation: pulseNebula 12s ease-in-out infinite;
+      }
+
+      @keyframes pulseNebula {
+        0%,
+        100% {
+          opacity: 0.15;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.25;
+          transform: scale(1.1);
+        }
+      }
+
+      .back-button {
+        position: fixed;
+        top: 30px;
+        left: 30px;
+        z-index: 1100;
+        background: rgba(10, 20, 40, 0.9);
+        backdrop-filter: blur(30px) saturate(180%);
+        border: 2px solid rgba(168, 94, 234, 0.4);
+        border-radius: 50%;
+        width: 70px;
+        height: 70px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2em;
+        color: white;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 
+          0 12px 45px rgba(168, 94, 234, 0.4),
+          inset 0 0 25px rgba(255, 255, 255, 0.1);
+        text-decoration: none;
+      }
+
+      .back-button:hover {
+        transform: scale(1.2) rotate(90deg);
+        background: rgba(168, 94, 234, 0.6);
+        box-shadow: 
+          0 18px 60px rgba(168, 94, 234, 0.6),
+          0 0 40px rgba(100, 200, 255, 0.4),
+          inset 0 0 35px rgba(255, 255, 255, 0.2);
+        border-color: rgba(168, 94, 234, 0.8);
+      }
+
+      .container {
+        position: relative;
+        z-index: 1;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 100px 40px 80px;
+      }
+
+      h1 {
+        font-family: "Playfair Display", "Cormorant Garamond", serif;
+        font-size: 4.2em;
+        color: #ffd700;
+        text-align: center;
+        margin-bottom: 20px;
+        text-shadow: 
+          0 0 30px rgba(255, 215, 0, 0.8),
+          0 0 60px rgba(255, 215, 0, 0.5),
+          0 0 90px rgba(255, 215, 0, 0.3);
+        letter-spacing: 3px;
+        text-wrap: balance;
+        font-weight: 800;
+        animation: title-glow 2s ease-in-out infinite;
+      }
+
+      @keyframes title-glow {
+        0%, 100% {
+          text-shadow: 
+            0 0 30px rgba(255, 215, 0, 0.8),
+            0 0 60px rgba(255, 215, 0, 0.5),
+            0 0 90px rgba(255, 215, 0, 0.3);
+        }
+        50% {
+          text-shadow: 
+            0 0 50px rgba(255, 215, 0, 1),
+            0 0 80px rgba(255, 215, 0, 0.7),
+            0 0 120px rgba(255, 215, 0, 0.5);
+        }
+      }
+
+      .subtitle {
+        font-size: 2.2em;
+        color: #64d5ff;
+        text-align: center;
+        margin-bottom: 50px;
+        text-shadow: 
+          0 0 20px rgba(100, 213, 255, 0.6),
+          0 0 40px rgba(100, 200, 255, 0.4);
+        font-weight: 600;
+        letter-spacing: 1px;
+      }
+
+      .celebration-box {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(25px);
+        border-radius: 25px;
+        padding: 50px;
+        margin-bottom: 40px;
+        border: 2px solid rgba(100, 200, 255, 0.3);
+        box-shadow: 
+          0 8px 32px rgba(100, 200, 255, 0.3),
+          0 0 40px rgba(168, 94, 234, 0.2);
+        animation: gentle-glow 3s ease-in-out infinite;
+      }
+
+      @keyframes gentle-glow {
+        0%, 100% {
+          box-shadow: 
+            0 8px 32px rgba(100, 200, 255, 0.3),
+            0 0 40px rgba(168, 94, 234, 0.2);
+        }
+        50% {
+          box-shadow: 
+            0 8px 32px rgba(100, 200, 255, 0.5),
+            0 0 40px rgba(168, 94, 234, 0.4);
+        }
+      }
+
+      .celebration-box h2 {
+        font-size: 2em;
+        color: #ffd700;
+        margin-bottom: 25px;
+        text-align: center;
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+
+      .celebration-box p {
+        font-family: "Lora", "Georgia", serif;
+        color: #e8f4ff;
+        font-size: 1.35em;
+        line-height: 1.9;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px rgba(100, 200, 255, 0.3);
+        font-weight: 400;
+        letter-spacing: 0.3px;
+      }
+
+      .air-display {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 215, 0, 0.2),
+          rgba(100, 200, 255, 0.15)
+        );
+        border: 3px solid rgba(255, 215, 0, 0.6);
+        border-radius: 20px;
+        padding: 40px;
+        text-align: center;
+        margin: 40px 0;
+        box-shadow: 
+          0 0 40px rgba(255, 215, 0, 0.4),
+          inset 0 0 30px rgba(255, 215, 0, 0.1);
+      }
+
+      .air-number {
+        font-size: 5em;
+        font-weight: 800;
+        color: #ffd700;
+        text-shadow: 
+          0 0 40px rgba(255, 215, 0, 0.8),
+          0 0 60px rgba(255, 215, 0, 0.5);
+        animation: pulse-air 2s ease-in-out infinite;
+        display: block;
+      }
+
+      @keyframes pulse-air {
+        0%, 100% {
+          transform: scale(1);
+          filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8));
+        }
+        50% {
+          transform: scale(1.1);
+          filter: drop-shadow(0 0 60px rgba(255, 215, 0, 1));
+        }
+      }
+
+      .air-label {
+        color: #64d5ff;
+        font-size: 1.6em;
+        font-weight: 600;
+        margin-top: 15px;
+        text-shadow: 0 0 15px rgba(100, 213, 255, 0.6);
+        letter-spacing: 1px;
+      }
+
+      .no-wrap {
+        pointer-events: none;
+      }
+
+      .no-wrap .word {
+        display: inline;
+        cursor: default;
+      }
+
+      .no-wrap .word:hover {
+        transform: none;
+        color: inherit;
+        text-shadow: inherit;
+        filter: none;
+      }
+
+      .capability-message {
+        background: rgba(168, 94, 234, 0.15);
+        border-left: 5px solid rgba(168, 94, 234, 0.6);
+        border-radius: 15px;
+        padding: 35px;
+        margin: 40px 0;
+        font-family: "Lora", "Georgia", serif;
+        font-size: 1.4em;
+        color: #ffffff;
+        line-height: 1.8;
+        text-shadow: 0 0 15px rgba(168, 94, 234, 0.4);
+        font-style: italic;
+        font-weight: 500;
+        position: relative;
+      }
+
+      .capability-message::before {
+        content: "🪻";
+        position: absolute;
+        top: -15px;
+        left: 20px;
+        font-size: 2em;
+      }
+
+      .opportunity-section {
+        background: rgba(100, 200, 255, 0.1);
+        border: 2px solid rgba(100, 200, 255, 0.3);
+        border-radius: 20px;
+        padding: 40px;
+        margin-bottom: 40px;
+      }
+
+      .opportunity-section h3 {
+        font-size: 1.8em;
+        color: #64d5ff;
+        margin-bottom: 20px;
+        text-shadow: 0 0 15px rgba(100, 213, 255, 0.5);
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+
+      .opportunity-section p {
+        font-family: "Lora", "Georgia", serif;
+        color: #e8f4ff;
+        font-size: 1.25em;
+        line-height: 1.8;
+        margin-bottom: 15px;
+        font-weight: 400;
+      }
+
+      .law-schools {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+      }
+
+      .school-card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        border: 2px solid rgba(100, 200, 255, 0.3);
+        border-radius: 15px;
+        padding: 25px;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 5px 20px rgba(100, 200, 255, 0.2);
+        display: block;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .school-card:hover {
+        transform: translateY(-8px) scale(1.05);
+        border-color: rgba(100, 200, 255, 0.6);
+        box-shadow: 
+          0 15px 40px rgba(100, 200, 255, 0.4),
+          0 0 20px rgba(100, 200, 255, 0.3);
+      }
+
+      .school-card h4 {
+        color: #ffd700;
+        font-size: 1.3em;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .school-card p {
+        color: #a8d5ff;
+        font-size: 0.95em;
+        font-style: italic;
+      }
+
+      .word {
+        display: inline-block;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        margin: 0 3px;
+      }
+
+      .word:hover {
+        transform: scale(1.15) translateY(-5px) rotate(2deg);
+        color: #ffd700;
+        text-shadow: 
+          0 0 25px rgba(255, 215, 0, 0.9),
+          0 0 50px rgba(255, 215, 0, 0.5);
+        filter: brightness(1.2);
+      }
+
+      .sparkle {
+        position: fixed;
+        width: 4px;
+        height: 4px;
+        background: white;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        box-shadow: 0 0 6px white;
+        will-change: transform, opacity;
+      }
+
+      .firework-particle {
+        position: fixed;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        will-change: transform, opacity;
+      }
+
+      .next-steps {
+        background: rgba(255, 215, 0, 0.08);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        border-radius: 20px;
+        padding: 40px;
+        margin-top: 40px;
+      }
+
+      .next-steps h3 {
+        font-size: 1.8em;
+        color: #ffd700;
+        margin-bottom: 25px;
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+
+      .steps-list {
+        list-style: none;
+      }
+
+      .steps-list li {
+        font-family: "Lora", "Georgia", serif;
+        color: #e8f4ff;
+        font-size: 1.2em;
+        margin-bottom: 20px;
+        padding-left: 40px;
+        position: relative;
+        line-height: 1.7;
+        font-weight: 400;
+      }
+
+      .steps-list li::before {
+        position: absolute;
+        left: 0;
+        font-size: 1.3em;
+      }
+
+      .steps-list li:nth-child(1)::before {
+        content: "🎉";
+      }
+
+      .steps-list li:nth-child(2)::before {
+        content: "🌙";
+      }
+
+      .steps-list li:nth-child(3)::before {
+        content: "📚";
+      }
+
+      .steps-list li:nth-child(4)::before {
+        content: "🎯";
+      }
+
+      .steps-list li:nth-child(5)::before {
+        content: "🚀";
+      }
+
+      .steps-list li:nth-child(6)::before {
+        content: "💪";
+      }
+
+      .celebration-cta {
+        text-align: center;
+        margin-top: 60px;
+        padding-top: 40px;
+        border-top: 2px solid rgba(100, 200, 255, 0.2);
+      }
+
+      .celebration-cta p {
+        font-family: "Lora", "Georgia", serif;
+        font-size: 1.5em;
+        color: #ffffff;
+        margin-bottom: 30px;
+        text-shadow: 0 0 15px rgba(100, 200, 255, 0.4);
+        font-weight: 500;
+      }
+
+      .celebration-cta strong {
+        color: #ffd700;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 80px 20px 50px;
+        }
+
+        h1 {
+          font-size: 2.5em;
+        }
+
+        .subtitle {
+          font-size: 1.6em;
+          margin-bottom: 30px;
+        }
+
+        .celebration-box {
+          padding: 30px;
+          margin-bottom: 25px;
+        }
+
+        .celebration-box h2 {
+          font-size: 1.5em;
+        }
+
+        .celebration-box p {
+          font-size: 1.1em;
+        }
+
+        .air-display {
+          padding: 30px;
+          margin: 30px 0;
+        }
+
+        .air-number {
+          font-size: 3.5em;
+        }
+
+        .air-label {
+          font-size: 1.2em;
+        }
+
+        .capability-message {
+          padding: 25px;
+          font-size: 1.15em;
+          margin: 30px 0;
+        }
+
+        .opportunity-section {
+          padding: 30px;
+          margin-bottom: 30px;
+        }
+
+        .opportunity-section h3 {
+          font-size: 1.4em;
+        }
+
+        .opportunity-section p {
+          font-size: 1.1em;
+        }
+
+        .law-schools {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+
+        .school-card {
+          padding: 20px;
+        }
+
+        .next-steps {
+          padding: 30px;
+        }
+
+        .next-steps h3 {
+          font-size: 1.4em;
+        }
+
+        .steps-list li {
+          font-size: 1.05em;
+          margin-bottom: 15px;
+        }
+
+        .back-button {
+          width: 60px;
+          height: 60px;
+          font-size: 1.5em;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 70px 15px 40px;
+        }
+
+        h1 {
+          font-size: 2em;
+          letter-spacing: 1.5px;
+        }
+
+        .subtitle {
+          font-size: 1.3em;
+          margin-bottom: 25px;
+        }
+
+        .celebration-box {
+          padding: 20px;
+          border-radius: 15px;
+        }
+
+        .celebration-box h2 {
+          font-size: 1.3em;
+          margin-bottom: 15px;
+        }
+
+        .celebration-box p {
+          font-size: 1em;
+          line-height: 1.6;
+        }
+
+        .air-number {
+          font-size: 2.5em;
+        }
+
+        .air-label {
+          font-size: 1em;
+        }
+
+        .capability-message {
+          padding: 20px;
+          font-size: 1.05em;
+          margin: 25px 0;
+          border-left-width: 4px;
+        }
+
+        .opportunity-section {
+          padding: 20px;
+          margin-bottom: 20px;
+        }
+
+        .opportunity-section h3 {
+          font-size: 1.2em;
+        }
+
+        .opportunity-section p {
+          font-size: 0.95em;
+        }
+
+        .school-card {
+          padding: 15px;
+        }
+
+        .school-card h4 {
+          font-size: 1.1em;
+        }
+
+        .school-card p {
+          font-size: 0.85em;
+        }
+
+        .next-steps {
+          padding: 20px;
+        }
+
+        .next-steps h3 {
+          font-size: 1.2em;
+        }
+
+        .steps-list li {
+          font-size: 0.95em;
+          margin-bottom: 12px;
+          padding-left: 35px;
+        }
+
+        .celebration-cta p {
+          font-size: 1.2em;
+          margin-bottom: 20px;
+        }
+
+        .back-button {
+          width: 50px;
+          height: 50px;
+          font-size: 1.2em;
+          top: 15px;
+          left: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="celebrationAudio" style="display: none;">
+      <source src="./src/Cry.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="starfield" id="starfield">
+      <canvas id="starfield-canvas"></canvas>
+      <div class="nebula nebula-1"></div>
+      <div class="nebula nebula-2"></div>
+      <div class="nebula nebula-3"></div>
+    </div>
+
+    <a href="index.html" class="back-button" title="Go back">←</a>
+
+    <div class="container">
+      <h1>🎉 AIR 276! 🎉</h1>
+      <div class="subtitle">You Did AMAZINGLY!</div>
+
+      <div class="celebration-box">
+        <h2>Let Me Show You What You Achieveddddd</h2>
+        <div class="air-display no-wrap">
+          <div class="air-number">276</div>
+          <div class="air-label">All India Rank</div>
+        </div>
+        <p style="text-align: center; font-size: 1.5em; margin-top: 30px; color: #ffd700;">
+          You beat HUNDREDSSSS OF THOOOUUUUUSANDSSSS of aspirantssss!
+        </p>
+      </div>
+
+      <div class="capability-message">
+        <p>
+          Disappointing yourself despite achieving something remarkable is a sign of your 
+          <strong style="color: #64d5ff;">capabilities, not your failure.</strong>
+        </p>
+        <p style="margin-top: 15px; font-size: 0.95em; font-style: normal; color: #a8d5ff;">
+          — This is what it means to be exceptional. Your high expectations? That's your strength talking. Never forget that.
+        </p>
+      </div>
+
+      <div class="opportunity-section">
+        <h3>✨ The Doors This Opens</h3>
+        <div class = "celebration-cta">
+        <p>
+          AIR 276 is your <strong>golden</strong> ticket to India's most prestigious, and YOUR dream college(s).
+        </p>
+        </div>
+        <div class="law-schools">
+          <a href="https://www.du.ac.in/" target="_blank" class="school-card">
+            <h4>Delhi University</h4>
+            <p>Top law college programs</p>
+          </a>
+          <a href="https://www.nludelhi.ac.in/" target="_blank" class="school-card">
+            <h4>NLU Delhi</h4>
+            <p>National Law University</p>
+          </a>
+          <a href="https://www.nalsar.ac.in/" target="_blank" class="school-card">
+            <h4>NALSAR Hyderabad</h4>
+            <p>Premier legal institution</p>
+          </a>
+          <a href="https://www.nls.ac.in/" target="_blank" class="school-card">
+            <h4>NLSIU Bangalore</h4>
+            <p>Your dream college i reckon</p>
+          </a>
+          <a href="https://www.gnlu.ac.in/" target="_blank" class="school-card">
+            <h4>Gujarat National Law</h4>
+            <p>Strong legal program</p>
+          </a>
+          <a href="#" class="school-card">
+            <h4>And Many More...</h4>
+            <p>nothing in hereee 😬</p>
+          </a>
+        </div>
+
+        <p style="margin-top: 30px;">
+          These aren't just colleges—they're launchpads for incredible careers, just like the one you're destined for, my future foreign affairs officerrrrrr! Click on the clg cards to..well visit their sites hehe.
+        </p>
+      </div>
+
+      <div class="next-steps">
+        <h3>What nexttt?</h3>
+        <ul class="steps-list">
+          <li><strong>Celebrate properly</strong> — You earned this. Take a day to feel amazing about your achievement, and NOT to feel bad about it.</li>
+          <li><strong>Rest and recharge</strong> — You've worked hard. Sleep well, eat well, enjoy your time. You deserve it.</li>
+          <li><strong>Think about your options</strong> — Explore which college is the best for you. Research on it. THe more you know, the better.</li>
+          <li><strong>Focus on what's nexttt</strong> — The rank got you in the door. Now it's about growing, learning, and becoming the best version of yourself.</li>
+          <li><strong>Remember why you're doing all this</strong> — All that dedication, all those late nights... they got you here. You're CAPABLE of <b>incredible</b> things. And you knwot it. Right?</li>
+        </ul>
+      </div>
+
+      <div class="celebration-cta">
+        <p>
+          You didn't just get a rank. You <strong>PROVED</strong> yourself. 
+          <br><br>
+          Now please, celebrate, rest, and then 
+          <strong>conquer the next chapter of your amazing story.</strong>
+        </p>
+        <p style="margin-top: 30px; font-size: 1.3em; color: #ffd700;">
+          I'm so incredibly happy for you, drishti. ❤️✨
+          <br><br>you're amazing, drishti 🫂
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // Starfield initialization
+      const starfieldCanvas = document.getElementById("starfield-canvas");
+      const ctx = starfieldCanvas.getContext("2d");
+      let stars = [];
+      const starCount = 400;
+
+      function initStarfield() {
+        starfieldCanvas.width = window.innerWidth;
+        starfieldCanvas.height = window.innerHeight;
+
+        stars = [];
+        for (let i = 0; i < starCount; i++) {
+          const size = Math.random();
+          let depth, radius;
+
+          if (size < 0.6) {
+            depth = 0.3;
+            radius = 1;
+          } else if (size < 0.85) {
+            depth = 1;
+            radius = 1.5;
+          } else {
+            depth = 2;
+            radius = 2.5;
+          }
+
+          let color = "rgba(255, 255, 255, 1)";
+          const colorChance = Math.random();
+          if (colorChance < 0.06) {
+            color = "rgba(168, 216, 255, 1)";
+          } else if (colorChance < 0.1) {
+            color = "rgba(255, 179, 102, 1)";
+          } else if (colorChance < 0.13) {
+            color = "rgba(216, 168, 255, 1)";
+          }
+
+          stars.push({
+            x: Math.random() * starfieldCanvas.width,
+            y: Math.random() * starfieldCanvas.height,
+            radius: radius,
+            depth: depth,
+            color: color,
+            twinkleSpeed: 0.5 + Math.random() * 1.5,
+            opacity: Math.random() * 0.5 + 0.3,
+            maxOpacity: Math.random() * 0.8 + 0.5,
+            opacityDirection: 1,
+          });
+        }
+      }
+
+      function drawStars() {
+        ctx.clearRect(0, 0, starfieldCanvas.width, starfieldCanvas.height);
+
+        for (let star of stars) {
+          star.opacity += (Math.random() - 0.5) * star.twinkleSpeed * 0.05;
+          star.opacity = Math.max(
+            star.maxOpacity * 0.3,
+            Math.min(star.opacity, star.maxOpacity)
+          );
+
+          ctx.fillStyle = star.color.replace("1)", `${star.opacity})`);
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function animate() {
+        drawStars();
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener("resize", initStarfield);
+      initStarfield();
+      animate();
+
+      // Autoplay celebration song
+      const audio = document.getElementById("celebrationAudio");
+      audio.volume = 0.7;
+      
+      // Try to play on page load
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          // Autoplay was prevented, add a click listener to play
+          document.addEventListener("click", function initPlay() {
+            audio.play();
+            document.removeEventListener("click", initPlay);
+          }, { once: true });
+        });
+      }
+
+      // Make ALL text into hoverable words
+      function wrapWordsInElement(element) {
+        const walker = document.createTreeWalker(
+          element,
+          NodeFilter.SHOW_TEXT,
+          {
+            acceptNode: function(node) {
+              // Skip text nodes inside elements with no-wrap class
+              let parent = node.parentNode;
+              while (parent) {
+                if (parent.classList && parent.classList.contains("no-wrap")) {
+                  return NodeFilter.FILTER_REJECT;
+                }
+                if (parent === element) break;
+                parent = parent.parentNode;
+              }
+              return NodeFilter.FILTER_ACCEPT;
+            }
+          },
+          false
+        );
+
+        const textNodes = [];
+        let node;
+        while ((node = walker.nextNode())) {
+          if (node.textContent.trim()) {
+            textNodes.push(node);
+          }
+        }
+
+        textNodes.forEach((textNode) => {
+          const text = textNode.textContent;
+          const words = text.split(/(\s+)/);
+          const span = document.createElement("span");
+
+          words.forEach((word) => {
+            if (word.trim()) {
+              const wordSpan = document.createElement("span");
+              wordSpan.className = "word";
+              wordSpan.textContent = word;
+              span.appendChild(wordSpan);
+            } else {
+              span.appendChild(document.createTextNode(word));
+            }
+          });
+
+          textNode.parentNode.replaceChild(span, textNode);
+        });
+      }
+
+      // Apply to all elements with text
+      wrapWordsInElement(document.querySelector("h1"));
+      wrapWordsInElement(document.querySelector(".subtitle"));
+      wrapWordsInElement(document.querySelector(".celebration-box"));
+      wrapWordsInElement(document.querySelector(".capability-message"));
+      wrapWordsInElement(document.querySelector(".opportunity-section"));
+      wrapWordsInElement(document.querySelector(".next-steps"));
+      wrapWordsInElement(document.querySelector(".celebration-cta"));
+
+      // Sparkle system with optimization
+      let sparkleIntervals = new Map();
+      let activeSparkles = new Map();
+      const MAX_SPARKLES_PER_WORD = 50;
+
+      function attachEventsToAllWords() {
+        const words = document.querySelectorAll(".word");
+
+        words.forEach((word) => {
+          word.replaceWith(word.cloneNode(true));
+        });
+
+        document.querySelectorAll(".word").forEach((word) => {
+          word.addEventListener("mouseenter", function (e) {
+            activeSparkles.set(e.target, []);
+            const interval = setInterval(() => {
+              createSparkle(e.target);
+            }, 100);
+            sparkleIntervals.set(e.target, interval);
+          });
+
+          word.addEventListener("mouseleave", function (e) {
+            const interval = sparkleIntervals.get(e.target);
+            if (interval) {
+              clearInterval(interval);
+              sparkleIntervals.delete(e.target);
+            }
+
+            const sparkles = activeSparkles.get(e.target);
+            if (sparkles) {
+              sparkles.forEach((sparkle) => {
+                if (sparkle && sparkle.parentNode) {
+                  sparkle.remove();
+                }
+              });
+              activeSparkles.delete(e.target);
+            }
+          });
+
+          word.addEventListener("click", function (e) {
+            e.stopPropagation();
+            createFirework(e);
+          });
+        });
+      }
+
+      attachEventsToAllWords();
+
+      function createSparkle(element) {
+        const sparkles = activeSparkles.get(element) || [];
+        if (sparkles.length >= MAX_SPARKLES_PER_WORD) return;
+
+        const rect = element.getBoundingClientRect();
+        const sparkle = document.createElement("div");
+        sparkle.className = "sparkle";
+
+        const x = rect.left + Math.random() * rect.width;
+        const y = rect.top + Math.random() * rect.height;
+
+        sparkle.style.left = x + "px";
+        sparkle.style.top = y + "px";
+
+        document.body.appendChild(sparkle);
+
+        sparkles.push(sparkle);
+        activeSparkles.set(element, sparkles);
+
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 3 + 2;
+        const dx = Math.cos(angle) * velocity;
+        const dy = Math.sin(angle) * velocity;
+
+        let opacity = 1;
+        let posX = 0;
+        let posY = 0;
+
+        const animate = () => {
+          if (!activeSparkles.has(element) || !sparkle.parentNode) {
+            sparkle.remove();
+            return;
+          }
+
+          opacity -= 0.025;
+          posX += dx;
+          posY += dy;
+
+          sparkle.style.transform = `translate(${posX}px, ${posY}px)`;
+          sparkle.style.opacity = opacity;
+
+          if (opacity > 0 && sparkle.parentNode) {
+            requestAnimationFrame(animate);
+          } else {
+            sparkle.remove();
+            const currentSparkles = activeSparkles.get(element);
+            if (currentSparkles) {
+              const index = currentSparkles.indexOf(sparkle);
+              if (index > -1) currentSparkles.splice(index, 1);
+            }
+          }
+        };
+
+        animate();
+      }
+
+      function createFirework(e) {
+        const colors = [
+          "#ff6b9d",
+          "#c44569",
+          "#ffa502",
+          "#ffd32a",
+          "#05c46b",
+          "#0fbcf9",
+          "#4bcffa",
+          "#a55eea",
+        ];
+        const particleCount = 30;
+
+        const startX = e.clientX;
+        const startY = e.clientY;
+        const targetY = startY - 200;
+
+        const rocket = document.createElement("div");
+        rocket.className = "firework-particle";
+        rocket.style.left = startX + "px";
+        rocket.style.top = startY + "px";
+        rocket.style.background = "#ffffff";
+        rocket.style.boxShadow = "0 0 8px white";
+        document.body.appendChild(rocket);
+
+        let currentY = startY;
+        const rocketSpeed = 10;
+
+        const rocketInterval = setInterval(() => {
+          currentY -= rocketSpeed;
+          rocket.style.transform = `translateY(${currentY - startY}px)`;
+
+          if (currentY <= targetY) {
+            clearInterval(rocketInterval);
+            rocket.remove();
+
+            for (let i = 0; i < particleCount; i++) {
+              const particle = document.createElement("div");
+              particle.className = "firework-particle";
+              particle.style.left = startX + "px";
+              particle.style.top = targetY + "px";
+              particle.style.background =
+                colors[Math.floor(Math.random() * colors.length)];
+              particle.style.boxShadow = `0 0 10px ${particle.style.background}`;
+              document.body.appendChild(particle);
+
+              const angle = (Math.PI * 2 * i) / particleCount;
+              const velocity = Math.random() * 8 + 4;
+              const dx = Math.cos(angle) * velocity;
+              const dy = Math.sin(angle) * velocity;
+
+              let opacity = 1;
+              let posX = 0;
+              let posY = 0;
+
+              const particleAnimate = () => {
+                opacity -= 0.015;
+                posX += dx;
+                posY += dy;
+
+                particle.style.transform = `translate(${posX}px, ${posY}px)`;
+                particle.style.opacity = opacity;
+
+                if (opacity > 0) {
+                  requestAnimationFrame(particleAnimate);
+                } else {
+                  particle.remove();
+                }
+              };
+
+              particleAnimate();
+            }
+          }
+        }, 16);
+      }
+    </script>
+  </body>
+</html>
