@@ -201,156 +201,6 @@ opacity: 0;
     transform: translateX(100%) translateY(100%) rotate(45deg);
   }
 }
-
-      
-      .countdown-container {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 999;
-        background: rgba(10, 20, 40, 0.75);
-        backdrop-filter: blur(40px) saturate(180%);
-        border: 2px solid transparent;
-        border-radius: 40px;
-        padding: 50px 70px;
-        text-align: center;
-        box-shadow: 
-          0 25px 80px rgba(100, 200, 255, 0.4),
-          0 0 60px rgba(168, 94, 234, 0.3),
-          inset 0 0 40px rgba(255, 255, 255, 0.08);
-        background-clip: padding-box;
-        max-width: 700px;
-        width: 92%;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        animation: countdown-glow 3s ease-in-out infinite;
-      }
-
-      .countdown-container::before {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        border-radius: 35px;
-        padding: 2px;
-        background: linear-gradient(
-          135deg,
-          rgba(100, 200, 255, 0.4),
-          rgba(168, 94, 234, 0.3),
-          rgba(100, 200, 255, 0.2)
-        );
-        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        pointer-events: none;
-        z-index: -1;
-      }
-
-      @keyframes countdown-glow {
-        0%, 100% {
-          box-shadow: 
-            0 20px 60px rgba(100, 200, 255, 0.35),
-            0 0 40px rgba(168, 94, 234, 0.25),
-            inset 0 0 30px rgba(255, 255, 255, 0.08);
-        }
-        50% {
-          box-shadow: 
-            0 20px 70px rgba(100, 200, 255, 0.5),
-            0 0 50px rgba(168, 94, 234, 0.4),
-            inset 0 0 40px rgba(255, 255, 255, 0.12);
-        }
-      }
-
-      .countdown-message {
-        font-family: "Lora", "Georgia", serif;
-        color: #ffffff;
-        font-size: 1.45em;
-        margin-bottom: 28px;
-        line-height: 1.8;
-        text-shadow: 
-          0 0 20px rgba(100, 200, 255, 0.6),
-          0 0 40px rgba(168, 94, 234, 0.3);
-        font-weight: 500;
-        letter-spacing: 0.6px;
-      }
-
-      .countdown-timer {
-        font-size: 5em;
-        font-weight: 800;
-        background: linear-gradient(
-          135deg,
-          #ffd700 0%,
-          #ffed4e 50%,
-          #ffd700 100%
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8))
-                drop-shadow(0 0 80px rgba(255, 215, 0, 0.4));
-        margin: 20px 0;
-        font-family: "Playfair Display", "Cormorant Garamond", serif;
-        animation: timer-pulse 2.2s ease-in-out infinite;
-      }
-
-      @keyframes timer-pulse {
-        0%, 100% {
-          transform: scale(1);
-          text-shadow: 
-            0 0 40px rgba(255, 215, 0, 0.8),
-            0 0 80px rgba(255, 215, 0, 0.4);
-        }
-        50% {
-          transform: scale(1.08);
-          text-shadow: 
-            0 0 50px rgba(255, 215, 0, 1),
-            0 0 100px rgba(255, 215, 0, 0.6);
-        }
-      }
-
-      .countdown-label {
-        font-family: "Lora", "Georgia", serif;
-        color: #64d5ff;
-        font-size: 1.15em;
-        margin-top: 18px;
-        opacity: 0.95;
-        line-height: 1.7;
-        font-weight: 500;
-        letter-spacing: 0.4px;
-        text-shadow: 0 0 15px rgba(100, 213, 255, 0.4);
-        animation: label-float 3s ease-in-out infinite;
-      }
-
-      @keyframes label-float {
-        0%, 100% {
-          transform: translateY(0);
-          opacity: 0.95;
-        }
-        50% {
-          transform: translateY(-3px);
-          opacity: 1;
-        }
-      }
-      .exam-day-message {
-        animation: exam-pulse 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-      }
-
-      @keyframes exam-pulse {
-        0%, 100% {
-          transform: scale(1) rotate(0deg);
-          filter: brightness(1);
-          text-shadow: 
-            0 0 40px rgba(255, 215, 0, 0.8),
-            0 0 80px rgba(255, 215, 0, 0.4);
-        }
-        50% {
-          transform: scale(1.12) rotate(0.5deg);
-          filter: brightness(1.2);
-          text-shadow: 
-            0 0 60px rgba(255, 215, 0, 1),
-            0 0 100px rgba(255, 215, 0, 0.6),
-            0 0 120px rgba(255, 107, 157, 0.4);
-        }
-      }
       body {
         font-family: "Playfair Display", "Cormorant Garamond", "Georgia", serif;
         overflow-x: hidden;
@@ -746,6 +596,100 @@ opacity: 0;
       .button-text {
         position: relative;
         z-index: 1;
+      }
+
+      .celebration-button {
+        position: fixed;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1100;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 215, 0, 0.25),
+          rgba(100, 200, 255, 0.15)
+        );
+        backdrop-filter: blur(25px);
+        border: 2px solid rgba(255, 215, 0, 0.6);
+        border-radius: 50px;
+        padding: 16px 40px;
+        color: #ffd700;
+        font-size: 1.15em;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 
+          0 8px 32px rgba(255, 215, 0, 0.3),
+          0 0 20px rgba(255, 215, 0, 0.2),
+          inset 0 0 15px rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        letter-spacing: 0.3px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .celebration-button::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        animation: shimmer-celebration 3s infinite;
+      }
+
+      @keyframes shimmer-celebration {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+      }
+
+      .celebration-button:hover {
+        transform: translateX(-50%) scale(1.08) translateY(-2px);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 215, 0, 0.4),
+          rgba(100, 200, 255, 0.25)
+        );
+        box-shadow: 
+          0 15px 50px rgba(255, 215, 0, 0.5),
+          0 0 30px rgba(255, 215, 0, 0.4),
+          inset 0 0 20px rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 215, 0, 0.9);
+        color: #ffffff;
+      }
+
+      .celebration-button span {
+        position: relative;
+        z-index: 1;
+      }
+
+      @media (max-width: 768px) {
+        .celebration-button {
+          top: 20px;
+          padding: 12px 28px;
+          font-size: 1em;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .celebration-button {
+          top: 15px;
+          padding: 10px 20px;
+          font-size: 0.9em;
+          gap: 8px;
+        }
       }
 
       .container {
@@ -1546,11 +1490,10 @@ opacity: 0;
       <div class="nebula nebula-3"></div>
     </div>
     
-    <div class="countdown-container" id="countdownContainer">
-      <div class="countdown-message" id="countdownMessage"></div>
-      <div class="countdown-timer" id="countdownTimer"></div>
-      <div class="countdown-label" id="countdownLabel"></div>
-    </div>
+    <a href="celebration.html" class="celebration-button">
+      <span>Congratulations, drishti!</span>
+    </a>
+
     <div class="nav-container">
       <button class="nav-toggle" id="navToggle">☰</button>
       <div class="nav-menu" id="navMenu">
@@ -1748,61 +1691,6 @@ opacity: 0;
 </div>
 
 <script>
-  // Countdown Timer
-  const examDate = new Date("2025-12-14T00:00:00");
-  const countdownContainer = document.getElementById("countdownContainer");
-  const countdownMessage = document.getElementById("countdownMessage");
-  const countdownTimer = document.getElementById("countdownTimer");
-  const countdownLabel = document.getElementById("countdownLabel");
-
-  function updateCountdown() {
-    const now = new Date();
-    const examDayStart = new Date("2025-12-14T00:00:00");
-    const examDayEnd = new Date("2025-12-14T23:59:59");
-
-    if (now >= examDayStart && now <= examDayEnd) {
-      countdownMessage.innerHTML = "🌟 Today is THE DAY! 🌟";
-      countdownTimer.innerHTML = "YOU GOT THIS!";
-      countdownLabel.innerHTML =
-        "Show them what you're made of! ✨<br>All your hard work has led to this moment.<br>Breathe, believe, and shine bright! 💫";
-      countdownLabel.style.fontSize = "1.1em";
-      countdownTimer.classList.add("exam-day-message");
-      return;
-    }
-
-    if (now > examDayEnd) {
-      countdownMessage.innerHTML = "🎉 Exam Done! 🎉";
-      countdownTimer.innerHTML = "AMAZING!";
-      countdownLabel.innerHTML =
-        "Awesome work, drishti. You did greatt!!! 🌟<br>Now please take some time out for yourself,<br>sleep well, eat well, and just enjoy yourself! 💝";
-      countdownLabel.style.fontSize = "1.1em";
-      countdownTimer.classList.add("exam-day-message");
-      return;
-    }
-
-    const timeDiff = examDate - now;
-    const daysRemaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-
-    countdownMessage.innerHTML =
-      "✨ Days remaining until you put your<br>superpowers and practice into action ✨";
-    countdownTimer.textContent = daysRemaining;
-    countdownLabel.textContent =
-      daysRemaining === 1
-        ? "day left"
-        : "days left(reload to see againnn hehe)";
-  }
-
-  updateCountdown();
-  setInterval(updateCountdown, 60000);
-
-  setTimeout(() => {
-    countdownContainer.style.opacity = "0";
-    countdownContainer.style.transform = "translate(-50%, -50%) scale(0.9)";
-    setTimeout(() => {
-      countdownContainer.style.display = "none";
-    }, 500);
-  }, 3000);
-
   // Starfield initialization
   const nebulas = document.querySelectorAll(".nebula");
   const starfieldCanvas = document.getElementById("starfield-canvas");
