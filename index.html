@@ -426,24 +426,31 @@ opacity: 0;
       }
 
       .nav-menu {
-        position: absolute;
-        top: 85px;
+        position: fixed;
+        top: 0;
         left: 0;
+        height: 100vh;
+        width: 300px;
+        padding: 100px 20px 24px 24px; /* space for toggle + content */
         display: flex;
         flex-direction: column;
         gap: 12px;
         pointer-events: none;
         opacity: 0;
-        transform: translateY(-20px);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 1100;
-        min-width: 220px;
+        transform: translateX(-110%);
+        transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+        z-index: 1300;
+        background: rgba(10, 20, 40, 0.78);
+        backdrop-filter: blur(24px) saturate(160%);
+        border-right: 2px solid rgba(168, 94, 234, 0.35);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+        overflow-y: auto;
       }
 
       .nav-menu.open {
         pointer-events: all;
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
       }
 
       .nav-item {
@@ -462,9 +469,10 @@ opacity: 0;
           inset 0 0 20px rgba(255, 255, 255, 0.05);
         text-decoration: none;
         display: block;
+        width: 100%;
         white-space: nowrap;
         opacity: 0;
-        transform: translateX(-30px);
+        transform: translateX(-18px);
         letter-spacing: 0.3px;
       }
 
@@ -501,6 +509,12 @@ opacity: 0;
 
       .nav-menu.open .nav-item:nth-child(5) {
         transition-delay: 0.25s;
+      }
+      .nav-menu.open .nav-item:nth-child(6) {
+        transition-delay: 0.3s;
+      }
+      .nav-menu.open .nav-item:nth-child(7) {
+        transition-delay: 0.35s;
       }
 
       .surprise-button {
@@ -1165,20 +1179,11 @@ opacity: 0;
           padding: 12px 20px;
         }
 
-        .nav-menu.open .nav-item:nth-child(1) {
-          transform: scale(1) translate(70px, 0);
-        }
-
-        .nav-menu.open .nav-item:nth-child(2) {
-          transform: scale(1) translate(60px, 60px);
-        }
-
-        .nav-menu.open .nav-item:nth-child(3) {
-          transform: scale(1) translate(0, 70px);
-        }
-
+        .nav-menu.open .nav-item:nth-child(1),
+        .nav-menu.open .nav-item:nth-child(2),
+        .nav-menu.open .nav-item:nth-child(3),
         .nav-menu.open .nav-item:nth-child(4) {
-          transform: scale(1) translate(-60px, 60px);
+          transform: translateX(0);
         }
 
         h1 {
@@ -1275,11 +1280,12 @@ opacity: 0;
         }
 
         .nav-menu {
-          top: 60px;
+          top: 0;
           left: 0;
-          min-width: 180px;
-          max-width: calc(100vw - 30px);
-          gap: 8px;
+          width: 86vw;
+          height: 100vh;
+          padding: 80px 16px 18px 18px;
+          gap: 10px;
         }
 
         .nav-item {
@@ -1490,10 +1496,6 @@ opacity: 0;
       <div class="nebula nebula-3"></div>
     </div>
     
-    <a href="celebration.html" class="celebration-button">
-      <span>Congratulations, drishti!</span>
-    </a>
-
     <div class="nav-container">
       <button class="nav-toggle" id="navToggle">☰</button>
       <div class="nav-menu" id="navMenu">
@@ -1502,6 +1504,8 @@ opacity: 0;
         <a href="butterflies.html" class="nav-item">🦋 Catch Butterflies</a>
         <a href="quotes.html" class="nav-item">💭 Daily Motivation</a>
         <a href="motivation.html" class="nav-item">📚 Progress Tracker</a>
+        <a href="celebration.html" class="nav-item">🎉 Celebration</a>
+        <a href="glad.html" class="nav-item">💖 Grateful Note</a>
       </div>
     </div>
 <button class="surprise-button" id="surpriseBtn">
