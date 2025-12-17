@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I'm..grateful</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Lora:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Animated aurora gradient that matches the site's neon/galaxy vibe */
+      :root {
+        --c1: #0b1223;
+        --c2: #14233a;
+        --c3: #5b2cff;
+        --c4: #0ea5e9;
+        --c5: #ff7ab6;
+        --glass: rgba(255, 255, 255, 0.07);
+        --glass-border: rgba(255, 255, 255, 0.13);
+        --glow: rgba(100, 200, 255, 0.45);
+      }
+
+      body {
+        background: linear-gradient(
+          120deg,
+          var(--c1),
+          var(--c2),
+          var(--c3),
+          var(--c4),
+          var(--c5)
+        );
+        background-size: 300% 300%;
+        animation: gradientShift 28s ease-in-out infinite;
+        color: #fff;
+        font-family: "Lora", serif;
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 20px;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* Soft aurora blobs */
+      .aurora::before,
+      .aurora::after {
+        content: "";
+        position: absolute;
+        inset: -20% -10% auto -10%;
+        height: 70vmin;
+        filter: blur(60px);
+        background: radial-gradient(
+            closest-side,
+            rgba(100, 200, 255, 0.55),
+            transparent 60%
+          ),
+          radial-gradient(
+            closest-side,
+            rgba(255, 122, 182, 0.45),
+            transparent 60%
+          );
+        mix-blend-mode: screen;
+        pointer-events: none;
+        animation: floatY 22s ease-in-out infinite;
+        transform: translateY(0);
+      }
+      .aurora::after {
+        inset: auto -10% -20% auto;
+        height: 60vmin;
+        background: radial-gradient(
+            closest-side,
+            rgba(91, 44, 255, 0.55),
+            transparent 60%
+          ),
+          radial-gradient(
+            closest-side,
+            rgba(14, 165, 233, 0.45),
+            transparent 60%
+          );
+        animation-duration: 26s;
+      }
+      @keyframes floatY {
+        0% {
+          transform: translateY(0) translateX(0);
+        }
+        50% {
+          transform: translateY(-20px) translateX(6px);
+        }
+        100% {
+          transform: translateY(0) translateX(0);
+        }
+      }
+      .gratitude-container {
+        background: var(--glass);
+        border-radius: 24px;
+        padding: 40px 32px;
+        max-width: 760px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25),
+          0 0 30px rgba(100, 200, 255, 0.15);
+        margin-top: 20px;
+        text-align: center;
+        border: 1.5px solid var(--glass-border);
+        backdrop-filter: blur(14px);
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+        animation: fadeUp 900ms ease forwards 300ms;
+      }
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.3em;
+        margin-bottom: 18px;
+        color: #b8e6ff;
+        letter-spacing: 1px;
+      }
+      p {
+        font-size: 1.18em;
+        line-height: 1.7;
+        margin-bottom: 18px;
+        color: #e0eaff;
+      }
+      .accent {
+        color: #b8e6ff;
+        font-weight: 700;
+      }
+      .divider {
+        width: 70%;
+        height: 1px;
+        margin: 16px auto 10px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--glow),
+          transparent
+        );
+        opacity: 0.6;
+      }
+      /* single back button styling */
+      .back-btn {
+        margin-top: 24px;
+        display: inline-block;
+        background: rgba(100, 200, 255, 0.18);
+        border: 2px solid rgba(100, 200, 255, 0.6);
+        border-radius: 50px;
+        padding: 12px 30px;
+        color: #fff;
+        font-size: 1em;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 6px 25px rgba(100, 200, 255, 0.18);
+      }
+      .back-btn:hover {
+        background: rgba(100, 200, 255, 0.32);
+        border-color: rgba(100, 200, 255, 0.8);
+        transform: scale(1.07);
+      }
+
+      /* Floating hearts */
+      .heart {
+        position: fixed;
+        bottom: -40px;
+        font-size: 18px;
+        color: #ff8ab3;
+        text-shadow: 0 0 10px rgba(255, 138, 179, 0.7);
+        opacity: 0.9;
+        animation: rise linear forwards;
+        pointer-events: none;
+        filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
+      }
+      @keyframes rise {
+        to {
+          transform: translateY(-105vh) translateX(var(-- drift, 0px))
+            rotate(12deg);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="aurora">
+    <div class="gratitude-container">
+      <h1>Thank You, drishti 💖</h1>
+      <p>
+        I just want to take a moment...and a website X) to tell you how truly
+        <span class="accent">grateful</span> I am for you.
+      </p>
+      <p>
+        Today... was one of those rare days where everything felt heavy, and I
+        was almost lost in my own thoughts..doubting myself.. broke down. But
+        you— with much of your kindness, patience, and understanding..pulled me
+        out of that pit..that darkness. You listened, you cared, and you made me
+        feel seen(as if you dont always do..) and heard when I needed it the
+        most.. You, drishti, made me feel like home..you always do.. You have
+        this incredible ability to light up even the darkest of days.. there
+        were days when I didn't tell you about some stress(you had your
+        examssss) academic related, future related.. but just talking to you...
+        it helped me get rid of all of it.. and today was no exception.
+        Sigh...my eyes are wet while im typing this..
+      </p>
+      <p>
+        I can't thank you enough for being there for me, for your comforting
+        words, and for reminding me that it's okay to have bad days. You have a
+        way of making things better just by being yourself. Your support means
+        the world to me, and I feel so lucky to have you in my life. I'm really
+        grateful for that..
+      </p>
+      <p>
+        Thank you for believing in me, for cheering me on, and for always being
+        my safe place. I hope you know how much you are appreciated
+        and(sigh..for a better word,)adored.
+      </p>
+      <div class="divider"></div>
+      <p>You’re amazing, and I’ll always be grateful for you. Always.</p>
+      <a href="index.html" class="back-btn">← Back to Home</a>
+    </div>
+    I'll always stand by your side, drishti.
+    <script>
+      // Floating heart generator
+      const colors = ["#ff8ab3", "#ffb3d4", "#ffd1e5", "#b8e6ff", "#a98bff"];
+      function spawnHeart() {
+        const h = document.createElement("div");
+        h.className = "heart";
+        h.textContent = "❤";
+        const left = Math.random() * 100;
+        const size = 16 + Math.random() * 22;
+        const duration = 8 + Math.random() * 8;
+        const drift = Math.random() * 80 - 40 + "px";
+        h.style.left = left + "vw";
+        h.style.fontSize = size + "px";
+        h.style.animationDuration = duration + "s";
+        h.style.setProperty("-- drift", drift);
+        h.style.color = colors[Math.floor(Math.random() * colors.length)];
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), duration * 1000);
+      }
+      // a few hearts per second, gentle
+      const heartTimer = setInterval(spawnHeart, 900);
+      // stop after a minute to avoid infinite DOM growth; page is static so this is fine
+      setTimeout(() => clearInterval(heartTimer), 60000);
+
+      // Entry music: attempt to autoplay Stand By Me on page load
+      (function autoplayEntrySong() {
+        const SRC = "./src/standByMe.mp3";
+        let promptEl = null;
+        function removePrompt() {
+          if (promptEl) {
+            promptEl.remove();
+            promptEl = null;
+          }
+        }
+        function showPrompt() {
+          Object.assign(promptEl.style, {
+            position: "fixed",
+            bottom: "18px",
+            right: "18px",
+            zIndex: 9999,
+            background: "rgba(100,200,255,0.22)",
+            color: "#fff",
+            border: "2px solid rgba(100,200,255,0.7)",
+            borderRadius: "999px",
+            padding: "10px 16px",
+            fontWeight: "700",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
+            backdropFilter: "blur(8px)",
+            cursor: "pointer",
+          });
+          promptEl.addEventListener("click", tryPlay, { once: true });
+          document.body.appendChild(promptEl);
+        }
+        let entryAudio = new Audio(SRC);
+        entryAudio.volume = 0.7;
+        entryAudio.loop = false;
+        function tryPlay() {
+          entryAudio
+            .play()
+            .then(() => {
+              removePrompt();
+            })
+            .catch(() => {
+              showPrompt();
+            });
+        }
+        // initial attempt
+        tryPlay();
+        // if blocked, resume on first user gesture anywhere
+        const resume = () => {
+          tryPlay();
+          document.removeEventListener("pointerdown", resume);
+        };
+        document.addEventListener("pointerdown", resume, { passive: true });
+      })();
+    </script>
+  </body>
+</html>
