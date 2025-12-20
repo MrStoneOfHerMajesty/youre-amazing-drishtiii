@@ -275,41 +275,91 @@
       }
 
       .aurora::before {
-        content: '';
+        content: "";
         position: absolute;
         top: -20%;
         left: -20%;
         width: 140%;
         height: 140%;
         background: 
-          /* Green-teal aurora ribbons */
-          radial-gradient(ellipse 120% 40% at 15% 15%, rgba(16, 185, 129, 0.3) 0%, rgba(52, 211, 153, 0.15) 30%, transparent 60%),
-          radial-gradient(ellipse 100% 35% at 50% 10%, rgba(20, 184, 166, 0.25) 0%, rgba(6, 182, 212, 0.12) 35%, transparent 65%),
-          radial-gradient(ellipse 90% 45% at 80% 20%, rgba(52, 211, 153, 0.28) 0%, rgba(16, 185, 129, 0.1) 40%, transparent 70%),
+          /* Green-teal aurora ribbons */ radial-gradient(
+            ellipse 120% 40% at 15% 15%,
+            rgba(16, 185, 129, 0.3) 0%,
+            rgba(52, 211, 153, 0.15) 30%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 100% 35% at 50% 10%,
+            rgba(20, 184, 166, 0.25) 0%,
+            rgba(6, 182, 212, 0.12) 35%,
+            transparent 65%
+          ),
+          radial-gradient(
+            ellipse 90% 45% at 80% 20%,
+            rgba(52, 211, 153, 0.28) 0%,
+            rgba(16, 185, 129, 0.1) 40%,
+            transparent 70%
+          ),
           /* Purple-pink aurora ribbons blending in */
-          radial-gradient(ellipse 100% 50% at 35% 25%, rgba(139, 92, 246, 0.22) 0%, rgba(168, 85, 247, 0.1) 35%, transparent 65%),
-          radial-gradient(ellipse 80% 40% at 70% 15%, rgba(192, 132, 252, 0.2) 0%, rgba(139, 92, 246, 0.08) 40%, transparent 70%),
-          radial-gradient(ellipse 110% 55% at 25% 5%, rgba(236, 72, 153, 0.18) 0%, rgba(168, 85, 247, 0.08) 30%, transparent 60%),
+            radial-gradient(
+              ellipse 100% 50% at 35% 25%,
+              rgba(139, 92, 246, 0.22) 0%,
+              rgba(168, 85, 247, 0.1) 35%,
+              transparent 65%
+            ),
+          radial-gradient(
+            ellipse 80% 40% at 70% 15%,
+            rgba(192, 132, 252, 0.2) 0%,
+            rgba(139, 92, 246, 0.08) 40%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 110% 55% at 25% 5%,
+            rgba(236, 72, 153, 0.18) 0%,
+            rgba(168, 85, 247, 0.08) 30%,
+            transparent 60%
+          ),
           /* Blending zones - where colors meet */
-          radial-gradient(ellipse 70% 60% at 45% 18%, rgba(45, 180, 180, 0.2) 0%, transparent 50%),
-          radial-gradient(ellipse 60% 50% at 60% 12%, rgba(120, 100, 200, 0.18) 0%, transparent 55%);
+            radial-gradient(
+              ellipse 70% 60% at 45% 18%,
+              rgba(45, 180, 180, 0.2) 0%,
+              transparent 50%
+            ),
+          radial-gradient(
+            ellipse 60% 50% at 60% 12%,
+            rgba(120, 100, 200, 0.18) 0%,
+            transparent 55%
+          );
         filter: blur(80px);
         opacity: 0.6;
         animation: aurora-flow 35s ease-in-out infinite;
       }
 
       .aurora::after {
-        content: '';
+        content: "";
         position: absolute;
         top: -10%;
         left: -10%;
         width: 120%;
         height: 120%;
         background: 
-          /* Seamless color transitions */
-          radial-gradient(ellipse 150% 60% at 30% 20%, rgba(34, 197, 170, 0.25) 0%, rgba(139, 92, 246, 0.12) 40%, transparent 70%),
-          radial-gradient(ellipse 130% 50% at 65% 15%, rgba(168, 85, 247, 0.22) 0%, rgba(52, 211, 153, 0.1) 45%, transparent 75%),
-          radial-gradient(ellipse 100% 70% at 50% 25%, rgba(80, 150, 200, 0.18) 0%, transparent 60%);
+          /* Seamless color transitions */ radial-gradient(
+            ellipse 150% 60% at 30% 20%,
+            rgba(34, 197, 170, 0.25) 0%,
+            rgba(139, 92, 246, 0.12) 40%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 130% 50% at 65% 15%,
+            rgba(168, 85, 247, 0.22) 0%,
+            rgba(52, 211, 153, 0.1) 45%,
+            transparent 75%
+          ),
+          radial-gradient(
+            ellipse 100% 70% at 50% 25%,
+            rgba(80, 150, 200, 0.18) 0%,
+            transparent 60%
+          );
         filter: blur(90px);
         opacity: 0.5;
         animation: aurora-drift 30s ease-in-out infinite reverse;
@@ -331,13 +381,15 @@
       .aurora-strip:nth-child(1) {
         left: 5%;
         width: 25%;
-        background: linear-gradient(180deg, 
-          transparent 0%, 
-          rgba(52, 211, 153, 0.25) 15%, 
+        background: linear-gradient(
+          180deg,
+          transparent 0%,
+          rgba(52, 211, 153, 0.25) 15%,
           rgba(34, 197, 170, 0.35) 35%,
           rgba(139, 92, 246, 0.25) 55%,
-          rgba(168, 85, 247, 0.15) 75%, 
-          transparent 100%);
+          rgba(168, 85, 247, 0.15) 75%,
+          transparent 100%
+        );
         animation-delay: 0s;
         animation-duration: 24s;
       }
@@ -345,13 +397,15 @@
       .aurora-strip:nth-child(2) {
         left: 20%;
         width: 30%;
-        background: linear-gradient(180deg, 
-          transparent 0%, 
-          rgba(139, 92, 246, 0.2) 20%, 
+        background: linear-gradient(
+          180deg,
+          transparent 0%,
+          rgba(139, 92, 246, 0.2) 20%,
           rgba(120, 140, 200, 0.3) 40%,
           rgba(52, 211, 153, 0.3) 60%,
-          rgba(16, 185, 129, 0.18) 80%, 
-          transparent 100%);
+          rgba(16, 185, 129, 0.18) 80%,
+          transparent 100%
+        );
         animation-delay: 3s;
         animation-duration: 26s;
       }
@@ -359,13 +413,15 @@
       .aurora-strip:nth-child(3) {
         left: 40%;
         width: 25%;
-        background: linear-gradient(180deg, 
-          transparent 0%, 
-          rgba(20, 184, 166, 0.25) 18%, 
+        background: linear-gradient(
+          180deg,
+          transparent 0%,
+          rgba(20, 184, 166, 0.25) 18%,
           rgba(80, 160, 190, 0.32) 38%,
           rgba(168, 85, 247, 0.28) 58%,
-          rgba(236, 72, 153, 0.15) 78%, 
-          transparent 100%);
+          rgba(236, 72, 153, 0.15) 78%,
+          transparent 100%
+        );
         animation-delay: 6s;
         animation-duration: 23s;
       }
@@ -373,13 +429,15 @@
       .aurora-strip:nth-child(4) {
         left: 60%;
         width: 28%;
-        background: linear-gradient(180deg, 
-          transparent 0%, 
-          rgba(168, 85, 247, 0.22) 15%, 
+        background: linear-gradient(
+          180deg,
+          transparent 0%,
+          rgba(168, 85, 247, 0.22) 15%,
           rgba(100, 150, 180, 0.3) 40%,
           rgba(34, 197, 170, 0.28) 65%,
-          rgba(52, 211, 153, 0.15) 85%, 
-          transparent 100%);
+          rgba(52, 211, 153, 0.15) 85%,
+          transparent 100%
+        );
         animation-delay: 9s;
         animation-duration: 25s;
       }
@@ -387,19 +445,22 @@
       .aurora-strip:nth-child(5) {
         left: 80%;
         width: 20%;
-        background: linear-gradient(180deg, 
-          transparent 0%, 
-          rgba(52, 211, 153, 0.25) 20%, 
+        background: linear-gradient(
+          180deg,
+          transparent 0%,
+          rgba(52, 211, 153, 0.25) 20%,
           rgba(60, 170, 200, 0.3) 45%,
           rgba(192, 132, 252, 0.25) 70%,
-          rgba(139, 92, 246, 0.12) 90%, 
-          transparent 100%);
+          rgba(139, 92, 246, 0.12) 90%,
+          transparent 100%
+        );
         animation-delay: 12s;
         animation-duration: 27s;
       }
 
       @keyframes aurora-flow {
-        0%, 100% {
+        0%,
+        100% {
           transform: translate(0, 0) rotate(0deg) scale(1);
           opacity: 0.6;
         }
@@ -418,7 +479,8 @@
       }
 
       @keyframes aurora-drift {
-        0%, 100% {
+        0%,
+        100% {
           transform: translate(0, 0) scale(1);
           opacity: 0.5;
         }
@@ -433,7 +495,8 @@
       }
 
       @keyframes aurora-ribbon {
-        0%, 100% {
+        0%,
+        100% {
           opacity: 0;
           transform: translateY(-10%) scaleY(0.9) scaleX(0.95) skewX(0deg);
         }
@@ -679,6 +742,173 @@
           box-shadow: 0 6px 25px rgba(251, 191, 36, 0.6),
             0 0 50px rgba(251, 191, 36, 0.5);
         }
+      }
+
+      /* Constellation Button */
+      .constellation-btn {
+        position: relative;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          #1e1b4b 0%,
+          #312e81 50%,
+          #4c1d95 100%
+        );
+        border: 3px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4),
+          0 0 40px rgba(139, 92, 246, 0.3), inset 0 -2px 10px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        animation: constellation-pulse 2s ease-in-out infinite;
+      }
+
+      .constellation-btn:hover {
+        transform: scale(1.15) rotate(15deg);
+        box-shadow: 0 6px 30px rgba(139, 92, 246, 0.6),
+          0 0 60px rgba(139, 92, 246, 0.5);
+      }
+
+      .constellation-btn:active {
+        transform: scale(0.95) rotate(-15deg);
+      }
+
+      @keyframes constellation-pulse {
+        0%,
+        100% {
+          box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4),
+            0 0 40px rgba(139, 92, 246, 0.3);
+        }
+        50% {
+          box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6),
+            0 0 50px rgba(139, 92, 246, 0.5);
+        }
+      }
+
+      /* Constellation Overlay */
+      .constellation-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          ellipse at center,
+          #0a0a1a 0%,
+          #000005 100%
+        );
+        z-index: 99999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.8s ease;
+        overflow: hidden;
+      }
+
+      .constellation-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .constellation-close {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .constellation-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1) rotate(90deg);
+      }
+
+      .constellation-star {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 0 6px white, 0 0 12px rgba(255, 255, 255, 0.5);
+        animation: starTwinkle 2s ease-in-out infinite;
+      }
+
+      .constellation-star.letter-star {
+        background: #fbbf24;
+        box-shadow: 0 0 10px #fbbf24, 0 0 20px rgba(251, 191, 36, 0.6),
+          0 0 30px rgba(251, 191, 36, 0.3);
+        z-index: 5;
+      }
+
+      @keyframes starTwinkle {
+        0%,
+        100% {
+          opacity: 0.4;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.2);
+        }
+      }
+
+      .constellation-line {
+        position: absolute;
+        background: linear-gradient(
+          90deg,
+          rgba(251, 191, 36, 0.8),
+          rgba(251, 191, 36, 0.3)
+        );
+        height: 2px;
+        transform-origin: left center;
+        box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+        opacity: 0;
+        animation: lineAppear 0.5s ease forwards;
+      }
+
+      @keyframes lineAppear {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      .constellation-message {
+        position: absolute;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.8rem;
+        color: white;
+        text-align: center;
+        padding: 20px 40px;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 25px;
+        border: 1px solid rgba(251, 191, 36, 0.4);
+        opacity: 0;
+        transition: opacity 1s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .constellation-message.show {
+        opacity: 1;
       }
 
       /* Confetti Pieces */
@@ -1160,7 +1390,11 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: radial-gradient(ellipse at center, #0f0f1a 0%, #000000 100%);
+        background: radial-gradient(
+          ellipse at center,
+          #0f0f1a 0%,
+          #000000 100%
+        );
         z-index: 99999;
         display: flex;
         flex-direction: column;
@@ -1176,7 +1410,7 @@
       }
 
       .countdown-title {
-        font-family: 'Cinzel Decorative', serif;
+        font-family: "Cinzel Decorative", serif;
         font-size: 2rem;
         color: #fbbf24;
         margin-bottom: 20px;
@@ -1186,7 +1420,7 @@
       }
 
       .countdown-subtitle {
-        font-family: 'Cormorant Garamond', serif;
+        font-family: "Cormorant Garamond", serif;
         font-size: 1.2rem;
         color: rgba(255, 255, 255, 0.7);
         margin-bottom: 50px;
@@ -1206,10 +1440,15 @@
       }
 
       .countdown-value {
-        font-family: 'Cinzel Decorative', serif;
+        font-family: "Cinzel Decorative", serif;
         font-size: 5rem;
         font-weight: bold;
-        background: linear-gradient(135deg, #fbbf24 0%, #f472b6 50%, #a78bfa 100%);
+        background: linear-gradient(
+          135deg,
+          #fbbf24 0%,
+          #f472b6 50%,
+          #a78bfa 100%
+        );
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -1218,7 +1457,7 @@
       }
 
       .countdown-label {
-        font-family: 'Quicksand', sans-serif;
+        font-family: "Quicksand", sans-serif;
         font-size: 0.9rem;
         color: rgba(255, 255, 255, 0.6);
         text-transform: uppercase;
@@ -1234,17 +1473,29 @@
       }
 
       @keyframes blink-separator {
-        0%, 100% { opacity: 0.5; }
-        50% { opacity: 0.2; }
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 0.2;
+        }
       }
 
       @keyframes gentle-pulse {
-        0%, 100% { opacity: 1; transform: scale(1); }
-        50% { opacity: 0.8; transform: scale(1.02); }
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.8;
+          transform: scale(1.02);
+        }
       }
 
       .countdown-message {
-        font-family: 'Cormorant Garamond', serif;
+        font-family: "Cormorant Garamond", serif;
         font-size: 1.3rem;
         color: rgba(255, 255, 255, 0.8);
         text-align: center;
@@ -1292,26 +1543,43 @@
       }
 
       @keyframes flash-reveal {
-        0% { opacity: 1; transform: scale(0); }
-        50% { opacity: 0.8; transform: scale(2); }
-        100% { opacity: 0; transform: scale(3); }
+        0% {
+          opacity: 1;
+          transform: scale(0);
+        }
+        50% {
+          opacity: 0.8;
+          transform: scale(2);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(3);
+        }
       }
 
       /* ================================
-         BLOOMING ROSE
+         BLOOMING TULIP
          ================================ */
-      .rose-container {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 120px;
-        height: 150px;
-        z-index: 9999;
-        cursor: pointer;
-        filter: drop-shadow(0 10px 30px rgba(244, 63, 94, 0.4));
+      .tulip-section {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px 80px;
+        margin-top: 20px;
+        position: relative;
       }
 
-      .rose {
+      .tulip-container {
+        position: relative;
+        width: 150px;
+        height: 200px;
+        cursor: pointer;
+        filter: drop-shadow(0 15px 40px rgba(244, 114, 182, 0.4));
+      }
+
+      .tulip {
         position: relative;
         width: 100%;
         height: 100%;
@@ -1319,241 +1587,607 @@
         transition: transform 0.5s ease;
       }
 
-      .rose-container:hover .rose {
-        transform: scale(1.1);
+      .tulip-container:hover .tulip {
+        transform: scale(1.08);
       }
 
       /* Stem */
-      .rose-stem {
+      .tulip-stem {
         position: absolute;
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
-        width: 8px;
-        height: 80px;
-        background: linear-gradient(90deg, #166534 0%, #22c55e 50%, #166534 100%);
-        border-radius: 4px;
+        width: 10px;
+        height: 110px;
+        background: linear-gradient(
+          90deg,
+          #166534 0%,
+          #22c55e 50%,
+          #166534 100%
+        );
+        border-radius: 5px;
       }
 
       /* Leaves */
-      .rose-leaf {
+      .tulip-leaf {
         position: absolute;
-        width: 30px;
-        height: 15px;
+        width: 50px;
+        height: 20px;
         background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-        border-radius: 0 80% 0 80%;
-        transition: transform 0.5s ease;
+        transition: transform 0.6s ease;
       }
 
-      .rose-leaf-left {
-        bottom: 35px;
+      .tulip-leaf-left {
+        bottom: 40px;
         left: 50%;
-        transform: translateX(-100%) rotate(-30deg);
+        transform: translateX(-100%) rotate(-25deg);
         transform-origin: right center;
+        border-radius: 100% 0 100% 0;
       }
 
-      .rose-leaf-right {
-        bottom: 50px;
+      .tulip-leaf-right {
+        bottom: 60px;
         left: 50%;
-        transform: rotate(30deg);
+        transform: rotate(25deg);
         transform-origin: left center;
-        border-radius: 80% 0 80% 0;
+        border-radius: 0 100% 0 100%;
       }
 
-      .rose-container:hover .rose-leaf-left {
-        transform: translateX(-100%) rotate(-45deg);
+      .tulip-container:hover .tulip-leaf-left {
+        transform: translateX(-100%) rotate(-40deg);
       }
 
-      .rose-container:hover .rose-leaf-right {
-        transform: rotate(45deg);
+      .tulip-container:hover .tulip-leaf-right {
+        transform: rotate(40deg);
       }
 
-      /* Rose Bloom */
-      .rose-bloom {
+      /* Tulip Bloom */
+      .tulip-bloom {
         position: absolute;
         top: 0;
         left: 50%;
         transform: translateX(-50%);
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 90px;
       }
 
-      /* Petals */
-      .petal {
+      /* Tulip Petals - Cup shaped */
+      .tulip-petal {
         position: absolute;
-        background: linear-gradient(135deg, #f43f5e 0%, #e11d48 50%, #be123c 100%);
-        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        background: linear-gradient(
+          180deg,
+          #f472b6 0%,
+          #ec4899 40%,
+          #db2777 100%
+        );
+        border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
         transform-origin: bottom center;
-        transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        box-shadow: inset 0 -5px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.15),
+          inset 0 10px 20px rgba(255, 255, 255, 0.2);
       }
 
-      /* Inner petals - start closed */
-      .petal-1 {
-        width: 25px;
-        height: 30px;
+      /* Center petal */
+      .tulip-petal-1 {
+        width: 35px;
+        height: 65px;
+        left: 50%;
+        top: 25px;
+        transform: translateX(-50%) scaleX(0.8);
+        z-index: 5;
+        background: linear-gradient(
+          180deg,
+          #fda4af 0%,
+          #f472b6 40%,
+          #ec4899 100%
+        );
+      }
+
+      /* Inner petals */
+      .tulip-petal-2 {
+        width: 38px;
+        height: 70px;
+        left: 50%;
+        top: 20px;
+        transform: translateX(-75%) rotate(-8deg) scaleX(0.85);
+        z-index: 4;
+      }
+
+      .tulip-petal-3 {
+        width: 38px;
+        height: 70px;
+        left: 50%;
+        top: 20px;
+        transform: translateX(-25%) rotate(8deg) scaleX(0.85);
+        z-index: 4;
+      }
+
+      /* Outer petals - closed */
+      .tulip-petal-4 {
+        width: 40px;
+        height: 75px;
         left: 50%;
         top: 15px;
-        transform: translateX(-50%) rotate(0deg) scaleY(0.5);
-        z-index: 5;
-        background: linear-gradient(135deg, #fda4af 0%, #f43f5e 100%);
-      }
-
-      .petal-2 {
-        width: 28px;
-        height: 32px;
-        left: 50%;
-        top: 12px;
-        transform: translateX(-50%) rotate(-15deg) scaleY(0.5);
-        z-index: 4;
-      }
-
-      .petal-3 {
-        width: 28px;
-        height: 32px;
-        left: 50%;
-        top: 12px;
-        transform: translateX(-50%) rotate(15deg) scaleY(0.5);
-        z-index: 4;
-      }
-
-      /* Middle petals */
-      .petal-4 {
-        width: 32px;
-        height: 38px;
-        left: 50%;
-        top: 8px;
-        transform: translateX(-70%) rotate(-30deg) scaleY(0.6);
+        transform: translateX(-90%) rotate(-12deg) scaleX(0.9);
         z-index: 3;
+        background: linear-gradient(
+          180deg,
+          #ec4899 0%,
+          #db2777 60%,
+          #be185d 100%
+        );
       }
 
-      .petal-5 {
-        width: 32px;
-        height: 38px;
+      .tulip-petal-5 {
+        width: 40px;
+        height: 75px;
         left: 50%;
-        top: 8px;
-        transform: translateX(-30%) rotate(30deg) scaleY(0.6);
+        top: 15px;
+        transform: translateX(-10%) rotate(12deg) scaleX(0.9);
         z-index: 3;
+        background: linear-gradient(
+          180deg,
+          #ec4899 0%,
+          #db2777 60%,
+          #be185d 100%
+        );
       }
 
-      /* Outer petals */
-      .petal-6 {
-        width: 35px;
-        height: 42px;
+      /* Back petal */
+      .tulip-petal-6 {
+        width: 45px;
+        height: 80px;
         left: 50%;
-        top: 5px;
-        transform: translateX(-80%) rotate(-50deg) scaleY(0.7);
-        z-index: 2;
-        background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
-      }
-
-      .petal-7 {
-        width: 35px;
-        height: 42px;
-        left: 50%;
-        top: 5px;
-        transform: translateX(-20%) rotate(50deg) scaleY(0.7);
-        z-index: 2;
-        background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
-      }
-
-      .petal-8 {
-        width: 38px;
-        height: 45px;
-        left: 50%;
-        top: 0;
-        transform: translateX(-50%) rotate(0deg) scaleY(0.6);
+        top: 10px;
+        transform: translateX(-50%) scaleX(0.95);
         z-index: 1;
-        background: linear-gradient(135deg, #be123c 0%, #9f1239 100%);
+        background: linear-gradient(
+          180deg,
+          #db2777 0%,
+          #be185d 60%,
+          #9d174d 100%
+        );
       }
 
-      /* Bloomed state on hover */
-      .rose-container:hover .petal-1 {
-        transform: translateX(-50%) rotate(0deg) scaleY(1) translateY(-5px);
+      /* Bloomed state on hover - petals open outward */
+      .tulip-container:hover .tulip-petal-1 {
+        transform: translateX(-50%) scaleX(0.85) translateY(-8px);
       }
 
-      .rose-container:hover .petal-2 {
-        transform: translateX(-60%) rotate(-25deg) scaleY(1) translateY(-3px);
+      .tulip-container:hover .tulip-petal-2 {
+        transform: translateX(-85%) rotate(-20deg) scaleX(0.9) translateY(-5px);
       }
 
-      .rose-container:hover .petal-3 {
-        transform: translateX(-40%) rotate(25deg) scaleY(1) translateY(-3px);
+      .tulip-container:hover .tulip-petal-3 {
+        transform: translateX(-15%) rotate(20deg) scaleX(0.9) translateY(-5px);
       }
 
-      .rose-container:hover .petal-4 {
-        transform: translateX(-85%) rotate(-45deg) scaleY(1) translateY(0px);
+      .tulip-container:hover .tulip-petal-4 {
+        transform: translateX(-105%) rotate(-35deg) scaleX(0.95) translateY(0px);
       }
 
-      .rose-container:hover .petal-5 {
-        transform: translateX(-15%) rotate(45deg) scaleY(1) translateY(0px);
+      .tulip-container:hover .tulip-petal-5 {
+        transform: translateX(5%) rotate(35deg) scaleX(0.95) translateY(0px);
       }
 
-      .rose-container:hover .petal-6 {
-        transform: translateX(-100%) rotate(-70deg) scaleY(1) translateY(5px);
+      .tulip-container:hover .tulip-petal-6 {
+        transform: translateX(-50%) scaleX(1) translateY(5px);
       }
 
-      .rose-container:hover .petal-7 {
-        transform: translateX(0%) rotate(70deg) scaleY(1) translateY(5px);
+      /* Tulip glow on hover */
+      .tulip-container:hover .tulip-bloom {
+        filter: drop-shadow(0 0 25px rgba(244, 114, 182, 0.7));
       }
 
-      .rose-container:hover .petal-8 {
-        transform: translateX(-50%) rotate(0deg) scaleY(1) translateY(10px);
-      }
-
-      /* Rose glow on hover */
-      .rose-container:hover .rose-bloom {
-        filter: drop-shadow(0 0 20px rgba(244, 63, 94, 0.6));
-      }
-
-      /* Rose tooltip */
-      .rose-message {
+      /* Tulip message */
+      .tulip-message {
         position: absolute;
         bottom: 100%;
         left: 50%;
         transform: translateX(-50%) translateY(10px);
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.85);
         color: white;
-        padding: 10px 20px;
-        border-radius: 20px;
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 1rem;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.1rem;
         font-style: italic;
         white-space: nowrap;
         opacity: 0;
         visibility: hidden;
         transition: all 0.4s ease;
-        border: 1px solid rgba(244, 63, 94, 0.3);
+        border: 1px solid rgba(244, 114, 182, 0.4);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
       }
 
-      .rose-container:hover .rose-message {
+      .tulip-container:hover .tulip-message {
         opacity: 1;
         visibility: visible;
-        transform: translateX(-50%) translateY(-10px);
+        transform: translateX(-50%) translateY(-15px);
       }
 
-      /* Rose sparkles */
-      .rose-sparkle {
+      /* Tulip sparkles */
+      .tulip-sparkle {
         position: absolute;
-        width: 6px;
-        height: 6px;
+        width: 8px;
+        height: 8px;
         background: #fbbf24;
         border-radius: 50%;
         opacity: 0;
         transition: opacity 0.3s ease;
+        box-shadow: 0 0 10px #fbbf24;
       }
 
-      .rose-container:hover .rose-sparkle {
-        animation: rose-twinkle 1s ease-in-out infinite;
+      .tulip-container:hover .tulip-sparkle {
+        animation: tulip-twinkle 1.2s ease-in-out infinite;
       }
 
-      .rose-sparkle:nth-child(1) { top: 10px; left: 10px; animation-delay: 0s; }
-      .rose-sparkle:nth-child(2) { top: 5px; right: 15px; animation-delay: 0.2s; }
-      .rose-sparkle:nth-child(3) { top: 25px; right: 5px; animation-delay: 0.4s; }
-      .rose-sparkle:nth-child(4) { top: 20px; left: 5px; animation-delay: 0.6s; }
+      .tulip-sparkle:nth-child(1) {
+        top: 5px;
+        left: 15px;
+        animation-delay: 0s;
+      }
+      .tulip-sparkle:nth-child(2) {
+        top: 0px;
+        right: 20px;
+        animation-delay: 0.3s;
+      }
+      .tulip-sparkle:nth-child(3) {
+        top: 30px;
+        right: 10px;
+        animation-delay: 0.6s;
+      }
+      .tulip-sparkle:nth-child(4) {
+        top: 25px;
+        left: 10px;
+        animation-delay: 0.9s;
+      }
 
-      @keyframes rose-twinkle {
-        0%, 100% { opacity: 0; transform: scale(0); }
-        50% { opacity: 1; transform: scale(1); }
+      @keyframes tulip-twinkle {
+        0%,
+        100% {
+          opacity: 0;
+          transform: scale(0);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.2);
+        }
+      }
+
+      .tulip-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.5rem;
+        color: rgba(255, 255, 255, 0.8);
+        font-style: italic;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      /* ================================
+         FLOWER GARDEN OVERLAY
+         ================================ */
+      .garden-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          180deg,
+          #0a0a1a 0%,
+          #1a0a2e 20%,
+          #0f172a 50%,
+          #1e1b4b 80%,
+          #0a0a1a 100%
+        );
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.8s ease;
+        overflow: hidden;
+      }
+
+      .garden-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .garden-message {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 2rem;
+        color: white;
+        text-align: center;
+        padding: 30px 50px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 30px;
+        border: 2px solid rgba(244, 114, 182, 0.4);
+        position: relative;
+        z-index: 10;
+        max-width: 90%;
+        line-height: 1.6;
+        animation: messageGlow 3s ease-in-out infinite;
+        backdrop-filter: blur(10px);
+      }
+
+      @keyframes messageGlow {
+        0%,
+        100% {
+          box-shadow: 0 0 30px rgba(244, 114, 182, 0.3),
+            0 0 60px rgba(139, 92, 246, 0.2);
+        }
+        50% {
+          box-shadow: 0 0 50px rgba(244, 114, 182, 0.5),
+            0 0 80px rgba(139, 92, 246, 0.4);
+        }
+      }
+
+      .garden-close {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .garden-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1) rotate(90deg);
+      }
+
+      /* Garden flowers */
+      .garden-flower {
+        position: absolute;
+        animation: gardenGrow 1s ease forwards,
+          gardenSway 3s ease-in-out infinite;
+        transform: scale(0);
+        filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+      }
+
+      @keyframes gardenGrow {
+        0% {
+          transform: scale(0) translateY(50px);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1) translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes gardenSway {
+        0%,
+        100% {
+          transform: rotate(-3deg);
+        }
+        50% {
+          transform: rotate(3deg);
+        }
+      }
+
+      /* Mini flower styles */
+      .mini-flower {
+        width: 60px;
+        height: 80px;
+        position: relative;
+      }
+
+      .mini-stem {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 40px;
+        background: linear-gradient(90deg, #166534, #22c55e, #166534);
+        border-radius: 2px;
+      }
+
+      .mini-bloom {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 35px;
+        height: 35px;
+      }
+
+      /* Rose mini */
+      .mini-rose .mini-bloom {
+        background: radial-gradient(
+          circle,
+          #fda4af 0%,
+          #f43f5e 50%,
+          #be123c 100%
+        );
+        border-radius: 50%;
+        box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.2),
+          0 0 15px rgba(244, 63, 94, 0.5);
+      }
+
+      .mini-rose .mini-bloom::before {
+        content: "";
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+        background: radial-gradient(circle, #fecdd3 0%, #fb7185 100%);
+        border-radius: 50%;
+      }
+
+      /* Tulip mini */
+      .mini-tulip .mini-bloom {
+        background: linear-gradient(
+          180deg,
+          #f472b6 0%,
+          #ec4899 50%,
+          #db2777 100%
+        );
+        border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
+        box-shadow: 0 0 15px rgba(244, 114, 182, 0.5);
+      }
+
+      /* Daisy mini */
+      .mini-daisy .mini-bloom {
+        background: #fbbf24;
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        top: 10px;
+        box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+      }
+
+      .mini-daisy .petal-ring {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 35px;
+        height: 35px;
+      }
+
+      .mini-daisy .mini-petal {
+        position: absolute;
+        width: 10px;
+        height: 18px;
+        background: white;
+        border-radius: 50%;
+        left: 50%;
+        top: 50%;
+        transform-origin: center bottom;
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+      }
+
+      /* Lavender mini */
+      .mini-lavender .mini-bloom {
+        width: 12px;
+        height: 30px;
+        background: linear-gradient(
+          180deg,
+          #c4b5fd 0%,
+          #8b5cf6 50%,
+          #6d28d9 100%
+        );
+        border-radius: 40% 40% 30% 30%;
+        box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+      }
+
+      .mini-lavender .mini-stem {
+        height: 50px;
+      }
+
+      /* Sunflower mini */
+      .mini-sunflower .mini-bloom {
+        background: radial-gradient(circle, #78350f 0%, #92400e 100%);
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        top: 8px;
+        box-shadow: 0 0 10px rgba(146, 64, 14, 0.5);
+      }
+
+      .mini-sunflower .petal-ring {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 40px;
+      }
+
+      .mini-sunflower .mini-petal {
+        position: absolute;
+        width: 12px;
+        height: 16px;
+        background: linear-gradient(
+          180deg,
+          #fde047 0%,
+          #facc15 50%,
+          #eab308 100%
+        );
+        border-radius: 50%;
+        left: 50%;
+        top: 50%;
+        transform-origin: center bottom;
+        box-shadow: 0 0 8px rgba(250, 204, 21, 0.5);
+      }
+
+      /* Bluebell mini */
+      .mini-bluebell .mini-bloom {
+        width: 20px;
+        height: 25px;
+        background: linear-gradient(
+          180deg,
+          #93c5fd 0%,
+          #3b82f6 50%,
+          #1d4ed8 100%
+        );
+        border-radius: 50% 50% 70% 70%;
+        box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+      }
+
+      /* Butterfly in garden */
+      .garden-butterfly {
+        position: absolute;
+        font-size: 2rem;
+        animation: butterflyFloat 8s ease-in-out infinite;
+        opacity: 0.9;
+        filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
+      }
+
+      @keyframes butterflyFloat {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+          transform: translate(50px, -30px) rotate(10deg);
+        }
+        50% {
+          transform: translate(20px, -60px) rotate(-5deg);
+        }
+        75% {
+          transform: translate(-30px, -20px) rotate(5deg);
+        }
+      }
+
+      /* Sparkle particles */
+      .garden-sparkle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: white;
+        border-radius: 50%;
+        animation: sparkleFloat 4s ease-in-out infinite;
+        box-shadow: 0 0 10px white, 0 0 20px rgba(255, 255, 255, 0.5);
+      }
+
+      @keyframes sparkleFloat {
+        0%,
+        100% {
+          opacity: 0;
+          transform: translateY(0) scale(0);
+        }
+        50% {
+          opacity: 1;
+          transform: translateY(-30px) scale(1);
+        }
       }
     </style>
   </head>
@@ -1563,7 +2197,7 @@
     <div class="countdown-overlay" id="countdown-overlay">
       <div class="countdown-title">✨ Something Special Awaits ✨</div>
       <div class="countdown-subtitle">For.. hmm Dearest drishti...</div>
-      
+
       <div class="countdown-timer">
         <div class="countdown-unit">
           <div class="countdown-value" id="days">00</div>
@@ -1585,9 +2219,9 @@
           <div class="countdown-label">Seconds</div>
         </div>
       </div>
-      
+
       <div class="countdown-message">
-        The best is yet to come... <br>Wait for the magic at midnight ; )
+        "The best is yet to come... <br />Wait for the magic at midnight ; )"
       </div>
     </div>
 
@@ -1642,25 +2276,6 @@
             id="subtitle"
             class="font-elegant text-2xl sm:text-3xl md:text-4xl text-gray-300 italic tracking-wide mt-8 subtitle-container"
           ></div>
-
-          <!-- Scroll indicator -->
-          <div
-            class="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce opacity-50"
-          >
-            <svg
-              class="w-6 h-6 text-gold-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-              ></path>
-            </svg>
-          </div>
         </div>
       </section>
 
@@ -1895,16 +2510,21 @@
               <p
                 class="font-body text-xl sm:text-2xl text-gray-200 leading-relaxed text-center"
               >
-                You told me that I've motivated you and helped you realize
-                things. You said that even when you didn't always believe it, my
-                words meant something to you.
+                You... have taught me so many things, drishti, alllll goood
+                things. Apart from some words that were new to me XD *little
+                smile with eye-to-eye contact...sigh*, you have changed my
+                perspective on so many things.. How to be like a tree? How to be
+                grounded yet flexible.
               </p>
               <p
                 class="font-body text-xl sm:text-2xl text-gray-200 leading-relaxed text-center"
               >
-                You said you're happy for me. For my ambitions, my passion, the
-                way I'm building my dreams piece by piece. You said that takes
-                courage. That takes vision.
+                I always loved flowers where they belonged too, in nature. You,
+                drishti, are like a (strong yet delicately beautiful) flower
+                that has bloomed into my life, bringing color and joy to my
+                world. You gave me the excitement to start my day off with a
+                smile, and of course...sigh..first thoughts of you in the
+                morning : )
               </p>
               <p
                 class="font-body text-xl sm:text-2xl text-gray-200 leading-relaxed text-center"
@@ -1928,7 +2548,7 @@
                 class="font-body text-xl sm:text-2xl text-gray-200 leading-relaxed text-center font-semibold mt-8"
               >
                 Believe in yourself. It's the only thing that will stay with you
-                till the very end.
+                till the very end....gosh you-...
               </p>
 
               <div class="border-t border-gold-500/30 pt-10 mt-10">
@@ -1952,7 +2572,8 @@
             <p
               class="font-body text-2xl sm:text-3xl md:text-4xl text-gray-100 leading-relaxed text-center"
             >
-              So here's what I want you to hear as this new year begins:
+              So here's what I want you to hear as this new year begins..you
+              are:
             </p>
             <div
               class="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-10 my-10 px-4"
@@ -2095,7 +2716,7 @@
         </div>
 
         <!-- Back Button -->
-        <div class="reveal flex justify-center mt-16 pb-20">
+        <div class="reveal flex justify-center mt-16 pb-8">
           <a
             href="index.html"
             class="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl hover:bg-white/10 hover:border-gold-500/30 transition-all duration-500 overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-gold-500/20"
@@ -2128,6 +2749,54 @@
           📸
         </button>
       </div>
+
+      <!-- Blooming Tulip Section -->
+      <section class="tulip-section">
+        <p class="tulip-title">pweaasee hover over the tulip</p>
+        <div class="tulip-container" id="tulip-container">
+          <div class="tulip-message">
+            Now, would you be kind enough to click on it? ; )
+          </div>
+          <div class="tulip-sparkle"></div>
+          <div class="tulip-sparkle"></div>
+          <div class="tulip-sparkle"></div>
+          <div class="tulip-sparkle"></div>
+          <div class="tulip">
+            <div class="tulip-stem"></div>
+            <div class="tulip-leaf tulip-leaf-left"></div>
+            <div class="tulip-leaf tulip-leaf-right"></div>
+            <div class="tulip-bloom">
+              <div class="tulip-petal tulip-petal-6"></div>
+              <div class="tulip-petal tulip-petal-5"></div>
+              <div class="tulip-petal tulip-petal-4"></div>
+              <div class="tulip-petal tulip-petal-3"></div>
+              <div class="tulip-petal tulip-petal-2"></div>
+              <div class="tulip-petal tulip-petal-1"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Constellation Section -->
+      <section
+        class="constellation-section"
+        style="
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 60px 20px 100px;
+        "
+      >
+        <button
+          class="constellation-btn"
+          id="constellation-btn"
+          title="See the Stars"
+        >
+          ✨
+        </button>
+      </section>
     </main>
 
     <!-- Confetti Button -->
@@ -2140,118 +2809,456 @@
       🛩️
     </button>
 
-    <!-- Blooming Rose -->
-    <div class="rose-container" id="rose-container">
-      <div class="rose-message">A rose for my beautiful Drishti 🌹</div>
-      <div class="rose-sparkle"></div>
-      <div class="rose-sparkle"></div>
-      <div class="rose-sparkle"></div>
-      <div class="rose-sparkle"></div>
-      <div class="rose">
-        <div class="rose-stem"></div>
-        <div class="rose-leaf rose-leaf-left"></div>
-        <div class="rose-leaf rose-leaf-right"></div>
-        <div class="rose-bloom">
-          <div class="petal petal-8"></div>
-          <div class="petal petal-7"></div>
-          <div class="petal petal-6"></div>
-          <div class="petal petal-5"></div>
-          <div class="petal petal-4"></div>
-          <div class="petal petal-3"></div>
-          <div class="petal petal-2"></div>
-          <div class="petal petal-1"></div>
-        </div>
+    <!-- Constellation Overlay -->
+    <div class="constellation-overlay" id="constellation-overlay">
+      <button class="constellation-close" id="constellation-close">✕</button>
+      <div class="constellation-message" id="constellation-message">
+        I love your name to the stars and back...sigh..
       </div>
     </div>
 
     <!-- Background Music -->
     <audio id="bg-music" src="src/cryInstru.mp3" loop></audio>
 
+    <!-- Flower Garden Overlay -->
+    <div class="garden-overlay" id="garden-overlay">
+      <button class="garden-close" id="garden-close">✕</button>
+      <div class="garden-message">
+        ✨ A whole garden of flowers, just for you ✨<br />
+        <span style="font-size: 1.6rem; color: #f9a8d4"
+          >Your Majesty, My Lady...</span
+        ><br />
+        <span style="font-size: 1.3rem; color: #a5b4fc"
+          >un-plucked, forever blooming 🌸</span
+        >
+      </div>
+    </div>
+
     <!-- JavaScript -->
     <script>
       // ===============================
+      // CONSTELLATION - DRISHTI
+      // ===============================
+      const constellationBtn = document.getElementById("constellation-btn");
+      const constellationOverlay = document.getElementById(
+        "constellation-overlay"
+      );
+      const constellationClose = document.getElementById("constellation-close");
+      const constellationMessage = document.getElementById(
+        "constellation-message"
+      );
+
+      // Letter coordinates for "drishti" - lowercase letters
+      const letterPaths = {
+        d: [
+          // lowercase d: circle on left, tall st   em on right
+          { x: 30, y: 0 },
+          { x: 30, y: 20 },
+          { x: 30, y: 40 }, // tall right stem
+          { x: 30, y: 55 },
+          { x: 20, y: 70 },
+          { x: 5, y: 65 }, // curve down
+          { x: 0, y: 50 },
+          { x: 5, y: 35 },
+          { x: 20, y: 30 },
+          { x: 30, y: 40 }, // curve back up
+        ],
+        r: [
+          // lowercase r: short stem with small curve at top
+          { x: 0, y: 70 },
+          { x: 0, y: 50 },
+          { x: 0, y: 30 }, // stem
+          { x: 5, y: 35 },
+          { x: 15, y: 30 },
+          { x: 25, y: 35 }, // small curve
+        ],
+        i: [
+          // lowercase i: dot and short stem
+          { x: 10, y: 20 }, // dot
+          { x: 10, y: 35 },
+          { x: 10, y: 50 },
+          { x: 10, y: 70 }, // stem
+        ],
+        s: [
+          // lowercase s: curvy, smaller height
+          { x: 28, y: 35 },
+          { x: 18, y: 28 },
+          { x: 5, y: 35 }, // top curve
+          { x: 10, y: 50 },
+          { x: 20, y: 50 }, // middle
+          { x: 28, y: 55 },
+          { x: 25, y: 68 },
+          { x: 12, y: 72 },
+          { x: 2, y: 65 }, // bottom curve
+        ],
+        h: [
+          // lowercase h: tall left stem, hump on right
+          { x: 0, y: 70 },
+          { x: 0, y: 45 },
+          { x: 0, y: 20 },
+          { x: 0, y: 0 }, // tall left stem
+          { x: 0, y: 40 },
+          { x: 10, y: 32 },
+          { x: 22, y: 30 },
+          { x: 30, y: 38 }, // hump
+          { x: 30, y: 55 },
+          { x: 30, y: 70 }, // right stem down
+        ],
+        t: [
+          // lowercase t: stem with cross near top
+          { x: 15, y: 10 },
+          { x: 15, y: 30 },
+          { x: 15, y: 50 },
+          { x: 15, y: 70 }, // stem
+          { x: 15, y: 30 },
+          { x: 0, y: 30 },
+          { x: 15, y: 30 },
+          { x: 28, y: 30 }, // crossbar
+        ],
+        i2: [
+          // lowercase i: dot and short stem (second i)
+          { x: 10, y: 20 }, // dot
+          { x: 10, y: 35 },
+          { x: 10, y: 50 },
+          { x: 10, y: 70 }, // stem
+        ],
+      };
+
+      function createBackgroundStars() {
+        const starCount = 150;
+        for (let i = 0; i < starCount; i++) {
+          const star = document.createElement("div");
+          star.className = "constellation-star";
+          star.style.left = `${Math.random() * 100}%`;
+          star.style.top = `${Math.random() * 100}%`;
+          const size = 1 + Math.random() * 2;
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.animationDelay = `${Math.random() * 2}s`;
+          star.style.animationDuration = `${1.5 + Math.random() * 2}s`;
+          constellationOverlay.appendChild(star);
+        }
+      }
+
+      function createLetterStars(letter, offsetX, offsetY, delay) {
+        const points = letterPaths[letter];
+        const stars = [];
+
+        points.forEach((point, index) => {
+          setTimeout(() => {
+            const star = document.createElement("div");
+            star.className = "constellation-star letter-star";
+            star.style.left = `${offsetX + point.x}px`;
+            star.style.top = `${offsetY + point.y}px`;
+            star.style.width = "8px";
+            star.style.height = "8px";
+            star.style.animationDelay = `${Math.random() * 0.5}s`;
+            constellationOverlay.appendChild(star);
+            stars.push({
+              element: star,
+              x: offsetX + point.x,
+              y: offsetY + point.y,
+            });
+
+            // Draw line to previous star
+            if (index > 0) {
+              const prevPoint = points[index - 1];
+              drawLine(
+                offsetX + prevPoint.x + 4,
+                offsetY + prevPoint.y + 4,
+                offsetX + point.x + 4,
+                offsetY + point.y + 4
+              );
+            }
+          }, delay + index * 150);
+        });
+
+        return stars;
+      }
+
+      function drawLine(x1, y1, x2, y2) {
+        const line = document.createElement("div");
+        line.className = "constellation-line";
+
+        const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        const angle = (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
+
+        line.style.left = `${x1}px`;
+        line.style.top = `${y1}px`;
+        line.style.width = `${length}px`;
+        line.style.transform = `rotate(${angle}deg)`;
+
+        constellationOverlay.appendChild(line);
+      }
+
+      function showConstellation() {
+        constellationOverlay.classList.add("show");
+
+        // Create background stars first
+        createBackgroundStars();
+
+        // Calculate center position for the word
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const letterWidth = 50;
+        const letterSpacing = 55;
+        const wordWidth = 7 * letterSpacing;
+        const startX = (screenWidth - wordWidth) / 2;
+        const startY = (screenHeight - 80) / 2 - 40;
+
+        // Draw each letter with delays
+        const letters = ["d", "r", "i", "s", "h", "t", "i2"];
+        letters.forEach((letter, i) => {
+          createLetterStars(
+            letter,
+            startX + i * letterSpacing,
+            startY,
+            i * 800
+          );
+        });
+
+        // Show message after all letters are drawn
+        setTimeout(() => {
+          constellationMessage.classList.add("show");
+        }, letters.length * 800 + 1000);
+      }
+
+      function hideConstellation() {
+        constellationOverlay.classList.remove("show");
+        constellationMessage.classList.remove("show");
+
+        // Clear stars and lines after animation
+        setTimeout(() => {
+          const elements = constellationOverlay.querySelectorAll(
+            ".constellation-star, .constellation-line"
+          );
+          elements.forEach((el) => el.remove());
+        }, 800);
+      }
+
+      constellationBtn.addEventListener("click", showConstellation);
+      constellationClose.addEventListener("click", hideConstellation);
+
+      // ===============================
+      // FLOWER GARDEN
+      // ===============================
+      const tulipContainer = document.getElementById("tulip-container");
+      const gardenOverlay = document.getElementById("garden-overlay");
+      const gardenClose = document.getElementById("garden-close");
+
+      const flowerTypes = [
+        "mini-rose",
+        "mini-tulip",
+        "mini-daisy",
+        "mini-lavender",
+        "mini-sunflower",
+        "mini-bluebell",
+      ];
+      const butterflies = ["🦋", "🦋", "🦋"];
+
+      function createGardenFlower(index, total) {
+        const flower = document.createElement("div");
+        flower.className = "garden-flower";
+
+        const type =
+          flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+
+        // Create mini flower
+        const miniFlower = document.createElement("div");
+        miniFlower.className = `mini-flower ${type}`;
+
+        // Add stem
+        const stem = document.createElement("div");
+        stem.className = "mini-stem";
+        miniFlower.appendChild(stem);
+
+        // Add bloom
+        const bloom = document.createElement("div");
+        bloom.className = "mini-bloom";
+
+        // Add petals for daisy and sunflower
+        if (type === "mini-daisy" || type === "mini-sunflower") {
+          const petalRing = document.createElement("div");
+          petalRing.className = "petal-ring";
+          const petalCount = type === "mini-sunflower" ? 12 : 8;
+          for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement("div");
+            petal.className = "mini-petal";
+            const angle = (360 / petalCount) * i;
+            petal.style.transform = `translateX(-50%) translateY(-100%) rotate(${angle}deg)`;
+            petalRing.appendChild(petal);
+          }
+          miniFlower.appendChild(petalRing);
+        }
+
+        miniFlower.appendChild(bloom);
+        flower.appendChild(miniFlower);
+
+        // Position flowers in a garden pattern (bottom area)
+        const cols = Math.ceil(Math.sqrt(total * 2));
+        const row = Math.floor(index / cols);
+        const col = index % cols;
+
+        const baseX = (col / cols) * 90 + 5 + (Math.random() - 0.5) * 8;
+        const baseY = 55 + row * 12 + (Math.random() - 0.5) * 5;
+
+        flower.style.left = `${baseX}%`;
+        flower.style.top = `${baseY}%`;
+        flower.style.animationDelay = `${index * 0.08}s`;
+        flower.style.animationDuration = `${0.6 + Math.random() * 0.4}s, ${
+          2.5 + Math.random() * 1.5
+        }s`;
+
+        // Random size variation
+        const scale = 0.7 + Math.random() * 0.6;
+        flower.style.setProperty("--scale", scale);
+        flower.querySelector(
+          ".mini-flower"
+        ).style.transform = `scale(${scale})`;
+
+        gardenOverlay.appendChild(flower);
+      }
+
+      function createGardenButterfly() {
+        const butterfly = document.createElement("div");
+        butterfly.className = "garden-butterfly";
+        butterfly.textContent =
+          butterflies[Math.floor(Math.random() * butterflies.length)];
+        butterfly.style.left = `${20 + Math.random() * 60}%`;
+        butterfly.style.top = `${30 + Math.random() * 40}%`;
+        butterfly.style.animationDelay = `${Math.random() * 3}s`;
+        butterfly.style.animationDuration = `${6 + Math.random() * 4}s`;
+        gardenOverlay.appendChild(butterfly);
+      }
+
+      function createGardenSparkle() {
+        const sparkle = document.createElement("div");
+        sparkle.className = "garden-sparkle";
+        sparkle.style.left = `${Math.random() * 100}%`;
+        sparkle.style.top = `${Math.random() * 100}%`;
+        sparkle.style.animationDelay = `${Math.random() * 4}s`;
+        gardenOverlay.appendChild(sparkle);
+      }
+
+      function showGarden() {
+        gardenOverlay.classList.add("show");
+
+        // Create lots of flowers
+        const flowerCount = 45;
+        for (let i = 0; i < flowerCount; i++) {
+          createGardenFlower(i, flowerCount);
+        }
+
+        // Add butterflies
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => createGardenButterfly(), i * 500);
+        }
+
+        // Add sparkles
+        for (let i = 0; i < 30; i++) {
+          createGardenSparkle();
+        }
+      }
+
+      function hideGarden() {
+        gardenOverlay.classList.remove("show");
+        // Clear flowers after animation
+        setTimeout(() => {
+          const flowers = gardenOverlay.querySelectorAll(
+            ".garden-flower, .garden-butterfly, .garden-sparkle"
+          );
+          flowers.forEach((f) => f.remove());
+        }, 800);
+      }
+
+      tulipContainer.addEventListener("click", showGarden);
+      gardenClose.addEventListener("click", hideGarden);
+
+      // ===============================
       // NEW YEAR COUNTDOWN
       // ===============================
-      const countdownOverlay = document.getElementById('countdown-overlay');
-      const daysEl = document.getElementById('days');
-      const hoursEl = document.getElementById('hours');
-      const minutesEl = document.getElementById('minutes');
-      const secondsEl = document.getElementById('seconds');
-      
+      const countdownOverlay = document.getElementById("countdown-overlay");
+      const daysEl = document.getElementById("days");
+      const hoursEl = document.getElementById("hours");
+      const minutesEl = document.getElementById("minutes");
+      const secondsEl = document.getElementById("seconds");
+
       // Set target to January 1, 2025 at midnight
-      const newYearDate = new Date('January 1, 2026 00:00:00').getTime();
-      
+      const newYearDate = new Date("January 1, 2026 00:00:00").getTime();
+
       // Create floating hearts in countdown
       function createCountdownHeart() {
-        if (countdownOverlay.classList.contains('hidden')) return;
-        
-        const heart = document.createElement('div');
-        heart.className = 'countdown-heart';
-        heart.innerHTML = '✨';
-        heart.style.left = Math.random() * 100 + '%';
-        heart.style.animationDuration = (15 + Math.random() * 10) + 's';
+        if (countdownOverlay.classList.contains("hidden")) return;
+
+        const heart = document.createElement("div");
+        heart.className = "countdown-heart";
+        heart.innerHTML = "✨";
+        heart.style.left = Math.random() * 100 + "%";
+        heart.style.animationDuration = 15 + Math.random() * 10 + "s";
         countdownOverlay.appendChild(heart);
-        
+
         setTimeout(() => heart.remove(), 25000);
       }
-      
+
       // Start floating hearts
       setInterval(createCountdownHeart, 2000);
       for (let i = 0; i < 5; i++) {
         setTimeout(createCountdownHeart, i * 400);
       }
-      
+
       function updateCountdown() {
         const now = new Date().getTime();
         const distance = newYearDate - now;
-        
+
         if (distance <= 0) {
           // It's New Year! Reveal everything!
           revealNewYear();
           return;
         }
-        
+
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        
-        daysEl.textContent = days.toString().padStart(2, '0');
-        hoursEl.textContent = hours.toString().padStart(2, '0');
-        minutesEl.textContent = minutes.toString().padStart(2, '0');
-        secondsEl.textContent = seconds.toString().padStart(2, '0');
+
+        daysEl.textContent = days.toString().padStart(2, "0");
+        hoursEl.textContent = hours.toString().padStart(2, "0");
+        minutesEl.textContent = minutes.toString().padStart(2, "0");
+        secondsEl.textContent = seconds.toString().padStart(2, "0");
       }
-      
+
       function revealNewYear() {
         // Create flash effect
-        const flash = document.createElement('div');
-        flash.className = 'reveal-flash';
+        const flash = document.createElement("div");
+        flash.className = "reveal-flash";
         document.body.appendChild(flash);
-        
+
         // Hide countdown overlay
         setTimeout(() => {
-          countdownOverlay.classList.add('hidden');
-          
+          countdownOverlay.classList.add("hidden");
+
           // Trigger confetti burst
           for (let i = 0; i < 5; i++) {
             setTimeout(() => createConfetti(), i * 300);
           }
-          
+
           // Play music
-          const bgMusic = document.getElementById('bg-music');
+          const bgMusic = document.getElementById("bg-music");
           bgMusic.volume = 0.5;
           bgMusic.play();
-          
+
           // Remove flash
           setTimeout(() => flash.remove(), 2000);
         }, 500);
       }
-      
+
       // Check if already past New Year (for testing or if opened after midnight)
       const now = new Date().getTime();
       if (now >= newYearDate) {
         // Already New Year, show page immediately
-        countdownOverlay.classList.add('hidden');
+        countdownOverlay.classList.add("hidden");
       } else {
         // Start countdown
         updateCountdown();
@@ -3183,9 +4190,9 @@
       animateParticles();
 
       // Trigger confetti on page load (only if countdown is done)
-      if (countdownOverlay.classList.contains('hidden')) {
+      if (countdownOverlay.classList.contains("hidden")) {
         createConfetti();
-        
+
         // Play background music
         const bgMusic = document.getElementById("bg-music");
         bgMusic.volume = 0.5;
@@ -3221,4 +4228,3 @@
     </script>
   </body>
 </html>
-
