@@ -642,11 +642,11 @@
 
       /* Confetti Button */
       .confetti-btn {
-        position: fixed;
+        position: absolute;
         bottom: 30px;
         right: 30px;
-        width: 70px;
-        height: 70px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
         background: linear-gradient(
           135deg,
@@ -658,11 +658,11 @@
         box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4),
           0 0 40px rgba(251, 191, 36, 0.3), inset 0 -2px 10px rgba(0, 0, 0, 0.2);
         cursor: pointer;
-        z-index: 9999;
+        z-index: 100;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 2rem;
+        font-size: 1.8rem;
         transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         animation: confetti-pulse 2s ease-in-out infinite;
       }
@@ -2189,6 +2189,235 @@
           transform: translateY(-30px) scale(1);
         }
       }
+
+      /* ================================
+         FIREWORKS EFFECT
+         ================================ */
+      .firework {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      .firework-particle {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      .firework-trail {
+        position: fixed;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+      }
+
+      /* Firework launch button */
+      .firework-btn {
+        position: absolute;
+        bottom: 100px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          #ef4444 0%,
+          #f97316 50%,
+          #eab308 100%
+        );
+        border: 3px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4),
+          0 0 40px rgba(239, 68, 68, 0.3), inset 0 -2px 10px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        animation: firework-btn-pulse 2s ease-in-out infinite;
+      }
+
+      /* Button container at bottom of page */
+      .bottom-buttons-container {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        margin-top: 40px;
+      }
+
+      .firework-btn:hover {
+        transform: scale(1.15) rotate(15deg);
+        box-shadow: 0 6px 30px rgba(239, 68, 68, 0.6),
+          0 0 60px rgba(239, 68, 68, 0.5);
+      }
+
+      .firework-btn:active {
+        transform: scale(0.95) rotate(-15deg);
+      }
+
+      @keyframes firework-btn-pulse {
+        0%,
+        100% {
+          box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4),
+            0 0 40px rgba(239, 68, 68, 0.3);
+        }
+        50% {
+          box-shadow: 0 6px 25px rgba(239, 68, 68, 0.6),
+            0 0 50px rgba(239, 68, 68, 0.5);
+        }
+      }
+
+      /* ================================
+         FIREWORKS OVERLAY
+         ================================ */
+      .fireworks-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          ellipse at bottom,
+          #1a0a2e 0%,
+          #0a0a1a 40%,
+          #000005 100%
+        );
+        z-index: 99999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.8s ease;
+        overflow: hidden;
+      }
+
+      .fireworks-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .fireworks-overlay .fw-star {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        will-change: opacity;
+      }
+
+      .fireworks-overlay .fw-star.twinkle {
+        animation: fw-star-twinkle 3s ease-in-out infinite;
+      }
+
+      @keyframes fw-star-twinkle {
+        0%, 100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .fireworks-close {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .fireworks-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1) rotate(90deg);
+      }
+
+      .fireworks-message {
+        position: absolute;
+        bottom: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.8rem;
+        color: white;
+        text-align: center;
+        padding: 20px 40px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 25px;
+        border: 1px solid rgba(251, 191, 36, 0.4);
+        backdrop-filter: blur(10px);
+        animation: messageGlow 3s ease-in-out infinite;
+      }
+
+      .fw-particle {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        will-change: transform, opacity;
+      }
+
+      .fw-trail {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        pointer-events: none;
+        will-change: transform;
+      }
+
+      /* ================================
+         STAR TRAIL CURSOR
+         ================================ */
+      .cursor-star {
+        position: fixed;
+        pointer-events: none;
+        z-index: 99999;
+        font-size: 12px;
+        animation: cursor-star-fade 0.8s ease-out forwards;
+        text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+      }
+
+      .cursor-sparkle {
+        position: fixed;
+        pointer-events: none;
+        z-index: 99999;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        animation: cursor-sparkle-fade 0.6s ease-out forwards;
+      }
+
+      @keyframes cursor-star-fade {
+        0% {
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0) rotate(180deg) translateY(-20px);
+        }
+      }
+
+      @keyframes cursor-sparkle-fade {
+        0% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0) translateY(-15px);
+        }
+      }
     </style>
   </head>
 
@@ -2797,12 +3026,26 @@
           ✨
         </button>
       </section>
+
+      <!-- Bottom Buttons Container -->
+      <div class="bottom-buttons-container">
+        <!-- Confetti Button -->
+        <button id="confetti-btn" class="confetti-btn" title="Celebrate!">
+          🎉
+        </button>
+
+        <!-- Firework Button -->
+        <button class="firework-btn" id="firework-btn" title="Launch Fireworks! 🎆">
+          🎆
+        </button>
+      </div>
     </main>
 
-    <!-- Confetti Button -->
-    <button id="confetti-btn" class="confetti-btn" title="Celebrate!">
-      🎉
-    </button>
+    <!-- Fireworks Overlay -->
+    <div class="fireworks-overlay" id="fireworks-overlay">
+      <button class="fireworks-close" id="fireworks-close">✕</button>
+      <div class="fireworks-message">✨ Happiest New Year, drishtiiiiiiiii! ✨</div>
+    </div>
 
     <!-- Fighter Jet Launcher -->
     <button class="jet-launcher" id="jet-launcher" title="Launch Fighter Jet!">
@@ -3184,7 +3427,7 @@
       const secondsEl = document.getElementById("seconds");
 
       // Set target to January 1, 2025 at midnight
-      const newYearDate = new Date("January 1, 2026 00:00:00").getTime();
+      const newYearDate = new Date("January 1, 2026  00:00:00").getTime();
 
       // Create floating hearts in countdown
       function createCountdownHeart() {
@@ -4179,6 +4422,287 @@
             createPolaroid(memory, index, memories.length);
           });
           polaroidsVisible = true;
+        }
+      });
+
+      // ===============================
+      // FIREWORKS EFFECT WITH OVERLAY
+      // ===============================
+      const fireworkBtn = document.getElementById('firework-btn');
+      const fireworksOverlay = document.getElementById('fireworks-overlay');
+      const fireworksClose = document.getElementById('fireworks-close');
+      let fireworksActive = false;
+      let fireworkInterval = null;
+
+      const fireworkColors = [
+        ['#fbbf24', '#f59e0b', '#d97706'], // Gold
+        ['#f472b6', '#ec4899', '#db2777'], // Pink
+        ['#a78bfa', '#8b5cf6', '#7c3aed'], // Purple
+        ['#67e8f9', '#22d3ee', '#06b6d4'], // Cyan
+        ['#34d399', '#10b981', '#059669'], // Emerald
+        ['#fb7185', '#f43f5e', '#e11d48'], // Rose
+        ['#fcd34d', '#fbbf24', '#f59e0b'], // Amber
+        ['#c4b5fd', '#a78bfa', '#8b5cf6'], // Violet
+      ];
+
+      // Create stars in the overlay (optimized)
+      function createOverlayStars() {
+        const starCount = 80; // Reduced for performance
+        for (let i = 0; i < starCount; i++) {
+          const star = document.createElement('div');
+          star.className = 'fw-star';
+          // Only animate some stars for performance
+          if (i % 3 === 0) star.classList.add('twinkle');
+          star.style.cssText = `
+            left: ${Math.random() * 100}%;
+            top: ${Math.random() * 100}%;
+            width: ${1 + Math.random() * 2}px;
+            height: ${1 + Math.random() * 2}px;
+            opacity: ${0.3 + Math.random() * 0.7};
+            animation-delay: ${Math.random() * 3}s;
+          `;
+          fireworksOverlay.appendChild(star);
+        }
+      }
+
+      function createFwParticle(x, y, color, angle, speed, size, container) {
+        const particle = document.createElement('div');
+        particle.className = 'fw-particle';
+        particle.style.cssText = `
+          left: 0; top: 0;
+          width: ${size}px; height: ${size}px;
+          background: ${color};
+          box-shadow: 0 0 ${size}px ${color};
+          transform: translate(${x}px, ${y}px);
+        `;
+        container.appendChild(particle);
+
+        const vx = Math.cos(angle) * speed;
+        let vy = Math.sin(angle) * speed;
+        let opacity = 1;
+        let posX = x;
+        let posY = y;
+        const gravity = 0.15;
+
+        function animate() {
+          if (!fireworksActive) { particle.remove(); return; }
+          posX += vx;
+          vy += gravity;
+          posY += vy;
+          opacity -= 0.025; // Faster fade for less particles on screen
+
+          if (opacity > 0) {
+            particle.style.transform = `translate(${posX}px, ${posY}px) scale(${opacity})`;
+            particle.style.opacity = opacity;
+            requestAnimationFrame(animate);
+          } else {
+            particle.remove();
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+
+      function createFwTrail(startX, startY, endY, color, container, callback) {
+        const trail = document.createElement('div');
+        trail.className = 'fw-trail';
+        trail.style.cssText = `
+          left: 0; top: 0;
+          background: ${color};
+          box-shadow: 0 0 6px ${color};
+          transform: translate(${startX}px, ${startY}px);
+        `;
+        container.appendChild(trail);
+
+        let currentY = startY;
+        const speed = 14; // Faster ascent
+
+        function animateTrail() {
+          if (!fireworksActive) { trail.remove(); return; }
+          currentY -= speed;
+          trail.style.transform = `translate(${startX}px, ${currentY}px)`;
+
+          if (currentY > endY) {
+            requestAnimationFrame(animateTrail);
+          } else {
+            trail.remove();
+            callback();
+          }
+        }
+        requestAnimationFrame(animateTrail);
+      }
+
+      function createFwExplosion(x, y, container) {
+        const colorSet = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
+        const particleCount = 40 + Math.floor(Math.random() * 20); // Reduced from 100-150 to 40-60
+
+        for (let i = 0; i < particleCount; i++) {
+          const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.5;
+          const speed = 2 + Math.random() * 5;
+          const size = 4 + Math.random() * 4;
+          const color = colorSet[Math.floor(Math.random() * colorSet.length)];
+          
+          if (fireworksActive) {
+            createFwParticle(x, y, color, angle, speed, size, container);
+          }
+        }
+
+        // Simple flash without complex gradient
+        const flash = document.createElement('div');
+        flash.style.cssText = `
+          position: absolute; left: 0; top: 0;
+          width: 20px; height: 20px;
+          background: white;
+          border-radius: 50%;
+          transform: translate(${x - 10}px, ${y - 10}px);
+          pointer-events: none;
+          opacity: 1;
+        `;
+        container.appendChild(flash);
+        
+        let flashOpacity = 1;
+        function fadeFlash() {
+          flashOpacity -= 0.1;
+          if (flashOpacity > 0) {
+            flash.style.opacity = flashOpacity;
+            flash.style.transform = `translate(${x - 10 - (1-flashOpacity)*10}px, ${y - 10 - (1-flashOpacity)*10}px) scale(${1 + (1-flashOpacity)*2})`;
+            requestAnimationFrame(fadeFlash);
+          } else {
+            flash.remove();
+          }
+        }
+        requestAnimationFrame(fadeFlash);
+      }
+
+      function launchOverlayFirework() {
+        if (!fireworksActive) return;
+        
+        const rect = fireworksOverlay.getBoundingClientRect();
+        const startX = Math.random() * rect.width * 0.7 + rect.width * 0.15;
+        const startY = rect.height;
+        const endY = rect.height * 0.1 + Math.random() * rect.height * 0.4;
+        const colorSet = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
+
+        createFwTrail(startX, startY, endY, colorSet[0], fireworksOverlay, () => {
+          if (fireworksActive) {
+            createFwExplosion(startX, endY, fireworksOverlay);
+          }
+        });
+      }
+
+      function startContinuousFireworks() {
+        fireworksActive = true;
+        
+        // Initial burst of fireworks
+        for (let i = 0; i < 2; i++) {
+          setTimeout(() => launchOverlayFirework(), i * 500);
+        }
+
+        // Continuous fireworks - reduced frequency
+        fireworkInterval = setInterval(() => {
+          if (fireworksActive) {
+            launchOverlayFirework();
+          }
+        }, 1200); // Launch one firework every 1.2 seconds
+      }
+
+      function stopContinuousFireworks() {
+        fireworksActive = false;
+        if (fireworkInterval) {
+          clearInterval(fireworkInterval);
+          fireworkInterval = null;
+        }
+        // Clean up remaining particles
+        const particles = fireworksOverlay.querySelectorAll('.fw-particle, .fw-trail');
+        particles.forEach(p => p.remove());
+      }
+
+      function openFireworksOverlay() {
+        fireworksOverlay.classList.add('show');
+        startContinuousFireworks();
+      }
+
+      function closeFireworksOverlay() {
+        stopContinuousFireworks();
+        fireworksOverlay.classList.remove('show');
+      }
+
+      // Initialize stars once
+      createOverlayStars();
+
+      fireworkBtn.addEventListener('click', openFireworksOverlay);
+      fireworksClose.addEventListener('click', closeFireworksOverlay);
+
+      // Close on escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && fireworksOverlay.classList.contains('show')) {
+          closeFireworksOverlay();
+        }
+      });
+
+      // ===============================
+      // STAR TRAIL CURSOR
+      // ===============================
+      const starTrailColors = ['#fbbf24', '#f472b6', '#a78bfa', '#67e8f9', '#34d399', '#fcd34d'];
+      const starSymbols = ['✨', '⭐', '💫', '✧', '★', '·'];
+      let lastCursorX = 0;
+      let lastCursorY = 0;
+      let cursorThrottle = 0;
+
+      function createCursorStar(x, y) {
+        const star = document.createElement('div');
+        star.className = 'cursor-star';
+        star.textContent = starSymbols[Math.floor(Math.random() * starSymbols.length)];
+        star.style.left = (x + (Math.random() - 0.5) * 20) + 'px';
+        star.style.top = (y + (Math.random() - 0.5) * 20) + 'px';
+        star.style.color = starTrailColors[Math.floor(Math.random() * starTrailColors.length)];
+        star.style.fontSize = (8 + Math.random() * 8) + 'px';
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 800);
+      }
+
+      function createCursorSparkle(x, y) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'cursor-sparkle';
+        sparkle.style.left = (x + (Math.random() - 0.5) * 30) + 'px';
+        sparkle.style.top = (y + (Math.random() - 0.5) * 30) + 'px';
+        const color = starTrailColors[Math.floor(Math.random() * starTrailColors.length)];
+        sparkle.style.background = color;
+        sparkle.style.boxShadow = `0 0 6px ${color}, 0 0 12px ${color}`;
+        sparkle.style.width = (3 + Math.random() * 4) + 'px';
+        sparkle.style.height = sparkle.style.width;
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 600);
+      }
+
+      document.addEventListener('mousemove', (e) => {
+        const now = Date.now();
+        if (now - cursorThrottle < 30) return; // Throttle to ~33fps
+        cursorThrottle = now;
+
+        const dx = e.clientX - lastCursorX;
+        const dy = e.clientY - lastCursorY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        // Only create trail when moving
+        if (distance > 5) {
+          // Create stars based on movement speed
+          if (Math.random() > 0.4) {
+            createCursorStar(e.clientX, e.clientY);
+          }
+          if (Math.random() > 0.6) {
+            createCursorSparkle(e.clientX, e.clientY);
+          }
+        }
+
+        lastCursorX = e.clientX;
+        lastCursorY = e.clientY;
+      });
+
+      // Touch support for mobile
+      document.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        if (Math.random() > 0.5) {
+          createCursorStar(touch.clientX, touch.clientY);
         }
       });
 
