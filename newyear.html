@@ -139,6 +139,100 @@
           0 0 60px rgba(212, 175, 55, 0.15);
       }
 
+      /* Tickle animation for cards */
+      .glass-card.tickled {
+        animation: tickle 0.5s ease-in-out;
+      }
+
+      @keyframes tickle {
+        0% { transform: translateY(-8px) scale(1.01) rotate(0deg); }
+        10% { transform: translateY(-10px) scale(1.02) rotate(-2deg); }
+        20% { transform: translateY(-6px) scale(1.03) rotate(2deg); }
+        30% { transform: translateY(-12px) scale(1.02) rotate(-1.5deg); }
+        40% { transform: translateY(-8px) scale(1.04) rotate(1.5deg); }
+        50% { transform: translateY(-10px) scale(1.02) rotate(-1deg); }
+        60% { transform: translateY(-6px) scale(1.03) rotate(1deg); }
+        70% { transform: translateY(-12px) scale(1.02) rotate(-0.5deg); }
+        80% { transform: translateY(-8px) scale(1.01) rotate(0.5deg); }
+        90% { transform: translateY(-10px) scale(1.01) rotate(-0.25deg); }
+        100% { transform: translateY(-8px) scale(1.01) rotate(0deg); }
+      }
+
+      /* Giggle particles that spawn on tickle */
+      .giggle-particle {
+        position: absolute;
+        pointer-events: none;
+        font-size: 1.2rem;
+        animation: giggle-float 1s ease-out forwards;
+        z-index: 100;
+      }
+
+      @keyframes giggle-float {
+        0% {
+          opacity: 1;
+          transform: translateY(0) scale(0.5) rotate(0deg);
+        }
+        50% {
+          opacity: 1;
+          transform: translateY(-30px) scale(1.2) rotate(15deg);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-60px) scale(0.8) rotate(-10deg);
+        }
+      }
+
+      /* Tickle popup text */
+      .tickle-popup {
+        position: fixed;
+        pointer-events: none;
+        font-family: 'Quicksand', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #f472b6;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 10px 18px;
+        border-radius: 20px;
+        border: 2px solid rgba(244, 114, 182, 0.5);
+        box-shadow: 0 4px 20px rgba(244, 114, 182, 0.3),
+          0 0 30px rgba(244, 114, 182, 0.2);
+        z-index: 10000;
+        white-space: nowrap;
+        animation: tickle-popup-anim 1.5s ease-out forwards;
+        text-shadow: 0 0 10px rgba(244, 114, 182, 0.5);
+      }
+
+      @keyframes tickle-popup-anim {
+        0% {
+          opacity: 0;
+          transform: translateY(10px) scale(0.8);
+        }
+        15% {
+          opacity: 1;
+          transform: translateY(-5px) scale(1.1);
+        }
+        25% {
+          transform: translateY(0) scale(1) rotate(-2deg);
+        }
+        35% {
+          transform: rotate(2deg);
+        }
+        45% {
+          transform: rotate(-1deg);
+        }
+        55% {
+          transform: rotate(1deg);
+        }
+        70% {
+          opacity: 1;
+          transform: translateY(-10px) rotate(0deg);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-30px) scale(0.9);
+        }
+      }
+
       /* Gold gradient text */
       .gold-gradient {
         background: linear-gradient(
@@ -1906,7 +2000,10 @@
         background: rgba(0, 0, 0, 0.5);
         border-radius: 30px;
         border: 2px solid rgba(244, 114, 182, 0.4);
-        position: relative;
+        position: absolute;
+        top: 70px;
+        left: 50%;
+        transform: translateX(-50%);
         z-index: 10;
         max-width: 90%;
         line-height: 1.6;
@@ -2188,6 +2285,112 @@
           opacity: 1;
           transform: translateY(-30px) scale(1);
         }
+      }
+
+      /* Garden grass */
+      .garden-grass {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 35%;
+        pointer-events: none;
+        z-index: 5;
+      }
+
+      .garden-grass::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 30%;
+        background: linear-gradient(180deg, rgba(20, 83, 45, 0.0) 0%, rgba(20, 83, 45, 0.25) 40%, rgba(12, 50, 30, 0.45) 100%);
+      }
+
+      .grass-layer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .grass-blade {
+        position: absolute;
+        bottom: 0;
+        width: 2px;
+        height: var(--blade-h, 90px);
+        background: linear-gradient(180deg, #1e7a46 0%, #22c55e 60%, #14532d 100%);
+        border-radius: 2px;
+        transform-origin: bottom center;
+        transform: rotate(var(--lean, -2deg));
+        opacity: 0.9;
+        box-shadow: 0 0 6px rgba(34, 197, 94, 0.25);
+        animation: grass-sway var(--sway-dur, 4s) ease-in-out var(--sway-delay, 0s) infinite;
+      }
+
+      .grass-blade::after {
+        content: "";
+        position: absolute;
+        left: -1px;
+        top: 20%;
+        width: 1px;
+        height: 40%;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+      }
+
+      .grass-layer.far .grass-blade {
+        height: calc(var(--blade-h, 90px) * 0.7);
+        opacity: 0.7;
+        filter: blur(0.6px);
+      }
+
+      @keyframes grass-sway {
+        0%, 100% { transform: rotate(calc(var(--lean, -2deg) - 1deg)); }
+        50% { transform: rotate(calc(var(--lean, -2deg) + 1deg)); }
+      }
+
+      /* Wind gust effect: temporarily stronger sway */
+      .garden-grass.gust .grass-blade {
+        animation: grass-gust var(--gust-dur, 1.8s) ease-in-out var(--sway-delay, 0s) 3;
+      }
+
+      @keyframes grass-gust {
+        0%   { transform: rotate(calc(var(--lean, -2deg) - 1deg)); }
+        30%  { transform: rotate(calc(var(--lean, -2deg) - 6deg)); }
+        60%  { transform: rotate(calc(var(--lean, -2deg) + 3deg)); }
+        100% { transform: rotate(calc(var(--lean, -2deg) - 1deg)); }
+      }
+
+      /* Dew droplets on grass */
+      .dew-layer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 38%;
+        pointer-events: none;
+      }
+
+      .grass-dew {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.0) 100%);
+        box-shadow: 0 0 6px rgba(200, 255, 220, 0.6), 0 0 12px rgba(200, 255, 220, 0.3);
+        opacity: 0.9;
+        animation: dew-twinkle 3.5s ease-in-out infinite;
+      }
+
+      @keyframes dew-twinkle {
+        0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
+        50% { transform: translateY(-2px) scale(1.1); opacity: 1; }
+      }
+
+      @media (max-width: 768px) {
+        .garden-grass { height: 40%; }
       }
 
       /* ================================
@@ -2913,7 +3116,6 @@
           font-size: 0.9rem;
         }
         
-        .garden-message,
         .constellation-message,
         .fireworks-message {
           bottom: 20px;
@@ -3092,6 +3294,9 @@
               <br /><span class="text-lg sm:text-xl text-gray-400 italic"
                 >(in the best way possible)</span
               >
+            </p>
+            <p class="text-xs text-gray-500/60 mt-6 italic text-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer select-none">
+              psst... don't click on me too much 😬
             </p>
           </div>
         </div>
@@ -3944,8 +4149,99 @@
         gardenOverlay.appendChild(sparkle);
       }
 
+      // Create animated grass at the bottom of the garden
+      function createGardenGrass() {
+        // Avoid duplicating grass on repeated opens
+        if (gardenOverlay.querySelector('.garden-grass')) return;
+
+        const grass = document.createElement('div');
+        grass.className = 'garden-grass';
+
+        const nearLayer = document.createElement('div');
+        nearLayer.className = 'grass-layer near';
+        const farLayer = document.createElement('div');
+        farLayer.className = 'grass-layer far';
+        const dewLayer = document.createElement('div');
+        dewLayer.className = 'dew-layer';
+
+        const bladeCountNear = 90;
+        const bladeCountFar = 70;
+
+        for (let i = 0; i < bladeCountFar; i++) {
+          const blade = document.createElement('div');
+          blade.className = 'grass-blade';
+          const left = Math.random() * 100;
+          const h = 70 + Math.random() * 60; // 70-130px
+          const lean = (Math.random() - 0.5) * 6; // -3 to +3 deg
+          const dur = 3.5 + Math.random() * 2; // 3.5-5.5s
+          const delay = Math.random() * 2;
+          blade.style.left = `${left}%`;
+          blade.style.setProperty('--blade-h', `${h}px`);
+          blade.style.setProperty('--lean', `${lean}deg`);
+          blade.style.setProperty('--sway-dur', `${dur}s`);
+          blade.style.setProperty('--sway-delay', `${delay}s`);
+          farLayer.appendChild(blade);
+        }
+
+        for (let i = 0; i < bladeCountNear; i++) {
+          const blade = document.createElement('div');
+          blade.className = 'grass-blade';
+          const left = Math.random() * 100;
+          const h = 90 + Math.random() * 90; // 90-180px
+          const lean = (Math.random() - 0.5) * 8; // -4 to +4 deg
+          const dur = 3 + Math.random() * 2.5; // 3-5.5s
+          const delay = Math.random() * 2;
+          blade.style.left = `${left}%`;
+          blade.style.setProperty('--blade-h', `${h}px`);
+          blade.style.setProperty('--lean', `${lean}deg`);
+          blade.style.setProperty('--sway-dur', `${dur}s`);
+          blade.style.setProperty('--sway-delay', `${delay}s`);
+          nearLayer.appendChild(blade);
+        }
+
+        // Dew drops: fewer on small screens
+        const isMobile = window.innerWidth < 480;
+        const dewCount = isMobile ? 35 : 70;
+        for (let i = 0; i < dewCount; i++) {
+          const dew = document.createElement('div');
+          dew.className = 'grass-dew';
+          dew.style.left = `${Math.random() * 100}%`;
+          // Place dew along lower half of grass
+          dew.style.bottom = `${8 + Math.random() * 25}%`;
+          dew.style.animationDelay = `${Math.random() * 3}s`;
+          dewLayer.appendChild(dew);
+        }
+
+        grass.appendChild(farLayer);
+        grass.appendChild(nearLayer);
+        grass.appendChild(dewLayer);
+        gardenOverlay.appendChild(grass);
+      }
+
+      // Schedule gentle wind gusts while garden is open
+      let gustTimer = null;
+      function scheduleWindGusts() {
+        const grass = gardenOverlay.querySelector('.garden-grass');
+        if (!grass) return;
+        const trigger = () => {
+          // Randomize gust duration slightly
+          const gustDur = 1.6 + Math.random() * 0.8;
+          grass.style.setProperty('--gust-dur', `${gustDur}s`);
+          grass.classList.add('gust');
+          setTimeout(() => grass.classList.remove('gust'), (gustDur * 3 + 0.3) * 1000);
+          const next = 5000 + Math.random() * 7000; // 5-12s
+          gustTimer = setTimeout(trigger, next);
+        };
+        // Start after a short delay for drama
+        gustTimer = setTimeout(trigger, 2000 + Math.random() * 2000);
+      }
+
       function showGarden() {
         gardenOverlay.classList.add("show");
+
+        // Add grass backdrop
+        createGardenGrass();
+        scheduleWindGusts();
 
         // Create lots of flowers
         const flowerCount = 45;
@@ -3969,10 +4265,14 @@
         // Clear flowers after animation
         setTimeout(() => {
           const flowers = gardenOverlay.querySelectorAll(
-            ".garden-flower, .garden-butterfly, .garden-sparkle"
+            ".garden-flower, .garden-butterfly, .garden-sparkle, .garden-grass"
           );
           flowers.forEach((f) => f.remove());
         }, 800);
+        if (gustTimer) {
+          clearTimeout(gustTimer);
+          gustTimer = null;
+        }
       }
 
       tulipContainer.addEventListener("click", showGarden);
@@ -4394,6 +4694,102 @@
           });
         });
       });
+
+      // ===============================
+      // Tickle Effect on Card Click
+      // ===============================
+      const giggleEmojis = ['😊', '😄', '🤭', '✨', '💫', '🌟', '💖', '🥰', '😆', '🫣'];
+      
+      document.querySelectorAll('.reveal .glass-card').forEach(card => {
+        card.style.cursor = 'pointer';
+        
+        card.addEventListener('click', (e) => {
+          // Don't trigger if clicking a link
+          if (e.target.tagName === 'A') return;
+          
+          // Remove class if already animating, then add it fresh
+          card.classList.remove('tickled');
+          // Force reflow to restart animation
+          void card.offsetWidth;
+          card.classList.add('tickled');
+          
+          // Play a playful sound
+          playTickleSound();
+          
+          // Create giggle particles
+          const rect = card.getBoundingClientRect();
+          const particleCount = 5 + Math.floor(Math.random() * 4);
+          
+          for (let i = 0; i < particleCount; i++) {
+            setTimeout(() => {
+              const particle = document.createElement('div');
+              particle.className = 'giggle-particle';
+              particle.textContent = giggleEmojis[Math.floor(Math.random() * giggleEmojis.length)];
+              
+              // Random position along the top of the card
+              const x = rect.left + Math.random() * rect.width;
+              const y = rect.top + Math.random() * (rect.height * 0.5);
+              
+              particle.style.position = 'fixed';
+              particle.style.left = x + 'px';
+              particle.style.top = y + 'px';
+              
+              document.body.appendChild(particle);
+              
+              setTimeout(() => particle.remove(), 1000);
+            }, i * 80);
+          }
+          
+          // Show tickle popup text
+          const popup = document.createElement('div');
+          popup.className = 'tickle-popup';
+          popup.textContent = 'Staaawwwppp tickling meeeeh XD XD XDDD';
+          
+          // Position above the card center
+          const rect2 = card.getBoundingClientRect();
+          popup.style.left = (rect2.left + rect2.width / 2) + 'px';
+          popup.style.top = (rect2.top - 20) + 'px';
+          popup.style.transform = 'translateX(-50%)';
+          
+          document.body.appendChild(popup);
+          
+          setTimeout(() => popup.remove(), 1500);
+          
+          // Remove animation class after it completes
+          setTimeout(() => {
+            card.classList.remove('tickled');
+          }, 500);
+        });
+      });
+
+      // Playful tickle sound
+      function playTickleSound() {
+        if (!sfxAudioContext) return;
+        initAudioContext();
+        
+        // Create a playful ascending chirp
+        const now = sfxAudioContext.currentTime;
+        
+        for (let i = 0; i < 3; i++) {
+          const oscillator = sfxAudioContext.createOscillator();
+          const gainNode = sfxAudioContext.createGain();
+          
+          oscillator.connect(gainNode);
+          gainNode.connect(sfxAudioContext.destination);
+          
+          oscillator.type = 'sine';
+          const baseFreq = 600 + i * 150;
+          oscillator.frequency.setValueAtTime(baseFreq, now + i * 0.08);
+          oscillator.frequency.exponentialRampToValueAtTime(baseFreq * 1.3, now + i * 0.08 + 0.1);
+          
+          gainNode.gain.setValueAtTime(0, now + i * 0.08);
+          gainNode.gain.linearRampToValueAtTime(0.08, now + i * 0.08 + 0.02);
+          gainNode.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.15);
+          
+          oscillator.start(now + i * 0.08);
+          oscillator.stop(now + i * 0.08 + 0.15);
+        }
+      }
 
       // ===============================
       // Floating Lanterns
@@ -5068,34 +5464,108 @@
           sfxAudioContext = new (window.AudioContext || window.webkitAudioContext)();
         }
         if (sfxAudioContext.state === 'suspended') {
-          sfxAudioContext.resume();
+          sfxAudioContext.resume(); 
         }
       }
 
-      // Firework explosion sound
+      // Firework explosion sound - realistic and mesmerizing
       function playFireworkSound() {
         initAudioContext();
-        const oscillator = sfxAudioContext.createOscillator();
-        const gainNode = sfxAudioContext.createGain();
-        const filter = sfxAudioContext.createBiquadFilter();
+        const now = sfxAudioContext.currentTime;
         
-        oscillator.connect(filter);
-        filter.connect(gainNode);
-        gainNode.connect(sfxAudioContext.destination);
+        // Main explosion burst (low frequency boom)
+        const boom = sfxAudioContext.createOscillator();
+        const boomGain = sfxAudioContext.createGain();
+        const boomFilter = sfxAudioContext.createBiquadFilter();
         
-        oscillator.type = 'sawtooth';
-        oscillator.frequency.setValueAtTime(150, sfxAudioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(40, sfxAudioContext.currentTime + 0.5);
+        boom.connect(boomFilter);
+        boomFilter.connect(boomGain);
+        boomGain.connect(sfxAudioContext.destination);
         
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(2000, sfxAudioContext.currentTime);
-        filter.frequency.exponentialRampToValueAtTime(100, sfxAudioContext.currentTime + 0.5);
+        boom.type = 'sawtooth';
+        boom.frequency.setValueAtTime(80, now);
+        boom.frequency.exponentialRampToValueAtTime(20, now + 0.3);
         
-        gainNode.gain.setValueAtTime(0.15, sfxAudioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, sfxAudioContext.currentTime + 0.5);
+        boomFilter.type = 'lowpass';
+        boomFilter.frequency.setValueAtTime(400, now);
+        boomFilter.frequency.exponentialRampToValueAtTime(50, now + 0.3);
+        boomFilter.Q.value = 1;
         
-        oscillator.start();
-        oscillator.stop(sfxAudioContext.currentTime + 0.5);
+        boomGain.gain.setValueAtTime(0.25, now);
+        boomGain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+        
+        boom.start(now);
+        boom.stop(now + 0.3);
+        
+        // High frequency shimmer/sparkle (like stars scattering)
+        const shimmer = sfxAudioContext.createOscillator();
+        const shimmerGain = sfxAudioContext.createGain();
+        const shimmerFilter = sfxAudioContext.createBiquadFilter();
+        
+        shimmer.connect(shimmerFilter);
+        shimmerFilter.connect(shimmerGain);
+        shimmerGain.connect(sfxAudioContext.destination);
+        
+        shimmer.type = 'sine';
+        shimmer.frequency.setValueAtTime(2000, now + 0.05);
+        shimmer.frequency.exponentialRampToValueAtTime(800, now + 0.6);
+        
+        shimmerFilter.type = 'highpass';
+        shimmerFilter.frequency.setValueAtTime(1500, now + 0.05);
+        
+        shimmerGain.gain.setValueAtTime(0.12, now + 0.05);
+        shimmerGain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+        
+        shimmer.start(now + 0.05);
+        shimmer.stop(now + 0.6);
+        
+        // Crackling sparkles (white noise bursts)
+        const bufferSize = sfxAudioContext.sampleRate * 0.5;
+        const crackleBuffer = sfxAudioContext.createBuffer(1, bufferSize, sfxAudioContext.sampleRate);
+        const crackleData = crackleBuffer.getChannelData(0);
+        
+        for (let i = 0; i < bufferSize; i++) {
+          // Create burst pattern with decay
+          const decay = Math.exp(-i / (bufferSize * 0.3));
+          const burst = Math.random() < 0.3 ? (Math.random() * 2 - 1) : 0;
+          crackleData[i] = burst * decay * 0.5;
+        }
+        
+        const crackleSource = sfxAudioContext.createBufferSource();
+        const crackleFilter = sfxAudioContext.createBiquadFilter();
+        const crackleGain = sfxAudioContext.createGain();
+        
+        crackleSource.buffer = crackleBuffer;
+        crackleSource.connect(crackleFilter);
+        crackleFilter.connect(crackleGain);
+        crackleGain.connect(sfxAudioContext.destination);
+        
+        crackleFilter.type = 'bandpass';
+        crackleFilter.frequency.setValueAtTime(3000, now + 0.1);
+        crackleFilter.frequency.exponentialRampToValueAtTime(1000, now + 0.6);
+        crackleFilter.Q.value = 2;
+        
+        crackleGain.gain.setValueAtTime(0.15, now + 0.1);
+        crackleGain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+        
+        crackleSource.start(now + 0.1);
+        
+        // Resonant echo/reverb tail
+        const echo = sfxAudioContext.createOscillator();
+        const echoGain = sfxAudioContext.createGain();
+        
+        echo.connect(echoGain);
+        echoGain.connect(sfxAudioContext.destination);
+        
+        echo.type = 'triangle';
+        echo.frequency.setValueAtTime(150, now + 0.2);
+        echo.frequency.exponentialRampToValueAtTime(80, now + 0.8);
+        
+        echoGain.gain.setValueAtTime(0.08, now + 0.2);
+        echoGain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+        
+        echo.start(now + 0.2);
+        echo.stop(now + 0.8);
       }
 
       // Confetti pop sound
@@ -5139,34 +5609,95 @@
         oscillator.stop(sfxAudioContext.currentTime + 0.1);
       }
 
-      // Whoosh sound for firework launch
+      // Realistic rocket whistle sound for firework launch
       function playWhooshSound() {
         initAudioContext();
-        const bufferSize = sfxAudioContext.sampleRate * 0.3;
-        const buffer = sfxAudioContext.createBuffer(1, bufferSize, sfxAudioContext.sampleRate);
-        const data = buffer.getChannelData(0);
+        const now = sfxAudioContext.currentTime;
+        const duration = 0.8; // Longer, more dramatic launch
+        
+        // Main whistle (ascending pitch like a real rocket)
+        const whistle = sfxAudioContext.createOscillator();
+        const whistleGain = sfxAudioContext.createGain();
+        const whistleFilter = sfxAudioContext.createBiquadFilter();
+        
+        whistle.connect(whistleFilter);
+        whistleFilter.connect(whistleGain);
+        whistleGain.connect(sfxAudioContext.destination);
+        
+        whistle.type = 'sine';
+        // Start low and ascend sharply like a real rocket
+        whistle.frequency.setValueAtTime(200, now);
+        whistle.frequency.exponentialRampToValueAtTime(1500, now + duration * 0.7);
+        whistle.frequency.exponentialRampToValueAtTime(2500, now + duration);
+        
+        whistleFilter.type = 'bandpass';
+        whistleFilter.frequency.setValueAtTime(400, now);
+        whistleFilter.frequency.exponentialRampToValueAtTime(2000, now + duration);
+        whistleFilter.Q.value = 8; // Narrow band for piercing whistle
+        
+        whistleGain.gain.setValueAtTime(0.05, now);
+        whistleGain.gain.linearRampToValueAtTime(0.15, now + duration * 0.3);
+        whistleGain.gain.linearRampToValueAtTime(0.12, now + duration * 0.8);
+        whistleGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+        
+        whistle.start(now);
+        whistle.stop(now + duration);
+        
+        // Rushing air sound (white noise with doppler effect)
+        const bufferSize = sfxAudioContext.sampleRate * duration;
+        const airBuffer = sfxAudioContext.createBuffer(1, bufferSize, sfxAudioContext.sampleRate);
+        const airData = airBuffer.getChannelData(0);
         
         for (let i = 0; i < bufferSize; i++) {
-          data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+          const progress = i / bufferSize;
+          // Increase turbulence as rocket accelerates
+          const intensity = Math.pow(progress, 0.5);
+          airData[i] = (Math.random() * 2 - 1) * intensity * 0.4;
         }
         
-        const source = sfxAudioContext.createBufferSource();
-        const filter = sfxAudioContext.createBiquadFilter();
-        const gainNode = sfxAudioContext.createGain();
+        const airSource = sfxAudioContext.createBufferSource();
+        const airFilter = sfxAudioContext.createBiquadFilter();
+        const airGain = sfxAudioContext.createGain();
         
-        source.buffer = buffer;
-        source.connect(filter);
-        filter.connect(gainNode);
-        gainNode.connect(sfxAudioContext.destination);
+        airSource.buffer = airBuffer;
+        airSource.connect(airFilter);
+        airFilter.connect(airGain);
+        airGain.connect(sfxAudioContext.destination);
         
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(1000, sfxAudioContext.currentTime);
-        filter.frequency.exponentialRampToValueAtTime(3000, sfxAudioContext.currentTime + 0.3);
+        airFilter.type = 'highpass';
+        airFilter.frequency.setValueAtTime(400, now);
+        airFilter.frequency.exponentialRampToValueAtTime(1200, now + duration);
         
-        gainNode.gain.setValueAtTime(0.08, sfxAudioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, sfxAudioContext.currentTime + 0.3);
+        airGain.gain.setValueAtTime(0.06, now);
+        airGain.gain.linearRampToValueAtTime(0.12, now + duration * 0.5);
+        airGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
         
-        source.start();
+        airSource.start(now);
+        
+        // Low rumble (rocket thrust)
+        const rumble = sfxAudioContext.createOscillator();
+        const rumbleGain = sfxAudioContext.createGain();
+        const rumbleFilter = sfxAudioContext.createBiquadFilter();
+        
+        rumble.connect(rumbleFilter);
+        rumbleFilter.connect(rumbleGain);
+        rumbleGain.connect(sfxAudioContext.destination);
+        
+        rumble.type = 'sawtooth';
+        rumble.frequency.setValueAtTime(40, now);
+        rumble.frequency.exponentialRampToValueAtTime(60, now + duration * 0.5);
+        rumble.frequency.exponentialRampToValueAtTime(30, now + duration);
+        
+        rumbleFilter.type = 'lowpass';
+        rumbleFilter.frequency.setValueAtTime(200, now);
+        rumbleFilter.Q.value = 2;
+        
+        rumbleGain.gain.setValueAtTime(0.08, now);
+        rumbleGain.gain.linearRampToValueAtTime(0.12, now + duration * 0.4);
+        rumbleGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+        
+        rumble.start(now);
+        rumble.stop(now + duration);
       }
 
       // ===============================
