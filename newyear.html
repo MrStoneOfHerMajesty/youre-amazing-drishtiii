@@ -2560,6 +2560,408 @@
           transform: scale(0) translateY(-15px);
         }
       }
+
+      /* ================================
+         MOBILE RESPONSIVE STYLES
+         ================================ */
+      
+      /* Tablets and smaller desktops */
+      @media (max-width: 1024px) {
+        .countdown-value {
+          font-size: 4rem;
+        }
+        
+        .countdown-timer {
+          gap: 20px;
+        }
+        
+        .countdown-separator {
+          font-size: 3rem;
+        }
+        
+        .best-message {
+          font-size: 3rem;
+        }
+        
+        .constellation-message,
+        .fireworks-message,
+        .garden-message {
+          font-size: 1.5rem;
+          padding: 20px 30px;
+        }
+      }
+
+      /* Mobile devices */
+      @media (max-width: 768px) {
+        /* Countdown */
+        .countdown-title {
+          font-size: 1.5rem;
+          padding: 0 20px;
+        }
+        
+        .countdown-subtitle {
+          font-size: 1rem;
+          margin-bottom: 30px;
+        }
+        
+        .countdown-timer {
+          flex-wrap: wrap;
+          gap: 15px;
+          justify-content: center;
+          padding: 0 10px;
+        }
+        
+        .countdown-value {
+          font-size: 2.8rem;
+        }
+        
+        .countdown-label {
+          font-size: 0.7rem;
+          letter-spacing: 2px;
+        }
+        
+        .countdown-separator {
+          font-size: 2rem;
+          display: none;
+        }
+        
+        .countdown-message {
+          font-size: 1rem;
+          padding: 0 20px;
+        }
+        
+        /* Floating buttons */
+        .confetti-btn {
+          width: 50px;
+          height: 50px;
+          font-size: 1.4rem;
+          bottom: 20px;
+          right: 20px;
+        }
+        
+        .memory-btn {
+          width: 55px;
+          height: 55px;
+          font-size: 1.5rem;
+          bottom: 20px;
+          left: 20px;
+        }
+        
+        .constellation-btn,
+        .garden-btn,
+        .firework-btn {
+          width: 55px;
+          height: 55px;
+          font-size: 1.5rem;
+        }
+        
+        /* Close buttons */
+        .constellation-close,
+        .garden-close,
+        .fireworks-close {
+          width: 40px;
+          height: 40px;
+          font-size: 1.2rem;
+          top: 20px;
+          right: 20px;
+        }
+        
+        /* Messages in overlays */
+        .constellation-message {
+          font-size: 1.2rem;
+          padding: 15px 25px;
+          bottom: 60px;
+          width: 90%;
+          max-width: 400px;
+        }
+        
+        .fireworks-message {
+          font-size: 1.2rem;
+          padding: 15px 25px;
+          bottom: 30px;
+          width: 90%;
+          max-width: 400px;
+        }
+        
+        .garden-message {
+          font-size: 1.3rem;
+          padding: 20px 30px;
+          max-width: 90%;
+        }
+        
+        .best-message {
+          font-size: 2rem;
+          padding: 0 20px;
+        }
+        
+        /* Letter card */
+        .letter-card {
+          padding: 20px !important;
+          margin: 0 10px;
+        }
+        
+        /* Glass card hover - disable transform on mobile */
+        .glass-card:hover {
+          transform: translateY(-4px) scale(1);
+        }
+        
+        /* Music player */
+        .music-player {
+          transform: scale(0.85);
+          transform-origin: top right;
+        }
+        
+        /* Aurora effects - reduce for performance */
+        .aurora {
+          opacity: 0.3;
+        }
+        
+        .aurora-strip {
+          filter: blur(40px);
+        }
+        
+        /* Mini flowers in garden */
+        .mini-flower {
+          width: 45px;
+          height: 60px;
+        }
+        
+        .mini-bloom {
+          width: 28px;
+          height: 28px;
+        }
+        
+        .mini-stem {
+          height: 30px;
+          width: 3px;
+        }
+        
+        /* Lanterns */
+        .lantern {
+          font-size: 2rem;
+        }
+      }
+
+      /* Small phones */
+      @media (max-width: 480px) {
+        .countdown-title {
+          font-size: 1.2rem;
+        }
+        
+        .countdown-subtitle {
+          font-size: 0.9rem;
+          margin-bottom: 20px;
+        }
+        
+        .countdown-timer {
+          gap: 10px;
+        }
+        
+        .countdown-value {
+          font-size: 2.2rem;
+        }
+        
+        .countdown-unit {
+          min-width: 60px;
+        }
+        
+        .countdown-label {
+          font-size: 0.6rem;
+          letter-spacing: 1px;
+        }
+        
+        .countdown-message {
+          font-size: 0.9rem;
+        }
+        
+        /* Buttons even smaller */
+        .confetti-btn {
+          width: 45px;
+          height: 45px;
+          font-size: 1.2rem;
+          bottom: 15px;
+          right: 15px;
+        }
+        
+        .memory-btn {
+          width: 50px;
+          height: 50px;
+          font-size: 1.3rem;
+          bottom: 15px;
+          left: 15px;
+        }
+        
+        .constellation-btn,
+        .garden-btn,
+        .firework-btn {
+          width: 50px;
+          height: 50px;
+          font-size: 1.3rem;
+        }
+        
+        .constellation-message,
+        .fireworks-message {
+          font-size: 1rem;
+          padding: 12px 20px;
+        }
+        
+        .garden-message {
+          font-size: 1.1rem;
+          padding: 15px 20px;
+        }
+        
+        .best-message {
+          font-size: 1.5rem;
+        }
+        
+        /* Subtitle word animation */
+        .subtitle-word {
+          margin: 0 0.08em;
+        }
+        
+        .subtitle-container {
+          min-height: 60px;
+        }
+        
+        /* Reduce shooting star effects for performance */
+        .shooting-star::before {
+          animation: shooting-star-tail-mobile 1.2s ease-out forwards;
+        }
+        
+        @keyframes shooting-star-tail-mobile {
+          0% {
+            width: 0;
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          50% {
+            width: 100px;
+            opacity: 1;
+          }
+          100% {
+            width: 40px;
+            opacity: 0;
+          }
+        }
+        
+        /* Volume slider - hide on very small screens */
+        .volume-container {
+          display: none;
+        }
+        
+        .music-player {
+          transform: scale(0.8);
+        }
+      }
+
+      /* Very small phones */
+      @media (max-width: 360px) {
+        .countdown-value {
+          font-size: 1.8rem;
+        }
+        
+        .countdown-unit {
+          min-width: 50px;
+        }
+        
+        .countdown-title {
+          font-size: 1rem;
+        }
+        
+        .confetti-btn,
+        .memory-btn,
+        .constellation-btn,
+        .garden-btn,
+        .firework-btn {
+          width: 42px;
+          height: 42px;
+          font-size: 1.1rem;
+        }
+        
+        .best-message {
+          font-size: 1.2rem;
+        }
+      }
+
+      /* Landscape orientation on mobile */
+      @media (max-height: 500px) and (orientation: landscape) {
+        .countdown-overlay {
+          padding: 20px;
+        }
+        
+        .countdown-title {
+          font-size: 1.2rem;
+          margin-bottom: 10px;
+        }
+        
+        .countdown-subtitle {
+          font-size: 0.9rem;
+          margin-bottom: 15px;
+        }
+        
+        .countdown-timer {
+          margin-bottom: 20px;
+        }
+        
+        .countdown-value {
+          font-size: 2rem;
+        }
+        
+        .countdown-message {
+          font-size: 0.9rem;
+        }
+        
+        .garden-message,
+        .constellation-message,
+        .fireworks-message {
+          bottom: 20px;
+          font-size: 1rem;
+          padding: 10px 20px;
+        }
+      }
+
+      /* Reduce animations for users who prefer reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        .float,
+        .aurora-strip,
+        .aurora::before,
+        .aurora::after,
+        .shooting-star,
+        .lantern,
+        .garden-butterfly,
+        .garden-sparkle,
+        .confetti-piece {
+          animation: none !important;
+        }
+        
+        .glass-card:hover {
+          transform: none;
+        }
+        
+        .dramatic-entrance {
+          animation: none;
+          opacity: 1;
+        }
+        
+        .subtitle-word {
+          animation: none;
+          opacity: 1;
+        }
+      }
+
+      /* High DPI / Retina display optimization */
+      @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .aurora {
+          opacity: 0.35;
+        }
+        
+        .glass-card {
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+        }
+      }
     </style>
   </head>
 
