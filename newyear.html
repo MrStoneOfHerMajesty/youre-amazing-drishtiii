@@ -2199,6 +2199,148 @@
         z-index: 9999;
       }
 
+      /* ================================
+         MUSIC PLAYER CONTROLS
+         ================================ */
+      .music-player {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
+        padding: 12px 18px;
+        border-radius: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        z-index: 100;
+        transition: all 0.3s ease;
+      }
+
+      .music-player:hover {
+        background: rgba(0, 0, 0, 0.85);
+        border-color: rgba(251, 191, 36, 0.3);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      .music-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #fbbf24 0%, #d4af37 100%);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(251, 191, 36, 0.3);
+      }
+
+      .music-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 15px rgba(251, 191, 36, 0.5);
+      }
+
+      .music-btn:active {
+        transform: scale(0.95);
+      }
+
+      .volume-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .music-player:hover .volume-container,
+      .music-player.expanded .volume-container {
+        opacity: 1;
+        width: 120px;
+      }
+
+      .volume-icon {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .volume-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 80px;
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.2);
+        outline: none;
+        cursor: pointer;
+      }
+
+      .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #fbbf24;
+        cursor: pointer;
+        box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+        transition: all 0.2s ease;
+      }
+
+      .volume-slider::-webkit-slider-thumb:hover {
+        transform: scale(1.2);
+      }
+
+      .volume-slider::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #fbbf24;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+      }
+
+      .music-visualizer {
+        display: flex;
+        align-items: flex-end;
+        gap: 2px;
+        height: 20px;
+        margin-left: 5px;
+      }
+
+      .music-bar {
+        width: 3px;
+        background: linear-gradient(to top, #fbbf24, #f472b6);
+        border-radius: 2px;
+        transition: height 0.1s ease;
+      }
+
+      .music-bar.playing {
+        animation: musicBounce 0.5s ease-in-out infinite;
+      }
+
+      .music-bar:nth-child(1) { animation-delay: 0s; }
+      .music-bar:nth-child(2) { animation-delay: 0.1s; }
+      .music-bar:nth-child(3) { animation-delay: 0.2s; }
+      .music-bar:nth-child(4) { animation-delay: 0.15s; }
+      .music-bar:nth-child(5) { animation-delay: 0.05s; }
+
+      @keyframes musicBounce {
+        0%, 100% { height: 4px; }
+        50% { height: 18px; }
+      }
+
+      .music-bar.paused {
+        height: 4px !important;
+        animation: none;
+      }
+
       .firework-particle {
         position: absolute;
         border-radius: 50%;
@@ -2477,6 +2619,24 @@
 
     <!-- Main Content -->
     <main class="relative z-10 min-h-screen">
+      <!-- Music Player Controls -->
+      <div class="music-player" id="music-player">
+        <button class="music-btn" id="music-toggle" title="Play/Pause Music">
+          ▶️
+        </button>
+        <div class="music-visualizer" id="music-visualizer">
+          <div class="music-bar paused"></div>
+          <div class="music-bar paused"></div>
+          <div class="music-bar paused"></div>
+          <div class="music-bar paused"></div>
+          <div class="music-bar paused"></div>
+        </div>
+        <div class="volume-container">
+          <span class="volume-icon">🔊</span>
+          <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="50" title="Volume">
+        </div>
+      </div>
+
       <!-- Hero Section -->
       <section
         class="min-h-screen flex flex-col items-center justify-center px-6 sm:px-8 lg:px-12 text-center"
@@ -3063,6 +3223,8 @@
     <!-- Background Music -->
     <audio id="bg-music" src="src/cryInstru.mp3" loop></audio>
 
+    <!-- Sound Effects (using Web Audio API - generated programmatically) -->
+
     <!-- Flower Garden Overlay -->
     <div class="garden-overlay" id="garden-overlay">
       <button class="garden-close" id="garden-close">✕</button>
@@ -3079,9 +3241,6 @@
 
     <!-- JavaScript -->
     <script>
-      // ===============================
-      // CONSTELLATION - DRISHTI
-      // ===============================
       const constellationBtn = document.getElementById("constellation-btn");
       const constellationOverlay = document.getElementById(
         "constellation-overlay"
@@ -3910,6 +4069,8 @@
       const confettiBtn = document.getElementById("confetti-btn");
 
       confettiBtn.addEventListener("click", () => {
+        playClickSound();
+        setTimeout(() => playConfettiSound(), 100);
         createConfetti();
       });
 
@@ -4426,6 +4587,187 @@
       });
 
       // ===============================
+      // MUSIC PLAYER CONTROLS
+      // ===============================
+      const musicPlayer = document.getElementById('music-player');
+      const musicToggle = document.getElementById('music-toggle');
+      const volumeSlider = document.getElementById('volume-slider');
+      const musicBars = document.querySelectorAll('.music-bar');
+      const bgMusic = document.getElementById('bg-music');
+      let isMusicPlaying = false;
+
+      // Set initial volume
+      bgMusic.volume = 0.5;
+
+      function updateMusicVisualizer(playing) {
+        musicBars.forEach(bar => {
+          if (playing) {
+            bar.classList.remove('paused');
+            bar.classList.add('playing');
+          } else {
+            bar.classList.remove('playing');
+            bar.classList.add('paused');
+          }
+        });
+      }
+
+      function toggleMusic() {
+        if (isMusicPlaying) {
+          bgMusic.pause();
+          musicToggle.textContent = '▶️';
+          isMusicPlaying = false;
+        } else {
+          bgMusic.play().then(() => {
+            musicToggle.textContent = '⏸️';
+            isMusicPlaying = true;
+          }).catch(err => {
+            console.log('Playback failed:', err);
+          });
+        }
+        updateMusicVisualizer(isMusicPlaying);
+      }
+
+      musicToggle.addEventListener('click', toggleMusic);
+
+      volumeSlider.addEventListener('input', (e) => {
+        const volume = e.target.value / 100;
+        bgMusic.volume = volume;
+        // Update volume icon based on level
+        const volumeIcon = document.querySelector('.volume-icon');
+        if (volume === 0) {
+          volumeIcon.textContent = '🔇';
+        } else if (volume < 0.5) {
+          volumeIcon.textContent = '🔉';
+        } else {
+          volumeIcon.textContent = '🔊';
+        }
+      });
+
+      // Update visualizer when music plays/pauses from other sources
+      bgMusic.addEventListener('play', () => {
+        isMusicPlaying = true;
+        musicToggle.textContent = '⏸️';
+        updateMusicVisualizer(true);
+      });
+
+      bgMusic.addEventListener('pause', () => {
+        isMusicPlaying = false;
+        musicToggle.textContent = '▶️';
+        updateMusicVisualizer(false);
+      });
+
+      // ===============================
+      // SOUND EFFECTS (Web Audio API)
+      // ===============================
+      let sfxAudioContext = null;
+
+      function initAudioContext() {
+        if (!sfxAudioContext) {
+          sfxAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (sfxAudioContext.state === 'suspended') {
+          sfxAudioContext.resume();
+        }
+      }
+
+      // Firework explosion sound
+      function playFireworkSound() {
+        initAudioContext();
+        const oscillator = sfxAudioContext.createOscillator();
+        const gainNode = sfxAudioContext.createGain();
+        const filter = sfxAudioContext.createBiquadFilter();
+        
+        oscillator.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(sfxAudioContext.destination);
+        
+        oscillator.type = 'sawtooth';
+        oscillator.frequency.setValueAtTime(150, sfxAudioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(40, sfxAudioContext.currentTime + 0.5);
+        
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(2000, sfxAudioContext.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(100, sfxAudioContext.currentTime + 0.5);
+        
+        gainNode.gain.setValueAtTime(0.15, sfxAudioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, sfxAudioContext.currentTime + 0.5);
+        
+        oscillator.start();
+        oscillator.stop(sfxAudioContext.currentTime + 0.5);
+      }
+
+      // Confetti pop sound
+      function playConfettiSound() {
+        initAudioContext();
+        const oscillator = sfxAudioContext.createOscillator();
+        const gainNode = sfxAudioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(sfxAudioContext.destination);
+        
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(800, sfxAudioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(1200, sfxAudioContext.currentTime + 0.05);
+        oscillator.frequency.exponentialRampToValueAtTime(600, sfxAudioContext.currentTime + 0.15);
+        
+        gainNode.gain.setValueAtTime(0.2, sfxAudioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, sfxAudioContext.currentTime + 0.2);
+        
+        oscillator.start();
+        oscillator.stop(sfxAudioContext.currentTime + 0.2);
+      }
+
+      // Button click sound
+      function playClickSound() {
+        initAudioContext();
+        const oscillator = sfxAudioContext.createOscillator();
+        const gainNode = sfxAudioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(sfxAudioContext.destination);
+        
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(600, sfxAudioContext.currentTime);
+        oscillator.frequency.setValueAtTime(800, sfxAudioContext.currentTime + 0.05);
+        
+        gainNode.gain.setValueAtTime(0.1, sfxAudioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, sfxAudioContext.currentTime + 0.1);
+        
+        oscillator.start();
+        oscillator.stop(sfxAudioContext.currentTime + 0.1);
+      }
+
+      // Whoosh sound for firework launch
+      function playWhooshSound() {
+        initAudioContext();
+        const bufferSize = sfxAudioContext.sampleRate * 0.3;
+        const buffer = sfxAudioContext.createBuffer(1, bufferSize, sfxAudioContext.sampleRate);
+        const data = buffer.getChannelData(0);
+        
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+        }
+        
+        const source = sfxAudioContext.createBufferSource();
+        const filter = sfxAudioContext.createBiquadFilter();
+        const gainNode = sfxAudioContext.createGain();
+        
+        source.buffer = buffer;
+        source.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(sfxAudioContext.destination);
+        
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(1000, sfxAudioContext.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(3000, sfxAudioContext.currentTime + 0.3);
+        
+        gainNode.gain.setValueAtTime(0.08, sfxAudioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, sfxAudioContext.currentTime + 0.3);
+        
+        source.start();
+      }
+
+      // ===============================
       // FIREWORKS EFFECT WITH OVERLAY
       // ===============================
       const fireworkBtn = document.getElementById('firework-btn');
@@ -4576,6 +4918,9 @@
       function launchOverlayFirework() {
         if (!fireworksActive) return;
         
+        // Play whoosh sound for launch
+        playWhooshSound();
+        
         const rect = fireworksOverlay.getBoundingClientRect();
         const startX = Math.random() * rect.width * 0.7 + rect.width * 0.15;
         const startY = rect.height;
@@ -4584,6 +4929,7 @@
 
         createFwTrail(startX, startY, endY, colorSet[0], fireworksOverlay, () => {
           if (fireworksActive) {
+            playFireworkSound(); // Play explosion sound
             createFwExplosion(startX, endY, fireworksOverlay);
           }
         });
@@ -4617,6 +4963,7 @@
       }
 
       function openFireworksOverlay() {
+        playClickSound();
         fireworksOverlay.classList.add('show');
         startContinuousFireworks();
       }
