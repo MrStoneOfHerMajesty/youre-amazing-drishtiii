@@ -145,17 +145,39 @@
       }
 
       @keyframes tickle {
-        0% { transform: translateY(-8px) scale(1.01) rotate(0deg); }
-        10% { transform: translateY(-10px) scale(1.02) rotate(-2deg); }
-        20% { transform: translateY(-6px) scale(1.03) rotate(2deg); }
-        30% { transform: translateY(-12px) scale(1.02) rotate(-1.5deg); }
-        40% { transform: translateY(-8px) scale(1.04) rotate(1.5deg); }
-        50% { transform: translateY(-10px) scale(1.02) rotate(-1deg); }
-        60% { transform: translateY(-6px) scale(1.03) rotate(1deg); }
-        70% { transform: translateY(-12px) scale(1.02) rotate(-0.5deg); }
-        80% { transform: translateY(-8px) scale(1.01) rotate(0.5deg); }
-        90% { transform: translateY(-10px) scale(1.01) rotate(-0.25deg); }
-        100% { transform: translateY(-8px) scale(1.01) rotate(0deg); }
+        0% {
+          transform: translateY(-8px) scale(1.01) rotate(0deg);
+        }
+        10% {
+          transform: translateY(-10px) scale(1.02) rotate(-2deg);
+        }
+        20% {
+          transform: translateY(-6px) scale(1.03) rotate(2deg);
+        }
+        30% {
+          transform: translateY(-12px) scale(1.02) rotate(-1.5deg);
+        }
+        40% {
+          transform: translateY(-8px) scale(1.04) rotate(1.5deg);
+        }
+        50% {
+          transform: translateY(-10px) scale(1.02) rotate(-1deg);
+        }
+        60% {
+          transform: translateY(-6px) scale(1.03) rotate(1deg);
+        }
+        70% {
+          transform: translateY(-12px) scale(1.02) rotate(-0.5deg);
+        }
+        80% {
+          transform: translateY(-8px) scale(1.01) rotate(0.5deg);
+        }
+        90% {
+          transform: translateY(-10px) scale(1.01) rotate(-0.25deg);
+        }
+        100% {
+          transform: translateY(-8px) scale(1.01) rotate(0deg);
+        }
       }
 
       /* Giggle particles that spawn on tickle */
@@ -186,7 +208,7 @@
       .tickle-popup {
         position: fixed;
         pointer-events: none;
-        font-family: 'Quicksand', sans-serif;
+        font-family: "Quicksand", sans-serif;
         font-size: 1.1rem;
         font-weight: 600;
         color: #f472b6;
@@ -2305,7 +2327,12 @@
         bottom: 0;
         width: 100%;
         height: 30%;
-        background: linear-gradient(180deg, rgba(20, 83, 45, 0.0) 0%, rgba(20, 83, 45, 0.25) 40%, rgba(12, 50, 30, 0.45) 100%);
+        background: linear-gradient(
+          180deg,
+          rgba(20, 83, 45, 0) 0%,
+          rgba(20, 83, 45, 0.25) 40%,
+          rgba(12, 50, 30, 0.45) 100%
+        );
       }
 
       .grass-layer {
@@ -2321,13 +2348,19 @@
         bottom: 0;
         width: 2px;
         height: var(--blade-h, 90px);
-        background: linear-gradient(180deg, #1e7a46 0%, #22c55e 60%, #14532d 100%);
+        background: linear-gradient(
+          180deg,
+          #1e7a46 0%,
+          #22c55e 60%,
+          #14532d 100%
+        );
         border-radius: 2px;
         transform-origin: bottom center;
         transform: rotate(var(--lean, -2deg));
         opacity: 0.9;
         box-shadow: 0 0 6px rgba(34, 197, 94, 0.25);
-        animation: grass-sway var(--sway-dur, 4s) ease-in-out var(--sway-delay, 0s) infinite;
+        animation: grass-sway var(--sway-dur, 4s) ease-in-out
+          var(--sway-delay, 0s) infinite;
       }
 
       .grass-blade::after {
@@ -2337,7 +2370,11 @@
         top: 20%;
         width: 1px;
         height: 40%;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.15),
+          rgba(255, 255, 255, 0)
+        );
       }
 
       .grass-layer.far .grass-blade {
@@ -2347,20 +2384,34 @@
       }
 
       @keyframes grass-sway {
-        0%, 100% { transform: rotate(calc(var(--lean, -2deg) - 1deg)); }
-        50% { transform: rotate(calc(var(--lean, -2deg) + 1deg)); }
+        0%,
+        100% {
+          transform: rotate(calc(var(--lean, -2deg) - 1deg));
+        }
+        50% {
+          transform: rotate(calc(var(--lean, -2deg) + 1deg));
+        }
       }
 
       /* Wind gust effect: temporarily stronger sway */
       .garden-grass.gust .grass-blade {
-        animation: grass-gust var(--gust-dur, 1.8s) ease-in-out var(--sway-delay, 0s) 3;
+        animation: grass-gust var(--gust-dur, 1.8s) ease-in-out
+          var(--sway-delay, 0s) 3;
       }
 
       @keyframes grass-gust {
-        0%   { transform: rotate(calc(var(--lean, -2deg) - 1deg)); }
-        30%  { transform: rotate(calc(var(--lean, -2deg) - 6deg)); }
-        60%  { transform: rotate(calc(var(--lean, -2deg) + 3deg)); }
-        100% { transform: rotate(calc(var(--lean, -2deg) - 1deg)); }
+        0% {
+          transform: rotate(calc(var(--lean, -2deg) - 1deg));
+        }
+        30% {
+          transform: rotate(calc(var(--lean, -2deg) - 6deg));
+        }
+        60% {
+          transform: rotate(calc(var(--lean, -2deg) + 3deg));
+        }
+        100% {
+          transform: rotate(calc(var(--lean, -2deg) - 1deg));
+        }
       }
 
       /* Dew droplets on grass */
@@ -2378,19 +2429,34 @@
         width: 4px;
         height: 4px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.0) 100%);
-        box-shadow: 0 0 6px rgba(200, 255, 220, 0.6), 0 0 12px rgba(200, 255, 220, 0.3);
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.9) 0%,
+          rgba(255, 255, 255, 0.6) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        box-shadow: 0 0 6px rgba(200, 255, 220, 0.6),
+          0 0 12px rgba(200, 255, 220, 0.3);
         opacity: 0.9;
         animation: dew-twinkle 3.5s ease-in-out infinite;
       }
 
       @keyframes dew-twinkle {
-        0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
-        50% { transform: translateY(-2px) scale(1.1); opacity: 1; }
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+          opacity: 0.7;
+        }
+        50% {
+          transform: translateY(-2px) scale(1.1);
+          opacity: 1;
+        }
       }
 
       @media (max-width: 768px) {
-        .garden-grass { height: 40%; }
+        .garden-grass {
+          height: 40%;
+        }
       }
 
       /* ================================
@@ -2528,15 +2594,30 @@
         animation: musicBounce 0.5s ease-in-out infinite;
       }
 
-      .music-bar:nth-child(1) { animation-delay: 0s; }
-      .music-bar:nth-child(2) { animation-delay: 0.1s; }
-      .music-bar:nth-child(3) { animation-delay: 0.2s; }
-      .music-bar:nth-child(4) { animation-delay: 0.15s; }
-      .music-bar:nth-child(5) { animation-delay: 0.05s; }
+      .music-bar:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .music-bar:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .music-bar:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      .music-bar:nth-child(4) {
+        animation-delay: 0.15s;
+      }
+      .music-bar:nth-child(5) {
+        animation-delay: 0.05s;
+      }
 
       @keyframes musicBounce {
-        0%, 100% { height: 4px; }
-        50% { height: 18px; }
+        0%,
+        100% {
+          height: 4px;
+        }
+        50% {
+          height: 18px;
+        }
       }
 
       .music-bar.paused {
@@ -2655,7 +2736,8 @@
       }
 
       @keyframes fw-star-twinkle {
-        0%, 100% {
+        0%,
+        100% {
           opacity: 0.4;
         }
         50% {
@@ -2767,25 +2849,25 @@
       /* ================================
          MOBILE RESPONSIVE STYLES
          ================================ */
-      
+
       /* Tablets and smaller desktops */
       @media (max-width: 1024px) {
         .countdown-value {
           font-size: 4rem;
         }
-        
+
         .countdown-timer {
           gap: 20px;
         }
-        
+
         .countdown-separator {
           font-size: 3rem;
         }
-        
+
         .best-message {
           font-size: 3rem;
         }
-        
+
         .constellation-message,
         .fireworks-message,
         .garden-message {
@@ -2801,38 +2883,38 @@
           font-size: 1.5rem;
           padding: 0 20px;
         }
-        
+
         .countdown-subtitle {
           font-size: 1rem;
           margin-bottom: 30px;
         }
-        
+
         .countdown-timer {
           flex-wrap: wrap;
           gap: 15px;
           justify-content: center;
           padding: 0 10px;
         }
-        
+
         .countdown-value {
           font-size: 2.8rem;
         }
-        
+
         .countdown-label {
           font-size: 0.7rem;
           letter-spacing: 2px;
         }
-        
+
         .countdown-separator {
           font-size: 2rem;
           display: none;
         }
-        
+
         .countdown-message {
           font-size: 1rem;
           padding: 0 20px;
         }
-        
+
         /* Floating buttons */
         .confetti-btn {
           width: 50px;
@@ -2841,7 +2923,7 @@
           bottom: 20px;
           right: 20px;
         }
-        
+
         .memory-btn {
           width: 55px;
           height: 55px;
@@ -2849,7 +2931,7 @@
           bottom: 20px;
           left: 20px;
         }
-        
+
         .constellation-btn,
         .garden-btn,
         .firework-btn {
@@ -2857,7 +2939,7 @@
           height: 55px;
           font-size: 1.5rem;
         }
-        
+
         /* Close buttons */
         .constellation-close,
         .garden-close,
@@ -2868,7 +2950,7 @@
           top: 20px;
           right: 20px;
         }
-        
+
         /* Messages in overlays */
         .constellation-message {
           font-size: 1.2rem;
@@ -2877,7 +2959,7 @@
           width: 90%;
           max-width: 400px;
         }
-        
+
         .fireworks-message {
           font-size: 1.2rem;
           padding: 15px 25px;
@@ -2885,60 +2967,60 @@
           width: 90%;
           max-width: 400px;
         }
-        
+
         .garden-message {
           font-size: 1.3rem;
           padding: 20px 30px;
           max-width: 90%;
         }
-        
+
         .best-message {
           font-size: 2rem;
           padding: 0 20px;
         }
-        
+
         /* Letter card */
         .letter-card {
           padding: 20px !important;
           margin: 0 10px;
         }
-        
+
         /* Glass card hover - disable transform on mobile */
         .glass-card:hover {
           transform: translateY(-4px) scale(1);
         }
-        
+
         /* Music player */
         .music-player {
           transform: scale(0.85);
           transform-origin: top right;
         }
-        
+
         /* Aurora effects - reduce for performance */
         .aurora {
           opacity: 0.3;
         }
-        
+
         .aurora-strip {
           filter: blur(40px);
         }
-        
+
         /* Mini flowers in garden */
         .mini-flower {
           width: 45px;
           height: 60px;
         }
-        
+
         .mini-bloom {
           width: 28px;
           height: 28px;
         }
-        
+
         .mini-stem {
           height: 30px;
           width: 3px;
         }
-        
+
         /* Lanterns */
         .lantern {
           font-size: 2rem;
@@ -2950,33 +3032,33 @@
         .countdown-title {
           font-size: 1.2rem;
         }
-        
+
         .countdown-subtitle {
           font-size: 0.9rem;
           margin-bottom: 20px;
         }
-        
+
         .countdown-timer {
           gap: 10px;
         }
-        
+
         .countdown-value {
           font-size: 2.2rem;
         }
-        
+
         .countdown-unit {
           min-width: 60px;
         }
-        
+
         .countdown-label {
           font-size: 0.6rem;
           letter-spacing: 1px;
         }
-        
+
         .countdown-message {
           font-size: 0.9rem;
         }
-        
+
         /* Buttons even smaller */
         .confetti-btn {
           width: 45px;
@@ -2985,7 +3067,7 @@
           bottom: 15px;
           right: 15px;
         }
-        
+
         .memory-btn {
           width: 50px;
           height: 50px;
@@ -2993,7 +3075,7 @@
           bottom: 15px;
           left: 15px;
         }
-        
+
         .constellation-btn,
         .garden-btn,
         .firework-btn {
@@ -3001,36 +3083,36 @@
           height: 50px;
           font-size: 1.3rem;
         }
-        
+
         .constellation-message,
         .fireworks-message {
           font-size: 1rem;
           padding: 12px 20px;
         }
-        
+
         .garden-message {
           font-size: 1.1rem;
           padding: 15px 20px;
         }
-        
+
         .best-message {
           font-size: 1.5rem;
         }
-        
+
         /* Subtitle word animation */
         .subtitle-word {
           margin: 0 0.08em;
         }
-        
+
         .subtitle-container {
           min-height: 60px;
         }
-        
+
         /* Reduce shooting star effects for performance */
         .shooting-star::before {
           animation: shooting-star-tail-mobile 1.2s ease-out forwards;
         }
-        
+
         @keyframes shooting-star-tail-mobile {
           0% {
             width: 0;
@@ -3048,12 +3130,12 @@
             opacity: 0;
           }
         }
-        
+
         /* Volume slider - hide on very small screens */
         .volume-container {
           display: none;
         }
-        
+
         .music-player {
           transform: scale(0.8);
         }
@@ -3064,15 +3146,15 @@
         .countdown-value {
           font-size: 1.8rem;
         }
-        
+
         .countdown-unit {
           min-width: 50px;
         }
-        
+
         .countdown-title {
           font-size: 1rem;
         }
-        
+
         .confetti-btn,
         .memory-btn,
         .constellation-btn,
@@ -3082,7 +3164,7 @@
           height: 42px;
           font-size: 1.1rem;
         }
-        
+
         .best-message {
           font-size: 1.2rem;
         }
@@ -3093,29 +3175,29 @@
         .countdown-overlay {
           padding: 20px;
         }
-        
+
         .countdown-title {
           font-size: 1.2rem;
           margin-bottom: 10px;
         }
-        
+
         .countdown-subtitle {
           font-size: 0.9rem;
           margin-bottom: 15px;
         }
-        
+
         .countdown-timer {
           margin-bottom: 20px;
         }
-        
+
         .countdown-value {
           font-size: 2rem;
         }
-        
+
         .countdown-message {
           font-size: 0.9rem;
         }
-        
+
         .constellation-message,
         .fireworks-message {
           bottom: 20px;
@@ -3137,16 +3219,16 @@
         .confetti-piece {
           animation: none !important;
         }
-        
+
         .glass-card:hover {
           transform: none;
         }
-        
+
         .dramatic-entrance {
           animation: none;
           opacity: 1;
         }
-        
+
         .subtitle-word {
           animation: none;
           opacity: 1;
@@ -3158,7 +3240,7 @@
         .aurora {
           opacity: 0.35;
         }
-        
+
         .glass-card {
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
@@ -3172,13 +3254,18 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: radial-gradient(circle at 20% 10%, rgba(124,58,237,0.12), transparent 12%), rgba(3,7,18,0.85);
+        background: radial-gradient(
+            circle at 20% 10%,
+            rgba(124, 58, 237, 0.12),
+            transparent 12%
+          ),
+          rgba(3, 7, 18, 0.85);
         z-index: 100000;
         opacity: 0;
         pointer-events: none;
         transition: opacity 420ms ease, transform 420ms ease;
         transform: scale(0.98);
-      } 
+      }
 
       .poetry-overlay.show {
         opacity: 1;
@@ -3193,51 +3280,138 @@
         flex-direction: column;
         border-radius: 24px;
         padding: 28px 26px;
-        background: linear-gradient(180deg, rgba(20,24,44,0.9), rgba(8,10,20,0.85));
-        border: 1px solid rgba(124,58,237,0.25);
-        box-shadow: 0 10px 60px rgba(7,10,25,0.6), 0 0 80px rgba(124,58,237,0.06) inset;
+        background: linear-gradient(
+          180deg,
+          rgba(20, 24, 44, 0.9),
+          rgba(8, 10, 20, 0.85)
+        );
+        border: 1px solid rgba(124, 58, 237, 0.25);
+        box-shadow: 0 10px 60px rgba(7, 10, 25, 0.6),
+          0 0 80px rgba(124, 58, 237, 0.06) inset;
         position: relative;
       }
 
       .poetry-header {
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:12px;
-        margin-bottom:18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 18px;
       }
 
       .poetry-title {
-        font-family: 'Cinzel Decorative', serif;
+        font-family: "Cinzel Decorative", serif;
         font-size: 1.6rem;
-        background: linear-gradient(90deg,#a5b4fc,#f472b6,#fbbf24,#7c3aed);
-        -webkit-background-clip:text;
-        background-clip:text;
-        color:transparent;
-        text-shadow: 0 0 18px rgba(124,58,237,0.16);
-        line-height:1;
+        background: linear-gradient(90deg, #a5b4fc, #f472b6, #fbbf24, #7c3aed);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 18px rgba(124, 58, 237, 0.16);
+        line-height: 1;
       }
 
-      .poetry-controls { display:flex; gap:10px; align-items:center; }
+      .poetry-controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
 
-      .poetry-btn { background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); color:#fff; padding:8px 12px; border-radius:12px; cursor:pointer; backdrop-filter:blur(6px); }
+      .poetry-btn {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 12px;
+        cursor: pointer;
+        backdrop-filter: blur(6px);
+      }
 
-      .poem-item { margin:14px 0; padding:14px 16px; border-radius:14px; background: linear-gradient(180deg, rgba(124,58,237,0.06), rgba(12,18,35,0.18)); border:1px solid rgba(124,58,237,0.08); box-shadow: 0 6px 30px rgba(7,10,25,0.45); position:relative; }
+      .poem-item {
+        margin: 14px 0;
+        padding: 14px 16px;
+        border-radius: 14px;
+        background: linear-gradient(
+          180deg,
+          rgba(124, 58, 237, 0.06),
+          rgba(12, 18, 35, 0.18)
+        );
+        border: 1px solid rgba(124, 58, 237, 0.08);
+        box-shadow: 0 6px 30px rgba(7, 10, 25, 0.45);
+        position: relative;
+      }
 
-      .poem-list { flex: 1 1 auto; overflow: auto; padding-right:6px; }
+      .poem-list {
+        flex: 1 1 auto;
+        overflow: auto;
+        padding-right: 6px;
+      }
 
-      .poem-meta { font-family:'Cormorant Garamond', serif; color:#fbbf24; text-shadow:0 0 8px rgba(251,191,36,0.08); font-size:0.98rem; margin-bottom:8px; }
+      .poem-meta {
+        font-family: "Cormorant Garamond", serif;
+        color: #fbbf24;
+        text-shadow: 0 0 8px rgba(251, 191, 36, 0.08);
+        font-size: 0.98rem;
+        margin-bottom: 8px;
+      }
 
-      .poem-text { font-family:'Crimson Text', serif; color:#e6eefc; font-size:1.05rem; line-height:1.6; opacity:0; transform:translateY(8px); transition: all 420ms ease; }
-      .poem-text.show-line { opacity:1; transform:none; }
+      .poem-text {
+        font-family: "Crimson Text", serif;
+        color: #e6eefc;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: all 420ms ease;
+      }
+      .poem-text.show-line {
+        opacity: 1;
+        transform: none;
+      }
 
-      .decoration-layer { position:absolute; inset:0; pointer-events:none; overflow:hidden; border-radius:24px; }
+      .decoration-layer {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        border-radius: 24px;
+      }
 
-      .floating-heart, .floating-petal { position:absolute; pointer-events:none; opacity:0.95; filter: drop-shadow(0 6px 18px rgba(124,58,237,0.12)); }
+      .floating-heart,
+      .floating-petal {
+        position: absolute;
+        pointer-events: none;
+        opacity: 0.95;
+        filter: drop-shadow(0 6px 18px rgba(124, 58, 237, 0.12));
+      }
 
-      .copy-chip { position:absolute; right:12px; top:12px; background:rgba(0,0,0,0.45); border:1px solid rgba(255,255,255,0.04); color:#fff; padding:6px 8px; border-radius:10px; font-size:0.9rem; cursor:pointer; }
+      .copy-chip {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        background: rgba(0, 0, 0, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: #fff;
+        padding: 6px 8px;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
 
-      .poetry-footer { text-align:center; margin-top:0; color:#cbd5e1; font-family:'Quicksand',sans-serif; padding:12px 8px; border-top: 1px solid rgba(255,255,255,0.03); background: linear-gradient(180deg, rgba(8,10,20,0.0), rgba(8,10,20,0.35)); position: sticky; bottom: 0; }
+      .poetry-footer {
+        text-align: center;
+        margin-top: 0;
+        color: #cbd5e1;
+        font-family: "Quicksand", sans-serif;
+        padding: 12px 8px;
+        border-top: 1px solid rgba(255, 255, 255, 0.03);
+        background: linear-gradient(
+          180deg,
+          rgba(8, 10, 20, 0),
+          rgba(8, 10, 20, 0.35)
+        );
+        position: sticky;
+        bottom: 0;
+      }
 
       /* Emphasis for the word 'the' */
       .emph-the {
@@ -3248,23 +3422,41 @@
         letter-spacing: 0.6px;
         transform-origin: center;
         -webkit-transform-origin: center;
-        text-shadow: 0 0 28px rgba(251,191,36,0.95), 0 0 36px rgba(124,58,237,0.95);
+        text-shadow: 0 0 28px rgba(251, 191, 36, 0.95),
+          0 0 36px rgba(124, 58, 237, 0.95);
         animation: emphPulse 2.8s ease-in-out infinite;
       }
 
       @keyframes emphPulse {
-        0% { transform: translateY(0) scale(1); opacity: 1; }
-        45% { transform: translateY(-3px) scale(1.05); opacity: 1; }
-        60% { transform: translateY(0) scale(1); opacity: 1; }
-        100% { transform: translateY(0) scale(1); opacity: 1; }
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+        45% {
+          transform: translateY(-3px) scale(1.05);
+          opacity: 1;
+        }
+        60% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
       }
 
-      @media (max-width:640px) {
-        .poetry-panel { padding:18px; }
-        .poetry-title { font-size:1.25rem; }
-        .poem-text { font-size:1rem; }
+      @media (max-width: 640px) {
+        .poetry-panel {
+          padding: 18px;
+        }
+        .poetry-title {
+          font-size: 1.25rem;
+        }
+        .poem-text {
+          font-size: 1rem;
+        }
       }
-
     </style>
   </head>
 
@@ -3338,7 +3530,15 @@
         </div>
         <div class="volume-container">
           <span class="volume-icon">🔊</span>
-          <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="50" title="Volume">
+          <input
+            type="range"
+            class="volume-slider"
+            id="volume-slider"
+            min="0"
+            max="100"
+            value="50"
+            title="Volume"
+          />
         </div>
       </div>
 
@@ -3396,7 +3596,9 @@
                 >(in the best way possible)</span
               >
             </p>
-            <p class="text-xs text-gray-500/60 mt-6 italic text-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer select-none">
+            <p
+              class="text-xs text-gray-500/60 mt-6 italic text-center opacity-70 hover:opacity-100 transition-opacity cursor-pointer select-none"
+            >
               psst... don't click on me too much 😬
             </p>
           </div>
@@ -3409,7 +3611,7 @@
               class="font-body text-xl sm:text-2xl md:text-3xl text-gray-200 leading-relaxed text-center"
             >
               This year, you've changed how I see the world. You've shown me
-              that beauty isn't just in the big moments—it's in the
+              that beauty isn't just in the big moments..it's in the
               <span class="text-pink-300 pink-glow font-semibold"
                 >tiny little things</span
               >.
@@ -3420,8 +3622,8 @@
               Like how you cut the plastic wrappers and containers so they don't
               separate, ensuring everything gets properly recycled. That's not
               just thoughtfulness. That's
-              <span class="text-cyan-300 cyan-glow font-semibold">caring</span>
-              in its purest form.
+              <span class="text-cyan-300 cyan-glow font-semibold">caring</span>,
+              for the naturee in its purest form.
             </p>
             <p
               class="font-body text-xl sm:text-2xl md:text-3xl text-gray-200 leading-relaxed text-center mt-6"
@@ -3471,16 +3673,9 @@
               I am
               <span class="text-cyan-300 cyan-glow font-semibold"
                 >happy for you</span
-              >. Genuinely, completely, wholly happy for you.
+              >. Genuinely, completely, wholly, truly happy for you.
               <span class="text-cyan-300 cyan-glow font-semibold">Always</span>
               will be.
-            </p>
-            <p
-              class="font-body text-xl sm:text-2xl md:text-3xl text-gray-200 leading-relaxed text-center mt-6"
-            >
-              And because I'm happy for you, those who care for you will be
-              happy for you too. That's what your kindness does—it multiplies.
-              It radiates outward.
             </p>
           </div>
         </div>
@@ -3506,15 +3701,17 @@
               <span class="text-pink-300 pink-glow font-semibold">loving</span>
               and so deeply
               <span class="text-pink-300 pink-glow font-semibold">delicate</span
-              >. And yet—at the same time—it's
+              >. And yet at the same time, it's
               <span class="text-cyan-300 cyan-glow font-semibold">strong</span>.
             </p>
             <p
               class="font-body text-xl sm:text-2xl md:text-3xl text-gray-200 leading-relaxed text-center mt-6 relative z-10"
             >
               Keep flying. Keep going. The sky is vast, its.. limitless, and
-              yes, sometimes it overwhelms you, but you know how to fly, you
-              will skyrocket.🫶
+              yes, sometimes it IS overwhelming, but you know how to fly, you
+              will
+              <span class="gold-gradient italic font-semibold">skyrocket</span
+              >.🫶
             </p>
           </div>
         </div>
@@ -3609,7 +3806,7 @@
               >
                 You... have taught me so many things, drishti, alllll goood
                 things. Apart from some words that were new to me XD *little
-                smile with eye-to-eye contact...sigh*, you have changed my
+                giggle, looking into the eyes...sigh*, you have changed my
                 perspective on so many things.. How to be like a tree? How to be
                 grounded yet flexible.
               </p>
@@ -3621,12 +3818,12 @@
                 that has bloomed into my life, bringing color and joy to my
                 world. You gave me the excitement to start my day off with a
                 smile, and of course...sigh..first thoughts of you in the
-                morning : )
+                morning, hence the morning texts.. : )
               </p>
               <p
                 class="font-body text-xl sm:text-2xl text-gray-200 leading-relaxed text-center"
               >
-                You reminded me:
+                You mentioned:
                 <span
                   class="block mt-4 font-elegant text-2xl sm:text-3xl md:text-4xl gold-gradient glow-text font-semibold"
                   >"बस अपना कर्म करते चलो, फल की चिंता मत करो।"</span
@@ -3635,7 +3832,7 @@
               <p
                 class="font-body text-xl sm:text-2xl text-gray-200 leading-relaxed text-center mt-10"
               >
-                And then you said something I will carry with me forever:
+                And
                 <span
                   class="block mt-4 font-elegant text-2xl sm:text-3xl md:text-4xl gold-gradient glow-text font-semibold"
                   >"युद्ध रणभूमी से पहले मनभूमी पे खेली जाती है।"</span
@@ -3669,7 +3866,7 @@
             <p
               class="font-body text-2xl sm:text-3xl md:text-4xl text-gray-100 leading-relaxed text-center"
             >
-              So here's what I want you to hear as this new year begins..you
+              So here's what I want you to know as this new year begins..you
               are:
             </p>
             <div
@@ -3691,6 +3888,7 @@
             <p
               class="font-body text-xl sm:text-2xl md:text-3xl text-gray-200 leading-relaxed text-center"
             >
+              (and so much more...)<br />
               Keep swimming, drishti.
             </p>
             <p
@@ -3704,7 +3902,37 @@
             <p
               class="font-body text-2xl sm:text-3xl md:text-4xl text-gray-100 leading-relaxed text-center mt-8 font-semibold"
             >
-              The world needs you.
+              India needs you, not just me X) /nss
+            </p>
+          </div>
+        </div>
+
+        <!-- Wishes for 2026 -->
+        <div class="reveal">
+          <div class="glass-card rounded-3xl p-8 sm:p-12 md:p-16 letter-card">
+            <h2
+              class="font-heading text-3xl sm:text-4xl text-center gold-gradient glow-text mb-6"
+            >
+              🌟 Wishes for 2026 & The Foreseeable Future
+            </h2>
+
+            <p
+              class="font-body text-lg sm:text-xl text-gray-300 leading-relaxed text-center"
+            >
+              Dearest of Dearest drishti.., for 2026, and for everyy beautiful
+              year that follows, I hope your days overflow with success,
+              prosperity, and warm, hearty smiles ^^ May positive new
+              opportunities find you, peace surround you, and each morning bring
+              positive energy and gentle surprises that make your heart feel light n'
+              warm. Here's to countless, happy moments together and the
+              brightest of tomorrows for you, your majesty, always, to the
+              foreseeable future.
+            </p>
+
+            <p
+              class="font-elegant text-md sm:text-lg text-center text-gray-300 mt-6 italic"
+            >
+              With all my wishes
             </p>
           </div>
         </div>
@@ -3715,7 +3943,7 @@
             <h2
               class="font-heading text-3xl sm:text-4xl text-center gold-gradient glow-text mb-10"
             >
-              💫 How you inspired each detail here
+              💫 How you inspired each detail & feature here
             </h2>
 
             <div class="space-y-8">
@@ -3747,7 +3975,7 @@
                   Himalayas, to admire the beauty, and feel the pure mountain
                   air. This gentle snowfall is a little piece of that
                   foreseeable future, falling softly around you as you read
-                  these words. May you/we.. soon experience the
+                  these words. May you/us.. soon experience the
                   mountains...someday...together ^^ Can't wait to walk/run down
                   the roads. XD we most prob will walk, in peaceee...sigh
                 </p>
@@ -3785,7 +4013,7 @@
                 >
                   The dancing colors in the background represent how you've
                   brought color into my world, my life. Always shifting, always
-                  beautiful..just like every conversation with you.
+                  beautiful..just like (99.99%) every conversation with you.
                 </p>
               </div>
             </div>
@@ -3793,8 +4021,8 @@
             <p
               class="font-elegant text-xl sm:text-2xl text-center text-gray-300 mt-12 italic"
             >
-              Every detail, every feature here was inspired by you. By who you
-              are. By what you love... By what you dream of, your majesty.
+              Every detail, every feature here is inspired by you. By who you
+              are. By what you love... By what you dream of, and what i treasure in you, your majesty.
             </p>
           </div>
         </div>
@@ -3804,9 +4032,9 @@
           <p
             class="font-elegant text-2xl sm:text-3xl text-gray-300 leading-relaxed"
           >
-            With utmost sincerety and...,<br />
+            With utmost sincerety care and...,<br />
             <span
-              class="font-heading text-3xl sm:text-4xl md:text-5xl gold-gradient glow-text inline-block mt-2"
+              class="italic font-semibold text-3xl sm:text-4xl md:text-5xl gold-gradient glow-text inline-block mt-2"
               >Kaustubh✨</span
             >
           </p>
@@ -3903,21 +4131,37 @@
         </button>
 
         <!-- Firework Button -->
-        <button class="firework-btn" id="firework-btn" title="Launch Fireworks! 🎆">
+        <button
+          class="firework-btn"
+          id="firework-btn"
+          title="Launch Fireworks! 🎆"
+        >
           🎆
         </button>
 
-          <!-- Poetry Button -->
-          <button id="poetry-btn" class="memory-btn" style="left: 50%; transform: translateX(-50%); bottom: 100px; background: linear-gradient(135deg, #fbbf24 0%, #f472b6 100%);" title="Tiny Poetries">
-            📝
-          </button>
+        <!-- Poetry Button -->
+        <button
+          id="poetry-btn"
+          class="memory-btn"
+          style="
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 100px;
+            background: linear-gradient(135deg, #fbbf24 0%, #f472b6 100%);
+          "
+          title="Tiny Poetries"
+        >
+          📝
+        </button>
       </div>
     </main>
 
     <!-- Fireworks Overlay -->
     <div class="fireworks-overlay" id="fireworks-overlay">
       <button class="fireworks-close" id="fireworks-close">✕</button>
-      <div class="fireworks-message">✨ Happiest New Year, drishtiiiiiiiii! ✨</div>
+      <div class="fireworks-message">
+        ✨ Happiest New Year, drishtiiiiiiiii! ✨
+      </div>
     </div>
 
     <!-- Fighter Jet Launcher -->
@@ -3925,57 +4169,115 @@
       🛩️
     </button>
 
-      <!-- Poetry Overlay -->
+    <!-- Poetry Overlay -->
 
-      <div class="poetry-overlay" id="poetry-overlay" role="dialog" aria-modal="true" aria-labelledby="poetry-title">
-        <div class="poetry-panel" role="document">
-          <div class="poetry-header">
-            <div>
-              <div id="poetry-title" class="poetry-title">Tiny Poetries We Wrote</div>
-              <div style="font-family:'Cormorant Garamond',serif; color:#9aa8ff; font-size:0.95rem; margin-top:6px;">A collection of small pages from our heart</div>
+    <div
+      class="poetry-overlay"
+      id="poetry-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="poetry-title"
+    >
+      <div class="poetry-panel" role="document">
+        <div class="poetry-header">
+          <div>
+            <div id="poetry-title" class="poetry-title">
+              Tiny Poetries We Wrote
             </div>
-            <div class="poetry-controls">
-              <button class="poetry-btn" id="poetry-close" aria-label="Close poetry overlay">Close ✕</button>
+            <div
+              style="
+                font-family: 'Cormorant Garamond', serif;
+                color: #9aa8ff;
+                font-size: 0.95rem;
+                margin-top: 6px;
+              "
+            >
+              A collection of small pages from our hearts ^^
+            </div>
+          </div>
+          <div class="poetry-controls">
+            <button
+              class="poetry-btn"
+              id="poetry-close"
+              aria-label="Close poetry overlay"
+            >
+              Close ✕
+            </button>
+          </div>
+        </div>
+
+        <div id="poem-list" class="poem-list">
+          <div class="poem-item" data-index="0">
+            <div class="poem-meta">Her Majesty</div>
+            <div class="poem-text" data-lines>
+              Whatever little space you have dug yourself in the garden that is
+              my life has been empty and wilting since your departure. I long
+              for the spring to bloom again as you arrive. :D
             </div>
           </div>
 
-          <div id="poem-list" class="poem-list">
-            <div class="poem-item" data-index="0">
-              <div class="poem-meta">Her Majesty</div>
-              <div class="poem-text" data-lines>
-                Whatever little space you have dug yourself in the garden that is my life has been empty and wilting since your departure. I long for the spring to bloom again as you arrive. :D
-              </div>
-            </div>
-
-            <div class="poem-item" data-index="1">
-              <div class="poem-meta">Her Majesty</div>
-              <div class="poem-text" data-lines>
-                My day will be a trifle less luminous without thy presence to gild them, alas, a departure remains needed for causes I won't be gracing you with ;)
-              </div>
-            </div>
-
-            <div class="poem-item" data-index="2">
-              <div class="poem-meta">The Knight</div>
-              <div class="poem-text" data-lines>
-                If I had to hate you, in literary sense, I'd hate the entire world first.
-              </div>
+          <div class="poem-item" data-index="1">
+            <div class="poem-meta">Her Majesty</div>
+            <div class="poem-text" data-lines>
+              My day will be a trifle less luminous without thy presence to gild
+              them, alas, a departure remains needed for causes I won't be
+              gracing you with ;)
             </div>
           </div>
 
-          <div class="poetry-footer" role="note">
-            <div style="font-family:'Cormorant Garamond',serif; font-size:1.05rem; color:#f1f5ff; line-height:1.5;">
-              Thank you for every word, every feeling, every moment.<br>
-              <span style="font-weight:700; font-size:1.12rem; background:linear-gradient(90deg,#fbbf24,#f472b6,#7c3aed); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 0 18px rgba(124,58,237,0.08);">You are <span class="emph-the" style="background:linear-gradient(90deg,#7c3aed,#fbbf24,#f472b6); -webkit-background-clip:text; background-clip:text; color:transparent;">the</span> poetry in my life.</span> <span style="font-size:1.2rem;">🌷</span>
+          <div class="poem-item" data-index="2">
+            <div class="poem-meta">The Knight X)</div>
+            <div class="poem-text" data-lines>
+              If I had to hate you, in literary sense, I'd hate the entire world
+              first.
             </div>
           </div>
         </div>
+
+        <div class="poetry-footer" role="note">
+          <div
+            style="
+              font-family: 'Cormorant Garamond', serif;
+              font-size: 1.05rem;
+              color: #f1f5ff;
+              line-height: 1.5;
+            "
+          >
+            Thank you for every word, every feeling, every moment.<br />
+            <span
+              style="
+                font-weight: 700;
+                font-size: 1.12rem;
+                background: linear-gradient(90deg, #fbbf24, #f472b6, #7c3aed);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                text-shadow: 0 0 18px rgba(124, 58, 237, 0.08);
+              "
+              >You are
+              <span
+                class="emph-the"
+                style="
+                  background: linear-gradient(90deg, #7c3aed, #fbbf24, #f472b6);
+                  -webkit-background-clip: text;
+                  background-clip: text;
+                  color: transparent;
+                "
+                >the</span
+              >
+              poetry in my life.</span
+            >
+            <span style="font-size: 1.2rem">🌷</span>
+          </div>
+        </div>
       </div>
+    </div>
 
     <!-- Constellation Overlay -->
     <div class="constellation-overlay" id="constellation-overlay">
       <button class="constellation-close" id="constellation-close">✕</button>
       <div class="constellation-message" id="constellation-message">
-        I love your name to the stars and back...sigh..
+        I love your name and value you to the stars and back..sigh
       </div>
     </div>
 
@@ -3988,7 +4290,8 @@
     <div class="garden-overlay" id="garden-overlay">
       <button class="garden-close" id="garden-close">✕</button>
       <div class="garden-message">
-        ✨ A whole garden of flowers, just for you ✨<br />
+        ✨ A whole sanctuary of flowers, just for you ✨<br />(Digital for now
+        ^^)<br />
         <span style="font-size: 1.6rem; color: #f9a8d4"
           >Your Majesty, My Lady...</span
         ><br />
@@ -4009,81 +4312,85 @@
         "constellation-message"
       );
 
-        // Poetry Overlay Logic (simplified: no decoratives, no copy/random)
-        const poetryBtn = document.getElementById("poetry-btn");
-        const poetryOverlay = document.getElementById("poetry-overlay");
-        const poetryClose = document.getElementById("poetry-close");
-        const poemList = document.getElementById("poem-list");
+      // Poetry Overlay Logic (simplified: no decoratives, no copy/random)
+      const poetryBtn = document.getElementById("poetry-btn");
+      const poetryOverlay = document.getElementById("poetry-overlay");
+      const poetryClose = document.getElementById("poetry-close");
+      const poemList = document.getElementById("poem-list");
 
-        // WebAudio chime for open/interaction (short bell)
-        function playChime() {
-          try {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const o = ctx.createOscillator();
-            const g = ctx.createGain();
-            o.type = 'sine';
-            o.frequency.value = 880;
-            const o2 = ctx.createOscillator();
-            o2.type = 'triangle';
-            o2.frequency.value = 660;
-            o.connect(g);
-            o2.connect(g);
-            g.connect(ctx.destination);
-            o.start();
-            o2.start();
-            g.gain.setValueAtTime(0, ctx.currentTime);
-            g.gain.linearRampToValueAtTime(0.06, ctx.currentTime + 0.01);
-            g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
-            o.stop(ctx.currentTime + 1.3);
-            o2.stop(ctx.currentTime + 1.3);
-          } catch (e) {
-            // ignore audio errors on older browsers
-          }
+      // WebAudio chime for open/interaction (short bell)
+      function playChime() {
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          o.type = "sine";
+          o.frequency.value = 880;
+          const o2 = ctx.createOscillator();
+          o2.type = "triangle";
+          o2.frequency.value = 660;
+          o.connect(g);
+          o2.connect(g);
+          g.connect(ctx.destination);
+          o.start();
+          o2.start();
+          g.gain.setValueAtTime(0, ctx.currentTime);
+          g.gain.linearRampToValueAtTime(0.06, ctx.currentTime + 0.01);
+          g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
+          o.stop(ctx.currentTime + 1.3);
+          o2.stop(ctx.currentTime + 1.3);
+        } catch (e) {
+          // ignore audio errors on older browsers
         }
+      }
 
-        function openPoetry() {
-          poetryOverlay.classList.add('show');
-          playChime();
-          // animate poem lines staggered
-          const texts = poemList.querySelectorAll('.poem-text');
-          texts.forEach((t, idx) => {
-            setTimeout(() => t.classList.add('show-line'), 250 + idx * 220);
-          });
-          // set focus for accessibility
-          setTimeout(() => {
-            const firstBtn = poetryOverlay.querySelector('.poetry-btn');
-            if (firstBtn) firstBtn.focus();
-          }, 320);
-        }
-
-        function closePoetry() {
-          poetryOverlay.classList.remove('show');
-          // clear line animations
-          const texts = poemList.querySelectorAll('.poem-text');
-          texts.forEach(t => t.classList.remove('show-line'));
-        }
-
-        poetryBtn.addEventListener('click', openPoetry);
-        poetryClose.addEventListener('click', closePoetry);
-
-        // keyboard: Esc to close, trap focus
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && poetryOverlay.classList.contains('show')) {
-            closePoetry();
-          }
-          // simple focus trap (Tab)
-          if (poetryOverlay.classList.contains('show') && e.key === 'Tab') {
-            const focusable = poetryOverlay.querySelectorAll('button, [href], input, textarea, [tabindex]:not([tabindex="-1"])');
-            if (!focusable.length) return;
-            const first = focusable[0];
-            const last = focusable[focusable.length-1];
-            if (e.shiftKey && document.activeElement === first) {
-              e.preventDefault(); last.focus();
-            } else if (!e.shiftKey && document.activeElement === last) {
-              e.preventDefault(); first.focus();
-            }
-          }
+      function openPoetry() {
+        poetryOverlay.classList.add("show");
+        playChime();
+        // animate poem lines staggered
+        const texts = poemList.querySelectorAll(".poem-text");
+        texts.forEach((t, idx) => {
+          setTimeout(() => t.classList.add("show-line"), 250 + idx * 220);
         });
+        // set focus for accessibility
+        setTimeout(() => {
+          const firstBtn = poetryOverlay.querySelector(".poetry-btn");
+          if (firstBtn) firstBtn.focus();
+        }, 320);
+      }
+
+      function closePoetry() {
+        poetryOverlay.classList.remove("show");
+        // clear line animations
+        const texts = poemList.querySelectorAll(".poem-text");
+        texts.forEach((t) => t.classList.remove("show-line"));
+      }
+
+      poetryBtn.addEventListener("click", openPoetry);
+      poetryClose.addEventListener("click", closePoetry);
+
+      // keyboard: Esc to close, trap focus
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && poetryOverlay.classList.contains("show")) {
+          closePoetry();
+        }
+        // simple focus trap (Tab)
+        if (poetryOverlay.classList.contains("show") && e.key === "Tab") {
+          const focusable = poetryOverlay.querySelectorAll(
+            'button, [href], input, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (!focusable.length) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      });
 
       // Letter coordinates for "drishti" - lowercase letters
       const letterPaths = {
@@ -4380,50 +4687,50 @@
       // Create animated grass at the bottom of the garden
       function createGardenGrass() {
         // Avoid duplicating grass on repeated opens
-        if (gardenOverlay.querySelector('.garden-grass')) return;
+        if (gardenOverlay.querySelector(".garden-grass")) return;
 
-        const grass = document.createElement('div');
-        grass.className = 'garden-grass';
+        const grass = document.createElement("div");
+        grass.className = "garden-grass";
 
-        const nearLayer = document.createElement('div');
-        nearLayer.className = 'grass-layer near';
-        const farLayer = document.createElement('div');
-        farLayer.className = 'grass-layer far';
-        const dewLayer = document.createElement('div');
-        dewLayer.className = 'dew-layer';
+        const nearLayer = document.createElement("div");
+        nearLayer.className = "grass-layer near";
+        const farLayer = document.createElement("div");
+        farLayer.className = "grass-layer far";
+        const dewLayer = document.createElement("div");
+        dewLayer.className = "dew-layer";
 
         const bladeCountNear = 90;
         const bladeCountFar = 70;
 
         for (let i = 0; i < bladeCountFar; i++) {
-          const blade = document.createElement('div');
-          blade.className = 'grass-blade';
+          const blade = document.createElement("div");
+          blade.className = "grass-blade";
           const left = Math.random() * 100;
           const h = 70 + Math.random() * 60; // 70-130px
           const lean = (Math.random() - 0.5) * 6; // -3 to +3 deg
           const dur = 3.5 + Math.random() * 2; // 3.5-5.5s
           const delay = Math.random() * 2;
           blade.style.left = `${left}%`;
-          blade.style.setProperty('--blade-h', `${h}px`);
-          blade.style.setProperty('--lean', `${lean}deg`);
-          blade.style.setProperty('--sway-dur', `${dur}s`);
-          blade.style.setProperty('--sway-delay', `${delay}s`);
+          blade.style.setProperty("--blade-h", `${h}px`);
+          blade.style.setProperty("--lean", `${lean}deg`);
+          blade.style.setProperty("--sway-dur", `${dur}s`);
+          blade.style.setProperty("--sway-delay", `${delay}s`);
           farLayer.appendChild(blade);
         }
 
         for (let i = 0; i < bladeCountNear; i++) {
-          const blade = document.createElement('div');
-          blade.className = 'grass-blade';
+          const blade = document.createElement("div");
+          blade.className = "grass-blade";
           const left = Math.random() * 100;
           const h = 90 + Math.random() * 90; // 90-180px
           const lean = (Math.random() - 0.5) * 8; // -4 to +4 deg
           const dur = 3 + Math.random() * 2.5; // 3-5.5s
           const delay = Math.random() * 2;
           blade.style.left = `${left}%`;
-          blade.style.setProperty('--blade-h', `${h}px`);
-          blade.style.setProperty('--lean', `${lean}deg`);
-          blade.style.setProperty('--sway-dur', `${dur}s`);
-          blade.style.setProperty('--sway-delay', `${delay}s`);
+          blade.style.setProperty("--blade-h", `${h}px`);
+          blade.style.setProperty("--lean", `${lean}deg`);
+          blade.style.setProperty("--sway-dur", `${dur}s`);
+          blade.style.setProperty("--sway-delay", `${delay}s`);
           nearLayer.appendChild(blade);
         }
 
@@ -4431,8 +4738,8 @@
         const isMobile = window.innerWidth < 480;
         const dewCount = isMobile ? 35 : 70;
         for (let i = 0; i < dewCount; i++) {
-          const dew = document.createElement('div');
-          dew.className = 'grass-dew';
+          const dew = document.createElement("div");
+          dew.className = "grass-dew";
           dew.style.left = `${Math.random() * 100}%`;
           // Place dew along lower half of grass
           dew.style.bottom = `${8 + Math.random() * 25}%`;
@@ -4449,14 +4756,17 @@
       // Schedule gentle wind gusts while garden is open
       let gustTimer = null;
       function scheduleWindGusts() {
-        const grass = gardenOverlay.querySelector('.garden-grass');
+        const grass = gardenOverlay.querySelector(".garden-grass");
         if (!grass) return;
         const trigger = () => {
           // Randomize gust duration slightly
           const gustDur = 1.6 + Math.random() * 0.8;
-          grass.style.setProperty('--gust-dur', `${gustDur}s`);
-          grass.classList.add('gust');
-          setTimeout(() => grass.classList.remove('gust'), (gustDur * 3 + 0.3) * 1000);
+          grass.style.setProperty("--gust-dur", `${gustDur}s`);
+          grass.classList.add("gust");
+          setTimeout(
+            () => grass.classList.remove("gust"),
+            (gustDur * 3 + 0.3) * 1000
+          );
           const next = 5000 + Math.random() * 7000; // 5-12s
           gustTimer = setTimeout(trigger, next);
         };
@@ -4926,66 +5236,78 @@
       // ===============================
       // Tickle Effect on Card Click
       // ===============================
-      const giggleEmojis = ['😊', '😄', '🤭', '✨', '💫', '🌟', '💖', '🥰', '😆', '🫣'];
-      
-      document.querySelectorAll('.reveal .glass-card').forEach(card => {
-        card.style.cursor = 'pointer';
-        
-        card.addEventListener('click', (e) => {
+      const giggleEmojis = [
+        "😊",
+        "😄",
+        "🤭",
+        "✨",
+        "💫",
+        "🌟",
+        "💖",
+        "🥰",
+        "😆",
+        "🫣",
+      ];
+
+      document.querySelectorAll(".reveal .glass-card").forEach((card) => {
+        card.style.cursor = "pointer";
+
+        card.addEventListener("click", (e) => {
           // Don't trigger if clicking a link
-          if (e.target.tagName === 'A') return;
-          
+          if (e.target.tagName === "A") return;
+
           // Remove class if already animating, then add it fresh
-          card.classList.remove('tickled');
+          card.classList.remove("tickled");
           // Force reflow to restart animation
           void card.offsetWidth;
-          card.classList.add('tickled');
-          
+          card.classList.add("tickled");
+
           // Play a playful sound
           playTickleSound();
-          
+
           // Create giggle particles
           const rect = card.getBoundingClientRect();
           const particleCount = 5 + Math.floor(Math.random() * 4);
-          
+
           for (let i = 0; i < particleCount; i++) {
             setTimeout(() => {
-              const particle = document.createElement('div');
-              particle.className = 'giggle-particle';
-              particle.textContent = giggleEmojis[Math.floor(Math.random() * giggleEmojis.length)];
-              
+              const particle = document.createElement("div");
+              particle.className = "giggle-particle";
+              particle.textContent =
+                giggleEmojis[Math.floor(Math.random() * giggleEmojis.length)];
+
               // Random position along the top of the card
               const x = rect.left + Math.random() * rect.width;
               const y = rect.top + Math.random() * (rect.height * 0.5);
-              
-              particle.style.position = 'fixed';
-              particle.style.left = x + 'px';
-              particle.style.top = y + 'px';
-              
+
+              particle.style.position = "fixed";
+              particle.style.left = x + "px";
+              particle.style.top = y + "px";
+
               document.body.appendChild(particle);
-              
+
               setTimeout(() => particle.remove(), 1000);
             }, i * 80);
           }
-          
+
           // Show tickle popup text
-          const popup = document.createElement('div');
-          popup.className = 'tickle-popup';
-          popup.textContent = 'Staaawwwppp tickling meeeeh XD XD XDDD';
-          
+          const popup = document.createElement("div");
+          popup.className = "tickle-popup";
+          popup.textContent = "Staaawwwppp tickling meeeeh XD XD XDDD";
+
           // Position above the card center
           const rect2 = card.getBoundingClientRect();
-          popup.style.left = (rect2.left + rect2.width / 2) + 'px';
-          popup.style.top = (rect2.top - 20) + 'px';
-          popup.style.transform = 'translateX(-50%)';
-          
+          popup.style.left = rect2.left + rect2.width / 2 + "px";
+          popup.style.top = rect2.top - 20 + "px";
+          popup.style.transform = "translateX(-50%)";
+
           document.body.appendChild(popup);
-          
+
           setTimeout(() => popup.remove(), 1500);
-          
+
           // Remove animation class after it completes
           setTimeout(() => {
-            card.classList.remove('tickled');
+            card.classList.remove("tickled");
           }, 500);
         });
       });
@@ -4994,26 +5316,32 @@
       function playTickleSound() {
         if (!sfxAudioContext) return;
         initAudioContext();
-        
+
         // Create a playful ascending chirp
         const now = sfxAudioContext.currentTime;
-        
+
         for (let i = 0; i < 3; i++) {
           const oscillator = sfxAudioContext.createOscillator();
           const gainNode = sfxAudioContext.createGain();
-          
+
           oscillator.connect(gainNode);
           gainNode.connect(sfxAudioContext.destination);
-          
-          oscillator.type = 'sine';
+
+          oscillator.type = "sine";
           const baseFreq = 600 + i * 150;
           oscillator.frequency.setValueAtTime(baseFreq, now + i * 0.08);
-          oscillator.frequency.exponentialRampToValueAtTime(baseFreq * 1.3, now + i * 0.08 + 0.1);
-          
+          oscillator.frequency.exponentialRampToValueAtTime(
+            baseFreq * 1.3,
+            now + i * 0.08 + 0.1
+          );
+
           gainNode.gain.setValueAtTime(0, now + i * 0.08);
           gainNode.gain.linearRampToValueAtTime(0.08, now + i * 0.08 + 0.02);
-          gainNode.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.15);
-          
+          gainNode.gain.exponentialRampToValueAtTime(
+            0.001,
+            now + i * 0.08 + 0.15
+          );
+
           oscillator.start(now + i * 0.08);
           oscillator.stop(now + i * 0.08 + 0.15);
         }
@@ -5615,24 +5943,24 @@
       // ===============================
       // MUSIC PLAYER CONTROLS
       // ===============================
-      const musicPlayer = document.getElementById('music-player');
-      const musicToggle = document.getElementById('music-toggle');
-      const volumeSlider = document.getElementById('volume-slider');
-      const musicBars = document.querySelectorAll('.music-bar');
-      const bgMusic = document.getElementById('bg-music');
+      const musicPlayer = document.getElementById("music-player");
+      const musicToggle = document.getElementById("music-toggle");
+      const volumeSlider = document.getElementById("volume-slider");
+      const musicBars = document.querySelectorAll(".music-bar");
+      const bgMusic = document.getElementById("bg-music");
       let isMusicPlaying = false;
 
       // Set initial volume
       bgMusic.volume = 0.5;
 
       function updateMusicVisualizer(playing) {
-        musicBars.forEach(bar => {
+        musicBars.forEach((bar) => {
           if (playing) {
-            bar.classList.remove('paused');
-            bar.classList.add('playing');
+            bar.classList.remove("paused");
+            bar.classList.add("playing");
           } else {
-            bar.classList.remove('playing');
-            bar.classList.add('paused');
+            bar.classList.remove("playing");
+            bar.classList.add("paused");
           }
         });
       }
@@ -5640,45 +5968,48 @@
       function toggleMusic() {
         if (isMusicPlaying) {
           bgMusic.pause();
-          musicToggle.textContent = '▶️';
+          musicToggle.textContent = "▶️";
           isMusicPlaying = false;
         } else {
-          bgMusic.play().then(() => {
-            musicToggle.textContent = '⏸️';
-            isMusicPlaying = true;
-          }).catch(err => {
-            console.log('Playback failed:', err);
-          });
+          bgMusic
+            .play()
+            .then(() => {
+              musicToggle.textContent = "⏸️";
+              isMusicPlaying = true;
+            })
+            .catch((err) => {
+              console.log("Playback failed:", err);
+            });
         }
         updateMusicVisualizer(isMusicPlaying);
       }
 
-      musicToggle.addEventListener('click', toggleMusic);
+      musicToggle.addEventListener("click", toggleMusic);
 
-      volumeSlider.addEventListener('input', (e) => {
+      volumeSlider.addEventListener("input", (e) => {
         const volume = e.target.value / 100;
         bgMusic.volume = volume;
         // Update volume icon based on level
-        const volumeIcon = document.querySelector('.volume-icon');
+        const volumeIcon = document.querySelector(".volume-icon");
         if (volume === 0) {
-          volumeIcon.textContent = '🔇';
+          volumeIcon.textContent = "🔇";
         } else if (volume < 0.5) {
-          volumeIcon.textContent = '🔉';
+          volumeIcon.textContent = "🔉";
         } else {
-          volumeIcon.textContent = '🔊';
+          volumeIcon.textContent = "🔊";
         }
       });
 
       // Update visualizer when music plays/pauses from other sources
-      bgMusic.addEventListener('play', () => {
+      bgMusic.addEventListener("play", () => {
         isMusicPlaying = true;
-        musicToggle.textContent = '⏸️';
+        musicToggle.textContent = "⏸️";
         updateMusicVisualizer(true);
       });
 
-      bgMusic.addEventListener('pause', () => {
+      bgMusic.addEventListener("pause", () => {
         isMusicPlaying = false;
-        musicToggle.textContent = '▶️';
+        musicToggle.textContent = "▶️";
         updateMusicVisualizer(false);
       });
 
@@ -5689,10 +6020,11 @@
 
       function initAudioContext() {
         if (!sfxAudioContext) {
-          sfxAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+          sfxAudioContext = new (window.AudioContext ||
+            window.webkitAudioContext)();
         }
-        if (sfxAudioContext.state === 'suspended') {
-          sfxAudioContext.resume(); 
+        if (sfxAudioContext.state === "suspended") {
+          sfxAudioContext.resume();
         }
       }
 
@@ -5700,98 +6032,102 @@
       function playFireworkSound() {
         initAudioContext();
         const now = sfxAudioContext.currentTime;
-        
+
         // Main explosion burst (low frequency boom)
         const boom = sfxAudioContext.createOscillator();
         const boomGain = sfxAudioContext.createGain();
         const boomFilter = sfxAudioContext.createBiquadFilter();
-        
+
         boom.connect(boomFilter);
         boomFilter.connect(boomGain);
         boomGain.connect(sfxAudioContext.destination);
-        
-        boom.type = 'sawtooth';
+
+        boom.type = "sawtooth";
         boom.frequency.setValueAtTime(80, now);
         boom.frequency.exponentialRampToValueAtTime(20, now + 0.3);
-        
-        boomFilter.type = 'lowpass';
+
+        boomFilter.type = "lowpass";
         boomFilter.frequency.setValueAtTime(400, now);
         boomFilter.frequency.exponentialRampToValueAtTime(50, now + 0.3);
         boomFilter.Q.value = 1;
-        
+
         boomGain.gain.setValueAtTime(0.25, now);
         boomGain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-        
+
         boom.start(now);
         boom.stop(now + 0.3);
-        
+
         // High frequency shimmer/sparkle (like stars scattering)
         const shimmer = sfxAudioContext.createOscillator();
         const shimmerGain = sfxAudioContext.createGain();
         const shimmerFilter = sfxAudioContext.createBiquadFilter();
-        
+
         shimmer.connect(shimmerFilter);
         shimmerFilter.connect(shimmerGain);
         shimmerGain.connect(sfxAudioContext.destination);
-        
-        shimmer.type = 'sine';
+
+        shimmer.type = "sine";
         shimmer.frequency.setValueAtTime(2000, now + 0.05);
         shimmer.frequency.exponentialRampToValueAtTime(800, now + 0.6);
-        
-        shimmerFilter.type = 'highpass';
+
+        shimmerFilter.type = "highpass";
         shimmerFilter.frequency.setValueAtTime(1500, now + 0.05);
-        
+
         shimmerGain.gain.setValueAtTime(0.12, now + 0.05);
         shimmerGain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-        
+
         shimmer.start(now + 0.05);
         shimmer.stop(now + 0.6);
-        
+
         // Crackling sparkles (white noise bursts)
         const bufferSize = sfxAudioContext.sampleRate * 0.5;
-        const crackleBuffer = sfxAudioContext.createBuffer(1, bufferSize, sfxAudioContext.sampleRate);
+        const crackleBuffer = sfxAudioContext.createBuffer(
+          1,
+          bufferSize,
+          sfxAudioContext.sampleRate
+        );
         const crackleData = crackleBuffer.getChannelData(0);
-        
+
         for (let i = 0; i < bufferSize; i++) {
           // Create burst pattern with decay
           const decay = Math.exp(-i / (bufferSize * 0.3));
-          const burst = Math.random() < 0.3 ? (Math.random() * 2 - 1) : 0;
+          const burst = Math.random() < 0.3 ? Math.random() * 2 - 1 : 0;
           crackleData[i] = burst * decay * 0.5;
         }
-        
+
         const crackleSource = sfxAudioContext.createBufferSource();
         const crackleFilter = sfxAudioContext.createBiquadFilter();
         const crackleGain = sfxAudioContext.createGain();
-        
+
         crackleSource.buffer = crackleBuffer;
         crackleSource.connect(crackleFilter);
         crackleFilter.connect(crackleGain);
         crackleGain.connect(sfxAudioContext.destination);
-        
-        crackleFilter.type = 'bandpass';
+
+        crackleFilter.type = "bandpass";
         crackleFilter.frequency.setValueAtTime(3000, now + 0.1);
         crackleFilter.frequency.exponentialRampToValueAtTime(1000, now + 0.6);
         crackleFilter.Q.value = 2;
-        
+
         crackleGain.gain.setValueAtTime(0.15, now + 0.1);
         crackleGain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-        
+
         crackleSource.start(now + 0.1);
-        
+
         // Resonant echo/reverb tail
         const echo = sfxAudioContext.createOscillator();
         const echoGain = sfxAudioContext.createGain();
-        
+
         echo.connect(echoGain);
         echoGain.connect(sfxAudioContext.destination);
-        
-        echo.type = 'triangle';
+
+        echo.type = "triangle";
         echo.frequency.setValueAtTime(150, now + 0.2);
         echo.frequency.exponentialRampToValueAtTime(80, now + 0.8);
-        
+
         echoGain.gain.setValueAtTime(0.08, now + 0.2);
         echoGain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
-        
+
         echo.start(now + 0.2);
         echo.stop(now + 0.8);
       }
@@ -5801,18 +6137,27 @@
         initAudioContext();
         const oscillator = sfxAudioContext.createOscillator();
         const gainNode = sfxAudioContext.createGain();
-        
+
         oscillator.connect(gainNode);
         gainNode.connect(sfxAudioContext.destination);
-        
-        oscillator.type = 'sine';
+
+        oscillator.type = "sine";
         oscillator.frequency.setValueAtTime(800, sfxAudioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(1200, sfxAudioContext.currentTime + 0.05);
-        oscillator.frequency.exponentialRampToValueAtTime(600, sfxAudioContext.currentTime + 0.15);
-        
+        oscillator.frequency.exponentialRampToValueAtTime(
+          1200,
+          sfxAudioContext.currentTime + 0.05
+        );
+        oscillator.frequency.exponentialRampToValueAtTime(
+          600,
+          sfxAudioContext.currentTime + 0.15
+        );
+
         gainNode.gain.setValueAtTime(0.2, sfxAudioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, sfxAudioContext.currentTime + 0.2);
-        
+        gainNode.gain.exponentialRampToValueAtTime(
+          0.001,
+          sfxAudioContext.currentTime + 0.2
+        );
+
         oscillator.start();
         oscillator.stop(sfxAudioContext.currentTime + 0.2);
       }
@@ -5822,17 +6167,23 @@
         initAudioContext();
         const oscillator = sfxAudioContext.createOscillator();
         const gainNode = sfxAudioContext.createGain();
-        
+
         oscillator.connect(gainNode);
         gainNode.connect(sfxAudioContext.destination);
-        
-        oscillator.type = 'sine';
+
+        oscillator.type = "sine";
         oscillator.frequency.setValueAtTime(600, sfxAudioContext.currentTime);
-        oscillator.frequency.setValueAtTime(800, sfxAudioContext.currentTime + 0.05);
-        
+        oscillator.frequency.setValueAtTime(
+          800,
+          sfxAudioContext.currentTime + 0.05
+        );
+
         gainNode.gain.setValueAtTime(0.1, sfxAudioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, sfxAudioContext.currentTime + 0.1);
-        
+        gainNode.gain.exponentialRampToValueAtTime(
+          0.001,
+          sfxAudioContext.currentTime + 0.1
+        );
+
         oscillator.start();
         oscillator.stop(sfxAudioContext.currentTime + 0.1);
       }
@@ -5842,88 +6193,98 @@
         initAudioContext();
         const now = sfxAudioContext.currentTime;
         const duration = 0.8; // Longer, more dramatic launch
-        
+
         // Main whistle (ascending pitch like a real rocket)
         const whistle = sfxAudioContext.createOscillator();
         const whistleGain = sfxAudioContext.createGain();
         const whistleFilter = sfxAudioContext.createBiquadFilter();
-        
+
         whistle.connect(whistleFilter);
         whistleFilter.connect(whistleGain);
         whistleGain.connect(sfxAudioContext.destination);
-        
-        whistle.type = 'sine';
+
+        whistle.type = "sine";
         // Start low and ascend sharply like a real rocket
         whistle.frequency.setValueAtTime(200, now);
-        whistle.frequency.exponentialRampToValueAtTime(1500, now + duration * 0.7);
+        whistle.frequency.exponentialRampToValueAtTime(
+          1500,
+          now + duration * 0.7
+        );
         whistle.frequency.exponentialRampToValueAtTime(2500, now + duration);
-        
-        whistleFilter.type = 'bandpass';
+
+        whistleFilter.type = "bandpass";
         whistleFilter.frequency.setValueAtTime(400, now);
-        whistleFilter.frequency.exponentialRampToValueAtTime(2000, now + duration);
+        whistleFilter.frequency.exponentialRampToValueAtTime(
+          2000,
+          now + duration
+        );
         whistleFilter.Q.value = 8; // Narrow band for piercing whistle
-        
+
         whistleGain.gain.setValueAtTime(0.05, now);
         whistleGain.gain.linearRampToValueAtTime(0.15, now + duration * 0.3);
         whistleGain.gain.linearRampToValueAtTime(0.12, now + duration * 0.8);
         whistleGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-        
+
         whistle.start(now);
         whistle.stop(now + duration);
-        
+
         // Rushing air sound (white noise with doppler effect)
         const bufferSize = sfxAudioContext.sampleRate * duration;
-        const airBuffer = sfxAudioContext.createBuffer(1, bufferSize, sfxAudioContext.sampleRate);
+        const airBuffer = sfxAudioContext.createBuffer(
+          1,
+          bufferSize,
+          sfxAudioContext.sampleRate
+        );
         const airData = airBuffer.getChannelData(0);
-        
+
         for (let i = 0; i < bufferSize; i++) {
           const progress = i / bufferSize;
           // Increase turbulence as rocket accelerates
           const intensity = Math.pow(progress, 0.5);
           airData[i] = (Math.random() * 2 - 1) * intensity * 0.4;
         }
-        
+
         const airSource = sfxAudioContext.createBufferSource();
         const airFilter = sfxAudioContext.createBiquadFilter();
         const airGain = sfxAudioContext.createGain();
-        
+
         airSource.buffer = airBuffer;
         airSource.connect(airFilter);
         airFilter.connect(airGain);
         airGain.connect(sfxAudioContext.destination);
-        
-        airFilter.type = 'highpass';
+
+        airFilter.type = "highpass";
         airFilter.frequency.setValueAtTime(400, now);
         airFilter.frequency.exponentialRampToValueAtTime(1200, now + duration);
-        
+
         airGain.gain.setValueAtTime(0.06, now);
         airGain.gain.linearRampToValueAtTime(0.12, now + duration * 0.5);
         airGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-        
+
         airSource.start(now);
-        
+
         // Low rumble (rocket thrust)
         const rumble = sfxAudioContext.createOscillator();
         const rumbleGain = sfxAudioContext.createGain();
         const rumbleFilter = sfxAudioContext.createBiquadFilter();
-        
+
         rumble.connect(rumbleFilter);
         rumbleFilter.connect(rumbleGain);
         rumbleGain.connect(sfxAudioContext.destination);
-        
-        rumble.type = 'sawtooth';
+
+        rumble.type = "sawtooth";
         rumble.frequency.setValueAtTime(40, now);
         rumble.frequency.exponentialRampToValueAtTime(60, now + duration * 0.5);
         rumble.frequency.exponentialRampToValueAtTime(30, now + duration);
-        
-        rumbleFilter.type = 'lowpass';
+
+        rumbleFilter.type = "lowpass";
         rumbleFilter.frequency.setValueAtTime(200, now);
         rumbleFilter.Q.value = 2;
-        
+
         rumbleGain.gain.setValueAtTime(0.08, now);
         rumbleGain.gain.linearRampToValueAtTime(0.12, now + duration * 0.4);
         rumbleGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-        
+
         rumble.start(now);
         rumble.stop(now + duration);
       }
@@ -5931,31 +6292,31 @@
       // ===============================
       // FIREWORKS EFFECT WITH OVERLAY
       // ===============================
-      const fireworkBtn = document.getElementById('firework-btn');
-      const fireworksOverlay = document.getElementById('fireworks-overlay');
-      const fireworksClose = document.getElementById('fireworks-close');
+      const fireworkBtn = document.getElementById("firework-btn");
+      const fireworksOverlay = document.getElementById("fireworks-overlay");
+      const fireworksClose = document.getElementById("fireworks-close");
       let fireworksActive = false;
       let fireworkInterval = null;
 
       const fireworkColors = [
-        ['#fbbf24', '#f59e0b', '#d97706'], // Gold
-        ['#f472b6', '#ec4899', '#db2777'], // Pink
-        ['#a78bfa', '#8b5cf6', '#7c3aed'], // Purple
-        ['#67e8f9', '#22d3ee', '#06b6d4'], // Cyan
-        ['#34d399', '#10b981', '#059669'], // Emerald
-        ['#fb7185', '#f43f5e', '#e11d48'], // Rose
-        ['#fcd34d', '#fbbf24', '#f59e0b'], // Amber
-        ['#c4b5fd', '#a78bfa', '#8b5cf6'], // Violet
+        ["#fbbf24", "#f59e0b", "#d97706"], // Gold
+        ["#f472b6", "#ec4899", "#db2777"], // Pink
+        ["#a78bfa", "#8b5cf6", "#7c3aed"], // Purple
+        ["#67e8f9", "#22d3ee", "#06b6d4"], // Cyan
+        ["#34d399", "#10b981", "#059669"], // Emerald
+        ["#fb7185", "#f43f5e", "#e11d48"], // Rose
+        ["#fcd34d", "#fbbf24", "#f59e0b"], // Amber
+        ["#c4b5fd", "#a78bfa", "#8b5cf6"], // Violet
       ];
 
       // Create stars in the overlay (optimized)
       function createOverlayStars() {
         const starCount = 80; // Reduced for performance
         for (let i = 0; i < starCount; i++) {
-          const star = document.createElement('div');
-          star.className = 'fw-star';
+          const star = document.createElement("div");
+          star.className = "fw-star";
           // Only animate some stars for performance
-          if (i % 3 === 0) star.classList.add('twinkle');
+          if (i % 3 === 0) star.classList.add("twinkle");
           star.style.cssText = `
             left: ${Math.random() * 100}%;
             top: ${Math.random() * 100}%;
@@ -5969,8 +6330,8 @@
       }
 
       function createFwParticle(x, y, color, angle, speed, size, container) {
-        const particle = document.createElement('div');
-        particle.className = 'fw-particle';
+        const particle = document.createElement("div");
+        particle.className = "fw-particle";
         particle.style.cssText = `
           left: 0; top: 0;
           width: ${size}px; height: ${size}px;
@@ -5988,7 +6349,10 @@
         const gravity = 0.15;
 
         function animate() {
-          if (!fireworksActive) { particle.remove(); return; }
+          if (!fireworksActive) {
+            particle.remove();
+            return;
+          }
           posX += vx;
           vy += gravity;
           posY += vy;
@@ -6006,8 +6370,8 @@
       }
 
       function createFwTrail(startX, startY, endY, color, container, callback) {
-        const trail = document.createElement('div');
-        trail.className = 'fw-trail';
+        const trail = document.createElement("div");
+        trail.className = "fw-trail";
         trail.style.cssText = `
           left: 0; top: 0;
           background: ${color};
@@ -6020,7 +6384,10 @@
         const speed = 14; // Faster ascent
 
         function animateTrail() {
-          if (!fireworksActive) { trail.remove(); return; }
+          if (!fireworksActive) {
+            trail.remove();
+            return;
+          }
           currentY -= speed;
           trail.style.transform = `translate(${startX}px, ${currentY}px)`;
 
@@ -6035,22 +6402,24 @@
       }
 
       function createFwExplosion(x, y, container) {
-        const colorSet = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
+        const colorSet =
+          fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
         const particleCount = 40 + Math.floor(Math.random() * 20); // Reduced from 100-150 to 40-60
 
         for (let i = 0; i < particleCount; i++) {
-          const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.5;
+          const angle =
+            (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.5;
           const speed = 2 + Math.random() * 5;
           const size = 4 + Math.random() * 4;
           const color = colorSet[Math.floor(Math.random() * colorSet.length)];
-          
+
           if (fireworksActive) {
             createFwParticle(x, y, color, angle, speed, size, container);
           }
         }
 
         // Simple flash without complex gradient
-        const flash = document.createElement('div');
+        const flash = document.createElement("div");
         flash.style.cssText = `
           position: absolute; left: 0; top: 0;
           width: 20px; height: 20px;
@@ -6061,13 +6430,17 @@
           opacity: 1;
         `;
         container.appendChild(flash);
-        
+
         let flashOpacity = 1;
         function fadeFlash() {
           flashOpacity -= 0.1;
           if (flashOpacity > 0) {
             flash.style.opacity = flashOpacity;
-            flash.style.transform = `translate(${x - 10 - (1-flashOpacity)*10}px, ${y - 10 - (1-flashOpacity)*10}px) scale(${1 + (1-flashOpacity)*2})`;
+            flash.style.transform = `translate(${
+              x - 10 - (1 - flashOpacity) * 10
+            }px, ${y - 10 - (1 - flashOpacity) * 10}px) scale(${
+              1 + (1 - flashOpacity) * 2
+            })`;
             requestAnimationFrame(fadeFlash);
           } else {
             flash.remove();
@@ -6078,27 +6451,35 @@
 
       function launchOverlayFirework() {
         if (!fireworksActive) return;
-        
+
         // Play whoosh sound for launch
         playWhooshSound();
-        
+
         const rect = fireworksOverlay.getBoundingClientRect();
         const startX = Math.random() * rect.width * 0.7 + rect.width * 0.15;
         const startY = rect.height;
         const endY = rect.height * 0.1 + Math.random() * rect.height * 0.4;
-        const colorSet = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
+        const colorSet =
+          fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
 
-        createFwTrail(startX, startY, endY, colorSet[0], fireworksOverlay, () => {
-          if (fireworksActive) {
-            playFireworkSound(); // Play explosion sound
-            createFwExplosion(startX, endY, fireworksOverlay);
+        createFwTrail(
+          startX,
+          startY,
+          endY,
+          colorSet[0],
+          fireworksOverlay,
+          () => {
+            if (fireworksActive) {
+              playFireworkSound(); // Play explosion sound
+              createFwExplosion(startX, endY, fireworksOverlay);
+            }
           }
-        });
+        );
       }
 
       function startContinuousFireworks() {
         fireworksActive = true;
-        
+
         // Initial burst of fireworks
         for (let i = 0; i < 2; i++) {
           setTimeout(() => launchOverlayFirework(), i * 500);
@@ -6119,30 +6500,32 @@
           fireworkInterval = null;
         }
         // Clean up remaining particles
-        const particles = fireworksOverlay.querySelectorAll('.fw-particle, .fw-trail');
-        particles.forEach(p => p.remove());
+        const particles = fireworksOverlay.querySelectorAll(
+          ".fw-particle, .fw-trail"
+        );
+        particles.forEach((p) => p.remove());
       }
 
       function openFireworksOverlay() {
         playClickSound();
-        fireworksOverlay.classList.add('show');
+        fireworksOverlay.classList.add("show");
         startContinuousFireworks();
       }
 
       function closeFireworksOverlay() {
         stopContinuousFireworks();
-        fireworksOverlay.classList.remove('show');
+        fireworksOverlay.classList.remove("show");
       }
 
       // Initialize stars once
       createOverlayStars();
 
-      fireworkBtn.addEventListener('click', openFireworksOverlay);
-      fireworksClose.addEventListener('click', closeFireworksOverlay);
+      fireworkBtn.addEventListener("click", openFireworksOverlay);
+      fireworksClose.addEventListener("click", closeFireworksOverlay);
 
       // Close on escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && fireworksOverlay.classList.contains('show')) {
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && fireworksOverlay.classList.contains("show")) {
           closeFireworksOverlay();
         }
       });
@@ -6150,39 +6533,49 @@
       // ===============================
       // STAR TRAIL CURSOR
       // ===============================
-      const starTrailColors = ['#fbbf24', '#f472b6', '#a78bfa', '#67e8f9', '#34d399', '#fcd34d'];
-      const starSymbols = ['✨', '⭐', '💫', '✧', '★', '·'];
+      const starTrailColors = [
+        "#fbbf24",
+        "#f472b6",
+        "#a78bfa",
+        "#67e8f9",
+        "#34d399",
+        "#fcd34d",
+      ];
+      const starSymbols = ["✨", "⭐", "💫", "✧", "★", "·"];
       let lastCursorX = 0;
       let lastCursorY = 0;
       let cursorThrottle = 0;
 
       function createCursorStar(x, y) {
-        const star = document.createElement('div');
-        star.className = 'cursor-star';
-        star.textContent = starSymbols[Math.floor(Math.random() * starSymbols.length)];
-        star.style.left = (x + (Math.random() - 0.5) * 20) + 'px';
-        star.style.top = (y + (Math.random() - 0.5) * 20) + 'px';
-        star.style.color = starTrailColors[Math.floor(Math.random() * starTrailColors.length)];
-        star.style.fontSize = (8 + Math.random() * 8) + 'px';
+        const star = document.createElement("div");
+        star.className = "cursor-star";
+        star.textContent =
+          starSymbols[Math.floor(Math.random() * starSymbols.length)];
+        star.style.left = x + (Math.random() - 0.5) * 20 + "px";
+        star.style.top = y + (Math.random() - 0.5) * 20 + "px";
+        star.style.color =
+          starTrailColors[Math.floor(Math.random() * starTrailColors.length)];
+        star.style.fontSize = 8 + Math.random() * 8 + "px";
         document.body.appendChild(star);
         setTimeout(() => star.remove(), 800);
       }
 
       function createCursorSparkle(x, y) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'cursor-sparkle';
-        sparkle.style.left = (x + (Math.random() - 0.5) * 30) + 'px';
-        sparkle.style.top = (y + (Math.random() - 0.5) * 30) + 'px';
-        const color = starTrailColors[Math.floor(Math.random() * starTrailColors.length)];
+        const sparkle = document.createElement("div");
+        sparkle.className = "cursor-sparkle";
+        sparkle.style.left = x + (Math.random() - 0.5) * 30 + "px";
+        sparkle.style.top = y + (Math.random() - 0.5) * 30 + "px";
+        const color =
+          starTrailColors[Math.floor(Math.random() * starTrailColors.length)];
         sparkle.style.background = color;
         sparkle.style.boxShadow = `0 0 6px ${color}, 0 0 12px ${color}`;
-        sparkle.style.width = (3 + Math.random() * 4) + 'px';
+        sparkle.style.width = 3 + Math.random() * 4 + "px";
         sparkle.style.height = sparkle.style.width;
         document.body.appendChild(sparkle);
         setTimeout(() => sparkle.remove(), 600);
       }
 
-      document.addEventListener('mousemove', (e) => {
+      document.addEventListener("mousemove", (e) => {
         const now = Date.now();
         if (now - cursorThrottle < 30) return; // Throttle to ~33fps
         cursorThrottle = now;
@@ -6207,7 +6600,7 @@
       });
 
       // Touch support for mobile
-      document.addEventListener('touchmove', (e) => {
+      document.addEventListener("touchmove", (e) => {
         const touch = e.touches[0];
         if (Math.random() > 0.5) {
           createCursorStar(touch.clientX, touch.clientY);
