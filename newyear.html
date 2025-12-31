@@ -3552,10 +3552,56 @@
             <div
               class="w-24 h-24 rounded-full border-2 border-gold-500/30 flex items-center justify-center relative float dramatic-entrance"
             >
+              <style>
+                /* Subtle hint animation for the old-goldies button */
+                #oldgoldies-btn {
+                  transition: transform 220ms ease, box-shadow 220ms ease;
+                  will-change: transform, box-shadow;
+                  display: inline-flex;
+                  align-items: center;
+                  justify-content: center;
+                }
+
+                @keyframes hintDance {
+                  0% { transform: translateY(0) rotate(0) scale(1); }
+                  25% { transform: translateY(-6px) rotate(-4deg) scale(1.02); }
+                  60% { transform: translateY(2px) rotate(3deg) scale(0.995); }
+                  100% { transform: translateY(0) rotate(0) scale(1); }
+                }
+
+                .hint-dance {
+                  animation: hintDance 1.1s cubic-bezier(.2,.9,.3,1) both;
+                }
+
+                /* Continuous floating variant (applied by default) */
+                .float-continuous {
+                  animation: hintDance 2.6s cubic-bezier(.2,.9,.3,1) infinite;
+                }
+
+                .hint-glow {
+                  box-shadow: 0 10px 30px rgba(251,191,36,0.12), 0 0 10px rgba(251,191,36,0.06) inset;
+                }
+
+                /* Screen-reader-only helper */
+                .sr-only {
+                  position: absolute !important;
+                  width: 1px !important;
+                  height: 1px !important;
+                  padding: 0 !important;
+                  margin: -1px !important;
+                  overflow: hidden !important;
+                  clip: rect(0, 0, 0, 0) !important;
+                  white-space: nowrap !important;
+                  border: 0 !important;
+                }
+              </style>
               <div
                 class="absolute inset-0 rounded-full bg-gold-500/10 blur-xl animate-pulse"
               ></div>
-              <span class="text-5xl relative z-10">✨</span>
+              <button id="oldgoldies-btn" class="text-5xl relative z-10 float-continuous" aria-haspopup="dialog" aria-controls="oldgoldies-overlay" title="Our Fav Old-Goldies">
+                ✨
+                <span class="sr-only">Open our favourite old songs playlist</span>
+              </button>
             </div>
           </div>
 
@@ -4282,6 +4328,117 @@
     </div>
 
     <!-- Background Music -->
+    <!-- Old-Goldies Overlay -->
+    <div class="poetry-overlay" id="oldgoldies-overlay" role="dialog" aria-modal="true" aria-labelledby="oldgoldies-title">
+      <div class="poetry-panel" role="document">
+        <div class="poetry-header">
+          <div>
+            <div id="oldgoldies-title" class="poetry-title">Our Fav Old-Goldies ^^</div>
+          </div>
+          <div class="poetry-controls">
+            <button class="poetry-btn" id="oldgoldies-close" aria-label="Close old goldies overlay">Close ✕</button>
+          </div>
+        </div>
+
+        <style>
+          .playlist {
+            padding: 20px 15px;
+            border-radius: 16px;
+            margin-top: 10px;
+          }
+
+          .song-item {
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            cursor: pointer;
+            transition: all 0.25s ease;
+          }
+
+          .song-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.45), 0 0 18px rgba(168,94,234,0.06);
+          }
+
+          .song-info {
+            width: 100%;
+            flex: 1;
+          }
+
+          .song-title {
+            font-size: 1.05em;
+            margin-bottom: 3px;
+            color: #f1f5ff;
+            font-family: 'Cormorant Garamond', serif;
+          }
+
+          .song-artist {
+            font-size: 0.85em;
+            color: rgba(241,245,255,0.7);
+          }
+
+          .play-icon {
+            font-size: 1.4em;
+            margin-left: 8px;
+            flex-shrink: 0;
+            color: #fbbf24;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(251,191,36,0.08), rgba(255,255,255,0.02));
+          }
+
+          @media (max-width: 768px) {
+            .song-item { flex-direction: column; align-items: flex-start; }
+            .play-icon { margin-left: 0; margin-top: 8px; }
+          }
+        </style>
+
+        <div class="playlist" id="oldgoldies-playlist">
+          <div class="song-item" data-src="src/Panna.mp3">
+            <div class="song-info">
+              <div class="song-title">Panna Ki Tamanna Haii ^^</div>
+              <div class="song-artist">Kishore Kumar, Lata Mangeshkar ji, anddd R.D. Burmannn</div>
+            </div>
+            <div class="play-icon">▶</div>
+          </div>
+
+          <div class="song-item" data-src="src/hothon.mp3">
+            <div class="song-info">
+              <div class="song-title">Hothon Se Chhu Lo Tum...</div>
+              <div class="song-artist">Jagjit Singh</div>
+            </div>
+            <div class="play-icon">▶</div>
+          </div>
+
+          <div class="song-item" data-src="src/itnaNaMujhse.mp3">
+            <div class="song-info">
+              <div class="song-title">Itna Na Mujhse Tu Pyaar Badha</div>
+              <div class="song-artist">Lata Mangeshkar, Talat Mahmood anddd Salil Chowdhuryyy</div>
+            </div>
+            <div class="play-icon">▶</div>
+          </div>
+        </div>
+
+        <audio id="oldgoldies-player" preload="none"></audio>
+
+        <div class="poetry-footer" role="note">
+          <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: #f1f5ff; line-height: 1.5;">
+            Thought you'd love to listen to these too... ^^ ✨<br>just make sure you pause the bg music from top left corner, okie?
+          </div>
+        </div>
+      </div>
+    </div>
+
     <audio id="bg-music" src="src/cryInstru.mp3" loop></audio>
 
     <!-- Sound Effects (using Web Audio API - generated programmatically) -->
@@ -4583,6 +4740,133 @@
       constellationBtn.addEventListener("click", showConstellation);
       constellationClose.addEventListener("click", hideConstellation);
 
+      // Old-Goldies overlay logic
+      const oldBtn = document.getElementById("oldgoldies-btn");
+      const oldOverlay = document.getElementById("oldgoldies-overlay");
+      const oldClose = document.getElementById("oldgoldies-close");
+
+      function openOldGoldies() {
+        if (!oldOverlay) return;
+        oldOverlay.classList.add("show");
+        playChime();
+        setTimeout(() => {
+          const firstAudio = oldOverlay.querySelector("audio");
+          if (firstAudio) firstAudio.focus();
+        }, 220);
+      }
+
+      function closeOldGoldies() {
+        if (!oldOverlay) return;
+        // Simply hide the overlay — do NOT pause or reset audio so playback
+        // continues even after the user closes the panel.
+        oldOverlay.classList.remove("show");
+      }
+
+      if (oldBtn) oldBtn.addEventListener("click", openOldGoldies);
+      if (oldClose) oldClose.addEventListener("click", closeOldGoldies);
+
+      // Subtle hint: if the button has continuous float class, only add
+      // temporary glow on interaction; otherwise use periodic hint dance.
+      (function setupOldGoldiesHint() {
+        if (!oldBtn) return;
+
+        const triggerTransientGlow = () => {
+          oldBtn.classList.add("hint-glow");
+          setTimeout(() => oldBtn.classList.remove("hint-glow"), 1200);
+        };
+
+        // If continuous float is enabled, keep motion but only add glow on interaction
+        if (oldBtn.classList.contains("float-continuous")) {
+          oldBtn.addEventListener("mouseenter", triggerTransientGlow);
+          oldBtn.addEventListener("focus", triggerTransientGlow);
+          oldBtn.addEventListener("click", () => {
+            // give a stronger momentary glow on click
+            oldBtn.classList.add("hint-glow");
+            setTimeout(() => oldBtn.classList.remove("hint-glow"), 900);
+          });
+          return;
+        }
+
+        // Fallback: periodic hint dance for non-continuous mode
+        const triggerHint = () => {
+          oldBtn.classList.add("hint-dance", "hint-glow");
+          setTimeout(() => {
+            oldBtn.classList.remove("hint-dance", "hint-glow");
+          }, 1200);
+        };
+
+        setTimeout(triggerHint, 1400 + Math.random() * 1200);
+        let hintTimer = setInterval(triggerHint, 6000 + Math.floor(Math.random() * 4000));
+
+        oldBtn.addEventListener("mouseenter", triggerHint);
+        oldBtn.addEventListener("focus", triggerHint);
+
+        oldBtn.addEventListener("click", () => {
+          clearInterval(hintTimer);
+          setTimeout(() => {
+            hintTimer = setInterval(triggerHint, 7000 + Math.floor(Math.random() * 3000));
+          }, 8000);
+        });
+      })();
+
+      document.addEventListener("keydown", (e) => {
+        if (
+          e.key === "Escape" &&
+          oldOverlay &&
+          oldOverlay.classList.contains("show")
+        ) {
+          closeOldGoldies();
+        }
+      });
+
+      // Old-Goldies playlist playback handling (shared player)
+      const oldPlayer = document.getElementById("oldgoldies-player");
+      const oldPlaylist = document.getElementById("oldgoldies-playlist");
+
+      function updateIconsPlaying(activeItem) {
+        if (!oldPlaylist) return;
+        const items = oldPlaylist.querySelectorAll(".song-item");
+        items.forEach((it) => {
+          const icon = it.querySelector(".play-icon");
+          if (!icon) return;
+          if (it === activeItem) icon.textContent = oldPlayer && !oldPlayer.paused ? "⏸" : "▶";
+          else icon.textContent = "▶";
+        });
+      }
+
+      if (oldPlaylist) {
+        oldPlaylist.addEventListener("click", (e) => {
+          const item = e.target.closest(".song-item");
+          if (!item) return;
+          const src = item.dataset.src;
+          if (!src) return;
+
+          // If same source and currently playing -> pause
+          if (oldPlayer.src && oldPlayer.src.includes(src) && !oldPlayer.paused) {
+            oldPlayer.pause();
+            updateIconsPlaying(item);
+            return;
+          }
+
+          // Otherwise load and play
+          try {
+            oldPlayer.src = src;
+            oldPlayer.play();
+          } catch (e) {}
+          updateIconsPlaying(item);
+        });
+
+        // Update icons when audio state changes
+        if (oldPlayer) {
+          oldPlayer.addEventListener("play", () => {
+            const active = oldPlaylist.querySelector(".song-item[data-src*='" + oldPlayer.src.split('/').pop() + "']");
+            updateIconsPlaying(active);
+          });
+          oldPlayer.addEventListener("pause", () => updateIconsPlaying(null));
+          oldPlayer.addEventListener("ended", () => updateIconsPlaying(null));
+        }
+      }
+
       // ===============================
       // FLOWER GARDEN
       // ===============================
@@ -4826,7 +5110,7 @@
       const secondsEl = document.getElementById("seconds");
 
       // Set target to January 1, 2025 at midnight
-      const newYearDate = new Date("January 1, 9999  00:00:00").getTime();
+      const newYearDate = new Date("January 1, 2025  00:00:00").getTime();
 
       // Create floating hearts in countdown
       function createCountdownHeart() {
@@ -6653,4 +6937,3 @@
     </script>
   </body>
 </html>
-
