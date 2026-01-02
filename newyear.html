@@ -5100,15 +5100,19 @@
       tulipContainer.addEventListener("click", showGarden);
       gardenClose.addEventListener("click", hideGarden);
 
+      // ===============================
+      // NEW YEAR COUNTDOWN
+      // ===============================
       const countdownOverlay = document.getElementById("countdown-overlay");
       const daysEl = document.getElementById("days");
       const hoursEl = document.getElementById("hours");
       const minutesEl = document.getElementById("minutes");
       const secondsEl = document.getElementById("seconds");
-      //CHANGEEEEEEEEEEEEEEEee
-      //January 1, 2025 
+
+      // Set target to January 1, 2025 at midnight
       const newYearDate = new Date("January 1, 2025  00:00:00").getTime();
 
+      // Create floating hearts in countdown
       function createCountdownHeart() {
         if (countdownOverlay.classList.contains("hidden")) return;
 
@@ -5122,6 +5126,7 @@
         setTimeout(() => heart.remove(), 25000);
       }
 
+      // Start floating hearts
       setInterval(createCountdownHeart, 2000);
       for (let i = 0; i < 5; i++) {
         setTimeout(createCountdownHeart, i * 400);
@@ -6108,7 +6113,7 @@
       const memories = [
         {
           emoji: "📅",
-          text: "<strong>29th October</strong>\nThis was/is/always-will-be...one of the most important and beautiful days in my life.",
+          text: "<strong>29th September</strong>\nThis was/is/always-will-be...one of the most important and beautiful days in my life.",
         },
         {
           emoji: "🌷",
@@ -6932,5 +6937,3 @@
     </script>
   </body>
 </html>
-
-
