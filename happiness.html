@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>you make my world softer</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              script: ["Playfair Display", "serif"],
+              prose: ["Lora", "serif"],
+              soft: ["Quicksand", "sans-serif"],
+            },
+            colors: {
+              midnight: {
+                950: "#02010a",
+                900: "#050416",
+              },
+              moon: {
+                100: "#f7f5ff",
+                200: "#d8d5ff",
+                300: "#a9a6ff",
+              },
+              blush: {
+                200: "#f5b7e3",
+                300: "#f29dd4",
+                400: "#f072c1",
+              },
+              tide: {
+                200: "#9de0ff",
+                300: "#7bd4ff",
+                400: "#4fc3ff",
+              },
+            },
+            boxShadow: {
+              glow: "0 20px 60px rgba(124, 119, 255, 0.35)",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: radial-gradient(circle at 10% 20%, rgba(79, 195, 255, 0.12), transparent 55%),
+          radial-gradient(circle at 90% 10%, rgba(240, 114, 193, 0.14), transparent 60%),
+          radial-gradient(circle at 30% 80%, rgba(169, 166, 255, 0.18), transparent 65%),
+          #02010a;
+      }
+
+      .aurora-ribbon {
+        position: fixed;
+        inset: -40% -10% auto -10%;
+        height: 80vmin;
+        background: radial-gradient(circle, rgba(155, 149, 255, 0.22), transparent 65%),
+          radial-gradient(circle at 20% 20%, rgba(123, 212, 255, 0.16), transparent 55%),
+          radial-gradient(circle at 80% 60%, rgba(240, 114, 193, 0.18), transparent 55%);
+        filter: blur(80px);
+        opacity: 0.55;
+        mix-blend-mode: screen;
+        animation: drift 30s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      .aurora-ribbon:nth-of-type(2) {
+        inset: auto -20% -35% 5%;
+        height: 70vmin;
+        animation-duration: 38s;
+        animation-direction: reverse;
+      }
+
+      @keyframes drift {
+        0% {
+          transform: translate3d(-10px, 0, 0) scale(1);
+        }
+        50% {
+          transform: translate3d(20px, -40px, 0) scale(1.05);
+        }
+        100% {
+          transform: translate3d(-15px, 0, 0) scale(1);
+        }
+      }
+
+      .floating-orb {
+        position: absolute;
+        border-radius: 999px;
+        background: radial-gradient(circle, rgba(123, 212, 255, 0.35), transparent 62%);
+        filter: blur(30px);
+        opacity: 0.75;
+        animation: floatSoft 14s ease-in-out infinite;
+      }
+
+      .floating-orb:nth-child(2) {
+        animation-duration: 18s;
+        animation-delay: 2s;
+      }
+
+      .floating-orb:nth-child(3) {
+        animation-duration: 22s;
+        animation-delay: 4s;
+      }
+
+      @keyframes floatSoft {
+        0%,
+        100% {
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+        50% {
+          transform: translate3d(14px, -28px, 0) scale(1.12);
+        }
+      }
+
+      .glimmer::after {
+        content: "";
+        position: absolute;
+        inset: 1px;
+        border-radius: inherit;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        pointer-events: none;
+      }
+
+      /* ================================
+         MUSIC PLAYER CONTROLS (from newyear.html)
+         ================================ */
+      .music-player {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
+        padding: 12px 18px;
+        border-radius: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        z-index: 100;
+        transition: all 0.3s ease;
+      }
+
+      .music-player:hover {
+        background: rgba(0, 0, 0, 0.85);
+        border-color: rgba(251, 191, 36, 0.3);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      .music-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #fbbf24 0%, #d4af37 100%);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(251, 191, 36, 0.3);
+      }
+
+      .music-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 15px rgba(251, 191, 36, 0.5);
+      }
+
+      .music-btn:active {
+        transform: scale(0.95);
+      }
+
+      .volume-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .music-player:hover .volume-container,
+      .music-player.expanded .volume-container {
+        opacity: 1;
+        width: 120px;
+      }
+
+      .volume-icon {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .volume-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 80px;
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.2);
+        outline: none;
+        cursor: pointer;
+      }
+
+      .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #fbbf24;
+        cursor: pointer;
+        box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+        transition: all 0.2s ease;
+      }
+
+      .volume-slider::-webkit-slider-thumb:hover {
+        transform: scale(1.2);
+      }
+
+      .volume-slider::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #fbbf24;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+      }
+
+      .music-visualizer {
+        display: flex;
+        align-items: flex-end;
+        gap: 2px;
+        height: 20px;
+        margin-left: 5px;
+      }
+
+      .music-bar {
+        width: 3px;
+        background: linear-gradient(to top, #fbbf24, #f472b6);
+        border-radius: 2px;
+        transition: height 0.1s ease;
+      }
+
+      .music-bar.playing {
+        animation: musicBounce 0.5s ease-in-out infinite;
+      }
+
+      .music-bar:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .music-bar:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .music-bar:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      .music-bar:nth-child(4) {
+        animation-delay: 0.15s;
+      }
+      .music-bar:nth-child(5) {
+        animation-delay: 0.05s;
+      }
+
+      @keyframes musicBounce {
+        0%,
+        100% {
+          height: 4px;
+        }
+        50% {
+          height: 18px;
+        }
+      }
+
+      .music-bar.paused {
+        height: 4px !important;
+        animation: none;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen font-prose text-moon-100 antialiased overflow-x-hidden relative">
+    <div class="aurora-ribbon"></div>
+    <div class="aurora-ribbon"></div>
+
+    <!-- Music Player Controls (same as newyear.html) -->
+    <div class="music-player" id="music-player">
+      <button class="music-btn" id="music-toggle" title="Play/Pause Music">
+        ▶️
+      </button>
+      <div class="music-visualizer" id="music-visualizer">
+        <div class="music-bar paused"></div>
+        <div class="music-bar paused"></div>
+        <div class="music-bar paused"></div>
+        <div class="music-bar paused"></div>
+        <div class="music-bar paused"></div>
+      </div>
+      <div class="volume-container">
+        <span class="volume-icon">🔊</span>
+        <input
+          type="range"
+          class="volume-slider"
+          id="volume-slider"
+          min="0"
+          max="100"
+          value="50"
+          title="Volume"
+        />
+      </div>
+    </div>
+
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+      <div class="floating-orb top-[12%] left-[8%] w-56 h-56"></div>
+      <div class="floating-orb top-[68%] left-[12%] w-48 h-48"></div>
+      <div class="floating-orb top-[32%] right-[10%] w-64 h-64"></div>
+      <canvas id="sparkle-canvas" class="w-full h-full"></canvas>
+    </div>
+
+    <main class="relative z-10 py-20 md:py-28">
+      <section class="max-w-5xl mx-auto px-6 md:px-10">
+        <div class="rounded-[32px] border border-white/10 bg-white/5 backdrop-blur-2xl shadow-glow glimmer p-8 md:p-14">
+          <p class="uppercase tracking-[.4em] text-xs md:text-sm text-moon-200 font-soft mb-6">to whom it may concern... <br>the brightest "thing" in my universe</p>
+          <h1 class="font-script text-4xl md:text-6xl leading-tight text-moon-100 mb-6">
+            drishti... i hope you know that my happiest days(technically all the days since...29th of Sept.) have your name written all over them...
+          </h1>
+          <p class="text-lg md:text-xl text-moon-200 leading-relaxed">
+            i meant it that day and i mean it now... and will do so, for the foreseeable future as i cant help but...hmmm...you know it...(sorry...although i shouldnt say sorry for this...cz its...pure and genuine and natural..) no one has ever warmed, cheered (and so much more) my heart the way you do(and no one ever will...because..yes). I read that document letter every day, while travelling, when you're missing from me, just-...sigh drishti... the way you have adopted SO many of my...so called vocab XD, the way you've always been listening to me, so eagerly, so patiently...(i still remember that NSG wala day, even when my mind is a mess...you listen to me, patiently. The way your "Kaustubh"s, "heeeeeeeeeeeeyyyyyyyy"s, "hmmm?"s, (🚒 im...gosh drishti...) makes the "<static>" inside me go quiet, so beautifully and so..ethereally... it's almost impossible..but you, somehow made it possible drishti. I wake up, every morning, with you on my mind, feeling like the luckiest person, because..you are here. you make home out of seconds... and you know i mean it... you make the storm in my mind, quiet... just like all the other night..and tonight. you make me happy, drishti... like never before.
+          </p>
+          <div class="mt-10 flex flex-wrap gap-4">
+            <a href="index.html" class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-soft uppercase tracking-[.28em] text-moon-200 transition hover:bg-white/20 hover:text-white">
+              back
+            </a>
+            <span class="inline-flex items-center gap-2 rounded-full border border-blush-300/50 bg-blush-300/20 px-6 py-3 text-sm font-soft text-blush-200">
+              I never will be grateful enough...
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-6xl mx-auto px-6 md:px-10 mt-20">
+        <div class="grid gap-8 lg:grid-cols-3">
+          <article class="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-2xl glimmer">
+            <h2 class="font-script text-2xl text-moon-100 mb-4">you light my darkness</h2>
+            <p class="text-moon-200 leading-relaxed">
+              when my thoughts start whirling, you just... stay with me, listen to me, cheer me up. you, so patiently ask me, how are you? are you okay? Como estas? Which make me unvariablely feel... safe..and at peace. 
+            </p>
+            <div class="absolute -bottom-10 -right-4 h-32 w-32 rounded-full bg-tide-400/30 blur-3xl"></div>
+          </article>
+          <article class="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-2xl glimmer">
+            <h2 class="font-script text-2xl text-moon-100 mb-4">you make ordinary dizzy</h2>
+            <p class="text-moon-200 leading-relaxed">
+              "heeeeyyyyyy", your voice, "hmmmm", "good morningg/night"... you turn every tiny thing into something i replay several times in my mind throughout the day till we talk again.
+            </p>
+            <div class="absolute -top-6 -left-3 h-28 w-28 rounded-full bg-blush-300/30 blur-3xl"></div>
+          </article>
+          <article class="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur-2xl glimmer">
+            <h2 class="font-script text-2xl text-moon-100 mb-4">you choose me daily</h2>
+            <p class="text-moon-200 leading-relaxed">
+              it..honestly blows my mind... you keep showing up, everyday, you remember the tiniest details too, you stay kind, caring even when my thoughts are tangled. that's...indescribable.
+            </p>
+            <div class="absolute -bottom-8 left-6 h-24 w-24 rounded-full bg-moon-300/30 blur-3xl"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="max-w-6xl mx-auto px-6 md:px-10 mt-24">
+        <div class="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/5 backdrop-blur-2xl glimmer p-10 md:p-16">
+          <div class="absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-white/30 to-transparent md:block"></div>
+          <h2 class="font-script text-3xl md:text-4xl text-center text-moon-100 mb-12">little snapshots of the happiness you hand me</h2>
+          <div class="space-y-12">
+            <div class="md:grid md:grid-cols-2 md:gap-10 md:items-center">
+              <div class="md:text-right md:pr-8">
+                <h3 class="font-soft text-sm uppercase tracking-[.4em] text-blush-300">my mornings</h3>
+                <p class="mt-3 text-moon-200 leading-relaxed">
+                  waking up to your texts, or even your thoughts, makes me feel the warmth of the sun on a winter morning. My whole day brightens up because of you.
+                </p>
+              </div>
+              <div class="mt-6 md:mt-0">
+                <div class="rounded-3xl border border-white/10 bg-white/10 px-6 py-5 text-moon-100">
+                  somehow the busiest hours glow softer because you exist in them.
+                </div>
+              </div>
+            </div>
+            <div class="md:grid md:grid-cols-2 md:gap-10 md:items-center">
+                <div class="mt-6 md:mt-0">
+                    <div class="rounded-3xl border border-white/10 bg-white/10 px-6 py-5 text-moon-100">
+                        you are my calm. you are my peace.
+                    </div>
+                </div>
+                <div class="md:text-right md:pr-8">
+                  <h3 class="font-soft text-sm uppercase tracking-[.4em] text-moon-300">my nights</h3>
+                  <p class="mt-3 text-moon-200 leading-relaxed">
+                    Your simple YET...significant, comforting, sleep-inducing "good night, Kaustubh"... Sigh... i feel the..softness in it...the soft and delicate tone.. i fall asleep smiling, every time.
+                  </p>
+                </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-4xl mx-auto px-6 md:px-10 mt-24">
+        <div class="rounded-[28px] border border-white/10 bg-white/5 backdrop-blur-2xl glimmer p-10 md:p-14 text-center">
+          <h2 class="font-script text-4xl text-moon-100 mb-6">I'm keeping "this" close</h2>
+          <p class="text-lg md:text-xl text-moon-200 leading-relaxed">
+            Thank you for...everything, for letting me sit beside you, in tough times, for being the safest, brightest place i've ever known. you make nautical miles, feel gentle, and i am endlessly grateful for you.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <audio id="bg-music" src="src/cantSleep.mp3" loop></audio>
+
+    <script>
+      // Subtle sparkle effect for background depth
+      const canvas = document.getElementById("sparkle-canvas");
+      const ctx = canvas.getContext("2d");
+      let width, height, sparkles;
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        sparkles = Array.from({ length: Math.floor(width / 25) }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          r: Math.random() * 1.4 + 0.3,
+          o: Math.random() * 0.6 + 0.2,
+          d: Math.random() * 0.6 + 0.2,
+        }));
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+        sparkles.forEach((s) => {
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(168, 166, 255, ${s.o})`;
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fill();
+          s.y -= s.d * 0.4;
+          s.x += Math.sin(s.y / 40) * 0.3;
+          if (s.y < -10) {
+            s.y = height + 10;
+            s.x = Math.random() * width;
+          }
+        });
+        requestAnimationFrame(draw);
+      }
+
+      resize();
+      draw();
+      window.addEventListener("resize", resize);
+
+      // ===============================
+      // MUSIC PLAYER CONTROLS (same logic as newyear.html)
+      // ===============================
+      const musicPlayer = document.getElementById("music-player");
+      const musicToggle = document.getElementById("music-toggle");
+      const volumeSlider = document.getElementById("volume-slider");
+      const musicBars = document.querySelectorAll(".music-bar");
+      const bgMusic = document.getElementById("bg-music");
+      let isMusicPlaying = false;
+
+      // Set initial volume
+      bgMusic.volume = 0.5;
+
+      function updateMusicVisualizer(playing) {
+        musicBars.forEach((bar) => {
+          if (playing) {
+            bar.classList.remove("paused");
+            bar.classList.add("playing");
+          } else {
+            bar.classList.remove("playing");
+            bar.classList.add("paused");
+          }
+        });
+      }
+
+      function toggleMusic() {
+        if (isMusicPlaying) {
+          bgMusic.pause();
+          musicToggle.textContent = "▶️";
+          isMusicPlaying = false;
+        } else {
+          bgMusic
+            .play()
+            .then(() => {
+              musicToggle.textContent = "⏸️";
+              isMusicPlaying = true;
+            })
+            .catch((err) => {
+              console.log("Playback failed:", err);
+            });
+        }
+        updateMusicVisualizer(isMusicPlaying);
+      }
+
+      musicToggle.addEventListener("click", toggleMusic);
+
+      volumeSlider.addEventListener("input", (e) => {
+        const volume = e.target.value / 100;
+        bgMusic.volume = volume;
+        const volumeIcon = document.querySelector(".volume-icon");
+        if (volume === 0) {
+          volumeIcon.textContent = "🔇";
+        } else if (volume < 0.5) {
+          volumeIcon.textContent = "🔉";
+        } else {
+          volumeIcon.textContent = "🔊";
+        }
+      });
+
+      bgMusic.addEventListener("play", () => {
+        isMusicPlaying = true;
+        musicToggle.textContent = "⏸️";
+        updateMusicVisualizer(true);
+      });
+
+      bgMusic.addEventListener("pause", () => {
+        isMusicPlaying = false;
+        musicToggle.textContent = "▶️";
+        updateMusicVisualizer(false);
+      });
+
+      // Try to autoplay as soon as the page loads
+      window.addEventListener("load", () => {
+        bgMusic
+          .play()
+          .then(() => {
+            isMusicPlaying = true;
+            musicToggle.textContent = "⏸️";
+            updateMusicVisualizer(true);
+          })
+          .catch(() => {
+            // If autoplay is blocked, it will start when she presses play
+          });
+      });
+    </script>
+  </body>
+</html>
