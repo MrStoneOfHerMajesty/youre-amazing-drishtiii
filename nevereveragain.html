@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Never..Ever..Again</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cream: "#fdf8f3",
+              parchment: "#f5ebe0",
+              ink: "#2c2420",
+              softpink: "#e8c4c4",
+              blush: "#f5d0c5",
+              lavender: "#d4c4e8",
+              sage: "#c8d4c4",
+              warmgray: "#9a8c7c",
+            },
+            fontFamily: {
+              letter: ['"Cormorant Garamond"', "Georgia", "serif"],
+              prose: ['"Lora"', "Georgia", "serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #fdf8f3 0%,
+          #f5ebe0 25%,
+          #fce8e4 50%,
+          #f0e6ef 75%,
+          #e8e4f0 100%
+        );
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Soft floating particles */
+      .particle {
+        position: fixed;
+        width: 4px;
+        height: 4px;
+        background: radial-gradient(
+          circle,
+          rgba(232, 196, 196, 0.8),
+          transparent
+        );
+        border-radius: 50%;
+        pointer-events: none;
+        animation: floatParticle 15s ease-in-out infinite;
+      }
+
+      @keyframes floatParticle {
+        0%,
+        100% {
+          transform: translateY(0) translateX(0) scale(1);
+          opacity: 0.3;
+        }
+        25% {
+          transform: translateY(-30px) translateX(15px) scale(1.2);
+          opacity: 0.6;
+        }
+        50% {
+          transform: translateY(-15px) translateX(-10px) scale(0.8);
+          opacity: 0.4;
+        }
+        75% {
+          transform: translateY(-40px) translateX(5px) scale(1.1);
+          opacity: 0.5;
+        }
+      }
+
+      /* Soft glow orbs */
+      .glow-orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.3;
+        pointer-events: none;
+        animation: gentleFloat 20s ease-in-out infinite;
+      }
+
+      @keyframes gentleFloat {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        33% {
+          transform: translate(30px, -20px) scale(1.1);
+        }
+        66% {
+          transform: translate(-20px, 15px) scale(0.95);
+        }
+      }
+
+      /* Letter paper effect */
+      .letter-paper {
+        background: linear-gradient(
+          180deg,
+          #fffefa 0%,
+          #fdf8f3 50%,
+          #f9f3eb 100%
+        );
+        box-shadow:
+          0 4px 6px rgba(0, 0, 0, 0.05),
+          0 10px 40px rgba(0, 0, 0, 0.08),
+          inset 0 0 80px rgba(245, 208, 197, 0.1);
+        position: relative;
+      }
+
+      .letter-paper::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(232, 196, 196, 0.5),
+          rgba(212, 196, 232, 0.5),
+          transparent
+        );
+      }
+
+      /* Handwritten feel for letter text */
+      .letter-text {
+        line-height: 2.2;
+        letter-spacing: 0.02em;
+      }
+
+      /* Gentle fade in animation */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in {
+        animation: fadeInUp 1s ease-out forwards;
+      }
+
+      .fade-in-delay-1 {
+        animation-delay: 0.2s;
+        opacity: 0;
+      }
+      .fade-in-delay-2 {
+        animation-delay: 0.4s;
+        opacity: 0;
+      }
+      .fade-in-delay-3 {
+        animation-delay: 0.6s;
+        opacity: 0;
+      }
+      .fade-in-delay-4 {
+        animation-delay: 0.8s;
+        opacity: 0;
+      }
+      .fade-in-delay-5 {
+        animation-delay: 1s;
+        opacity: 0;
+      }
+      .fade-in-delay-6 {
+        animation-delay: 1.2s;
+        opacity: 0;
+      }
+
+      /* Soft underline for emphasis */
+      .soft-emphasis {
+        background: linear-gradient(
+          to bottom,
+          transparent 60%,
+          rgba(232, 196, 196, 0.4) 60%
+        );
+        padding: 0 4px;
+      }
+
+      /* Decorative divider */
+      .divider {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(154, 140, 124, 0.3),
+          transparent
+        );
+      }
+
+      /* Heart decoration */
+      .heart-decoration {
+        color: #e8c4c4;
+        animation: gentlePulse 3s ease-in-out infinite;
+      }
+
+      @keyframes gentlePulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+      }
+
+      /* Back button */
+      .back-btn {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(232, 196, 196, 0.4);
+        transition: all 0.3s ease;
+      }
+
+      .back-btn:hover {
+        background: rgba(255, 255, 255, 0.9);
+        border-color: rgba(232, 196, 196, 0.8);
+        transform: translateX(-3px);
+        box-shadow: 0 4px 15px rgba(232, 196, 196, 0.3);
+      }
+
+      /* Floating hearts */
+      .floating-heart {
+        position: fixed;
+        font-size: 16px;
+        opacity: 0;
+        pointer-events: none;
+        animation: riseHeart 8s ease-in-out forwards;
+        color: #e8c4c4;
+        text-shadow: 0 0 10px rgba(232, 196, 196, 0.5);
+      }
+
+      @keyframes riseHeart {
+        0% {
+          opacity: 0;
+          transform: translateY(0) rotate(0deg) scale(0.5);
+        }
+        10% {
+          opacity: 0.8;
+        }
+        90% {
+          opacity: 0.6;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-100vh) rotate(20deg) scale(1);
+        }
+      }
+
+      /* Ink blot decoration */
+      .ink-blot {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: radial-gradient(circle, rgba(44, 36, 32, 0.1), transparent);
+        border-radius: 50%;
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #f5ebe0;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #e8c4c4, #d4c4e8);
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+
+  <body class="font-letter text-ink antialiased">
+    <!-- Soft background orbs -->
+    <div
+      class="glow-orb w-96 h-96 bg-softpink top-10 -left-20"
+      style="animation-delay: 0s"
+    ></div>
+    <div
+      class="glow-orb w-80 h-80 bg-lavender top-1/3 -right-16"
+      style="animation-delay: -7s"
+    ></div>
+    <div
+      class="glow-orb w-72 h-72 bg-blush bottom-20 left-1/4"
+      style="animation-delay: -14s"
+    ></div>
+    <div
+      class="glow-orb w-64 h-64 bg-sage bottom-1/3 right-1/3"
+      style="animation-delay: -5s"
+    ></div>
+
+    <!-- Floating particles container -->
+    <div id="particles"></div>
+
+    <!-- Back button -->
+    <a
+      href="index.html"
+      class="back-btn fixed top-6 left-6 z-50 px-5 py-3 rounded-full flex items-center gap-2 text-warmgray hover:text-ink"
+    >
+      <span class="text-lg">←</span>
+      <span class="font-prose text-sm">Back Home</span>
+    </a>
+
+    <!-- Main content -->
+    <main
+      class="relative z-10 min-h-screen py-16 px-4 md:px-8 flex items-center justify-center"
+    >
+      <div class="w-full max-w-2xl">
+        <!-- Letter envelope opening -->
+        <div class="text-center mb-8 fade-in">
+          <span class="heart-decoration text-4xl">💝</span>
+          <p class="font-prose text-warmgray text-sm mt-2 tracking-widest">
+            I'M..SORRY, drishti
+          </p>
+        </div>
+
+        <!-- The Letter -->
+        <article
+          class="letter-paper rounded-lg p-8 md:p-12 lg:p-16 fade-in fade-in-delay-1"
+        >
+          <!-- Date -->
+          <div class="text-right mb-8 fade-in fade-in-delay-2">
+            <span class="font-prose text-warmgray text-sm italic"
+              >January 17th, 2026</span
+            >
+          </div>
+
+          <!-- Salutation -->
+          <div class="mb-8 fade-in fade-in-delay-2">
+            <h1 class="text-2xl md:text-3xl text-ink/90">Dear drishti,</h1>
+          </div>
+
+          <!-- Letter body -->
+          <div
+            class="letter-text text-lg md:text-xl text-ink/80 space-y-6 font-light"
+          >
+            <p class="fade-in fade-in-delay-3">
+              I've been feeling bad for what happened yesternight...and I really
+              needed to tell you how truly and deeply sorry I am.
+            </p>
+
+            <p class="fade-in fade-in-delay-3">
+              You were sharing something
+              <span class="soft-emphasis">close to your heart</span>, something
+              meaningful and important to you, that you might've never shared
+              with anybody else. And in that moment, I said something, that
+              was..not meant the way it came off...I know it was my mistake to
+              say such word in such a delicate situation.. I just needed to
+              <em>listen</em>, to be present with you...
+            </p>
+
+            <p class="fade-in fade-in-delay-4">
+              I know it was a misunderstanding. I know it was miscommunication.
+              But that doesn't change the fact that you might have gotten
+              hurt... or worse, that you felt like what you were sharing
+              <em>didn't matter</em> to me...? (It'll never be like that, i
+              swear on the existence of my life..) I'm really sorry for making
+              you feel that way...even if for a moment...
+            </p>
+
+            <p class="fade-in fade-in-delay-4">
+              It <span class="soft-emphasis"><em>DOES</em></span> matter.
+              <span class="soft-emphasis"><em>You</em></span> matter. Everything
+              you feel, your feelings, your mood, everything you feel like
+              sharing with me, it all matters more than I can express, drishti,
+              i hope you know this. And...when you share such things that are so
+              dear and personal to you, it makes me feel SO lucky, that you
+              trust me with it, its a kind of reassurance, more like a gift to
+              me.. And i will never be grateful enough for that... Taking that
+              granted? Not before i leave this world, my l..lady. Which means i
+              will ALWAYS be soo grateful for every little thing you share with
+              me.. I'm sorry..
+            </p>
+
+            <div class="divider my-8 fade-in fade-in-delay-5"></div>
+
+            <p class="fade-in fade-in-delay-5">
+              I want you to know that I cherish every moment you open up to me.
+              Every thought you share, every feeling you trust me with, they're
+              all SO precious to me, and i will keep them
+              <span class="soft-emphasis">close to my heart. Always.</span> I
+              promise, I'll ensure that such miscommunication never happens
+              again. If you ever feel hurt or misunderstood, PLEASE, tell me
+              right away like you did, because I would NEVER mean, or say anything to
+              hurt you, as you, drishti, are the most important person in my
+              life. And I will always do my best to keep you
+              <span class="soft-emphasis">happy, safe and loved...</span>
+            </p>
+
+            <p class="fade-in fade-in-delay-6">I know you've forgiven me...but hmm..</p>
+          </div>
+
+          <!-- Signature -->
+          <div class="mt-12 fade-in fade-in-delay-6">
+            <p class="font-prose text-warmgray text-sm mb-2">
+              With all my heart,<br>and the entirety of my soul,
+            </p>
+            <p class="text-2xl text-ink/90 italic">Kaustubh</p>
+          </div>
+
+          <!-- Small decorative element -->
+          <div class="text-center mt-12 fade-in fade-in-delay-6">
+            <span class="heart-decoration text-2xl">✿</span>
+          </div>
+        </article>
+
+        <!-- Bottom message -->
+        <div class="text-center mt-8 fade-in fade-in-delay-6">
+          <p class="font-prose text-warmgray/70 text-sm italic">
+            Keeping you happy is my priority. Hurting you is my biggest fear.
+          </p>
+          <p class="font-prose text-warmgray/50 text-xs mt-2">
+            I promise, never..ever..again...
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Floating hearts script -->
+    <script>
+      // Create floating particles
+      const particlesContainer = document.getElementById("particles");
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        particle.style.left = Math.random() * 100 + "vw";
+        particle.style.top = Math.random() * 100 + "vh";
+        particle.style.animationDelay = Math.random() * 15 + "s";
+        particle.style.width = Math.random() * 4 + 2 + "px";
+        particle.style.height = particle.style.width;
+        particlesContainer.appendChild(particle);
+      }
+
+      // Floating hearts
+      const hearts = ["♡", "❤", "💕", "✿", "❀"];
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.className = "floating-heart";
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.bottom = "-20px";
+        heart.style.fontSize = Math.random() * 12 + 12 + "px";
+        heart.style.animationDuration = Math.random() * 4 + 6 + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 10000);
+      }
+
+      // Spawn hearts periodically
+      setInterval(createHeart, 2000);
+
+      // Create a few initial hearts
+      for (let i = 0; i < 5; i++) {
+        setTimeout(createHeart, i * 400);
+      }
+    </script>
+  </body>
+</html>
