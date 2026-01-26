@@ -1,0 +1,1298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>for you.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Montserrat:wght@200;300;400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Cormorant Garamond", serif;
+        background: #030508;
+        color: #e8e4d9;
+        overflow-x: hidden;
+        cursor: none;
+        min-height: 100vh;
+      }
+
+      /* Animated Gradient Background */
+      .background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -3;
+        background:
+          radial-gradient(
+            ellipse at 20% 80%,
+            rgba(59, 130, 246, 0.08) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 80% 20%,
+            rgba(147, 51, 234, 0.06) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 50% 50%,
+            rgba(236, 72, 153, 0.04) 0%,
+            transparent 60%
+          ),
+          linear-gradient(180deg, #030508 0%, #0a0f1a 50%, #0d1220 100%);
+        animation: backgroundShift 20s ease-in-out infinite;
+      }
+
+      @keyframes backgroundShift {
+        0%,
+        100% {
+          filter: hue-rotate(0deg);
+        }
+        50% {
+          filter: hue-rotate(15deg);
+        }
+      }
+
+      /* Top Navigation & Days Tracker */
+      .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 2rem;
+        position: relative;
+        z-index: 50;
+      }
+
+      .days-tracker {
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 300;
+        letter-spacing: 0.2em;
+        color: rgba(147, 197, 253, 0.6);
+        text-transform: uppercase;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 20px;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .days-tracker:hover {
+        color: rgba(147, 197, 253, 0.9);
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(147, 197, 253, 0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Floating Particles */
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: rgba(147, 197, 253, 0.6);
+        border-radius: 50%;
+        animation: float 15s infinite ease-in-out;
+        box-shadow: 0 0 10px rgba(147, 197, 253, 0.4);
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(100vh) translateX(0) scale(0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+          transform: translateY(90vh) translateX(10px) scale(1);
+        }
+        90% {
+          opacity: 1;
+          transform: translateY(10vh) translateX(-10px) scale(1);
+        }
+        100% {
+          transform: translateY(-10vh) translateX(0) scale(0);
+          opacity: 0;
+        }
+      }
+
+      /* Ambient Light Orbs */
+      .orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.3;
+        animation: orbFloat 15s ease-in-out infinite;
+        z-index: -2;
+      }
+
+      .orb-1 {
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        top: 10%;
+        left: -10%;
+        animation-delay: 0s;
+      }
+
+      .orb-2 {
+        width: 300px;
+        height: 300px;
+        background: linear-gradient(135deg, #ec4899, #8b5cf6);
+        bottom: 20%;
+        right: -5%;
+        animation-delay: -5s;
+      }
+
+      .orb-3 {
+        width: 250px;
+        height: 250px;
+        background: linear-gradient(135deg, #06b6d4, #3b82f6);
+        top: 60%;
+        left: 50%;
+        animation-delay: -10s;
+      }
+
+      @keyframes orbFloat {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(30px, -30px) scale(1.1);
+        }
+        50% {
+          transform: translate(-20px, 20px) scale(0.95);
+        }
+        75% {
+          transform: translate(20px, 30px) scale(1.05);
+        }
+      }
+
+      /* Custom Cursor */
+      .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background: #60a5fa;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transition:
+          transform 0.15s ease,
+          background 0.3s ease;
+        box-shadow: 0 0 20px rgba(96, 165, 250, 0.5);
+      }
+
+      .cursor-dot.hovering {
+        transform: scale(1.5);
+        background: #fff;
+      }
+
+      /* Progress Bar */
+      .progress-bar {
+        position: fixed;
+        right: 0;
+        top: 0;
+        width: 3px;
+        height: 0%;
+        background: linear-gradient(to bottom, #3b82f6, #8b5cf6, #ec4899);
+        z-index: 100;
+        border-radius: 0 0 3px 3px;
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+      }
+
+      /* Letter Container */
+      .letter-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 12vh 2rem 20vh;
+        position: relative;
+      }
+
+      /* Back Link */
+      .back-link {
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.7rem;
+        font-weight: 300;
+        letter-spacing: 0.3em;
+        color: rgba(255, 255, 255, 0.3);
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: all 0.4s ease;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+      }
+
+      .back-link:hover {
+        color: rgba(255, 255, 255, 0.8);
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateX(-5px);
+      }
+
+      /* Typography */
+      .article {
+        font-size: 1.4rem;
+        line-height: 2;
+        color: rgba(232, 228, 217, 0.9);
+      }
+
+      .section {
+        min-height: 70vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        opacity: 0;
+        transform: translateY(60px);
+        transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 4rem 0;
+      }
+
+      .section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .section:first-child {
+        opacity: 1;
+        transform: translateY(0);
+        animation: introFade 2s ease-out;
+      }
+
+      @keyframes introFade {
+        0% {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .drop-cap {
+        float: left;
+        font-size: 7rem;
+        line-height: 0.75;
+        margin-right: 1.2rem;
+        margin-top: 0.1rem;
+        background: linear-gradient(135deg, #60a5fa, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-style: italic;
+        font-weight: 300;
+        text-shadow: none;
+        filter: drop-shadow(0 0 30px rgba(96, 165, 250, 0.3));
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 300;
+        font-style: italic;
+        text-align: center;
+        margin-bottom: 3rem;
+        animation: shimmer 3s ease-in-out infinite;
+      }
+
+      /* Apply gradient to words inside section title to ensure visibility */
+      .section-title .word {
+        background: linear-gradient(135deg, #93c5fd, #c4b5fd, #f9a8d4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      @keyframes shimmer {
+        0%,
+        100% {
+          filter: brightness(1);
+        }
+        50% {
+          filter: brightness(1.2);
+        }
+      }
+
+      .highlight {
+        color: #93c5fd;
+        transition: all 0.4s ease;
+        position: relative;
+        cursor: none;
+      }
+
+      .highlight::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        transition: width 0.4s ease;
+      }
+
+      .highlight:hover {
+        color: #fff;
+        text-shadow: 0 0 30px rgba(147, 197, 253, 0.6);
+      }
+
+      .highlight:hover::after {
+        width: 100%;
+      }
+
+      /* Featured Quote */
+      .quote-block {
+        margin: 4rem 0;
+        padding: 3rem;
+        position: relative;
+        text-align: center;
+        font-size: 1.8rem;
+        font-style: italic;
+        color: rgba(196, 181, 253, 0.9);
+        background: linear-gradient(
+          135deg,
+          rgba(59, 130, 246, 0.05),
+          rgba(139, 92, 246, 0.05)
+        );
+        border-radius: 20px;
+        border-left: 3px solid;
+        border-image: linear-gradient(to bottom, #3b82f6, #8b5cf6) 1;
+      }
+
+      .quote-block::before {
+        content: '"';
+        position: absolute;
+        top: 1rem;
+        left: 1.5rem;
+        font-size: 4rem;
+        color: rgba(139, 92, 246, 0.3);
+        font-family: Georgia, serif;
+      }
+
+      /* Center Quote */
+      .center-quote {
+        text-align: center;
+        font-size: 2rem;
+        font-style: italic;
+        margin: 3rem 0;
+        animation: colorShift 5s ease-in-out infinite;
+      }
+
+      /* Apply gradient to words inside center quote */
+      .center-quote .word {
+        background: linear-gradient(135deg, #fcd34d, #f9a8d4, #c4b5fd);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      @keyframes colorShift {
+        0%,
+        100% {
+          filter: hue-rotate(0deg);
+        }
+        50% {
+          filter: hue-rotate(20deg);
+        }
+      }
+
+      /* Signature */
+      .signature {
+        margin-top: 5rem;
+        text-align: right;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 200;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.3);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 1s ease 0.5s;
+      }
+
+      .section.visible .signature {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Paragraph spacing */
+      p {
+        margin-bottom: 1.5rem;
+      }
+
+      p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* Interactive Word Hover Effects */
+      .word {
+        display: inline-block;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: none;
+        position: relative;
+      }
+
+      .word:hover {
+        color: #93c5fd;
+        transform: translateY(-3px) scale(1.05);
+        text-shadow:
+          0 0 20px rgba(147, 197, 253, 0.6),
+          0 0 40px rgba(147, 197, 253, 0.3);
+      }
+
+      /* Different hover colors for variety */
+      .word:nth-child(3n):hover {
+        color: #c4b5fd;
+        text-shadow:
+          0 0 20px rgba(196, 181, 253, 0.6),
+          0 0 40px rgba(196, 181, 253, 0.3);
+      }
+
+      .word:nth-child(5n):hover {
+        color: #f9a8d4;
+        text-shadow:
+          0 0 20px rgba(249, 168, 212, 0.6),
+          0 0 40px rgba(249, 168, 212, 0.3);
+      }
+
+      .word:nth-child(7n):hover {
+        color: #6ee7b7;
+        text-shadow:
+          0 0 20px rgba(110, 231, 183, 0.6),
+          0 0 40px rgba(110, 231, 183, 0.3);
+      }
+
+      /* Keep highlight class styling priority */
+      .highlight.word:hover {
+        color: #fff;
+        transform: translateY(-4px) scale(1.08);
+        text-shadow:
+          0 0 30px rgba(147, 197, 253, 0.8),
+          0 0 60px rgba(147, 197, 253, 0.4);
+      }
+
+      /* Disable word hover effects on touch devices */
+      @media (pointer: coarse) {
+        .word {
+          cursor: auto;
+        }
+        .word:hover {
+          color: inherit;
+          transform: none;
+          text-shadow: none;
+        }
+        .word:nth-child(3n):hover,
+        .word:nth-child(5n):hover,
+        .word:nth-child(7n):hover {
+          color: inherit;
+          text-shadow: none;
+        }
+      }
+
+      /* Selection styling */
+      ::selection {
+        background: rgba(139, 92, 246, 0.3);
+        color: #fff;
+      }
+
+      /* Responsive - Large tablets and small desktops */
+      @media (max-width: 1024px) {
+        .letter-container {
+          max-width: 700px;
+          padding: 10vh 2rem 18vh;
+        }
+
+        .article {
+          font-size: 1.3rem;
+        }
+
+        .section-title {
+          font-size: 2.2rem;
+        }
+
+        .orb-1 {
+          width: 300px;
+          height: 300px;
+        }
+
+        .orb-2 {
+          width: 220px;
+          height: 220px;
+        }
+
+        .orb-3 {
+          width: 180px;
+          height: 180px;
+        }
+      }
+
+      /* Tablets */
+      @media (max-width: 768px) {
+        body {
+          cursor: auto; /* Show default cursor on touch devices */
+        }
+
+        .cursor-dot {
+          display: none; /* Hide custom cursor on tablets/mobile */
+        }
+
+        .article {
+          font-size: 1.15rem;
+          line-height: 1.9;
+        }
+
+        .drop-cap {
+          font-size: 5rem;
+          margin-right: 0.8rem;
+        }
+
+        .section-title {
+          font-size: 1.8rem;
+          margin-bottom: 2rem;
+        }
+
+        .section {
+          min-height: 50vh;
+          padding: 2.5rem 0;
+        }
+
+        .quote-block {
+          font-size: 1.3rem;
+          padding: 2rem 1.5rem;
+          margin: 2.5rem 0;
+        }
+
+        .quote-block::before {
+          font-size: 3rem;
+          top: 0.5rem;
+          left: 1rem;
+        }
+
+        .center-quote {
+          font-size: 1.5rem;
+          margin: 2rem 0;
+        }
+
+        .letter-container {
+          padding: 8vh 1.5rem 12vh;
+        }
+
+        .top-nav {
+          margin-bottom: 1.5rem;
+          flex-wrap: wrap;
+          gap: 0.75rem;
+        }
+
+        .days-tracker {
+          font-size: 0.65rem;
+          padding: 0.4rem 0.8rem;
+          letter-spacing: 0.15em;
+        }
+
+        .back-link {
+          font-size: 0.65rem;
+          letter-spacing: 0.2em;
+        }
+
+        .signature {
+          margin-top: 3rem;
+          font-size: 0.7rem;
+          letter-spacing: 0.3em;
+        }
+
+        .orb-1 {
+          width: 200px;
+          height: 200px;
+          opacity: 0.2;
+        }
+
+        .orb-2 {
+          width: 150px;
+          height: 150px;
+          opacity: 0.2;
+        }
+
+        .orb-3 {
+          width: 120px;
+          height: 120px;
+          opacity: 0.2;
+        }
+
+        .progress-bar {
+          width: 2px;
+        }
+      }
+
+      /* Small phones */
+      @media (max-width: 480px) {
+        .article {
+          font-size: 1.05rem;
+          line-height: 1.85;
+        }
+
+        .drop-cap {
+          font-size: 3.5rem;
+          margin-right: 0.5rem;
+          margin-top: 0;
+        }
+
+        .section {
+          min-height: auto;
+          padding: 2rem 0;
+        }
+
+        .section-title {
+          font-size: 1.5rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .quote-block {
+          font-size: 1.1rem;
+          padding: 1.5rem 1rem 1.5rem 1.2rem;
+          margin: 2rem 0;
+          border-radius: 12px;
+        }
+
+        .quote-block::before {
+          font-size: 2.5rem;
+          top: 0.3rem;
+          left: 0.5rem;
+        }
+
+        .center-quote {
+          font-size: 1.25rem;
+          margin: 1.5rem 0;
+        }
+
+        .letter-container {
+          padding: 6vh 1rem 10vh;
+        }
+
+        .top-nav {
+          justify-content: center;
+          flex-direction: column-reverse;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .days-tracker {
+          font-size: 0.55rem;
+          padding: 0.35rem 0.6rem;
+          text-align: center;
+        }
+
+        .back-link {
+          font-size: 0.6rem;
+        }
+
+        .signature {
+          text-align: center;
+          margin-top: 2.5rem;
+          font-size: 0.65rem;
+        }
+
+        p {
+          margin-bottom: 1.2rem;
+        }
+
+        .highlight {
+          padding: 0 2px;
+        }
+      }
+
+      /* Very small phones */
+      @media (max-width: 360px) {
+        .article {
+          font-size: 1rem;
+        }
+
+        .drop-cap {
+          font-size: 3rem;
+        }
+
+        .section-title {
+          font-size: 1.3rem;
+        }
+
+        .quote-block {
+          font-size: 1rem;
+          padding: 1.2rem 0.8rem 1.2rem 1rem;
+        }
+
+        .center-quote {
+          font-size: 1.1rem;
+        }
+
+        .letter-container {
+          padding: 5vh 0.8rem 8vh;
+        }
+      }
+
+      /* Landscape mode on mobile */
+      @media (max-height: 500px) and (orientation: landscape) {
+        .section {
+          min-height: auto;
+          padding: 1.5rem 0;
+        }
+
+        .letter-container {
+          padding: 3vh 2rem 5vh;
+        }
+
+        .quote-block {
+          margin: 1.5rem 0;
+          padding: 1.5rem;
+        }
+      }
+
+      /* Ensure touch targets are large enough */
+      @media (pointer: coarse) {
+        .back-link,
+        .highlight,
+        .days-tracker {
+          min-height: 44px;
+          display: inline-flex;
+          align-items: center;
+        }
+      }
+
+      /* Reduced motion preference */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+
+        .section {
+          opacity: 1;
+          transform: none;
+        }
+
+        .orb {
+          animation: none;
+        }
+
+        .particle {
+          display: none;
+        }
+      }
+
+      /* Music Toggle Button */
+      .music-toggle {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          rgba(59, 130, 246, 0.3),
+          rgba(139, 92, 246, 0.3)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+      }
+
+      .music-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 30px rgba(139, 92, 246, 0.5);
+        background: linear-gradient(
+          135deg,
+          rgba(59, 130, 246, 0.5),
+          rgba(139, 92, 246, 0.5)
+        );
+      }
+
+      .music-toggle.playing {
+        animation: pulse-glow 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-glow {
+        0%,
+        100% {
+          box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        }
+        50% {
+          box-shadow:
+            0 4px 30px rgba(139, 92, 246, 0.6),
+            0 0 40px rgba(59, 130, 246, 0.3);
+        }
+      }
+
+      /* Intro overlay for first interaction */
+      .intro-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(3, 5, 8, 0.95) 0%,
+          #030508 100%
+        );
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition:
+          opacity 1s ease,
+          visibility 1s ease;
+      }
+
+      .intro-overlay.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .intro-icon {
+        font-size: 4rem;
+        animation: float-intro 3s ease-in-out infinite;
+        filter: drop-shadow(0 0 30px rgba(147, 197, 253, 0.5));
+      }
+
+      @keyframes float-intro {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+      }
+
+      .intro-text {
+        margin-top: 1.5rem;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.3rem;
+        font-style: italic;
+        color: rgba(147, 197, 253, 0.8);
+        animation: pulse-text 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-text {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .intro-hint {
+        margin-top: 0.8rem;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        .music-toggle {
+          bottom: 1.5rem;
+          right: 1.5rem;
+          width: 45px;
+          height: 45px;
+          font-size: 1.1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Intro Overlay -->
+    <div class="intro-overlay" id="introOverlay">
+      <div class="intro-icon">💐</div>
+      <div class="intro-text">for the foreseeable future...</div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop preload="auto">
+      <source src="src/Somebodysme.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- Music Toggle Button -->
+    <button class="music-toggle" id="musicToggle" title="Toggle Music">
+      🎵
+    </button>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+
+    <!-- Background -->
+    <div class="background"></div>
+
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Ambient Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Content -->
+    <div class="letter-container">
+      <div class="top-nav">
+        <a href="index.html" class="back-link">← Home</a>
+        <div class="days-tracker" id="daysTracker"></div>
+      </div>
+
+      <article class="article">
+        <section class="section visible">
+          <p>
+            <span class="drop-cap">d</span>rishti, thank you..for everything.
+            For the lateee night conversations that stretch past midnight. For
+            your care. For being you. For being my motivation. For being my
+            support. For being my (almost, minding your technicalities)
+            everything(hope i said it rightt aahh).
+          </p>
+          <p>
+            You wrote to me, in your beautiful handwritten letter, worried that
+            you don't do "enough"..? That you feel behind..? That you owe me
+            something..?
+          </p>
+        </section>
+
+        <section class="section">
+          <h2 class="section-title">Sigh.. here's the truth</h2>
+          <p>
+            You don't owe me anything. I know you asked me, not to say anything
+            reassuring, but... sigh
+          </p>
+          <p>Your <span class="highlight">presence</span> is the gift.</p>
+          <p>
+            From Diwali to those conversations, that somehow became a part of my
+            routine. You went from being a complete stranger I crossed paths
+            with to someone whose voice I look forward to hearing. To someone
+            who me me feel like at home. many things to say but cant. yet. And
+            that's not small, drishti. That's everything. Something that i cant
+            express in words.
+          </p>
+        </section>
+
+        <section class="section">
+          <p>
+            I know you think you're behind. But drishti... you don't see what I
+            see.
+          </p>
+          <p>
+            You give me calm just by existing, being here. Not just that
+            but..That's not nothing, that's
+            <span class="highlight">everything</span>.
+          </p>
+          <p class="center-quote">Calmness. Warmth. Home.</p>
+        </section>
+
+        <section class="section">
+          <p>
+            You are <span class="highlight">genuine</span>. That's what you
+            wrote about me, but drishti, that's exactly what you are.
+          </p>
+          <p>
+            True. Skeptical in the best way. Someone who writes letters by hand
+            instead of just typing... Someone who uses "foreseeable future"
+            because it's a legal term meaning rationally and logically
+            predictable :))))
+          </p>
+        </section>
+
+        <section class="section">
+          <div class="quote-block">
+            Your existence alone, is more than enough.
+          </div>
+          <p>
+            I don't need grande gestures. I just need you. Your sighs, your
+            rants, your voice, even your silence when we both will be at one
+            place.
+          </p>
+        </section>
+
+        <section class="section">
+          <p>
+            I think about someday sitting next to you in silence. Not talking,
+            just... being there.
+          </p>
+          <p>That's something I really yearn for. With you only, obviously.</p>
+        </section>
+
+        <section class="section">
+          <p>So thank you, drishti.</p>
+          <p>
+            Thank you for being here. Thank you for the genuine care. Thank you
+            for promising to be better, altho you dont need to be. Thank you for
+            being you... and for being my support, motivation and almost
+            everything good and happy and so much more.
+          </p>
+          <p>
+            You asked me not to spend too much time on these sites... But some
+            things are worth every second... just like talking with you..for
+            now, spending time together someday, on the trek and much more.
+          </p>
+          <p class="signature">— For the foreseeable future.</p>
+        </section>
+      </article>
+    </div>
+
+    <script>
+      // Wrap words in spans for hover effects
+      function wrapWordsInSpans() {
+        const article = document.querySelector(".article");
+        const paragraphs = article.querySelectorAll(
+          "p:not(.center-quote):not(.signature)",
+        );
+
+        paragraphs.forEach((p) => {
+          // Get all child nodes
+          const childNodes = Array.from(p.childNodes);
+          const newContent = [];
+
+          childNodes.forEach((node) => {
+            if (node.nodeType === Node.TEXT_NODE) {
+              // Split text into words and wrap each
+              const words = node.textContent.split(/(\s+)/);
+              words.forEach((word) => {
+                if (word.trim() === "") {
+                  newContent.push(document.createTextNode(word));
+                } else {
+                  const span = document.createElement("span");
+                  span.className = "word";
+                  span.textContent = word;
+                  newContent.push(span);
+                }
+              });
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+              // Keep existing elements (like .highlight, .drop-cap) but add word class
+              if (
+                node.classList.contains("highlight") ||
+                node.classList.contains("drop-cap")
+              ) {
+                node.classList.add("word");
+              }
+              newContent.push(node);
+            }
+          });
+
+          // Clear and rebuild paragraph
+          p.innerHTML = "";
+          newContent.forEach((item) => p.appendChild(item));
+        });
+
+        // Also wrap section titles and center quotes
+        const titles = article.querySelectorAll(
+          ".section-title, .center-quote",
+        );
+        titles.forEach((el) => {
+          const words = el.textContent.split(/(\s+)/);
+          el.innerHTML = words
+            .map((word) => {
+              if (word.trim() === "") return word;
+              return `<span class="word">${word}</span>`;
+            })
+            .join("");
+        });
+
+        // Also wrap quote block text
+        const quoteBlocks = article.querySelectorAll(".quote-block");
+        quoteBlocks.forEach((block) => {
+          const words = block.textContent.split(/(\s+)/);
+          block.innerHTML = words
+            .map((word) => {
+              if (word.trim() === "") return word;
+              return `<span class="word">${word}</span>`;
+            })
+            .join("");
+        });
+      }
+
+      // Run on page load
+      wrapWordsInSpans();
+
+      // Create floating particles
+      const particlesContainer = document.getElementById("particles");
+      const particleCount = 30;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        particle.style.left = Math.random() * 100 + "%";
+        particle.style.animationDelay = Math.random() * 15 + "s";
+        particle.style.animationDuration = 12 + Math.random() * 8 + "s";
+
+        // Vary particle colors
+        const colors = [
+          "rgba(147, 197, 253, 0.6)",
+          "rgba(196, 181, 253, 0.5)",
+          "rgba(249, 168, 212, 0.4)",
+          "rgba(129, 230, 217, 0.5)",
+        ];
+        particle.style.background =
+          colors[Math.floor(Math.random() * colors.length)];
+        particle.style.width = 2 + Math.random() * 3 + "px";
+        particle.style.height = particle.style.width;
+
+        particlesContainer.appendChild(particle);
+      }
+
+      // Days Tracker Logic
+      const startDate = new Date("2025-09-29"); // September 29, 2025
+      const today = new Date();
+      const diffTime = Math.abs(today - startDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      const trackerElement = document.getElementById("daysTracker");
+      if (trackerElement) {
+        trackerElement.innerText = `${diffDays} days since we perfectly inelastically collided..`;
+      }
+
+      // Custom cursor - Dot only
+      const cursorDot = document.getElementById("cursor-dot");
+      let mouseX = 0,
+        mouseY = 0;
+
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursorDot.style.left = mouseX + "px";
+        cursorDot.style.top = mouseY + "px";
+      });
+
+      // Hover effects - affects just the dot
+      document
+        .querySelectorAll("a, .highlight, .days-tracker")
+        .forEach((el) => {
+          el.addEventListener("mouseenter", () => {
+            cursorDot.classList.add("hovering");
+          });
+          el.addEventListener("mouseleave", () => {
+            cursorDot.classList.remove("hovering");
+          });
+        });
+
+      // Scroll animations
+      const sections = document.querySelectorAll(".section");
+      const progressBar = document.getElementById("progressBar");
+
+      function handleScroll() {
+        const scrollTop = window.pageYOffset;
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.height = progress + "%";
+
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          const triggerPoint = window.innerHeight * 0.75;
+
+          if (rect.top < triggerPoint) {
+            section.classList.add("visible");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", handleScroll);
+      handleScroll(); // Initial check
+
+      // Parallax effect on orbs
+      document.addEventListener("mousemove", (e) => {
+        const orbs = document.querySelectorAll(".orb");
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+        orbs.forEach((orb, i) => {
+          const depth = (i + 1) * 15;
+          orb.style.transform = `translate(${x * depth}px, ${y * depth}px)`;
+        });
+      });
+
+      // Music Controls
+      const bgMusic = document.getElementById("bgMusic");
+      const musicToggle = document.getElementById("musicToggle");
+      const introOverlay = document.getElementById("introOverlay");
+
+      // Start experience when clicking intro overlay
+      introOverlay.addEventListener("click", function () {
+        introOverlay.classList.add("hidden");
+
+        // Play the music
+        bgMusic.volume = 0.6;
+        bgMusic
+          .play()
+          .then(() => {
+            musicToggle.classList.add("playing");
+            musicToggle.textContent = "🎵";
+          })
+          .catch((e) => {
+            console.log("Audio play failed:", e);
+            musicToggle.textContent = "🔇";
+          });
+      });
+
+      // Toggle music on button click
+      musicToggle.addEventListener("click", function () {
+        if (bgMusic.paused) {
+          bgMusic.play().then(() => {
+            musicToggle.classList.add("playing");
+            musicToggle.textContent = "🎵";
+          });
+        } else {
+          bgMusic.pause();
+          musicToggle.classList.remove("playing");
+          musicToggle.textContent = "🔇";
+        }
+      });
+
+      // Update button state on audio events
+      bgMusic.addEventListener("play", () => {
+        musicToggle.classList.add("playing");
+        musicToggle.textContent = "🎵";
+      });
+
+      bgMusic.addEventListener("pause", () => {
+        musicToggle.classList.remove("playing");
+        musicToggle.textContent = "🔇";
+      });
+    </script>
+  </body>
+</html>
