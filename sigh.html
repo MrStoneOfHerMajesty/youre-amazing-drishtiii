@@ -1,0 +1,1773 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hey :)</title>
+    <meta name="description" content="just a little something" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ==============================================
+       PHASE 1: SIMPLE, MINIMAL, WHITE
+       This is the "decoy" — innocent looking
+    ============================================== */
+
+      :root {
+        --simple-bg: #fafafa;
+        --simple-text: #333;
+        --simple-muted: #888;
+        --simple-accent: #666;
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          sans-serif;
+        background: var(--simple-bg);
+        color: var(--simple-text);
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      /* Simple phase container */
+      #simplePhase {
+        min-height: 100vh;
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+
+      #simplePhase.hiding {
+        opacity: 0;
+        transform: scale(0.95);
+        pointer-events: none;
+      }
+
+      .simple-section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 24px;
+        text-align: center;
+      }
+
+      .simple-container {
+        max-width: 500px;
+      }
+
+      .simple-title {
+        font-family: "Inter", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: var(--simple-text);
+        margin-bottom: 20px;
+      }
+
+      .simple-text {
+        font-size: 1rem;
+        color: var(--simple-muted);
+        margin-bottom: 16px;
+      }
+
+      .simple-divider {
+        width: 40px;
+        height: 1px;
+        background: #ddd;
+        margin: 40px auto;
+      }
+
+      .simple-scroll-hint {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #ccc;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        animation: gentle-bounce 2s ease-in-out infinite;
+      }
+
+      @keyframes gentle-bounce {
+        0%,
+        100% {
+          transform: translateX(-50%) translateY(0);
+        }
+        50% {
+          transform: translateX(-50%) translateY(5px);
+        }
+      }
+
+      /* Shake prompt section */
+      .shake-section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 24px;
+        text-align: center;
+        position: relative;
+      }
+
+      .shake-icon {
+        font-size: 3rem;
+        margin-bottom: 30px;
+        animation: shake-hint 2s ease-in-out infinite;
+      }
+
+      @keyframes shake-hint {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        20% {
+          transform: rotate(-10deg);
+        }
+        40% {
+          transform: rotate(10deg);
+        }
+        60% {
+          transform: rotate(-10deg);
+        }
+        80% {
+          transform: rotate(10deg);
+        }
+      }
+
+      .shake-prompt {
+        font-size: 1.1rem;
+        color: var(--simple-muted);
+        margin-bottom: 10px;
+      }
+
+      .shake-subtext {
+        font-size: 0.85rem;
+        color: #bbb;
+        font-style: italic;
+      }
+
+      /* Desktop fallback button (hidden on mobile) */
+      .desktop-reveal-btn {
+        display: none;
+        margin-top: 30px;
+        padding: 12px 28px;
+        background: #333;
+        color: #fff;
+        border: none;
+        border-radius: 30px;
+        font-family: "Inter", sans-serif;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .desktop-reveal-btn:hover {
+        background: #555;
+        transform: scale(1.05);
+      }
+
+      /* Show button on desktop */
+      @media (min-width: 769px) {
+        .desktop-reveal-btn {
+          display: inline-block;
+        }
+        .shake-icon {
+          animation: none;
+        }
+        .shake-prompt {
+          display: none;
+        }
+      }
+
+      /* ==============================================
+       TRANSITION OVERLAY
+    ============================================== */
+
+      #transitionOverlay {
+        position: fixed;
+        inset: 0;
+        background: #0f0a14;
+        z-index: 10000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 1s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #transitionOverlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .transition-text {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.5rem;
+        color: rgba(255, 255, 255, 0.8);
+        font-style: italic;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 1s ease 0.5s,
+          transform 1s ease 0.5s;
+      }
+
+      #transitionOverlay.active .transition-text {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ==============================================
+       PHASE 2: RICH EMOTIONAL EXPERIENCE
+       Hidden initially, revealed after shake
+    ============================================== */
+
+      #richPhase {
+        display: none;
+        opacity: 0;
+        transition: opacity 1.5s ease;
+      }
+
+      #richPhase.revealed {
+        display: block;
+        opacity: 1;
+      }
+
+      /* ============================================
+       RICH PHASE STYLES (from original)
+    ============================================ */
+
+      .rich-active {
+        --bg-deep: #0f0a14;
+        --bg-mid: #1a1420;
+        --bg-soft: #241e2a;
+
+        --glow-rose: rgba(200, 120, 150, 0.5);
+        --glow-amber: rgba(220, 170, 100, 0.4);
+        --glow-lavender: rgba(150, 130, 200, 0.4);
+        --glow-warmth: rgba(230, 190, 160, 0.3);
+        --glow-teal: rgba(100, 180, 180, 0.3);
+
+        --text-primary: #f5ede8;
+        --text-soft: #ddd0c8;
+        --text-muted: #b8a8a0;
+        --text-whisper: #8a7870;
+        --text-accent: #f0c8b0;
+
+        --ease-gentle: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        background: var(--bg-deep);
+        color: var(--text-primary);
+      }
+
+      .rich-active #richPhase {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        line-height: 1.85;
+        letter-spacing: 0.015em;
+      }
+
+      /* Atmosphere */
+      .atmosphere {
+        position: fixed;
+        inset: 0;
+        z-index: -100;
+        background: linear-gradient(
+          160deg,
+          #0f0a14 0%,
+          #1a1220 40%,
+          #201828 70%,
+          #150f1a 100%
+        );
+        overflow: hidden;
+      }
+
+      .atmosphere::before {
+        content: "";
+        position: absolute;
+        inset: -50%;
+        background: radial-gradient(
+          ellipse at var(--mouse-x, 50%) var(--mouse-y, 50%),
+          rgba(180, 120, 150, 0.15) 0%,
+          transparent 50%
+        );
+        transition: background 0.3s ease;
+        pointer-events: none;
+      }
+
+      .glow-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.6;
+        mix-blend-mode: screen;
+        animation: orb-float 25s ease-in-out infinite;
+        will-change: transform;
+      }
+
+      .glow-orb-1 {
+        width: 60vmax;
+        height: 60vmax;
+        background: radial-gradient(circle, var(--glow-rose), transparent 70%);
+        top: -20%;
+        right: -15%;
+        animation-delay: 0s;
+      }
+      .glow-orb-2 {
+        width: 70vmax;
+        height: 70vmax;
+        background: radial-gradient(
+          circle,
+          var(--glow-lavender),
+          transparent 70%
+        );
+        bottom: -35%;
+        left: -25%;
+        animation-delay: -8s;
+        animation-duration: 30s;
+      }
+      .glow-orb-3 {
+        width: 50vmax;
+        height: 50vmax;
+        background: radial-gradient(circle, var(--glow-amber), transparent 70%);
+        top: 35%;
+        left: 40%;
+        animation-delay: -15s;
+        animation-duration: 28s;
+      }
+      .glow-orb-4 {
+        width: 45vmax;
+        height: 45vmax;
+        background: radial-gradient(circle, var(--glow-teal), transparent 70%);
+        bottom: 10%;
+        right: 5%;
+        animation-delay: -5s;
+        animation-duration: 32s;
+      }
+      .glow-orb-5 {
+        width: 55vmax;
+        height: 55vmax;
+        background: radial-gradient(
+          circle,
+          var(--glow-warmth),
+          transparent 70%
+        );
+        top: 60%;
+        left: 10%;
+        animation-delay: -12s;
+        animation-duration: 26s;
+      }
+
+      @keyframes orb-float {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1) rotate(0deg);
+        }
+        25% {
+          transform: translate(40px, -30px) scale(1.08) rotate(3deg);
+        }
+        50% {
+          transform: translate(-30px, 50px) scale(0.95) rotate(-2deg);
+        }
+        75% {
+          transform: translate(25px, 25px) scale(1.05) rotate(2deg);
+        }
+      }
+
+      /* Stars */
+      .stars {
+        position: fixed;
+        inset: 0;
+        z-index: -90;
+        pointer-events: none;
+      }
+      .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        animation: twinkle 4s ease-in-out infinite;
+      }
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.5);
+        }
+      }
+
+      /* Particles */
+      .particles-layer {
+        position: fixed;
+        inset: 0;
+        z-index: -80;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .particle {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 230, 210, 0.9),
+          transparent 70%
+        );
+        animation: particle-rise 30s infinite linear;
+        opacity: 0;
+      }
+      @keyframes particle-rise {
+        0% {
+          opacity: 0;
+          transform: translateY(100vh) translateX(0) scale(0.5);
+        }
+        10% {
+          opacity: 0.6;
+        }
+        90% {
+          opacity: 0.4;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-20vh) translateX(100px) scale(1);
+        }
+      }
+
+      /* Grain & Vignette */
+      .grain {
+        position: fixed;
+        inset: 0;
+        z-index: -50;
+        opacity: 0.035;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      }
+      .vignette {
+        position: fixed;
+        inset: 0;
+        z-index: -40;
+        pointer-events: none;
+        background: radial-gradient(
+          ellipse at center,
+          transparent 0%,
+          transparent 40%,
+          rgba(10, 5, 15, 0.5) 100%
+        );
+      }
+
+      /* Spotlight */
+      .spotlight {
+        position: fixed;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(200, 160, 140, 0.08) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+        z-index: -30;
+        transform: translate(-50%, -50%);
+        transition:
+          left 0.5s ease-out,
+          top 0.5s ease-out;
+        will-change: left, top;
+      }
+
+      /* Typography */
+      .rich-active h1,
+      .rich-active h2,
+      .rich-active h3 {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 500;
+        line-height: 1.4;
+      }
+      .title-large {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 400;
+        letter-spacing: 0.03em;
+        text-shadow: 0 0 60px rgba(200, 160, 140, 0.3);
+      }
+      .title-medium {
+        font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+        font-weight: 400;
+        letter-spacing: 0.02em;
+      }
+      .text-body {
+        font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+        line-height: 2;
+        color: var(--text-soft);
+      }
+      .text-emphasis {
+        font-size: clamp(1.2rem, 2.8vw, 1.5rem);
+        line-height: 2;
+        color: var(--text-primary);
+      }
+      .text-whisper {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        font-style: italic;
+        color: var(--text-muted);
+        font-weight: 300;
+      }
+      .accent {
+        color: var(--text-accent);
+      }
+      .italic {
+        font-style: italic;
+      }
+
+      /* Layout */
+      .section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 100px 32px;
+        position: relative;
+      }
+      .section-tall {
+        min-height: 150vh;
+      }
+      .container {
+        max-width: 800px;
+        width: 100%;
+      }
+      .container-narrow {
+        max-width: 650px;
+      }
+      .text-center {
+        text-align: center;
+      }
+      .text-left {
+        text-align: left;
+      }
+
+      /* Glass cards */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 32px;
+        padding: 48px 44px;
+        box-shadow:
+          0 0 80px rgba(180, 120, 140, 0.08),
+          0 25px 50px rgba(0, 0, 0, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        position: relative;
+        overflow: hidden;
+      }
+      .glass-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.15),
+          transparent
+        );
+      }
+      .glass-card-warm {
+        box-shadow:
+          0 0 100px rgba(220, 170, 130, 0.1),
+          0 25px 50px rgba(0, 0, 0, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      }
+
+      /* Reveals */
+      .reveal {
+        opacity: 0;
+        transform: translateY(50px);
+        transition:
+          opacity 1.5s var(--ease-gentle),
+          transform 1.5s var(--ease-gentle);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .reveal-delay-1 {
+        transition-delay: 0.2s;
+      }
+      .reveal-delay-2 {
+        transition-delay: 0.4s;
+      }
+      .reveal-slow {
+        transition-duration: 2.5s;
+      }
+
+      .stagger-children > * {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 1s var(--ease-gentle),
+          transform 1s var(--ease-gentle);
+      }
+      .stagger-children.visible > *:nth-child(1) {
+        transition-delay: 0.1s;
+      }
+      .stagger-children.visible > *:nth-child(2) {
+        transition-delay: 0.3s;
+      }
+      .stagger-children.visible > *:nth-child(3) {
+        transition-delay: 0.5s;
+      }
+      .stagger-children.visible > *:nth-child(4) {
+        transition-delay: 0.7s;
+      }
+      .stagger-children.visible > *:nth-child(5) {
+        transition-delay: 0.9s;
+      }
+      .stagger-children.visible > *:nth-child(6) {
+        transition-delay: 1.1s;
+      }
+      .stagger-children.visible > * {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .breath {
+        animation: breathe 6s ease-in-out infinite;
+      }
+      @keyframes breathe {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.02);
+          opacity: 0.92;
+        }
+      }
+
+      .parallax-text {
+        transition: transform 0.6s var(--ease-gentle);
+      }
+
+      /* Float icons */
+      .float-icon {
+        position: fixed;
+        font-size: 2rem;
+        opacity: 0;
+        transition:
+          opacity 1.5s ease,
+          transform 0.4s var(--ease-bounce);
+        z-index: 50;
+        cursor: default;
+        filter: drop-shadow(0 0 20px rgba(200, 160, 140, 0.4));
+      }
+      .float-icon.visible {
+        opacity: 0.7;
+      }
+      .float-icon:hover {
+        opacity: 1;
+        transform: scale(1.25) rotate(5deg);
+      }
+      .icon-cat {
+        top: 18%;
+        right: 6%;
+        animation: gentle-float 8s ease-in-out infinite;
+      }
+      .icon-coffee {
+        bottom: 30%;
+        left: 5%;
+        animation: gentle-float 9s ease-in-out infinite 2s;
+      }
+      .icon-dog {
+        bottom: 15%;
+        right: 7%;
+        animation: gentle-float 7s ease-in-out infinite 4s;
+      }
+      .icon-moon {
+        top: 12%;
+        left: 8%;
+        animation: gentle-float 10s ease-in-out infinite 1s;
+      }
+      .icon-star {
+        top: 35%;
+        right: 4%;
+        animation: gentle-float 8s ease-in-out infinite 3s;
+      }
+      @keyframes gentle-float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(3deg);
+        }
+      }
+
+      /* Airplane */
+      .airplane {
+        position: fixed;
+        top: 25%;
+        left: -80px;
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+        z-index: 60;
+        pointer-events: none;
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+      }
+      .airplane.flying {
+        opacity: 0.6;
+        animation: plane-fly 16s linear forwards;
+      }
+      .airplane svg {
+        width: 100%;
+        height: 100%;
+        fill: var(--text-muted);
+        transform: rotate(45deg);
+      }
+      @keyframes plane-fly {
+        0% {
+          left: -80px;
+          top: 25%;
+        }
+        100% {
+          left: calc(100vw + 80px);
+          top: 15%;
+        }
+      }
+      .airplane::after {
+        content: "";
+        position: absolute;
+        right: 30px;
+        top: 50%;
+        width: 100px;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3)
+        );
+        transform: translateY(-50%);
+        opacity: 0.5;
+      }
+
+      /* Typewriter */
+      .typewriter {
+        display: inline;
+        border-right: 2px solid var(--text-accent);
+        animation: blink-cursor 1s step-end infinite;
+      }
+      .typewriter.done {
+        border-right-color: transparent;
+        animation: none;
+      }
+      @keyframes blink-cursor {
+        50% {
+          border-right-color: transparent;
+        }
+      }
+
+      /* Dividers */
+      .divider {
+        width: 100%;
+        max-width: 200px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--text-whisper),
+          transparent
+        );
+        margin: 60px auto;
+        opacity: 0.4;
+      }
+      .divider-glow {
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--text-accent),
+          transparent
+        );
+        box-shadow: 0 0 20px var(--glow-amber);
+      }
+      .decoration-dots {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin: 40px 0;
+      }
+      .decoration-dots span {
+        width: 6px;
+        height: 6px;
+        background: var(--text-whisper);
+        border-radius: 50%;
+        opacity: 0.5;
+      }
+
+      /* Scroll indicator */
+      .scroll-indicator {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        opacity: 0;
+        transition: opacity 2s ease;
+      }
+      .scroll-indicator.visible {
+        opacity: 0.5;
+      }
+      .scroll-indicator span {
+        font-family: "Inter", sans-serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-whisper);
+      }
+      .scroll-indicator svg {
+        width: 24px;
+        height: 24px;
+        stroke: var(--text-whisper);
+        stroke-width: 1.5;
+        fill: none;
+        animation: bounce-down 2s ease-in-out infinite;
+      }
+      @keyframes bounce-down {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(8px);
+        }
+      }
+
+      /* Back link */
+      .back-link {
+        position: fixed;
+        top: 28px;
+        left: 28px;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 2s ease 3s;
+        text-decoration: none;
+        padding: 12px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 100px;
+        backdrop-filter: blur(10px);
+      }
+      .rich-active .back-link {
+        opacity: 0.6;
+      }
+      .back-link:hover {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .back-link span {
+        font-family: "Inter", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        color: var(--text-soft);
+      }
+
+      /* Progress bar */
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--glow-rose), var(--glow-amber));
+        width: 0%;
+        z-index: 10000;
+        transition: width 0.1s ease-out;
+        box-shadow: 0 0 10px var(--glow-rose);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .section {
+          padding: 80px 24px;
+        }
+        .glass-card {
+          padding: 36px 28px;
+          border-radius: 24px;
+        }
+        .float-icon {
+          font-size: 1.5rem;
+        }
+        .icon-cat {
+          right: 4%;
+          top: 15%;
+        }
+        .icon-coffee {
+          left: 4%;
+          bottom: 25%;
+        }
+        .icon-dog {
+          right: 5%;
+          bottom: 10%;
+        }
+        .icon-moon {
+          left: 5%;
+          top: 10%;
+        }
+        .icon-star {
+          display: none;
+        }
+        .glow-orb {
+          filter: blur(80px);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.3s !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ================================================
+       PHASE 1: SIMPLE WHITE WEBSITE
+  ================================================= -->
+    <div id="simplePhase">
+      <!-- Section 1: Casual greeting -->
+      <section class="simple-section">
+        <div class="simple-container">
+          <h1 class="simple-title">heyyyy : )))</h1>
+          <p class="simple-text">just wanted to say something</p>
+          <p class="simple-text" style="color: #bbb; font-size: 0.9rem">
+            nothing big, really
+          </p>
+        </div>
+        <div class="simple-scroll-hint">scroll ↓</div>
+      </section>
+
+      <!-- Section 2: Building up casually -->
+      <section class="simple-section">
+        <div class="simple-container">
+          <p class="simple-text">you know how sometimes</p>
+          <p class="simple-text">you want to tell someone something</p>
+          <p class="simple-text">but words feel... inadequate?</p>
+          <div class="simple-divider"></div>
+          <p class="simple-text" style="color: #aaa">yeah, that.</p>
+        </div>
+      </section>
+
+      <!-- Section 3: A bit more -->
+      <section class="simple-section">
+        <div class="simple-container">
+          <p class="simple-text">i've been meaning to say this</p>
+          <p class="simple-text">for a while now</p>
+          <div class="simple-divider"></div>
+          <p class="simple-text">but every time i tried</p>
+          <p class="simple-text" style="color: #aaa">it never came out right</p>
+        </div>
+      </section>
+
+      <!-- Section 4: Building anticipation -->
+      <section class="simple-section">
+        <div class="simple-container">
+          <p class="simple-text">so i thought maybe</p>
+          <p class="simple-text">if i did it differently</p>
+          <p class="simple-text">it would make more sense</p>
+          <div class="simple-divider"></div>
+          <p class="simple-text" style="font-style: italic; color: #999">
+            bear with me
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 5: The shake prompt -->
+      <section class="shake-section" id="shakeSection">
+        <div class="simple-container">
+          <div class="shake-icon">📱</div>
+          <p class="shake-prompt">shake your phone</p>
+          <p class="shake-subtext">trust me on this one</p>
+
+          <!-- Desktop fallback -->
+          <button class="desktop-reveal-btn" onclick="triggerReveal()">
+            click here instead ✨
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================================================
+       TRANSITION OVERLAY
+  ================================================= -->
+    <div id="transitionOverlay">
+      <p class="transition-text">wait for it...</p>
+    </div>
+
+    <!-- ================================================
+       PHASE 2: RICH EMOTIONAL EXPERIENCE
+  ================================================= -->
+    <div id="richPhase">
+      <!-- Progress bar -->
+      <div class="progress-bar" id="progressBar"></div>
+
+      <!-- Atmospheric background -->
+      <div class="atmosphere">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="glow-orb glow-orb-3"></div>
+        <div class="glow-orb glow-orb-4"></div>
+        <div class="glow-orb glow-orb-5"></div>
+      </div>
+
+      <!-- Stars -->
+      <div class="stars" id="starsContainer"></div>
+
+      <!-- Particles -->
+      <div class="particles-layer" id="particlesContainer"></div>
+
+      <!-- Texture & vignette -->
+      <div class="grain"></div>
+      <div class="vignette"></div>
+
+      <!-- Mouse spotlight -->
+      <div class="spotlight" id="spotlight"></div>
+
+      <!-- Back link -->
+      <a href="index.html" class="back-link">
+        <span>← back home</span>
+      </a>
+
+      <!-- Floating comfort icons -->
+      <span class="float-icon icon-cat" id="iconCat">🐱</span>
+      <span class="float-icon icon-coffee" id="iconCoffee">☕</span>
+      <span class="float-icon icon-dog" id="iconDog">🐕</span>
+      <span class="float-icon icon-moon" id="iconMoon">🌙</span>
+      <span class="float-icon icon-star" id="iconStar">✨</span>
+
+      <!-- Airplane -->
+      <div class="airplane" id="airplane">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"
+          />
+        </svg>
+      </div>
+
+      <!-- SECTION 1: OPENING -->
+      <section class="section" id="opening">
+        <div class="container container-narrow text-center">
+          <div class="reveal reveal-slow" id="openingContent">
+            <p class="text-whisper" style="margin-bottom: 30px">
+              stay a moment.
+            </p>
+            <h1 class="title-large breath" style="margin-bottom: 40px">
+              this isn't loud.<br />it doesn't need to be.
+            </h1>
+            <p class="text-body" style="margin-bottom: 30px">
+              i've been thinking about how to say this without saying too much.
+              because sometimes the loudest feelings are the ones we can barely
+              whisper. and you... you've always given me "things" that i cannot
+              put into words...
+            </p>
+            <p class="text-whisper">
+              so i'll try. slowly. the way you deserve.
+            </p>
+          </div>
+        </div>
+        <div class="scroll-indicator" id="scrollIndicator">
+          <span>scroll gently</span>
+          <svg viewBox="0 0 24 24">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </div>
+      </section>
+
+      <!-- SECTION 2: THE SILENCE -->
+      <section class="section section-tall" id="silenceSection">
+        <div class="container text-center">
+          <div
+            class="reveal stagger-children parallax-text"
+            id="silenceContent"
+          >
+            <h2 class="title-medium" style="margin-bottom: 50px">
+              there's a kind of silence<br /><span class="accent breath"
+                >that says everything.</span
+              >
+            </h2>
+            <div class="glass-card" style="margin-bottom: 40px">
+              <p class="text-body" style="margin-bottom: 25px">
+                you didn't ask me to explain myself. you didn't push. you didn't
+                demand that i make sense of the mess inside my head before i was
+                ready. you just... <span class="accent italic">sat there</span>.
+                with me. in whatever silence i needed.
+              </p>
+              <p class="text-body" style="margin-bottom: 25px">
+                and in that silence, something in me finally understood that i
+                didn't have to perform my way through the hard parts. i could
+                just... be. broken or confused or overthinking — and it would
+                still be okay.
+              </p>
+              <p class="text-emphasis">
+                you made <span class="accent">okay</span> feel like enough.
+              </p>
+            </div>
+            <p class="text-whisper">
+              that's not a small thing. that's everything.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: UNDERSTANDING -->
+      <section class="section" id="understandingSection">
+        <div class="container container-narrow">
+          <div class="reveal stagger-children" id="understandingContent">
+            <h2 class="title-medium text-center" style="margin-bottom: 50px">
+              you listened differently.
+            </h2>
+            <div class="glass-card glass-card-warm text-left">
+              <p class="text-body" style="margin-bottom: 25px">
+                most people listen to respond. they're already building their
+                answer while you're still mid-sentence. but you... you listened
+                like you were trying to understand the parts i wasn't saying out
+                loud.
+              </p>
+              <p class="text-body" style="margin-bottom: 25px">
+                i've spent so long feeling like i had to translate myself —
+                soften the edges, explain the context, justify why i feel what i
+                feel. with you, for the first time, i didn't have to.
+              </p>
+              <p class="text-body" style="margin-bottom: 25px">
+                you just <span class="accent italic">got it</span>. not because
+                i explained well, but because you cared enough to read between
+                the lines. to hear the pauses. to notice when something shifted
+                in my voice.
+              </p>
+              <div class="divider"></div>
+              <p class="text-emphasis text-center">
+                i didn't know being understood could feel like that.<br />
+                <span class="accent">like finally exhaling.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: THE AIRPLANE MOMENT -->
+      <section class="section" id="airplaneSection">
+        <div class="container container-narrow text-center">
+          <div class="reveal" id="airplaneContent">
+            <p
+              class="text-whisper"
+              style="margin-bottom: 60px; opacity: 0"
+              id="sameSkyText"
+            >
+              same sky.
+            </p>
+            <div class="glass-card" id="airplaneCard" style="opacity: 0">
+              <p class="text-body" style="margin-bottom: 25px">
+                sometimes i look up at the sky and wonder if you're seeing it
+                too. the same clouds. the same shade of blue. maybe even the
+                same plane cutting a quiet line through the afternoon.
+              </p>
+              <p class="text-body" style="margin-bottom: 25px">
+                it's strange, isn't it? how distance can feel so loud sometimes,
+                and then in other moments, it dissolves completely. like we're
+                under the same ceiling of stars, breathing the same kind of air,
+                just from different corners of the world.
+              </p>
+              <p class="text-emphasis">
+                connection isn't about proximity.<br /><span class="accent"
+                  >it's about presence.</span
+                >
+              </p>
+              <p class="text-whisper" style="margin-top: 30px">
+                and you're present. even when you're not here.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: SORRY MAT BOLA KAR -->
+      <section class="section" id="sorrySection">
+        <div class="container container-narrow text-center">
+          <div class="reveal" id="sorryContent">
+            <p class="title-medium accent" style="margin-bottom: 50px">
+              <span class="typewriter" id="sorryTypewriter"></span>
+            </p>
+            <div
+              class="glass-card glass-card-warm"
+              id="sorryCard"
+              style="opacity: 0"
+            >
+              <p class="text-body" style="margin-bottom: 25px">
+                you said that once. casually, almost. like it was obvious. like
+                you couldn't understand why i would ever apologize for taking up
+                space in your life.
+              </p>
+              <p class="text-body" style="margin-bottom: 25px">
+                and i remember feeling something shift inside me. this quiet
+                release. like a knot i didn't know i was carrying suddenly came
+                undone.
+              </p>
+              <p class="text-body" style="margin-bottom: 25px">
+                i've apologized my whole life. for being too much. for not being
+                enough. for needing things. for asking. for existing a little
+                too loudly in spaces that felt like they weren't mine.
+              </p>
+              <div class="divider"></div>
+              <p class="text-emphasis">
+                but you — you made me feel like i don't have to shrink.<br />
+                like my <span class="accent">presence</span> isn't a burden.<br />
+                like being here is <span class="accent italic">allowed</span>.
+              </p>
+              <p class="text-whisper" style="margin-top: 30px">
+                i'm still learning to believe that. but with you, it feels
+                possible.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 6: THE CALM -->
+      <section class="section section-tall" id="calmSection">
+        <div class="container">
+          <div class="reveal stagger-children" id="calmContent">
+            <h2 class="title-large text-center" style="margin-bottom: 60px">
+              you became the thought<br /><span class="accent"
+                >that makes everything quieter.</span
+              >
+            </h2>
+            <div class="glass-card text-left" style="margin-bottom: 50px">
+              <p class="text-body" style="margin-bottom: 25px">
+                my mind is loud. you know that by now. it spirals and overthinks
+                and builds entire hypothetical disasters out of nothing. it
+                replays conversations i had three years ago and convinces me i
+                should've said something different.
+              </p>
+              <p class="text-body" style="margin-bottom: 25px">
+                but somewhere along the way, you became the thought that quiets
+                it. not because you fix things — you don't pretend to have all
+                the answers. just because...
+                <span class="accent italic">you're there</span>.
+              </p>
+              <p class="text-body" style="margin-bottom: 25px">
+                when the noise gets too much, i think of you. your voice. your
+                laugh. the way you say things that somehow make the world feel a
+                little smaller, a little softer, a little less terrifying.
+              </p>
+              <p class="text-emphasis text-center">
+                you're the first safe place<br /><span class="accent"
+                  >my mind learned to rest in.</span
+                >
+              </p>
+            </div>
+            <div class="text-center">
+              <p class="text-whisper">
+                i don't know how you did that.<br />but i'm grateful you did.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 7: GRATITUDE -->
+      <section class="section" id="gratitudeSection">
+        <div class="container container-narrow text-center">
+          <div class="reveal stagger-children" id="gratitudeContent">
+            <h2 class="title-medium" style="margin-bottom: 50px">
+              thank you doesn't feel like enough.
+            </h2>
+            <div class="glass-card">
+              <p class="text-body" style="margin-bottom: 25px">
+                i've tried to write this part so many times. deleted it. started
+                over. because how do you thank someone for making you feel
+                <span class="accent italic">seen</span>?
+              </p>
+              <p class="text-body" style="margin-bottom: 25px">
+                for being patient when i'm difficult. for staying when i
+                expected you to leave. for listening to the same worries i've
+                repeated a hundred times and still treating them like they
+                matter.
+              </p>
+              <p class="text-body" style="margin-bottom: 25px">
+                for every moment you chose presence over performance. for every
+                time you held space for me without asking for anything back. for
+                showing me that connection can be gentle. that care doesn't have
+                to come with conditions.
+              </p>
+              <div class="divider divider-glow"></div>
+              <p class="text-emphasis">
+                you didn't save me.<br />
+                you reminded me that
+                <span class="accent">i could save myself</span> —<br />
+                and that i didn't have to do it alone.
+              </p>
+            </div>
+            <div class="decoration-dots">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 8: THE SMALL THINGS -->
+      <section class="section" id="smallThingsSection">
+        <div class="container text-center">
+          <div class="reveal stagger-children" id="smallThingsContent">
+            <h2 class="title-medium" style="margin-bottom: 50px">
+              it's the small things.
+            </h2>
+            <div class="glass-card text-left" style="margin-bottom: 40px">
+              <p class="text-body" style="margin-bottom: 20px">
+                the way you remember details i forgot i mentioned.
+              </p>
+              <p class="text-body" style="margin-bottom: 20px">
+                the way you check in without making it feel like an
+                interrogation.
+              </p>
+              <p class="text-body" style="margin-bottom: 20px">
+                the way you give advice without making me feel small for needing
+                it.
+              </p>
+              <p class="text-body" style="margin-bottom: 20px">
+                the way you laugh at things that probably aren't that funny,
+                just because i'm the one saying them.
+              </p>
+              <p class="text-body" style="margin-bottom: 20px">
+                the way you make me feel like the version of myself i'm still
+                learning to believe in.
+              </p>
+              <div class="divider"></div>
+              <p class="text-emphasis text-center">
+                none of it is small, really.<br /><span class="accent"
+                  >all of it is everything.</span
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 9: ENDING -->
+      <section class="section" id="endingSection">
+        <div class="container container-narrow text-center">
+          <div class="reveal reveal-slow" id="endingContent">
+            <h2 class="title-large" style="margin-bottom: 50px">
+              this doesn't end here.
+            </h2>
+            <div class="glass-card glass-card-warm">
+              <p class="text-body" style="margin-bottom: 25px">
+                this isn't a conclusion. it's not a goodbye or a final chapter.
+                it's just a pause. a moment to say what i've been feeling
+                without expecting anything back.
+              </p>
+              <p class="text-body" style="margin-bottom: 25px">
+                i don't need you to respond. i don't need you to match this
+                energy or feel the same way. i just needed you to know.
+              </p>
+              <p class="text-emphasis" style="margin-bottom: 25px">
+                you matter.<br /><span class="accent"
+                  >more than i know how to say.</span
+                >
+              </p>
+              <div class="divider"></div>
+              <p class="text-whisper" style="margin-top: 30px">
+                i'm here. i heard you. and i'm still here.
+              </p>
+            </div>
+            <p
+              class="text-whisper"
+              style="margin-top: 60px; opacity: 0"
+              id="stayReveal"
+            >
+              you don't have to go.
+            </p>
+            <p class="accent" style="margin-top: 40px; font-size: 1.5rem">
+              <span id="blinkingCursor">|</span>
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      /* ==============================================
+       SHAKE DETECTION & PHASE TRANSITION
+    ============================================== */
+
+      let shakeTriggered = false;
+      let lastX = 0,
+        lastY = 0,
+        lastZ = 0;
+      let shakeCount = 0;
+      const shakeThreshold = 15;
+
+      // Request permission for iOS 13+
+      function requestMotionPermission() {
+        if (
+          typeof DeviceMotionEvent !== "undefined" &&
+          typeof DeviceMotionEvent.requestPermission === "function"
+        ) {
+          DeviceMotionEvent.requestPermission()
+            .then((response) => {
+              if (response === "granted") {
+                setupShakeDetection();
+              }
+            })
+            .catch(console.error);
+        } else {
+          setupShakeDetection();
+        }
+      }
+
+      function setupShakeDetection() {
+        window.addEventListener("devicemotion", handleMotion, true);
+      }
+
+      function handleMotion(event) {
+        if (shakeTriggered) return;
+
+        const acc = event.accelerationIncludingGravity;
+        if (!acc) return;
+
+        const x = acc.x || 0;
+        const y = acc.y || 0;
+        const z = acc.z || 0;
+
+        const deltaX = Math.abs(x - lastX);
+        const deltaY = Math.abs(y - lastY);
+        const deltaZ = Math.abs(z - lastZ);
+
+        if (
+          deltaX > shakeThreshold ||
+          deltaY > shakeThreshold ||
+          deltaZ > shakeThreshold
+        ) {
+          shakeCount++;
+          if (shakeCount > 3) {
+            triggerReveal();
+          }
+        }
+
+        lastX = x;
+        lastY = y;
+        lastZ = z;
+      }
+
+      // Trigger the reveal transition
+      function triggerReveal() {
+        if (shakeTriggered) return;
+        shakeTriggered = true;
+
+        // Hide simple phase
+        document.getElementById("simplePhase").classList.add("hiding");
+
+        // Show transition overlay
+        const overlay = document.getElementById("transitionOverlay");
+        overlay.classList.add("active");
+
+        // After transition, show rich phase
+        setTimeout(() => {
+          document.body.classList.add("rich-active");
+          document.getElementById("richPhase").classList.add("revealed");
+
+          // Scroll to top
+          window.scrollTo(0, 0);
+
+          // Hide overlay
+          setTimeout(() => {
+            overlay.classList.remove("active");
+
+            // Initialize rich phase
+            initRichPhase();
+          }, 1000);
+        }, 2000);
+      }
+
+      // Initialize on page load
+      document.addEventListener("DOMContentLoaded", () => {
+        // Try to setup shake detection
+        requestMotionPermission();
+
+        // Also trigger on first touch for iOS permission
+        document.body.addEventListener(
+          "touchstart",
+          () => {
+            requestMotionPermission();
+          },
+          { once: true },
+        );
+      });
+
+      /* ==============================================
+       RICH PHASE INTERACTIONS
+    ============================================== */
+
+      const state = {
+        airplaneTriggered: false,
+        sorryTyped: false,
+        stayTimer: null,
+      };
+
+      function initRichPhase() {
+        createStars();
+        createParticles();
+        setupMouse();
+        setupScrollProgress();
+        setupRevealObserver();
+        setupParallax();
+        startBlinkingCursor();
+
+        // Scroll indicator
+        setTimeout(() => {
+          const indicator = document.getElementById("scrollIndicator");
+          if (indicator) indicator.classList.add("visible");
+        }, 2000);
+
+        // Hide scroll indicator on scroll
+        window.addEventListener(
+          "scroll",
+          () => {
+            const indicator = document.getElementById("scrollIndicator");
+            if (indicator && window.scrollY > 100) {
+              indicator.style.opacity = "0";
+            }
+          },
+          { passive: true },
+        );
+      }
+
+      function createStars() {
+        const container = document.getElementById("starsContainer");
+        if (!container) return;
+        for (let i = 0; i < 80; i++) {
+          const star = document.createElement("div");
+          star.className = "star";
+          star.style.left = `${Math.random() * 100}%`;
+          star.style.top = `${Math.random() * 100}%`;
+          star.style.animationDelay = `${Math.random() * 4}s`;
+          star.style.animationDuration = `${3 + Math.random() * 3}s`;
+          star.style.width = `${1 + Math.random() * 2}px`;
+          star.style.height = star.style.width;
+          container.appendChild(star);
+        }
+      }
+
+      function createParticles() {
+        const container = document.getElementById("particlesContainer");
+        if (!container) return;
+        for (let i = 0; i < 25; i++) {
+          const particle = document.createElement("div");
+          particle.className = "particle";
+          particle.style.left = `${Math.random() * 100}%`;
+          particle.style.width = `${3 + Math.random() * 5}px`;
+          particle.style.height = particle.style.width;
+          particle.style.animationDelay = `${Math.random() * 30}s`;
+          particle.style.animationDuration = `${25 + Math.random() * 15}s`;
+          container.appendChild(particle);
+        }
+      }
+
+      function setupMouse() {
+        const spotlightEl = document.getElementById("spotlight");
+        const atmosphere = document.querySelector(".atmosphere");
+        if (!spotlightEl || !atmosphere) return;
+
+        document.addEventListener("mousemove", (e) => {
+          spotlightEl.style.left = `${e.clientX}px`;
+          spotlightEl.style.top = `${e.clientY}px`;
+          const xPercent = (e.clientX / window.innerWidth) * 100;
+          const yPercent = (e.clientY / window.innerHeight) * 100;
+          atmosphere.style.setProperty("--mouse-x", `${xPercent}%`);
+          atmosphere.style.setProperty("--mouse-y", `${yPercent}%`);
+        });
+      }
+
+      function setupScrollProgress() {
+        const progressBar = document.getElementById("progressBar");
+        if (!progressBar) return;
+        window.addEventListener(
+          "scroll",
+          () => {
+            const scrolled = window.scrollY;
+            const maxScroll =
+              document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrolled / maxScroll) * 100;
+            progressBar.style.width = `${progress}%`;
+          },
+          { passive: true },
+        );
+      }
+
+      function setupRevealObserver() {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                handleSectionVisible(entry.target.id);
+              }
+            });
+          },
+          { threshold: 0.2, rootMargin: "-5% 0px" },
+        );
+
+        document
+          .querySelectorAll(".reveal, .stagger-children")
+          .forEach((el) => observer.observe(el));
+        document
+          .querySelectorAll(".section")
+          .forEach((section) => observer.observe(section));
+      }
+
+      function handleSectionVisible(id) {
+        switch (id) {
+          case "silenceSection":
+            showFloatIcons();
+            break;
+          case "airplaneSection":
+            triggerAirplane();
+            break;
+          case "sorrySection":
+            triggerSorryTypewriter();
+            break;
+          case "endingSection":
+            startStayTimer();
+            break;
+        }
+      }
+
+      function showFloatIcons() {
+        const icons = [
+          "iconMoon",
+          "iconCat",
+          "iconStar",
+          "iconCoffee",
+          "iconDog",
+        ];
+        icons.forEach((id, i) => {
+          setTimeout(() => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add("visible");
+          }, i * 800);
+        });
+      }
+
+      function triggerAirplane() {
+        if (state.airplaneTriggered) return;
+        state.airplaneTriggered = true;
+        const airplane = document.getElementById("airplane");
+        if (airplane) airplane.classList.add("flying");
+        setTimeout(() => {
+          const txt = document.getElementById("sameSkyText");
+          if (txt) txt.style.opacity = "1";
+        }, 10000);
+        setTimeout(() => {
+          const card = document.getElementById("airplaneCard");
+          if (card) {
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+          }
+        }, 12000);
+      }
+
+      function triggerSorryTypewriter() {
+        if (state.sorryTyped) return;
+        state.sorryTyped = true;
+        const text = '"sorry mat bola kar"';
+        const el = document.getElementById("sorryTypewriter");
+        if (!el) return;
+        let i = 0;
+        const type = () => {
+          if (i < text.length) {
+            el.textContent += text[i];
+            i++;
+            setTimeout(type, 80);
+          } else {
+            el.classList.add("done");
+            setTimeout(() => {
+              const card = document.getElementById("sorryCard");
+              if (card) {
+                card.style.opacity = "1";
+                card.style.transform = "translateY(0)";
+              }
+            }, 800);
+          }
+        };
+        setTimeout(type, 500);
+      }
+
+      function setupParallax() {
+        const parallaxElements = document.querySelectorAll(".parallax-text");
+        document.addEventListener("mousemove", (e) => {
+          const x = (e.clientX / window.innerWidth - 0.5) * 15;
+          const y = (e.clientY / window.innerHeight - 0.5) * 15;
+          parallaxElements.forEach((el) => {
+            el.style.transform = `translate(${x}px, ${y}px)`;
+          });
+        });
+      }
+
+      function startStayTimer() {
+        const resetTimer = () => {
+          if (state.stayTimer) clearTimeout(state.stayTimer);
+          state.stayTimer = setTimeout(() => {
+            const reveal = document.getElementById("stayReveal");
+            if (reveal) reveal.style.opacity = "0.7";
+          }, 6000);
+        };
+        resetTimer();
+        ["scroll", "mousemove", "touchmove"].forEach((e) => {
+          window.addEventListener(e, resetTimer, { passive: true });
+        });
+      }
+
+      function startBlinkingCursor() {
+        const cursor = document.getElementById("blinkingCursor");
+        if (!cursor) return;
+        setInterval(() => {
+          cursor.style.opacity = cursor.style.opacity === "0" ? "1" : "0";
+        }, 600);
+      }
+    </script>
+  </body>
+</html>
