@@ -134,6 +134,9 @@
       .shake-icon {
         font-size: 3rem;
         margin-bottom: 30px;
+      }
+
+      .shake-icon.shaking {
         animation: shake-hint 2s ease-in-out infinite;
       }
 
@@ -1555,6 +1558,37 @@
           },
           { once: true },
         );
+
+        // Start shake icon animation after 30 seconds of section being visible
+        const shakeSection = document.getElementById("shakeSection");
+        const shakeIcon = document.querySelector(".shake-icon");
+        let shakeAnimationTimer = null;
+
+        const shakeObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                // Start 30 second timer when section becomes visible
+                shakeAnimationTimer = setTimeout(() => {
+                  if (shakeIcon) {
+                    shakeIcon.classList.add("shaking");
+                  }
+                }, 30000); // 30 seconds
+              } else {
+                // Clear timer if section goes out of view
+                if (shakeAnimationTimer) {
+                  clearTimeout(shakeAnimationTimer);
+                  shakeAnimationTimer = null;
+                }
+              }
+            });
+          },
+          { threshold: 0.5 },
+        );
+
+        if (shakeSection) {
+          shakeObserver.observe(shakeSection);
+        }
       });
 
       /* ==============================================
