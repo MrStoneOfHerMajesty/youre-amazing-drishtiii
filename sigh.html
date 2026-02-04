@@ -908,6 +908,89 @@
         color: var(--text-soft);
       }
 
+      /* Music Player */
+      .music-player {
+        position: fixed;
+        top: 25px;
+        right: 25px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(180, 120, 140, 0.3);
+        border-radius: 50px;
+        padding: 12px 20px;
+        transition: all 0.3s ease;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .rich-active .music-player {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .music-player:hover {
+        background: rgba(0, 0, 0, 0.85);
+        border-color: rgba(180, 120, 140, 0.6);
+        box-shadow: 0 8px 30px rgba(180, 120, 140, 0.2);
+      }
+      .music-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          rgba(180, 120, 140, 0.4),
+          rgba(200, 160, 100, 0.3)
+        );
+        border: 2px solid rgba(180, 120, 140, 0.5);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+      }
+      .music-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(180, 120, 140, 0.5);
+      }
+      .volume-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      .music-player:hover .volume-container {
+        opacity: 1;
+        width: 100px;
+      }
+      .volume-slider {
+        -webkit-appearance: none;
+        width: 70px;
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.2);
+        outline: none;
+        cursor: pointer;
+      }
+      .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--glow-rose),
+          var(--glow-amber)
+        );
+        cursor: pointer;
+      }
+
       /* Progress bar */
       .progress-bar {
         position: fixed;
@@ -1078,6 +1161,27 @@
 
       <!-- Mouse spotlight -->
       <div class="spotlight" id="spotlight"></div>
+
+      <!-- Background Music -->
+      <audio id="bg-music" src="src/cryInstru.mp3" loop></audio>
+
+      <!-- Music Player -->
+      <div class="music-player">
+        <button class="music-btn" id="music-toggle" title="Play/Pause">
+          ▶️
+        </button>
+        <div class="volume-container">
+          <span>🔊</span>
+          <input
+            type="range"
+            class="volume-slider"
+            id="volume-slider"
+            min="0"
+            max="100"
+            value="50"
+          />
+        </div>
+      </div>
 
       <!-- Back link -->
       <a href="index.html" class="back-link">
@@ -1357,44 +1461,6 @@
         </div>
       </section>
 
-      <!-- SECTION 8: THE SMALL THINGS -->
-      <section class="section" id="smallThingsSection">
-        <div class="container text-center">
-          <div class="reveal stagger-children" id="smallThingsContent">
-            <h2 class="title-medium" style="margin-bottom: 50px">
-              it's the small things.
-            </h2>
-            <div class="glass-card text-left" style="margin-bottom: 40px">
-              <p class="text-body" style="margin-bottom: 20px">
-                the way you remember details i forgot i mentioned.
-              </p>
-              <p class="text-body" style="margin-bottom: 20px">
-                the way you check in without making it feel like an
-                interrogation.
-              </p>
-              <p class="text-body" style="margin-bottom: 20px">
-                the way you give advice without making me feel small for needing
-                it.
-              </p>
-              <p class="text-body" style="margin-bottom: 20px">
-                the way you laugh at things that probably aren't that funny,
-                just because i'm the one saying them.
-              </p>
-              <p class="text-body" style="margin-bottom: 20px">
-                the way you make me feel like the version of myself i'm still
-                learning to believe in.
-              </p>
-              <div class="divider"></div>
-              <p class="text-emphasis text-center">
-                none of it is small, really.<br /><span class="accent"
-                  >all of it is everything.</span
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <!-- SECTION 9: ENDING -->
       <section class="section" id="endingSection">
         <div class="container container-narrow text-center">
@@ -1417,11 +1483,17 @@
               </p>
             </div>
             <p
+              class="title-medium accent breath"
+              style="margin-top: 60px; margin-bottom: 40px"
+            >
+              You are really, really, really... important to me...drishti.
+            </p>
+            <p
               class="text-whisper"
               style="margin-top: 60px; opacity: 0"
               id="stayReveal"
             >
-              you don't have to go.
+              Stay..for the beautiful forseeable future.
             </p>
             <p class="accent" style="margin-top: 40px; font-size: 1.5rem">
               <span id="blinkingCursor">|</span>
@@ -1590,7 +1662,13 @@
         airplaneTriggered: false,
         sorryTyped: false,
         stayTimer: null,
+        musicPlaying: false,
       };
+
+      // Music elements
+      const bgMusic = document.getElementById("bg-music");
+      const musicToggle = document.getElementById("music-toggle");
+      const volumeSlider = document.getElementById("volume-slider");
 
       function initRichPhase() {
         createStars();
@@ -1600,6 +1678,12 @@
         setupRevealObserver();
         setupParallax();
         startBlinkingCursor();
+        setupMusicControls();
+
+        // Auto-start music after reveal
+        setTimeout(() => {
+          startMusic();
+        }, 500);
 
         // Scroll indicator
         setTimeout(() => {
@@ -1618,6 +1702,47 @@
           },
           { passive: true },
         );
+      }
+
+      function startMusic() {
+        if (!bgMusic) return;
+        bgMusic.volume = 0.5;
+        bgMusic
+          .play()
+          .then(() => {
+            musicToggle.textContent = "⏸️";
+            state.musicPlaying = true;
+          })
+          .catch((err) => {
+            console.log("Autoplay blocked, waiting for interaction");
+          });
+      }
+
+      function setupMusicControls() {
+        if (!musicToggle || !volumeSlider || !bgMusic) return;
+
+        bgMusic.volume = 0.5;
+
+        musicToggle.addEventListener("click", () => {
+          if (state.musicPlaying) {
+            bgMusic.pause();
+            musicToggle.textContent = "▶️";
+            state.musicPlaying = false;
+          } else {
+            bgMusic
+              .play()
+              .then(() => {
+                musicToggle.textContent = "⏸️";
+                state.musicPlaying = true;
+              })
+              .catch((err) => console.log("Playback failed:", err));
+          }
+        });
+
+        volumeSlider.addEventListener("input", (e) => {
+          const volume = e.target.value / 100;
+          bgMusic.volume = volume;
+        });
       }
 
       function createStars() {
@@ -1815,4 +1940,3 @@
     </script>
   </body>
 </html>
-
