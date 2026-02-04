@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>hey :)</title>
+    <title>sighhh...</title>
     <meta name="description" content="just a little something" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -989,30 +989,35 @@
           <p class="simple-text">you want to tell someone something</p>
           <p class="simple-text">but words feel... inadequate?</p>
           <div class="simple-divider"></div>
-          <p class="simple-text" style="color: #aaa">yeah, that.</p>
+          <p class="simple-text" style="color: #aaa">sigh...yeah, that.</p>
         </div>
       </section>
 
       <!-- Section 3: A bit more -->
       <section class="simple-section">
         <div class="simple-container">
-          <p class="simple-text">i've been meaning to say this</p>
-          <p class="simple-text">for a while now</p>
+          <p class="simple-text">But what you did today...🥺</p>
+          <p class="simple-text">you crossed the line</p>
           <div class="simple-divider"></div>
-          <p class="simple-text">but every time i tried</p>
-          <p class="simple-text" style="color: #aaa">it never came out right</p>
+          <p class="simple-text">You did the unimaginable</p>
+          <p class="simple-text" style="color: #aaa">The unthinkable</p>
         </div>
       </section>
 
       <!-- Section 4: Building anticipation -->
       <section class="simple-section">
         <div class="simple-container">
-          <p class="simple-text">so i thought maybe</p>
-          <p class="simple-text">if i did it differently</p>
+          <p class="simple-text">
+            You, drishti, recorded a videoooo!?!! GOSHH!!! sighh
+          </p>
+          <p class="simple-text">so..i thought, if i did it differently</p>
           <p class="simple-text">it would make more sense</p>
           <div class="simple-divider"></div>
           <p class="simple-text" style="font-style: italic; color: #999">
-            bear with me
+            bear with me.. i... didn't much time today... : (
+          </p>
+          <p class="simple-text" style="font-style: italic; color: #999">
+            So it's...just this, pretty simple...
           </p>
         </div>
       </section>
@@ -1021,8 +1026,11 @@
       <section class="shake-section" id="shakeSection">
         <div class="simple-container">
           <div class="shake-icon">📱</div>
-          <p class="shake-prompt">shake your phone</p>
-          <p class="shake-subtext">trust me on this one</p>
+          <p class="shake-prompt">
+            Is...there an earthquake?! Come back and ask me about it, once you
+            read this 😬
+          </p>
+          <p class="shake-subtext">X))))</p>
 
           <!-- Desktop fallback -->
           <button class="desktop-reveal-btn" onclick="triggerReveal()">
@@ -1499,7 +1507,8 @@
         shakeTriggered = true;
 
         // Hide simple phase
-        document.getElementById("simplePhase").classList.add("hiding");
+        const simplePhase = document.getElementById("simplePhase");
+        simplePhase.classList.add("hiding");
 
         // Show transition overlay
         const overlay = document.getElementById("transitionOverlay");
@@ -1507,15 +1516,25 @@
 
         // After transition, show rich phase
         setTimeout(() => {
+          // Completely remove simple phase from layout
+          simplePhase.style.display = "none";
+
+          // Force scroll to absolute top BEFORE showing content
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+          window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+
+          // Now show rich phase
           document.body.classList.add("rich-active");
-          document.getElementById("richPhase").classList.add("revealed");
+          const richPhase = document.getElementById("richPhase");
+          richPhase.classList.add("revealed");
 
-          // Scroll to top
-          window.scrollTo(0, 0);
-
-          // Hide overlay
+          // Hide overlay after a moment
           setTimeout(() => {
             overlay.classList.remove("active");
+
+            // Ensure we're at top again after reveal
+            window.scrollTo({ top: 0, left: 0, behavior: "instant" });
 
             // Initialize rich phase
             initRichPhase();
