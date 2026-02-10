@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teddy day 🧸</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+            background: #FFF5EE;
+            color: #5D4037;
+        }
+
+        .hw { font-family: 'Dancing Script', cursive; }
+
+        /* ── back button ── */
+        .back-btn {
+            position: fixed; top: 20px; left: 20px;
+            background: rgba(255,255,255,0.55);
+            backdrop-filter: blur(18px);
+            border: 1.5px solid rgba(193,154,107,0.3);
+            border-radius: 50px;
+            padding: 10px 22px;
+            color: #8D6E63; font-size: .95em; font-weight: 700;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer; text-decoration: none; z-index: 1000;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+            transition: all .3s ease;
+        }
+        .back-btn:hover { transform: scale(1.06); background: rgba(255,255,255,0.85); }
+
+        /* ── ambient canvas ── */
+        #ambient { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+
+        /* ══════════════════════════════════════════
+           TEDDY BEAR  (kawaii proportions)
+           ══════════════════════════════════════════ */
+        .ted {
+            position: relative;
+            width: 200px; height: 245px;
+        }
+        /* ears */
+        .ted-ear {
+            position: absolute; width: 56px; height: 56px;
+            background: radial-gradient(circle at 40% 35%, #d4a96a 0%, #b8894f 100%);
+            border-radius: 50%;
+            top: 8px; z-index: 1;
+        }
+        .ted-ear.l { left: 16px; }
+        .ted-ear.r { right: 16px; }
+        .ted-ear-in {
+            position: absolute; width: 30px; height: 30px;
+            background: #f0dcc4; border-radius: 50%;
+            top: 50%; left: 50%; transform: translate(-50%,-50%);
+        }
+        /* head */
+        .ted-head {
+            position: absolute; width: 152px; height: 144px;
+            background: radial-gradient(circle at 45% 38%, #d4a96a 0%, #b8894f 100%);
+            border-radius: 50%;
+            top: 26px; left: 50%; transform: translateX(-50%);
+            z-index: 2;
+            box-shadow: inset -4px -6px 14px rgba(0,0,0,0.06), 0 6px 22px rgba(0,0,0,0.08);
+        }
+        /* muzzle */
+        .ted-muz {
+            position: absolute; width: 72px; height: 48px;
+            background: #f0dcc4;
+            border-radius: 50%;
+            bottom: 16px; left: 50%; transform: translateX(-50%);
+            z-index: 3;
+        }
+        /* eyes */
+        .ted-eye {
+            position: absolute; width: 20px; height: 22px;
+            background: #1e120a; border-radius: 50%;
+            top: 46px; z-index: 4;
+            transition: all .35s ease;
+        }
+        .ted-eye.l { left: 36px; }
+        .ted-eye.r { right: 36px; }
+        /* shine dots */
+        .ted-eye::after {
+            content: ''; position: absolute;
+            width: 7px; height: 7px;
+            background: #fff; border-radius: 50%;
+            top: 3px; left: 3px;
+        }
+        .ted-eye::before {
+            content: ''; position: absolute;
+            width: 3.5px; height: 3.5px;
+            background: rgba(255,255,255,.55); border-radius: 50%;
+            bottom: 4px; right: 3px;
+        }
+        /* happy eyes  ◡ ◡ */
+        .ted-eye.happy {
+            background: transparent !important;
+            width: 16px; height: 8px;
+            border: none;
+            border-bottom: 3px solid #1e120a;
+            border-radius: 0 0 80% 80%;
+            top: 54px;
+        }
+        .ted-eye.happy.l { left: 38px; }
+        .ted-eye.happy.r { right: 38px; }
+        .ted-eye.happy::after, .ted-eye.happy::before { display: none; }
+        /* blink keyframe */
+        @keyframes blink {
+            0%,42%,50%,100% { transform: scaleY(1); }
+            45% { transform: scaleY(.08); }
+        }
+        .blink { animation: blink 3.8s ease-in-out infinite; }
+        /* nose */
+        .ted-nose {
+            position: absolute; width: 17px; height: 12px;
+            background: #2c1a10; border-radius: 50%;
+            top: 6px; left: 50%; transform: translateX(-50%);
+            z-index: 4;
+        }
+        .ted-nose::after {
+            content: ''; position: absolute;
+            width: 5px; height: 3px;
+            background: rgba(255,255,255,.28); border-radius: 50%;
+            top: 2px; left: 4px;
+        }
+        /* mouth */
+        .ted-mouth {
+            position: absolute; bottom: 8px;
+            left: 50%; transform: translateX(-50%);
+            width: 16px; height: 7px;
+            border-bottom: 2.5px solid #2c1a10;
+            border-radius: 0 0 50% 50%;
+            z-index: 4;
+            transition: all .3s ease;
+        }
+        .ted-mouth::before {
+            content: ''; position: absolute;
+            width: 2.5px; height: 7px;
+            background: #2c1a10; border-radius: 1px;
+            left: 50%; transform: translateX(-50%); bottom: 7px;
+        }
+        .ted-mouth.big {
+            width: 22px; height: 10px;
+            border-bottom-width: 3px;
+        }
+        /* cheeks */
+        .ted-chk {
+            position: absolute; width: 24px; height: 16px;
+            background: rgba(255,170,180,.38);
+            border-radius: 50%;
+            top: 70px; z-index: 4;
+            transition: all .35s ease;
+        }
+        .ted-chk.l { left: 20px; }
+        .ted-chk.r { right: 20px; }
+        /* body */
+        .ted-body {
+            position: absolute; width: 132px; height: 112px;
+            background: radial-gradient(circle at 45% 35%, #d4a96a 0%, #b8894f 100%);
+            border-radius: 50% 50% 46% 46%;
+            bottom: 10px; left: 50%; transform: translateX(-50%);
+            z-index: 1;
+            box-shadow: inset -3px -4px 10px rgba(0,0,0,0.05), 0 5px 18px rgba(0,0,0,0.06);
+        }
+        .ted-belly {
+            position: absolute; width: 80px; height: 66px;
+            background: #f0dcc4; border-radius: 50%;
+            top: 16px; left: 50%; transform: translateX(-50%);
+        }
+        /* arms */
+        .ted-arm {
+            position: absolute; width: 44px; height: 66px;
+            background: radial-gradient(circle at 50% 40%, #d4a96a 0%, #b8894f 100%);
+            border-radius: 48%;
+            top: 128px; z-index: 0;
+            transform-origin: top center;
+            transition: transform .4s ease;
+        }
+        .ted-arm.l { left: 4px; transform: rotate(25deg); }
+        .ted-arm.r { right: 4px; transform: rotate(-25deg); }
+        .ted-arm::after {
+            content: ''; position: absolute;
+            width: 22px; height: 16px;
+            background: #f0dcc4; border-radius: 50%;
+            bottom: 8px; left: 50%; transform: translateX(-50%);
+        }
+        /* legs */
+        .ted-leg {
+            position: absolute; width: 48px; height: 40px;
+            background: radial-gradient(circle at 50% 40%, #d4a96a 0%, #b8894f 100%);
+            border-radius: 50%;
+            bottom: 0; z-index: 0;
+        }
+        .ted-leg.l { left: 28px; }
+        .ted-leg.r { right: 28px; }
+        .ted-pad {
+            position: absolute; width: 26px; height: 20px;
+            background: #f0dcc4; border-radius: 50%;
+            top: 50%; left: 50%; transform: translate(-50%,-50%);
+        }
+
+        /* ── bowtie ── */
+        .bowtie {
+            position: absolute; z-index: 6;
+            top: 157px; left: 50%; transform: translateX(-50%);
+            width: 36px; height: 14px;
+        }
+        .bowtie::before, .bowtie::after {
+            content: ''; position: absolute;
+            width: 16px; height: 14px;
+            background: #FF6B8A;
+        }
+        .bowtie::before {
+            left: 0;
+            clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
+        }
+        .bowtie::after {
+            right: 0;
+            clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+        }
+        .bowtie-dot {
+            position: absolute; width: 8px; height: 8px;
+            background: #e8507a; border-radius: 50%;
+            top: 50%; left: 50%; transform: translate(-50%,-50%);
+            z-index: 1;
+        }
+
+        /* ── css heart ── */
+        .luv {
+            position: relative; display: inline-block;
+            width: 28px; height: 25px;
+        }
+        .luv::before, .luv::after {
+            content: ''; position: absolute;
+            width: 14px; height: 22px;
+            background: #FF6B8A;
+            border-radius: 14px 14px 0 0;
+        }
+        .luv::before { left: 14px; transform: rotate(-45deg); transform-origin: 0 100%; }
+        .luv::after  { left: 0;    transform: rotate(45deg);  transform-origin: 100% 100%; }
+        .luv.sm { width: 16px; height: 14px; }
+        .luv.sm::before, .luv.sm::after { width: 8px; height: 13px; border-radius: 8px 8px 0 0; }
+        .luv.sm::before { left: 8px; }
+
+        /* ══════════════════════════════════════════
+           SECTIONS
+           ══════════════════════════════════════════ */
+        section {
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; z-index: 10;
+            padding: 2rem 1.2rem;
+        }
+
+        .card {
+            background: rgba(255,255,255,.72);
+            backdrop-filter: blur(22px);
+            border: 1px solid rgba(255,255,255,.55);
+            padding: 2.8rem 2.4rem;
+            border-radius: 2.5rem;
+            box-shadow: 0 18px 55px rgba(0,0,0,.055), 0 0 0 1px rgba(255,255,255,.25);
+            max-width: 820px; width: 100%;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 2rem;
+            opacity: 0; transform: translateY(40px);
+        }
+        @media(min-width:768px){
+            .card { flex-direction: row; gap: 3rem; padding: 3rem; }
+            .card.rev { flex-direction: row-reverse; }
+        }
+        .card .txt { flex: 1; text-align: center; }
+        .card .fig { flex-shrink: 0; }
+
+        /* section bgs */
+        #hero     { background: linear-gradient(180deg, #FFF5EE 0%, #FFE8EC 50%, #FFF0F5 100%); }
+        #story    { background: linear-gradient(180deg, #FFF0F5 0%, #FFF8F0 50%, #FFFBEB 100%); }
+        #moonlit  { background: linear-gradient(180deg, #0d0b14 0%, #151530 50%, #131b30 100%); color: #ddd; }
+        #moonlit .card {
+            background: rgba(255,255,255,.055);
+            border-color: rgba(255,255,255,.1);
+            box-shadow: 0 18px 55px rgba(0,0,0,.3), 0 0 90px rgba(139,92,246,.06);
+        }
+        #patpat   { background: linear-gradient(180deg, #131b30 0%, #F5F3FF 18%, #EDE9FE 80%, #FFF5EE 100%); }
+        #finale   { background: linear-gradient(180deg, #FFF5EE 0%, #FFE4E6 50%, #FFF0F5 100%); min-height: 85vh; }
+
+        /* ── moon scene ── */
+        .moon-wrap { position: relative; width: 260px; height: 280px; }
+        .crescent {
+            position: absolute; width: 140px; height: 140px;
+            border-radius: 50%;
+            box-shadow: 16px 16px 0 0 #FCD34D, 16px 16px 40px 4px rgba(252,211,77,.22);
+            bottom: 20px; left: 50%; transform: translateX(-50%);
+        }
+        .moon-ted {
+            position: absolute; bottom: 55px;
+            left: 50%; transform: translateX(-50%) scale(.78);
+            z-index: 2;
+        }
+        .star-d {
+            position: absolute; width: 3px; height: 3px;
+            background: #fff; border-radius: 50%;
+            animation: twk var(--d,2s) ease-in-out infinite alternate;
+        }
+        @keyframes twk { 0%{opacity:.25;transform:scale(.7)} 100%{opacity:1;transform:scale(1.3)} }
+
+        /* ── pat section ── */
+        .pat { cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; position: relative; }
+        .hug-ct {
+            font-size: 1.05em; color: #b8894f; font-weight: 700;
+            margin-top: 1rem; min-height: 1.6em;
+            opacity: 0; transition: opacity .5s ease;
+        }
+        .hug-ct.on { opacity: 1; }
+        .float-h { position: fixed; pointer-events: none; z-index: 9999; font-size: 20px; }
+
+        /* ── final card ── */
+        .fin {
+            background: rgba(255,255,255,.82);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255,255,255,.5);
+            padding: 3rem 2.2rem;
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 70px rgba(0,0,0,.06);
+            max-width: 620px; width: 100%; text-align: center;
+            opacity: 0; transform: translateY(40px);
+        }
+        .spec { text-align: left; max-width: 320px; margin: 1.4rem auto; list-style: none; }
+        .spec li {
+            padding: .5rem 0; font-size: 1.08em;
+            display: flex; align-items: center; gap: .6rem;
+        }
+        .spec .lbl { color: #a67b5b; font-weight: 700; }
+
+        /* ── scroll prompt ── */
+        .scroll-p {
+            position: absolute; bottom: 2rem;
+            left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: .4rem;
+            animation: bob 2.2s ease-in-out infinite;
+        }
+        @keyframes bob { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+        .scroll-p span { font-size: .82em; color: #b8894f; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
+        .scroll-arr {
+            width: 16px; height: 16px;
+            border-right: 2.5px solid #b8894f;
+            border-bottom: 2.5px solid #b8894f;
+            transform: rotate(45deg);
+        }
+
+        /* ── responsive ── */
+        @media(max-width:767px){
+            .ted { transform: scale(.82); }
+            .moon-wrap { transform: scale(.75); }
+            section { padding: 1.5rem 1rem; }
+            .card, .fin { padding: 2rem 1.3rem; }
+        }
+
+        /* ── alive: eye perf hint ── */
+        .ted-eye { will-change: transform; }
+
+        /* ── alive: sleep eyes (flat lines) ── */
+        .ted-eye.sleep {
+            width: 16px; height: 3px;
+            background: #2c1a10 !important;
+            border-radius: 2px;
+            top: 53px;
+        }
+        .ted-eye.sleep.l { left: 37px; }
+        .ted-eye.sleep.r { right: 37px; }
+        .ted-eye.sleep::after, .ted-eye.sleep::before { display: none; }
+
+        /* ── alive: zzz floater ── */
+        .zzz-wrap {
+            position: absolute;
+            top: 18px; right: -16px;
+            z-index: 10;
+            pointer-events: none;
+            width: 30px; height: 40px;
+        }
+        .zzz-char {
+            position: absolute; bottom: 0; left: 0;
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px; font-weight: 800;
+            color: #c9a87c; opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="back-btn">&#8592; back</a>
+<canvas id="ambient"></canvas>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section id="hero">
+    <div style="text-align:center">
+        <div class="ted" id="hb" style="margin:0 auto 2rem;transform:scale(1.35);cursor:pointer">
+            <div class="ted-ear l"><div class="ted-ear-in"></div></div>
+            <div class="ted-ear r"><div class="ted-ear-in"></div></div>
+            <div class="ted-head">
+                <div class="ted-eye l blink"></div>
+                <div class="ted-eye r blink"></div>
+                <div class="ted-chk l"></div>
+                <div class="ted-chk r"></div>
+                <div class="ted-muz">
+                    <div class="ted-nose"></div>
+                    <div class="ted-mouth"></div>
+                </div>
+            </div>
+            <div class="ted-body"><div class="ted-belly"></div></div>
+            <div class="ted-arm l" id="ha-l"></div>
+            <div class="ted-arm r" id="ha-r"></div>
+            <div class="ted-leg l"><div class="ted-pad"></div></div>
+            <div class="ted-leg r"><div class="ted-pad"></div></div>
+            <div class="bowtie"><div class="bowtie-dot"></div></div>
+            <div class="luv" id="hero-luv" style="position:absolute;top:118px;right:-12px;z-index:6"></div>
+        </div>
+        <h1 class="hw" id="ht" style="font-size:3.6em;color:#d4637b;margin-bottom:.4rem;opacity:0">
+            Happiestt Tedddyyy Daaayyy hehhehe ^^
+        </h1>
+        <p id="hs" style="font-size:1.25em;color:#a67b5b;font-weight:600;opacity:0">
+            this one's for you, drishti 🧸 <br>(and so many more in the foreseeable )
+        </p>
+    </div>
+    <div class="scroll-p" id="sp">
+        <span>scroll</span>
+        <div class="scroll-arr"></div>
+    </div>
+</section>
+
+<!-- ═══════════ STORY ═══════════ -->
+<section id="story">
+    <div class="card" id="c1">
+        <div class="fig">
+            <div class="ted" id="stb" style="transform:scale(1.1)">
+                <div class="ted-ear l"><div class="ted-ear-in"></div></div>
+                <div class="ted-ear r"><div class="ted-ear-in"></div></div>
+                <div class="ted-head">
+                    <div class="ted-eye l blink"></div>
+                    <div class="ted-eye r blink"></div>
+                    <div class="ted-chk l"></div>
+                    <div class="ted-chk r"></div>
+                    <div class="ted-muz">
+                        <div class="ted-nose"></div>
+                        <div class="ted-mouth"></div>
+                    </div>
+                </div>
+                <div class="ted-body"><div class="ted-belly"></div></div>
+                <div class="ted-arm l" style="transform:rotate(40deg)"></div>
+                <div class="ted-arm r" style="transform:rotate(-40deg)"></div>
+                <div class="ted-leg l"><div class="ted-pad"></div></div>
+                <div class="ted-leg r"><div class="ted-pad"></div></div>
+                <div class="luv sm" style="position:absolute;top:148px;left:50%;transform:translateX(-50%);z-index:6"></div>
+            </div>
+        </div>
+        <div class="txt">
+            <h2 class="hw" style="font-size:2.5em;color:#d4637b;margin-bottom:.8rem">
+                Something...special for someone...special...
+            </h2>
+            <p style="font-size:1.12em;line-height:1.9;color:#6D4C41">
+                If... uhm if I could be any teddy bear<br>in the whole wide world,<br>
+                I'd want to be <strong>yours...</strong>.<br><br>
+                Not the cutest.. or the biggest&nbsp;&#8212;<br>
+                just the <em>luckiesttt</em>. &#x1F90E;<br>sicrtgviityrtgcfo;sgcrtnituxgsnfrclbuigndcis;usiueyrcgaahhh
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ MOON ═══════════ -->
+<section id="moonlit">
+    <div class="card rev" id="c2">
+        <div class="fig">
+            <div class="moon-wrap" id="mw">
+                <!-- stars -->
+                <div class="star-d" style="top:8px;left:18px;--d:1.7s"></div>
+                <div class="star-d" style="top:45px;right:25px;--d:2.6s;width:2px;height:2px"></div>
+                <div class="star-d" style="top:15px;right:75px;--d:1.4s"></div>
+                <div class="star-d" style="top:75px;left:40px;--d:3.1s;width:2px;height:2px"></div>
+                <div class="star-d" style="top:3px;left:125px;--d:2.1s"></div>
+                <div class="star-d" style="top:35px;left:195px;--d:1.9s;width:4px;height:4px"></div>
+                <div class="star-d" style="bottom:130px;left:5px;--d:2.9s;width:2px;height:2px"></div>
+                <div class="star-d" style="bottom:150px;right:15px;--d:2s"></div>
+                <div class="star-d" style="top:85px;right:50px;--d:1.6s;width:5px;height:5px"></div>
+                <div class="star-d" style="top:60px;left:8px;--d:2.3s;width:4px;height:4px"></div>
+                <div class="star-d" style="top:100px;left:110px;--d:1.8s;width:2px;height:2px"></div>
+                <div class="crescent"></div>
+                <div class="moon-ted">
+                    <div class="ted">
+                        <div class="ted-ear l"><div class="ted-ear-in"></div></div>
+                        <div class="ted-ear r"><div class="ted-ear-in"></div></div>
+                        <div class="ted-head">
+                            <div class="ted-eye l happy"></div>
+                            <div class="ted-eye r happy"></div>
+                            <div class="ted-chk l" style="background:rgba(255,170,200,.5)"></div>
+                            <div class="ted-chk r" style="background:rgba(255,170,200,.5)"></div>
+                            <div class="ted-muz">
+                                <div class="ted-nose"></div>
+                                <div class="ted-mouth big"></div>
+                            </div>
+                        </div>
+                        <div class="ted-body"><div class="ted-belly"></div></div>
+                        <div class="ted-arm l" style="transform:rotate(10deg)"></div>
+                        <div class="ted-arm r" style="transform:rotate(-10deg)"></div>
+                        <div class="ted-leg l"><div class="ted-pad"></div></div>
+                        <div class="ted-leg r"><div class="ted-pad"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="txt">
+            <h2 class="hw" style="font-size:2.5em;color:#C4B5FD;margin-bottom:.8rem">
+                Every night...
+            </h2>
+            <p style="font-size:1.12em;line-height:1.9;color:#CBD5E1">
+                Just wanted to say that i am lucky enough,<br>
+                to get to say and hear goodnight from<br>youuuuuhhh.<br><br>
+                <em style="color:#A78BFA">If i'd try counting the stars, for the things i find about you that are lovely, <br> i'd never finish...sigh</em> &#x2728;
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ INTERACTIVE ═══════════ -->
+<section id="patpat">
+    <div class="card" id="c3" style="flex-direction:column!important;text-align:center">
+        <h2 class="hw" style="font-size:2.5em;color:#d4637b;margin-bottom:.3rem">
+            This Bear Has Something For You
+        </h2>
+        <p style="font-size:1.05em;color:#8D6E63;margin-bottom:1.2rem">
+            go ahead, give it a little pat &#x1F43E;
+        </p>
+        <div class="pat" id="pb">
+            <div class="ted" style="transform:scale(1.25);margin:0 auto">
+                <div class="ted-ear l"><div class="ted-ear-in"></div></div>
+                <div class="ted-ear r"><div class="ted-ear-in"></div></div>
+                <div class="ted-head" id="ph">
+                    <div class="ted-eye l" id="pe-l"></div>
+                    <div class="ted-eye r" id="pe-r"></div>
+                    <div class="ted-chk l" id="pc-l"></div>
+                    <div class="ted-chk r" id="pc-r"></div>
+                    <div class="ted-muz">
+                        <div class="ted-nose"></div>
+                        <div class="ted-mouth" id="pm"></div>
+                    </div>
+                </div>
+                <div class="ted-body"><div class="ted-belly"></div></div>
+                <div class="ted-arm l" id="pa-l"></div>
+                <div class="ted-arm r" id="pa-r"></div>
+                <div class="ted-leg l"><div class="ted-pad"></div></div>
+                <div class="ted-leg r"><div class="ted-pad"></div></div>
+            </div>
+        </div>
+        <div class="hug-ct" id="hc">hugs given: 0</div>
+    </div>
+</section>
+
+<!-- ═══════════ FINALE ═══════════ -->
+<section id="finale">
+    <div class="fin" id="fc">
+        <div class="ted" style="margin:0 auto 1.2rem">
+            <div class="ted-ear l"><div class="ted-ear-in"></div></div>
+            <div class="ted-ear r"><div class="ted-ear-in"></div></div>
+            <div class="ted-head">
+                <div class="ted-eye l happy"></div>
+                <div class="ted-eye r happy"></div>
+                <div class="ted-chk l" style="background:rgba(255,150,170,.65)"></div>
+                <div class="ted-chk r" style="background:rgba(255,150,170,.65)"></div>
+                <div class="ted-muz">
+                    <div class="ted-nose"></div>
+                    <div class="ted-mouth big"></div>
+                </div>
+            </div>
+            <div class="ted-body"><div class="ted-belly"></div></div>
+            <div class="ted-arm l" style="transform:rotate(-155deg);top:105px;z-index:5"></div>
+            <div class="ted-arm r" style="transform:rotate(155deg);top:105px;z-index:5"></div>
+            <div class="ted-leg l"><div class="ted-pad"></div></div>
+            <div class="ted-leg r"><div class="ted-pad"></div></div>
+        </div>
+
+        <h2 class="hw" style="font-size:2.7em;color:#d4637b;margin-bottom:.8rem">
+            One (not so) Last Thing...
+        </h2>
+        <p style="font-size:1.12em;line-height:1.9;color:#6D4C41">
+            This(me...) teddy comes pre-loaded with:
+        </p>
+        <ul class="spec">
+            <li>&#x1F90E; <span class="lbl">uhm..hmm, care:</span> Unlimited</li>
+            <li>&#x2728; <span class="lbl">x:</span> </li>
+            <li>&#127769; <span class="lbl">Ears for you:</span> Alwayss, 24/7, 365</li>
+            <li>&#x1F43E; <span class="lbl">Expiry date:</span> last breaaaaaaaaathh</li>
+            <li>&#x1F49B; <span class="lbl">Best feature:</span> It's....sigh...yours..fsnygsehngscrsyeg aabadsyfbhyhsfv </li>
+        </ul>
+        <div style="margin-top:1.4rem;padding-top:1.4rem;border-top:1px solid rgba(193,154,107,.18)">
+            <p style="font-size:1.14em;line-height:2;color:#8D6E63">
+                You are the warmest, softest,<br>most wonderful soul.<br>
+                Never forget how <strong>incredibly special</strong> you are.
+            </p>
+            <p class="hw" style="font-size:1.8em;color:#d4637b;margin-top:1rem">
+                Happiesttt and Warmesttt Teddy Day, drishtiiiiii &#x1F9F8;&#x2728;💝   
+            </p>
+        </div>
+    </div>
+</section>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ═══════ AMBIENT PARTICLES ═══════ */
+const cv = document.getElementById('ambient'),
+      ct = cv.getContext('2d');
+let pts = [];
+
+function rsz(){ cv.width = innerWidth; cv.height = innerHeight; }
+rsz(); addEventListener('resize', rsz);
+
+const pcols = ['255,192,203','255,218,185','255,223,186','255,182,193','253,230,210','255,215,180'];
+
+class P {
+    constructor(scattered){
+        this.x = Math.random()*cv.width;
+        this.y = scattered ? Math.random()*cv.height : cv.height+10;
+        this.s = Math.random()*2.8+.8;
+        this.vy = -(Math.random()*.45+.15);
+        this.vx = (Math.random()-.5)*.25;
+        this.o = Math.random()*.4+.08;
+        this.fd = Math.random()*.0015+.0008;
+        this.c = pcols[Math.random()*pcols.length|0];
+    }
+    up(){
+        this.y += this.vy;
+        this.x += this.vx + Math.sin(this.y*.012)*.18;
+        this.o -= this.fd;
+        if(this.o <= 0 || this.y < -10){
+            this.x = Math.random()*cv.width;
+            this.y = cv.height+10;
+            this.s = Math.random()*2.8+.8;
+            this.vy = -(Math.random()*.45+.15);
+            this.vx = (Math.random()-.5)*.25;
+            this.o = Math.random()*.4+.08;
+            this.fd = Math.random()*.0015+.0008;
+            this.c = pcols[Math.random()*pcols.length|0];
+        }
+    }
+    dr(){
+        ct.beginPath();
+        ct.arc(this.x, this.y, this.s, 0, Math.PI*2);
+        ct.fillStyle = 'rgba('+this.c+','+this.o+')';
+        ct.fill();
+    }
+}
+for(let i=0; i<45; i++) pts.push(new P(true));
+
+(function loop(){
+    ct.clearRect(0, 0, cv.width, cv.height);
+    pts.forEach(function(p){ p.up(); p.dr(); });
+    requestAnimationFrame(loop);
+})();
+
+/* ═══════ HERO ANIMATION ═══════ */
+var htl = gsap.timeline({ delay: 0.25 });
+htl.from('#hb', { scale:0, opacity:0, duration:0.9, ease:'back.out(1.5)' })
+   .to('#ht', { opacity:1, duration:0.55, ease:'power2.out' }, '-=0.3')
+   .to('#hs', { opacity:1, duration:0.55, ease:'power2.out' }, '-=0.25')
+   .from('#sp', { opacity:0, y:-15, duration:0.45 }, '-=0.15');
+
+// idle float
+gsap.to('#hb', { y:-14, duration:2.2, repeat:-1, yoyo:true, ease:'sine.inOut' });
+
+// wave right arm
+var wv = gsap.timeline({ repeat:-1, repeatDelay:2.2 });
+wv.to('#ha-r', { rotation:-65, duration:0.35, ease:'power1.out' })
+  .to('#ha-r', { rotation:-42, duration:0.18 })
+  .to('#ha-r', { rotation:-65, duration:0.18 })
+  .to('#ha-r', { rotation:-42, duration:0.18 })
+  .to('#ha-r', { rotation:-65, duration:0.18 })
+  .to('#ha-r', { rotation:-25, duration:0.35, ease:'power1.in' });
+
+// heart pulse
+gsap.to('#hero-luv', { scale:1.25, duration:0.55, repeat:-1, yoyo:true, ease:'sine.inOut' });
+
+// story bear sway
+gsap.to('#stb', { rotation:4, duration:2.5, repeat:-1, yoyo:true, ease:'sine.inOut' });
+
+/* ═══════ SCROLL TRIGGERS ═══════ */
+ScrollTrigger.create({
+    trigger: '#story',
+    start: 'top 90%',
+    onEnter: function(){ gsap.to('#sp', { opacity:0, duration:0.3 }); }
+});
+
+document.querySelectorAll('.card, .fin').forEach(function(el){
+    gsap.to(el, {
+        scrollTrigger: { trigger:el, start:'top 82%', toggleActions:'play none none reverse' },
+        opacity:1, y:0, duration:0.85, ease:'power3.out'
+    });
+});
+
+// moon float
+gsap.to('.moon-ted', { y:-10, duration:2.8, repeat:-1, yoyo:true, ease:'sine.inOut' });
+gsap.to('.crescent', { y:-6, duration:3.4, repeat:-1, yoyo:true, ease:'sine.inOut' });
+
+/* ═══════ INTERACTIVE PAT ═══════ */
+var hugs = 0;
+var pb = document.getElementById('pb');
+var hc = document.getElementById('hc');
+
+var msgs = [
+    function(n){ return 'hugs given: ' + n + ' \uD83E\uDD17'; },
+    function(n){ return n + ' hugs and counting!'; },
+    function(n){ return 'hug #' + n + '! this bear is so happy \uD83E\uDDF8'; },
+    function(n){ return n + '! the bear is blushing \u263A\uFE0F'; },
+    function(n){ return n + ' hugs! you\'re amazing'; },
+    function(n){ return 'still hugging... ' + n + '! \uD83D\uDC9B'; }
+];
+
+pb.addEventListener('click', function(e){
+    hugs++;
+    hc.classList.add('on');
+    if (hugs >= 100){
+        hc.innerHTML = 'I didn\'t expect you to hug it so many times...<br>Sigh i... hmmm,,,';
+    } else {
+        hc.textContent = msgs[Math.random()*msgs.length|0](hugs);
+    }
+
+    // happy eyes
+    document.getElementById('pe-l').className = 'ted-eye l happy';
+    document.getElementById('pe-r').className = 'ted-eye r happy';
+    document.getElementById('pm').classList.add('big');
+
+    // blush
+    gsap.to(['#pc-l','#pc-r'], {
+        background:'rgba(255,120,155,0.7)', scale:1.25, duration:0.3
+    });
+
+    // hug arms
+    gsap.to('#pa-l', { rotation:-145, duration:0.3, ease:'back.out(1.2)' });
+    gsap.to('#pa-r', { rotation:145, duration:0.3, ease:'back.out(1.2)' });
+
+    // wiggle
+    gsap.to(pb, {
+        rotation:-5, duration:0.08, yoyo:true, repeat:5, ease:'none',
+        onComplete: function(){ gsap.set(pb, {rotation:0}); }
+    });
+
+    // spawn hearts
+    var rect = pb.getBoundingClientRect();
+    var bx = rect.left + rect.width/2;
+    var by = rect.top + rect.height*0.3;
+    for(var i=0; i<7; i++) spawnH(bx, by);
+
+    // reset after delay
+    setTimeout(function(){
+        document.getElementById('pe-l').className = 'ted-eye l';
+        document.getElementById('pe-r').className = 'ted-eye r';
+        document.getElementById('pm').classList.remove('big');
+        gsap.to(['#pc-l','#pc-r'], { background:'rgba(255,170,180,0.38)', scale:1, duration:0.5 });
+        gsap.to('#pa-l', { rotation:25, duration:0.4 });
+        gsap.to('#pa-r', { rotation:-25, duration:0.4 });
+    }, 1300);
+});
+
+function spawnH(x, y){
+    var h = document.createElement('div');
+    h.className = 'float-h';
+    var emojis = ['\u2764\uFE0F','\uD83E\uDDE1','\uD83D\uDC9B','\uD83D\uDC96','\uD83D\uDC97','\uD83E\uDD0E','\uD83E\uDE77'];
+    h.textContent = emojis[Math.random()*emojis.length|0];
+    h.style.left = (x + (Math.random()-0.5)*90) + 'px';
+    h.style.top = y + 'px';
+    h.style.fontSize = (Math.random()*10+14) + 'px';
+    document.body.appendChild(h);
+    gsap.to(h, {
+        y: -(Math.random()*160+90),
+        x: (Math.random()-0.5)*110,
+        opacity: 0,
+        rotation: (Math.random()-0.5)*50,
+        duration: Math.random()*0.8+0.9,
+        ease: 'power2.out',
+        onComplete: function(){ h.remove(); }
+    });
+}
+
+/* ═══════ FINALE SPARKLE BURST ═══════ */
+ScrollTrigger.create({
+    trigger: '#fc',
+    start: 'top 72%',
+    once: true,
+    onEnter: function(){
+        var r = document.getElementById('fc').getBoundingClientRect();
+        var cx = r.left + r.width/2;
+        var cy = r.top + 90;
+        for(var i=0; i<18; i++){
+            (function(idx){
+                setTimeout(function(){ spawnH(cx, cy); }, idx*55);
+            })(i);
+        }
+    }
+});
+
+/* ═══════════════════════════════════════════════
+   ALIVE: CURSOR-AWARE, EMOTIONAL TEDDY
+   ═══════════════════════════════════════════════ */
+(function(){
+
+    /* ── DOM refs ── */
+    var hero      = document.getElementById('hb');
+    var heroHead  = hero.querySelector('.ted-head');
+    var heroBody  = hero.querySelector('.ted-body');
+    var heroChks  = [hero.querySelector('.ted-chk.l'), hero.querySelector('.ted-chk.r')];
+    var heroArmL  = document.getElementById('ha-l');
+    var heroArmR  = document.getElementById('ha-r');
+    var heroEyeL  = hero.querySelector('.ted-eye.l');
+    var heroEyeR  = hero.querySelector('.ted-eye.r');
+    var tickling  = false;
+
+    /* ── cursor + state ── */
+    var mx = innerWidth / 2, my = innerHeight / 2;
+    var rafPending = false;
+    var sleeping   = false;
+    var shy        = false;
+    var idleTimer  = null;
+    var shyTimer   = null;
+    var IDLE_MS    = 5500;    // idle before sleep
+    var SHY_MS     = 3200;    // hover-on-bear before shy
+    var SHY_DIST   = 120;     // px
+
+    /* ── zzz container ── */
+    var zzzWrap = document.createElement('div');
+    zzzWrap.className = 'zzz-wrap';
+    zzzWrap.style.display = 'none';
+    heroHead.appendChild(zzzWrap);
+    var zzzInt = null;
+
+    /* ─────────────────────────────────────────
+       1. REPLACE CSS BLINK WITH GSAP BLINK
+       (avoids transform conflicts with eye tracking)
+       ───────────────────────────────────────── */
+    document.querySelectorAll('.ted-eye.blink').forEach(function(e){
+        e.classList.remove('blink');
+    });
+
+    function doBlink(){
+        var eyes = document.querySelectorAll('.ted-eye:not(.happy):not(.sleep)');
+        if (eyes.length === 0){ setTimeout(doBlink, 3000); return; }
+        gsap.to(eyes, {
+            scaleY: 0.08, duration: 0.07,
+            yoyo: true, repeat: 1,
+            ease: 'power2.inOut',
+            onComplete: function(){
+                setTimeout(doBlink, 2200 + Math.random() * 2800);
+            }
+        });
+    }
+    setTimeout(doBlink, 1800);
+
+    /* ─────────────────────────────────────────
+       3B. BREATHING (hero body, subtle scale)
+       ───────────────────────────────────────── */
+    gsap.to(heroBody, {
+        scaleY: 1.025, scaleX: 1.012,
+        duration: 2.2, repeat: -1, yoyo: true,
+        ease: 'sine.inOut',
+        transformOrigin: 'center bottom'
+    });
+
+    /* ─────────────────────────────────────────
+       SOUND: Web Audio soft synth boops
+       ───────────────────────────────────────── */
+    var actx = null;
+    function initAudio(){
+        if (!actx){
+            try { actx = new (window.AudioContext || window.webkitAudioContext)(); }
+            catch(e){ actx = null; }
+        }
+    }
+    function boop(freq, vol, dur){
+        if (!actx) return;
+        try {
+            var o = actx.createOscillator();
+            var g = actx.createGain();
+            o.type = 'sine';
+            o.frequency.value = freq || 520;
+            g.gain.setValueAtTime(vol || 0.06, actx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + (dur || 0.15));
+            o.connect(g); g.connect(actx.destination);
+            o.start(); o.stop(actx.currentTime + (dur || 0.15));
+        } catch(e){}
+    }
+
+    /* ─────────────────────────────────────────
+       SLEEP: idle → eyes close, zzz floats up
+       ───────────────────────────────────────── */
+    function enterSleep(){
+        if (sleeping || shy) return;
+        sleeping = true;
+        heroEyeL.classList.add('sleep');
+        heroEyeR.classList.add('sleep');
+        gsap.to([heroEyeL, heroEyeR], { x: 0, y: 0, duration: 0.3 });
+        gsap.to(hero, { rotateY: 0, rotateX: 0, duration: 0.6, ease: 'power2.out', overwrite: 'auto' });
+        gsap.to(heroArmL, { rotation: 32, duration: 0.5, overwrite: 'auto' });
+        zzzWrap.style.display = '';
+        spawnZzz();
+        zzzInt = setInterval(spawnZzz, 1100);
+    }
+
+    function exitSleep(){
+        if (!sleeping) return;
+        sleeping = false;
+        heroEyeL.classList.remove('sleep');
+        heroEyeR.classList.remove('sleep');
+        zzzWrap.style.display = 'none';
+        clearInterval(zzzInt);
+        while (zzzWrap.firstChild) zzzWrap.removeChild(zzzWrap.firstChild);
+        boop(440, 0.04, 0.1);
+    }
+
+    function spawnZzz(){
+        var z = document.createElement('span');
+        z.className = 'zzz-char';
+        z.style.left = Math.random() * 8 + 'px';
+        z.textContent = 'z';
+        z.style.fontSize = (11 + Math.random() * 6) + 'px';
+        zzzWrap.appendChild(z);
+        gsap.fromTo(z,
+            { opacity: 0, y: 0, scale: 0.5 },
+            { opacity: 0.6, y: -32, scale: 1.15, duration: 1.8, ease: 'power1.out',
+              onComplete: function(){ if (z.parentNode) z.remove(); }
+            }
+        );
+    }
+
+    /* ─────────────────────────────────────────
+       SHY: cursor hovers on bear too long →
+       arms cover face, eyes squint, big blush
+       ───────────────────────────────────────── */
+    function enterShy(){
+        if (shy || sleeping || tickling) return;
+        shy = true;
+        wv.pause();
+        heroEyeL.classList.add('happy');
+        heroEyeR.classList.add('happy');
+        gsap.to([heroEyeL, heroEyeR], { x: 0, y: 0, duration: 0.15 });
+        gsap.to(heroArmL, { rotation: 145, y: -28, x: 18, duration: 0.4, ease: 'back.out(1.2)', overwrite: true });
+        gsap.to('#ha-r',  { rotation: -145, y: -28, x: -18, duration: 0.4, ease: 'back.out(1.2)', overwrite: true });
+        gsap.to(heroChks, { background: 'rgba(255,105,145,0.72)', scale: 1.35, duration: 0.3 });
+        boop(480, 0.05, 0.1);
+    }
+
+    function exitShy(){
+        if (!shy) return;
+        shy = false;
+        heroEyeL.classList.remove('happy');
+        heroEyeR.classList.remove('happy');
+        gsap.to(heroArmL, { rotation: 25, y: 0, x: 0, duration: 0.4, overwrite: true });
+        gsap.to('#ha-r',  { rotation: -25, y: 0, x: 0, duration: 0.4, overwrite: true,
+            onComplete: function(){ wv.restart(); }
+        });
+        gsap.to(heroChks, { background: 'rgba(255,170,180,0.38)', scale: 1, duration: 0.4 });
+    }
+
+    /* ─────────────────────────────────────────
+       MAIN PER-FRAME UPDATE (rAF throttled)
+       ───────────────────────────────────────── */
+    function update(){
+        rafPending = false;
+        if (sleeping || shy || tickling) return;
+
+        /* 1. EYE TRACKING — all normal (non-happy, non-sleep) eyes */
+        var eyes = document.querySelectorAll('.ted-eye:not(.happy):not(.sleep)');
+        for (var i = 0; i < eyes.length; i++){
+            var eye = eyes[i];
+            var r   = eye.getBoundingClientRect();
+            var ecx = r.left + r.width / 2;
+            var ecy = r.top  + r.height / 2;
+            var angle   = Math.atan2(my - ecy, mx - ecx);
+            var rawDist = Math.hypot(mx - ecx, my - ecy);
+            var maxPx   = 3.5;
+            var factor  = Math.min(rawDist / 220, 1);
+            var tx = Math.cos(angle) * maxPx * factor;
+            var ty = Math.sin(angle) * maxPx * factor;
+            gsap.to(eye, { x: tx, y: ty, duration: 0.22, ease: 'power2.out', overwrite: 'auto' });
+        }
+
+        /* 2. BODY LEAN — hero subtly leans toward cursor (3D perspective) */
+        var hr  = hero.getBoundingClientRect();
+        var hcx = hr.left + hr.width / 2;
+        var hcy = hr.top  + hr.height / 2;
+        var rotY = Math.max(-7, Math.min(7, (mx - hcx) / 42));
+        var rotX = Math.max(-5, Math.min(5, (hcy - my) / 48));
+        gsap.to(hero, {
+            rotateY: rotY, rotateX: rotX,
+            transformPerspective: 800,
+            duration: 0.5, ease: 'power2.out', overwrite: 'auto'
+        });
+
+        /* 3A. BLUSH PROXIMITY — cheeks glow when cursor is near */
+        var dist = Math.hypot(mx - hcx, my - hcy);
+        if (dist < 210){
+            var t = 1 - dist / 210;
+            var alpha = 0.3 + t * 0.44;
+            gsap.to(heroChks, { background: 'rgba(255,138,162,' + alpha + ')', duration: 0.3, overwrite: 'auto' });
+        } else {
+            gsap.to(heroChks, { background: 'rgba(255,170,180,0.38)', duration: 0.5, overwrite: 'auto' });
+        }
+
+        /* 4. BOTH ARMS FOLLOW CURSOR — angle-based, proximity-driven */
+        var armAngle  = Math.atan2(my - hcy, mx - hcx);
+        var armDeg    = armAngle * (180 / Math.PI);
+        var armClose  = Math.max(0, 1 - dist / 280);  // 0 → far, 1 → very close
+
+        if (dist < 280 && !tickling){
+            /* left arm: resting 25°, reaching toward cursor up to ~-30° */
+            var lTarget = 25 - armClose * 55;
+            /* bias: if cursor is on the left, left arm reaches more */
+            if (mx < hcx) lTarget -= armClose * 25;
+            lTarget = Math.max(-40, Math.min(45, lTarget));
+
+            /* right arm: resting -25°, mirror logic */
+            var rTarget = -25 + armClose * 55;
+            if (mx > hcx) rTarget += armClose * 25;
+            rTarget = Math.max(-45, Math.min(40, rTarget));
+
+            /* vertical: arms lift a little when cursor is above bear */
+            var liftPx = 0;
+            if (my < hcy) liftPx = -armClose * 14;
+
+            gsap.to(heroArmL, { rotation: lTarget, y: liftPx, duration: 0.45, ease: 'power2.out', overwrite: 'auto' });
+            gsap.to(heroArmR, { rotation: rTarget, y: liftPx, duration: 0.45, ease: 'power2.out', overwrite: 'auto' });
+        } else if (!tickling) {
+            gsap.to(heroArmL, { rotation: 25, y: 0, duration: 0.55, overwrite: 'auto' });
+            gsap.to(heroArmR, { rotation: -25, y: 0, duration: 0.55, overwrite: 'auto' });
+        }
+    }
+
+    /* ─────────────────────────────────────────
+       SINGLE POINTER HANDLER (mouse + touch)
+       ───────────────────────────────────────── */
+    function onPointerMove(e){
+        mx = e.clientX != null ? e.clientX : mx;
+        my = e.clientY != null ? e.clientY : my;
+
+        /* wake from sleep */
+        if (sleeping) exitSleep();
+
+        /* exit shy if cursor moves far enough away */
+        if (shy){
+            var hr = hero.getBoundingClientRect();
+            if (Math.hypot(mx - (hr.left + hr.width/2), my - (hr.top + hr.height/2)) > SHY_DIST * 1.6) exitShy();
+        }
+
+        /* throttled visual update */
+        if (!rafPending){ rafPending = true; requestAnimationFrame(update); }
+
+        /* reset idle timer */
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(enterSleep, IDLE_MS);
+
+        /* shy timer: cursor on bear for too long */
+        var hr2 = hero.getBoundingClientRect();
+        var d2  = Math.hypot(mx - (hr2.left + hr2.width/2), my - (hr2.top + hr2.height/2));
+        if (d2 < SHY_DIST && !shy && !sleeping){
+            if (!shyTimer) shyTimer = setTimeout(enterShy, SHY_MS);
+        } else {
+            if (shyTimer){ clearTimeout(shyTimer); shyTimer = null; }
+        }
+    }
+
+    document.addEventListener('mousemove', onPointerMove);
+    document.addEventListener('touchmove', function(e){
+        if (e.touches && e.touches[0]) onPointerMove(e.touches[0]);
+    }, { passive: true });
+
+    /* reset lean + eyes when cursor leaves viewport */
+    document.addEventListener('mouseleave', function(){
+        if (tickling) return;
+        gsap.to(hero, { rotateY: 0, rotateX: 0, duration: 0.6, ease: 'power2.out', overwrite: 'auto' });
+        var eyes = document.querySelectorAll('.ted-eye:not(.happy):not(.sleep)');
+        gsap.to(eyes, { x: 0, y: 0, duration: 0.35, ease: 'power2.out' });
+        gsap.to(heroArmL, { rotation: 25, y: 0, duration: 0.5, overwrite: 'auto' });
+        gsap.to(heroArmR, { rotation: -25, y: 0, duration: 0.5, overwrite: 'auto' });
+        gsap.to(heroChks, { background: 'rgba(255,170,180,0.38)', duration: 0.5 });
+    });
+
+    /* start idle countdown */
+    idleTimer = setTimeout(enterSleep, IDLE_MS);
+
+    /* ─────────────────────────────────────────
+       TICKLE: clicking the hero bear triggers
+       a tickle reaction — wiggle, giggly arms,
+       squinty eyes, blush, heart burst
+       ───────────────────────────────────────── */
+    function doTickle(){
+        if (tickling || sleeping) return;
+        tickling = true;
+        initAudio();
+
+        /* pause wave & shy timers */
+        wv.pause();
+        if (shyTimer){ clearTimeout(shyTimer); shyTimer = null; }
+        if (shy) exitShy();
+
+        /* happy squint eyes */
+        heroEyeL.classList.add('happy');
+        heroEyeR.classList.add('happy');
+        gsap.to([heroEyeL, heroEyeR], { x: 0, y: 0, duration: 0.1 });
+
+        /* big blush */
+        gsap.to(heroChks, { background: 'rgba(255,90,130,0.78)', scale: 1.4, duration: 0.2 });
+
+        /* mouth big */
+        var hm = hero.querySelector('.ted-mouth');
+        if (hm) hm.classList.add('big');
+
+        /* giggly boops — rapid ascending tones */
+        var notes = [520, 620, 700, 780, 620, 520, 700];
+        notes.forEach(function(n, i){
+            setTimeout(function(){ boop(n, 0.04, 0.08); }, i * 85);
+        });
+
+        /* flailing arms — alternating rapid rotations (like being tickled) */
+        var tickleTl = gsap.timeline();
+        tickleTl
+            .to(heroArmL, { rotation: -80, y: -20, duration: 0.1, ease: 'power2.out' })
+            .to(heroArmR, { rotation: 80, y: -20, duration: 0.1, ease: 'power2.out' }, '<')
+            .to(heroArmL, { rotation: 50, y: -8, duration: 0.1 })
+            .to(heroArmR, { rotation: -50, y: -8, duration: 0.1 }, '<')
+            .to(heroArmL, { rotation: -100, y: -24, duration: 0.1 })
+            .to(heroArmR, { rotation: 100, y: -24, duration: 0.1 }, '<')
+            .to(heroArmL, { rotation: 40, y: -4, duration: 0.1 })
+            .to(heroArmR, { rotation: -40, y: -4, duration: 0.1 }, '<')
+            .to(heroArmL, { rotation: -70, y: -18, duration: 0.1 })
+            .to(heroArmR, { rotation: 70, y: -18, duration: 0.1 }, '<')
+            .to(heroArmL, { rotation: 60, y: -10, duration: 0.1 })
+            .to(heroArmR, { rotation: -60, y: -10, duration: 0.1 }, '<')
+            .to(heroArmL, { rotation: -50, y: -12, duration: 0.1 })
+            .to(heroArmR, { rotation: 50, y: -12, duration: 0.1 }, '<');
+
+        /* body wiggle — quick side-to-side shaking */
+        gsap.to(hero, {
+            rotation: -4, duration: 0.06, yoyo: true, repeat: 17, ease: 'none',
+            onComplete: function(){ gsap.set(hero, { rotation: 0 }); }
+        });
+
+        /* heart burst from the bear */
+        var rect = hero.getBoundingClientRect();
+        var bx = rect.left + rect.width / 2;
+        var by = rect.top + rect.height * 0.35;
+        for (var i = 0; i < 12; i++){
+            (function(idx){
+                setTimeout(function(){ spawnH(bx, by); }, idx * 50);
+            })(i);
+        }
+
+        /* recover after tickle finishes */
+        setTimeout(function(){
+            tickling = false;
+            heroEyeL.classList.remove('happy');
+            heroEyeR.classList.remove('happy');
+            if (hm) hm.classList.remove('big');
+            gsap.to(heroChks, { background: 'rgba(255,170,180,0.38)', scale: 1, duration: 0.5 });
+            gsap.to(heroArmL, { rotation: 25, y: 0, x: 0, duration: 0.4, overwrite: true });
+            gsap.to(heroArmR, { rotation: -25, y: 0, x: 0, duration: 0.4, overwrite: true,
+                onComplete: function(){ wv.restart(); }
+            });
+        }, 1600);
+    }
+
+    /* click on hero bear → tickle */
+    hero.addEventListener('click', function(e){
+        e.stopPropagation();
+        doTickle();
+    });
+
+    /* ─────────────────────────────────────────
+       CLICK: heart pop + soft boop anywhere
+       ───────────────────────────────────────── */
+    document.addEventListener('click', function(e){
+        initAudio();
+        /* skip if clicking inside the pat-bear or hero bear */
+        if (e.target.closest && (e.target.closest('#pb') || e.target.closest('#hb'))) return;
+        boop(620, 0.055, 0.13);
+        spawnH(e.clientX, e.clientY);
+    });
+
+})();
+</script>
+
+</body>
+</html>
