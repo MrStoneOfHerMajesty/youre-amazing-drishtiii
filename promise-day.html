@@ -1,0 +1,1115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happiesttt promiseee dayyy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Parisienne&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+      :root {
+        --primary-color: #d6336c; /* Deep romantic pink */
+        --secondary-color: #ff922b; /* Warm sunset gold */
+        --bg-color: #0c0211; /* Deep night sky */
+        --text-color: #f8f9fa;
+        --card-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+        --font-heading: "Cinzel", serif;
+        --font-body: "Cormorant Garamond", serif;
+        --font-script: "Parisienne", cursive;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-body);
+        background: var(--bg-color);
+        color: var(--text-color);
+        min-height: 100vh;
+        overflow-x: hidden;
+        font-size: 18px;
+        line-height: 1.6;
+      }
+
+      /* Canvas & Background */
+      #hero-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .fixed-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=2070&auto=format&fit=crop")
+          no-repeat center center/cover;
+        z-index: -2;
+        filter: brightness(0.6);
+      }
+
+      /* Hero Section */
+      .hero {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        position: relative;
+      }
+
+      .hero-title {
+        font-family: var(--font-heading);
+        font-size: 5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(to right, #ff9a9e, #fecfef);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        opacity: 0; /* Animated in via GSAP */
+        text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .hero-subtitle {
+        font-size: 1.5rem;
+        font-family: var(--font-script);
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 600px;
+        margin: 0 auto;
+        opacity: 0;
+      }
+
+      /* Scroll Indicator */
+      .scroll-indicator {
+        position: absolute;
+        bottom: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        opacity: 0;
+        animation: fadeBounce 2s infinite 2s;
+      }
+
+      .mouse {
+        width: 30px;
+        height: 50px;
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        border-radius: 20px;
+        position: relative;
+      }
+
+      .mouse::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        background: #fff;
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: scrollWheel 2s infinite;
+      }
+
+      @keyframes scrollWheel {
+        0% {
+          top: 10px;
+          opacity: 1;
+        }
+        100% {
+          top: 30px;
+          opacity: 0;
+        }
+      }
+
+      @keyframes fadeBounce {
+        0%,
+        100% {
+          transform: translateY(0);
+          opacity: 0.6;
+        }
+        50% {
+          transform: translateY(10px);
+          opacity: 1;
+        }
+      }
+
+      /* Sections General */
+      section {
+        padding: 100px 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+      }
+
+      /* Timeline Section */
+      #timeline-section {
+        padding: 50px 0;
+        background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.8));
+      }
+
+      /* Love Letter Section */
+      #letter-section {
+        padding: 100px 20px;
+        background: rgba(0, 0, 0, 0.3);
+      }
+
+      .letter-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 60px;
+        background: rgba(255, 255, 255, 0.9);
+        color: #333;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        font-family: var(--font-body);
+        font-size: 1.4rem;
+        position: relative;
+        transform: rotate(-1deg);
+      }
+
+      .letter-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        margin: 10px;
+      }
+
+      /* Finale Section */
+      #finale {
+        height: 60vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+
+      .seal-button {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 20px 60px;
+        font-size: 1.5rem;
+        font-family: var(--font-heading);
+        border-radius: 100px;
+        cursor: pointer;
+        box-shadow: 0 0 30px rgba(214, 51, 108, 0.5);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .seal-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 50px rgba(214, 51, 108, 0.8);
+      }
+
+      .seal-button:active {
+        transform: scale(0.95);
+      }
+
+      .buttons-container {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-top: 2rem;
+      }
+
+      .no-btn {
+        background: #e74c3c; /* Red */
+        box-shadow: 0 0 30px rgba(231, 76, 60, 0.5);
+        position: relative; /* Starts next to Yes, JS switches to fixed on evasion */
+        transition:
+          top 0.4s ease,
+          left 0.4s ease,
+          box-shadow 0.3s ease;
+        overflow: visible;
+        z-index: 50;
+      }
+
+      .no-btn:hover {
+        box-shadow: 0 0 50px rgba(231, 76, 60, 0.8);
+      }
+
+      .cloudy-message {
+        position: absolute;
+        top: -55px;
+        right: -10px;
+        background: white;
+        color: #333;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-family: var(--font-body);
+        font-weight: bold;
+        font-size: 1rem;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 100;
+        white-space: nowrap;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .cloudy-message::before {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        right: 20px;
+        border-width: 10px;
+        border-style: solid;
+        border-color: white transparent transparent transparent;
+      }
+      #promises-section {
+        perspective: 1000px;
+        z-index: 2;
+      }
+
+      .promises-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+        max-width: 1200px;
+        width: 90%;
+        padding: 50px 20px;
+      }
+
+      .promise-card {
+        background: rgba(255, 255, 255, 0.05); /* Glass dark */
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        padding: 40px 20px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        transform-style: preserve-3d;
+        transform: perspective(1000px);
+        transition: transform 0.1s ease; /* Fast for mouse movement */
+        min-height: 320px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .promise-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        opacity: 0.5;
+        z-index: -1;
+      }
+
+      /* Hover glow */
+      .promise-card:hover {
+        box-shadow: 0 20px 50px rgba(214, 51, 108, 0.3);
+      }
+
+      .card-icon {
+        font-size: 3.5rem;
+        margin-bottom: 25px;
+        transform: translateZ(30px); /* 3D pop */
+      }
+
+      .promise-title {
+        font-family: var(--font-heading);
+        font-size: 1.8rem;
+        color: var(--secondary-color);
+        margin-bottom: 15px;
+        transform: translateZ(20px);
+      }
+
+      .promise-text {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 300;
+        line-height: 1.6;
+        transform: translateZ(10px);
+      }
+
+      .timeline-container {
+        position: relative;
+        max-width: 1000px;
+        width: 90%;
+        margin: 0 auto;
+        padding: 40px 0;
+      }
+
+      .timeline-line {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateX(-50%);
+        border-radius: 4px;
+      }
+
+      .timeline-progress {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 4px;
+        background: var(--primary-color);
+        transform: translateX(-50%);
+        border-radius: 4px;
+        height: 0; /* Animated */
+        box-shadow: 0 0 15px var(--primary-color);
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 100px;
+        width: 50%;
+        padding: 0 40px;
+        opacity: 0; /* GSAP reveals */
+        display: flex;
+        flex-direction: column;
+      }
+
+      .timeline-item:nth-child(odd) {
+        left: 0;
+        align-items: flex-end;
+        text-align: right;
+      }
+
+      .timeline-item:nth-child(even) {
+        left: 50%;
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .timeline-node {
+        position: absolute;
+        top: 0;
+        width: 20px;
+        height: 20px;
+        background: var(--bg-color);
+        border: 4px solid var(--secondary-color);
+        border-radius: 50%;
+        z-index: 10;
+        box-shadow: 0 0 10px var(--secondary-color);
+        transition: transform 0.3s ease;
+      }
+
+      .timeline-item:hover .timeline-node {
+        transform: scale(1.5);
+        background: var(--secondary-color);
+      }
+
+      .timeline-item:nth-child(odd) .timeline-node {
+        right: -10px;
+      }
+
+      .timeline-item:nth-child(even) .timeline-node {
+        left: -10px;
+      }
+
+      .timeline-content {
+        background: var(--card-bg);
+        border: var(--glass-border);
+        backdrop-filter: blur(10px);
+        padding: 25px;
+        border-radius: 15px;
+        max-width: 400px;
+        transition: transform 0.3s ease;
+      }
+
+      .timeline-item:hover .timeline-content {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .timeline-date {
+        font-family: var(--font-heading);
+        color: var(--secondary-color);
+        font-weight: 700;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+      }
+
+      .timeline-text {
+        color: #ddd;
+      }
+      .music-player {
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 12px 25px;
+        border-radius: 50px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: #fff;
+      }
+
+      .music-player:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Elements -->
+    <div class="fixed-bg"></div>
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- Music Player -->
+    <div class="music-player" id="music-btn" onclick="toggleMusic()">
+      <span id="music-text">Always</span>
+    </div>
+    <audio id="bg-music" loop autoplay>
+      <source src="src/standByMe.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">My Promises to my...beautiful world</h1>
+        <p class="hero-subtitle">
+          To the <span style="color: #ff8fab">forever</span> of my life, (only
+          you) who makes my world brighter, here are my promises to you, today
+          and for the
+          <span style="color: #ff8fab">foreseeable future</span>(forever).
+        </p>
+      </div>
+      <div class="scroll-indicator">
+        <div class="mouse"></div>
+        <span>Scroll to Begin ^^</span>
+      </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline-section">
+      <h2
+        style="
+          font-family: var(--font-heading);
+          font-size: 3rem;
+          margin-bottom: 50px;
+          color: var(--primary-color);
+        "
+      >
+        Our Journey <br />
+        (ever lasting)
+      </h2>
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
+        <div class="timeline-progress"></div>
+
+        <!-- Item 1 -->
+        <div class="timeline-item">
+          <div class="timeline-node"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">The Beginning</div>
+            <p class="timeline-text">
+              Where it all started. A simple hello that changed my world
+              forever.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="timeline-item">
+          <div class="timeline-node"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">First Sparks</div>
+            <p class="timeline-text">
+              The moment I realized you weren't just anyone. You were *the* one.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="timeline-item">
+          <div class="timeline-node"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">Growing Closer</div>
+            <p class="timeline-text">
+              Late night talks, shared laughter, and finding comfort in your
+              presence.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="timeline-item">
+          <div class="timeline-node"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">Unforgettable Memories</div>
+            <p class="timeline-text">
+              Every adventure, big or small, has been a treasure because I was
+              with you.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="timeline-item">
+          <div class="timeline-node"></div>
+          <div class="timeline-content">
+            <div class="timeline-date">Today & Forever</div>
+            <p class="timeline-text">
+              Standing here today, making these promises to you with all my
+              heart.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Promises Section -->
+    <section id="promises-section">
+      <h2
+        style="
+          font-family: var(--font-heading);
+          font-size: 3rem;
+          margin-bottom: 50px;
+          color: var(--primary-color);
+        "
+      >
+        My Vows to You
+      </h2>
+      <div class="promises-container">
+        <div class="promise-card">
+          <div class="card-icon">♾️</div>
+          <div class="promise-title">Always By Your Side</div>
+          <p class="promise-text">
+            To stand by you through every storm and every sunshine, being your
+            personal diary X) /nss...
+          </p>
+        </div>
+
+        <div class="promise-card">
+          <div class="card-icon">🌷</div>
+          <div class="promise-title">To Listen and Stay</div>
+          <p class="promise-text">
+            To hear not just your words, but even the silence between them.
+          </p>
+        </div>
+        <div class="promise-card">
+          <div class="card-icon">XD</div>
+          <div class="promise-title">Infinite Giggles X)</div>
+          <p class="promise-text">
+            To fill our space/galaxy with joy, so called "bad" jokes, and
+            endless giggles
+            <br />(yours...are so fucking priceless).
+          </p>
+        </div>
+
+        <div class="promise-card">
+          <div class="card-icon">🌱</div>
+          <div class="promise-title">To Grow Together</div>
+          <p class="promise-text">
+            To encourage your dreams as if they were my own.
+          </p>
+        </div>
+
+        <div class="promise-card">
+          <div class="card-icon">❤️</div>
+          <div class="promise-title">Understanding</div>
+          <p class="promise-text">
+            To understand you deeply and.. you exactly as you are, through every
+            mood and every moment of our lives.
+          </p>
+        </div>
+
+        <div class="promise-card">
+          <div class="card-icon">🔏</div>
+          <div class="promise-title">My Heart is Yours..</div>
+          <p class="promise-text">
+            I am willing and will be loyally patient..cz you're worth it all.
+            <br />you...reside in my heart and my mind, 24/7, 365 days a year,
+            and 366 days in a leap year(narrowed eyes). I chose a pen-lock cz..
+            i have your name..written all over my..hmm, life.
+          </p>
+        </div>
+
+        <div class="promise-card">
+          <div class="card-icon">✈️</div>
+          <div class="promise-title">Exploring the world (i'll do my best)</div>
+          <p class="promise-text">
+            To explore the world with you, hand in hand.
+          </p>
+        </div>
+
+        <div class="promise-card">
+          <div class="card-icon">✨</div>
+          <div class="promise-title">Patience</div>
+          <p class="promise-text">
+            To be patient with our journey and trust in our timings 🫶. As long
+            as it takes ^^
+          </p>
+        </div>
+
+        <div class="promise-card">
+          <div class="card-icon">👑</div>
+          <div class="promise-title">Respect</div>
+          <p class="promise-text">
+            To always treat you with the dignity and respect more than you
+            deserve..even chivalric.
+          </p>
+        </div>
+
+        <div class="promise-card">
+          <div class="card-icon">🧑‍🍳</div>
+          <div class="promise-title">Cooking for you</div>
+          <p class="promise-text">
+            I have this delicately beautiful urge to cook you breakfast as you
+            wake up, dinner, by the end of the day... (without microplastics X)
+            Yesss i remember everything, drishtiiiiii ) Or at least a cup of
+            tea, cz i reckon rishtey chai se bante hai hmm?? Atleast waise to
+            sahi hmmmm X)
+          </p>
+        </div>
+
+        <div class="promise-card">
+          <div class="card-icon">🫂</div>
+          <div class="promise-title">Comfort</div>
+          <p class="promise-text">
+            To be your safe person/space when the world feels too loud. Or
+            whenever you need anything.
+          </p>
+        </div>
+
+        <!-- 12. Forever -->
+        <div class="promise-card">
+          <div class="card-icon">💍</div>
+          <div class="promise-title">Forever</div>
+          <p class="promise-text">
+            Ahemm..ahem...hmm, just like diamonds are forever, our bond is
+            too...ahem...pls..
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Love Letter Section -->
+    <section id="letter-section">
+      <div class="letter-container">
+        <p id="typewriter-text"></p>
+      </div>
+    </section>
+
+    <!-- Finale Section -->
+    <section id="finale">
+      <h2
+        style="
+          font-family: var(--font-heading);
+          font-size: 3rem;
+          margin-bottom: 30px;
+        "
+      >
+        Do you accept my promises...? (please say yes)
+      </h2>
+      <div class="buttons-container">
+        <button class="seal-button" id="yes-btn">Yes</button>
+        <button class="seal-button no-btn" id="no-btn">
+          No
+          <div id="no-btn-message" class="cloudy-message"></div>
+        </button>
+      </div>
+    </section>
+    <!-- Script for Animations & Logic -->
+    <script>
+      // Register ScrollTrigger
+      gsap.registerPlugin(ScrollTrigger);
+
+      // --- Canvas Particle System ---
+      const canvas = document.getElementById("hero-canvas");
+      const ctx = canvas.getContext("2d");
+      let width, height;
+      let particles = [];
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.5;
+          this.vy = (Math.random() - 0.5) * 0.5;
+          this.size = Math.random() * 2 + 1;
+          this.alpha = Math.random() * 0.5 + 0.1;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0) this.x = width;
+          if (this.x > width) this.x = 0;
+          if (this.y < 0) this.y = height;
+          if (this.y > height) this.y = 0;
+        }
+        draw() {
+          ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < 100; i++) particles.push(new Particle());
+
+      function animateCanvas() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach((p) => {
+          p.update();
+          p.draw();
+        });
+        requestAnimationFrame(animateCanvas);
+      }
+      animateCanvas();
+
+      // --- GSAP Hero Animations ---
+      const tl = gsap.timeline();
+      tl.to(".hero-title", { opacity: 1, duration: 2, ease: "power4.out" })
+        .to(
+          ".hero-subtitle",
+          { opacity: 1, y: 0, duration: 1.5, ease: "power3.out" },
+          "-=1",
+        )
+        .to(".scroll-indicator", { opacity: 1, duration: 1 }, "-=0.5");
+
+      // --- Timeline Animations ---
+      gsap.to(".timeline-progress", {
+        height: "100%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".timeline-container",
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: true,
+        },
+      });
+
+      gsap.utils.toArray(".timeline-item").forEach((item) => {
+        gsap.from(item, {
+          opacity: 0,
+          y: 50,
+          duration: 1,
+          scrollTrigger: {
+            trigger: item,
+            start: "top 85%",
+            end: "bottom 60%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      });
+
+      // --- 3D Tilt Effect ---
+      document.querySelectorAll(".promise-card").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+
+          const rotateX = ((y - centerY) / centerY) * -10; // Max 10deg rotation
+          const rotateY = ((x - centerX) / centerX) * 10;
+
+          card.style.transform = `perspective(1000px) scale(1.05) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        card.addEventListener("mouseleave", () => {
+          // Smooth reset
+          card.style.transform =
+            "perspective(1000px) scale(1) rotateX(0) rotateY(0)";
+        });
+      });
+
+      // --- Love Letter Typewriter ---
+      const letterText =
+        "drishti.., m'lady, I feel like the luckiest to have you, and to be in your life. Getting to spend time, every single day with you is a blessnig. You are my today and all of my tomorrowssss. Happy Promise Day.";
+      const typeContainer = document.getElementById("typewriter-text");
+      let typeWriterStarted = false;
+
+      ScrollTrigger.create({
+        trigger: "#letter-section",
+        start: "top 60%",
+        onEnter: () => {
+          if (!typeWriterStarted) {
+            typeWriterStarted = true;
+            let i = 0;
+            function type() {
+              if (i < letterText.length) {
+                typeContainer.innerHTML += letterText.charAt(i);
+                i++;
+                setTimeout(type, 50);
+              }
+            }
+            type();
+          }
+        },
+      });
+
+      // --- Confetti Finale & Button Logic ---
+      const yesBtn = document.getElementById("yes-btn");
+      const noBtn = document.getElementById("no-btn");
+      const noBtnMessage = document.getElementById("no-btn-message");
+
+      // Yes Button Click
+      yesBtn.addEventListener("click", () => {
+        // Trigger generic confetti
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+
+        // Trigger heart confetti
+        var defaults = {
+          spread: 360,
+          ticks: 100,
+          gravity: 0,
+          decay: 0.94,
+          startVelocity: 30,
+          shapes: ["heart"],
+          colors: ["FFC0CB", "FF69B4", "FF1493", "C71585"],
+        };
+
+        confetti({
+          ...defaults,
+          particleCount: 50,
+          scalar: 2,
+        });
+
+        setTimeout(() => {
+          confetti({
+            ...defaults,
+            particleCount: 25,
+            scalar: 3,
+          });
+        }, 200);
+
+        setTimeout(() => {
+          confetti({
+            ...defaults,
+            particleCount: 10,
+            scalar: 4,
+          });
+        }, 400);
+
+        yesBtn.innerText = "Promise Sealed yayayayayy ^^ 💝";
+        yesBtn.style.background = "#2ecc71";
+
+        // Hide No button and message
+        noBtn.style.display = "none";
+        noBtnMessage.style.opacity = "0";
+      });
+
+      // No Button Interaction Logic
+      const messages = [
+        "Go awayyy",
+        "Staawppp following mee",
+        "this lady is trying to harass meee!!!",
+        "Help!!",
+      ];
+
+      let messageInterval;
+      let isChasing = false;
+      let messageIndex = 0;
+      let mouseStopTimeout = null;
+      let noBtnInitialized = false;
+
+      // Initialize No button position
+      function initNoBtn() {
+        if (!noBtnInitialized) {
+          const rect = noBtn.getBoundingClientRect();
+          noBtn.style.position = "fixed";
+          noBtn.style.left = `${rect.left}px`;
+          noBtn.style.top = `${rect.top}px`;
+          noBtnInitialized = true;
+        }
+      }
+
+      function shiftNoButton(cursorX, cursorY) {
+        initNoBtn();
+        // Calculate a position away from cursor
+        const padding = 80;
+        const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+        const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+        let newX, newY;
+        // Try to move to opposite side of cursor
+        do {
+          newX = Math.random() * maxX + padding / 2;
+          newY = Math.random() * maxY + padding / 2;
+        } while (
+          Math.sqrt(Math.pow(cursorX - newX, 2) + Math.pow(cursorY - newY, 2)) <
+          200
+        );
+
+        noBtn.style.left = `${newX}px`;
+        noBtn.style.top = `${newY}px`;
+      }
+
+      // Mouse move listener for evasion and messaging
+      document.addEventListener("mousemove", (e) => {
+        if (noBtn.style.display === "none") return;
+
+        const noBtnRect = noBtn.getBoundingClientRect();
+        const noBtnCenter = {
+          x: noBtnRect.left + noBtnRect.width / 2,
+          y: noBtnRect.top + noBtnRect.height / 2,
+        };
+
+        const dist = Math.sqrt(
+          Math.pow(e.clientX - noBtnCenter.x, 2) +
+            Math.pow(e.clientY - noBtnCenter.y, 2),
+        );
+
+        // Clear mouse-stop timer on every move
+        clearTimeout(mouseStopTimeout);
+        // Revert Yes button text while actively moving
+        if (yesBtn.innerText === "Please...?🥺") {
+          yesBtn.innerText = "Yes";
+        }
+
+        // Proximity check
+        if (dist < 150) {
+          if (!isChasing) {
+            isChasing = true;
+            startChasingMessages();
+          }
+
+          // Move button if too close
+          if (dist < 120) {
+            shiftNoButton(e.clientX, e.clientY);
+          }
+        } else {
+          if (isChasing) {
+            isChasing = false;
+            stopChasingMessages();
+          }
+        }
+
+        // Start 3-second idle timer
+        mouseStopTimeout = setTimeout(() => {
+          yesBtn.innerText = "Please...?🥺";
+          noBtnMessage.innerText = "Pweaasee say yes...?🥺";
+          noBtnMessage.style.opacity = "1";
+        }, 3000);
+      });
+
+      function startChasingMessages() {
+        noBtnMessage.style.opacity = "1";
+        noBtnMessage.innerText = messages[messageIndex];
+        messageIndex = (messageIndex + 1) % messages.length;
+      }
+
+      function stopChasingMessages() {
+        clearInterval(messageInterval);
+      }
+
+      // --- Music Player Logic ---
+      const musicBtn = document.getElementById("music-btn");
+      const audio = document.getElementById("bg-music");
+      const musicText = document.getElementById("music-text");
+      let isPlaying = false;
+
+      function updateMusicState(playing) {
+        if (playing) {
+          musicBtn.classList.add("playing");
+          musicText.innerText = "Always";
+        } else {
+          musicBtn.classList.remove("playing");
+          musicText.innerText = "Always";
+        }
+      }
+
+      function toggleMusic() {
+        if (isPlaying) {
+          audio.pause();
+          isPlaying = false;
+          updateMusicState(false);
+        } else {
+          audio
+            .play()
+            .then(() => {
+              isPlaying = true;
+              updateMusicState(true);
+            })
+            .catch((e) => console.log("Audio error:", e));
+        }
+      }
+
+      // Autoplay Logic
+      window.addEventListener("DOMContentLoaded", () => {
+        audio.volume = 0.6;
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              isPlaying = true;
+              updateMusicState(true);
+            })
+            .catch((error) => {
+              console.log("Autoplay prevented by browser policy.");
+              const enableAudio = () => {
+                audio.play().then(() => {
+                  isPlaying = true;
+                  updateMusicState(true);
+                  document.removeEventListener("click", enableAudio);
+                  document.removeEventListener("keydown", enableAudio);
+                });
+              };
+              document.addEventListener("click", enableAudio);
+              document.addEventListener("keydown", enableAudio);
+            });
+        }
+      });
+    </script>
+  </body>
+</html>
