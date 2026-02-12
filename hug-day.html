@@ -1,0 +1,1464 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happiessttt huggg dayyy?</title>
+    <meta
+      name="description"
+      content="you're...amazing, drishti. you mean a LOT to me.."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Caveat:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #faf6f0;
+        --bg-alt: #f3ebe0;
+        --text: #3a2a1e;
+        --text-soft: #8b7560;
+        --accent: #c07a5c;
+        --accent-soft: #e0a98c;
+        --blush: #e8b4b4;
+        --gold: #bfa36e;
+        --cream: #fff5ea;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+        cursor: none;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+
+      .cursor-dot,
+      .cursor-ring {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 99999;
+        border-radius: 50%;
+        will-change: transform;
+      }
+      .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        margin: -4px 0 0 -4px;
+      }
+      .cursor-ring {
+        width: 40px;
+        height: 40px;
+        border: 1.5px solid var(--accent);
+        opacity: 0.35;
+        margin: -20px 0 0 -20px;
+        transition:
+          width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+          height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+          margin 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+          opacity 0.25s;
+      }
+      .cursor-ring.hovering {
+        width: 60px;
+        height: 60px;
+        margin: -30px 0 0 -30px;
+        opacity: 0.5;
+        background: rgba(192, 122, 92, 0.04);
+      }
+      @media (hover: none), (pointer: coarse) {
+        body {
+          cursor: auto;
+        }
+        .cursor-dot,
+        .cursor-ring {
+          display: none !important;
+        }
+      }
+
+      .serif,
+      h1,
+      h2 {
+        font-family: "Instrument Serif", serif;
+        font-weight: 400;
+      }
+      .handwritten {
+        font-family: "Caveat", cursive;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      .particles {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .particles span {
+        position: absolute;
+        bottom: -10px;
+        width: 5px;
+        height: 5px;
+        background: var(--accent-soft);
+        border-radius: 50%;
+        opacity: 0;
+        animation: particle-float linear infinite;
+      }
+      @keyframes particle-float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.12;
+        }
+        90% {
+          opacity: 0.12;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      section {
+        position: relative;
+        z-index: 1;
+        padding: 5rem 2rem;
+      }
+      .section-inner {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+      }
+      .hero-pre {
+        font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+        color: var(--text-soft);
+        opacity: 0;
+        margin-bottom: 0.5rem;
+      }
+      .hero h1 {
+        font-size: clamp(3.5rem, 10vw, 7rem);
+        color: var(--text);
+        line-height: 1.1;
+        opacity: 0;
+        letter-spacing: -0.02em;
+      }
+      .hero h1 em {
+        font-style: italic;
+        color: var(--accent);
+      }
+      .hero-sub {
+        font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+        color: var(--text-soft);
+        max-width: 440px;
+        margin-top: 1.5rem;
+        opacity: 0;
+        line-height: 1.8;
+      }
+      .scroll-hint {
+        position: absolute;
+        bottom: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0;
+      }
+      .scroll-hint span {
+        font-family: "Caveat", cursive;
+        font-size: 1rem;
+        color: var(--text-soft);
+      }
+      .scroll-arrow {
+        width: 20px;
+        height: 20px;
+        border-bottom: 2px solid var(--accent);
+        border-right: 2px solid var(--accent);
+        transform: rotate(45deg);
+        animation: bounce-arrow 2s ease infinite;
+      }
+      @keyframes bounce-arrow {
+        0%,
+        100% {
+          transform: rotate(45deg) translateY(0);
+        }
+        50% {
+          transform: rotate(45deg) translateY(6px);
+        }
+      }
+
+      .bridge {
+        min-height: 50vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .bridge-text {
+        font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+        color: var(--text-soft);
+        line-height: 1.7;
+        max-width: 600px;
+      }
+
+      .moments {
+        background: var(--bg-alt);
+        padding: 6rem 2rem;
+      }
+      .moments-heading {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+      .moments-heading h2 {
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        margin-bottom: 0.5rem;
+      }
+      .moments-heading p {
+        color: var(--text-soft);
+        font-size: 1rem;
+      }
+      .moments-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        max-width: 960px;
+        margin: 0 auto;
+      }
+      .moment-card {
+        background: var(--cream);
+        border: 1px solid rgba(192, 122, 92, 0.12);
+        border-radius: 16px;
+        padding: 2rem;
+        transition:
+          transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+          box-shadow 0.3s;
+        cursor: default;
+      }
+      .moment-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+      }
+      .moment-card .icon {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+      }
+      .moment-card h3 {
+        font-family: "Instrument Serif", serif;
+        font-weight: 400;
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+      }
+      .moment-card p {
+        color: var(--text-soft);
+        font-size: 0.92rem;
+        line-height: 1.7;
+      }
+
+      .teddy-section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        text-align: center;
+        padding: 4rem 2rem;
+      }
+      .teddy-section h2 {
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+      }
+      .teddy-prompt {
+        font-family: "Caveat", cursive;
+        font-size: 1.2rem;
+        color: var(--text-soft);
+      }
+      /* Teddy Bear CSS Art */
+      .teddy {
+        position: relative;
+        width: 200px;
+        height: 260px;
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-tap-highlight-color: transparent;
+        filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.08));
+      }
+      .t-ear {
+        position: absolute;
+        width: 52px;
+        height: 52px;
+        background: #c4956a;
+        border-radius: 50%;
+        top: 5px;
+        z-index: 1;
+      }
+      .t-ear::after {
+        content: "";
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        background: #f0b4a8;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .t-ear.t-l {
+        left: 18px;
+      }
+      .t-ear.t-r {
+        right: 18px;
+      }
+      .t-head {
+        position: absolute;
+        width: 144px;
+        height: 132px;
+        background: #d4a87a;
+        border-radius: 50%;
+        top: 25px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 3;
+        overflow: visible;
+      }
+      .t-eye {
+        position: absolute;
+        width: 16px;
+        height: 20px;
+        background: #1e1008;
+        border-radius: 50%;
+        top: 44px;
+        z-index: 4;
+        transition: transform 0.1s ease-out;
+      }
+      .t-eye::after {
+        content: "";
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: #fff;
+        border-radius: 50%;
+        top: 3px;
+        left: 3px;
+      }
+      .t-eye::before {
+        content: "";
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        bottom: 4px;
+        right: 3px;
+      }
+      .t-eye.t-l {
+        left: 36px;
+      }
+      .t-eye.t-r {
+        right: 36px;
+      }
+      .t-muzzle {
+        position: absolute;
+        width: 60px;
+        height: 44px;
+        background: #f0dcc4;
+        border-radius: 50%;
+        top: 56px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 4;
+      }
+      .t-nose {
+        position: absolute;
+        width: 14px;
+        height: 10px;
+        background: #5c3a1e;
+        border-radius: 50% 50% 50% 50% / 35% 35% 65% 65%;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .t-mouth {
+        position: absolute;
+        width: 24px;
+        height: 10px;
+        border-bottom: 2px solid #5c3a1e;
+        border-radius: 0 0 50% 50%;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .t-cheek {
+        position: absolute;
+        width: 22px;
+        height: 14px;
+        background: rgba(232, 160, 160, 0.3);
+        border-radius: 50%;
+        top: 62px;
+        z-index: 4;
+        transition: background 0.3s;
+      }
+      .t-cheek.t-l {
+        left: 14px;
+      }
+      .t-cheek.t-r {
+        right: 14px;
+      }
+      .t-body {
+        position: absolute;
+        width: 124px;
+        height: 105px;
+        background: #c4956a;
+        border-radius: 50% 50% 46% 46%;
+        top: 132px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+      }
+      .t-belly {
+        position: absolute;
+        width: 72px;
+        height: 68px;
+        background: #f0dcc4;
+        border-radius: 50%;
+        top: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .t-belly::after {
+        content: "♡";
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 16px;
+        color: #e8b4b4;
+        opacity: 0.6;
+      }
+      .t-arm {
+        position: absolute;
+        width: 42px;
+        height: 58px;
+        background: #c4956a;
+        border-radius: 50%;
+        top: 138px;
+        z-index: 1;
+      }
+      .t-arm::after {
+        content: "";
+        position: absolute;
+        width: 24px;
+        height: 28px;
+        background: #f0dcc4;
+        border-radius: 50%;
+        bottom: 2px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .t-arm.t-l {
+        left: 2px;
+        transform: rotate(18deg);
+        transform-origin: top center;
+      }
+      .t-arm.t-r {
+        right: 2px;
+        transform: rotate(-18deg);
+        transform-origin: top center;
+      }
+      .t-paw {
+        position: absolute;
+        width: 46px;
+        height: 30px;
+        background: #b8875c;
+        border-radius: 50%;
+        bottom: 0;
+        z-index: 1;
+      }
+      .t-paw::after {
+        content: "";
+        position: absolute;
+        width: 28px;
+        height: 18px;
+        background: #f0dcc4;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -40%);
+      }
+      .t-paw.t-l {
+        left: 28px;
+      }
+      .t-paw.t-r {
+        right: 28px;
+      }
+      /* Bow */
+      .t-bow {
+        position: absolute;
+        top: 24px;
+        left: 12px;
+        z-index: 5;
+        width: 28px;
+        height: 16px;
+      }
+      .t-bow::before,
+      .t-bow::after {
+        content: "";
+        position: absolute;
+        width: 14px;
+        height: 10px;
+        background: var(--accent);
+        border-radius: 50%;
+        top: 3px;
+      }
+      .t-bow::before {
+        left: 0;
+        transform: rotate(-15deg);
+      }
+      .t-bow::after {
+        right: 0;
+        transform: rotate(15deg);
+      }
+      .t-bow-knot {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: #a0603e;
+        border-radius: 50%;
+        top: 4px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 6;
+      }
+      /* Teddy messages */
+      .teddy-msg {
+        min-height: 2rem;
+        font-family: "Caveat", cursive;
+        font-size: 1.3rem;
+        color: var(--accent);
+        transition: opacity 0.3s;
+      }
+      .teddy-counter {
+        font-size: 0.85rem;
+        color: var(--text-soft);
+        opacity: 0.6;
+      }
+      /* Floating hearts */
+      .float-heart {
+        position: absolute;
+        font-size: 1.2rem;
+        pointer-events: none;
+        z-index: 100;
+        opacity: 0;
+      }
+
+      .letter-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6rem 2rem;
+        background: var(--bg-alt);
+      }
+      .letter {
+        max-width: 640px;
+        width: 100%;
+        background: var(--cream);
+        border-radius: 20px;
+        padding: 3rem 2.5rem;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+        position: relative;
+        background-image: repeating-linear-gradient(
+          transparent,
+          transparent 31px,
+          rgba(192, 122, 92, 0.07) 31px,
+          rgba(192, 122, 92, 0.07) 32px
+        );
+        background-position-y: 14px;
+      }
+      .letter h2 {
+        font-family: "Caveat", cursive;
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 1.5rem;
+      }
+      .letter p {
+        font-size: 0.95rem;
+        line-height: 2;
+        color: var(--text);
+        margin-bottom: 1rem;
+      }
+      .letter p:last-of-type {
+        margin-bottom: 2rem;
+      }
+      .letter em {
+        color: var(--accent);
+      }
+      .letter strong {
+        font-weight: 500;
+      }
+      .letter-sign {
+        font-family: "Caveat", cursive;
+        font-size: 1.3rem;
+        color: var(--text-soft);
+        text-align: right;
+      }
+      .letter-stamp {
+        position: absolute;
+        top: 1.5rem;
+        right: 2rem;
+        width: 60px;
+        height: 60px;
+        border: 2px solid var(--accent-soft);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Caveat", cursive;
+        font-size: 0.65rem;
+        color: var(--accent);
+        text-align: center;
+        line-height: 1.2;
+        transform: rotate(12deg);
+        opacity: 0.5;
+      }
+
+      .finale {
+        min-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 6rem 2rem;
+      }
+      .finale h2 {
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        margin-bottom: 2.5rem;
+      }
+      .promise-list {
+        list-style: none;
+        max-width: 520px;
+        text-align: left;
+        margin-bottom: 3rem;
+      }
+      .promise-list li {
+        padding: 0.6rem 0;
+        font-size: 1rem;
+        color: var(--text);
+        border-bottom: 1px solid rgba(192, 122, 92, 0.1);
+        display: flex;
+        gap: 0.75rem;
+        align-items: baseline;
+      }
+      .promise-list li:last-child {
+        border-bottom: none;
+      }
+      .promise-list .em {
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+      .finale-closing {
+        max-width: 500px;
+        color: var(--text-soft);
+        font-size: 0.95rem;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+      }
+      .finale-sign {
+        font-family: "Caveat", cursive;
+        font-size: 1.4rem;
+        color: var(--accent);
+      }
+
+      .footer {
+        text-align: center;
+        padding: 2rem;
+        font-size: 0.8rem;
+        color: var(--text-soft);
+        opacity: 0.5;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      @media (max-width: 600px) {
+        section {
+          padding: 3rem 1.25rem;
+        }
+        .moments {
+          padding: 4rem 1.25rem;
+        }
+        .moments-grid {
+          grid-template-columns: 1fr;
+        }
+        .letter {
+          padding: 2rem 1.5rem;
+        }
+        .letter-stamp {
+          top: 1rem;
+          right: 1rem;
+          width: 48px;
+          height: 48px;
+          font-size: 0.55rem;
+        }
+        .teddy {
+          transform: scale(0.85);
+        }
+      }
+
+      .music-player {
+        position: fixed;
+        top: 24px;
+        left: 24px;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(250, 246, 240, 0.7);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(192, 122, 92, 0.25);
+        border-radius: 50px;
+        padding: 10px 20px;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      }
+      .music-player:hover {
+        background: rgba(250, 246, 240, 0.9);
+        border-color: rgba(192, 122, 92, 0.5);
+        box-shadow: 0 6px 28px rgba(0, 0, 0, 0.1);
+      }
+      .music-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(192, 122, 92, 0.12);
+        border: 1px solid rgba(192, 122, 92, 0.3);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        color: var(--accent);
+      }
+      .music-btn:hover {
+        transform: scale(1.1);
+        background: rgba(192, 122, 92, 0.2);
+        box-shadow: 0 0 12px rgba(192, 122, 92, 0.2);
+      }
+      .volume-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+        transition: all 0.4s ease;
+      }
+      .music-player:hover .volume-container {
+        opacity: 1;
+        width: 110px;
+        padding-right: 4px;
+      }
+      .volume-slider {
+        -webkit-appearance: none;
+        width: 75px;
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(192, 122, 92, 0.15);
+        outline: none;
+        cursor: pointer;
+      }
+      .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+        box-shadow: 0 0 8px rgba(192, 122, 92, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+
+    <div class="particles" aria-hidden="true">
+      <span
+        style="left: 3%; animation-duration: 9s; animation-delay: 0s"
+      ></span>
+      <span
+        style="left: 10%; animation-duration: 14s; animation-delay: 3s"
+      ></span>
+      <span
+        style="left: 18%; animation-duration: 11s; animation-delay: 1s"
+      ></span>
+      <span
+        style="left: 28%; animation-duration: 16s; animation-delay: 5s"
+      ></span>
+      <span
+        style="left: 37%; animation-duration: 10s; animation-delay: 2s"
+      ></span>
+      <span
+        style="left: 45%; animation-duration: 13s; animation-delay: 7s"
+      ></span>
+      <span
+        style="left: 55%; animation-duration: 12s; animation-delay: 0s"
+      ></span>
+      <span
+        style="left: 63%; animation-duration: 8s; animation-delay: 4s"
+      ></span>
+      <span
+        style="left: 72%; animation-duration: 15s; animation-delay: 1s"
+      ></span>
+      <span
+        style="left: 80%; animation-duration: 11s; animation-delay: 6s"
+      ></span>
+      <span
+        style="left: 88%; animation-duration: 9s; animation-delay: 3s"
+      ></span>
+      <span
+        style="left: 95%; animation-duration: 14s; animation-delay: 8s"
+      ></span>
+    </div>
+
+    <audio id="bg-music" src="src/stopWaiting.mp3" loop></audio>
+    <div class="music-player">
+      <button class="music-btn" id="music-toggle" title="Play/Pause">
+        <span id="play-icon" style="margin-left: 2px">▶</span>
+      </button>
+      <div class="volume-container">
+        <span style="font-size: 1rem; color: var(--accent)">🔊</span>
+        <input
+          type="range"
+          class="volume-slider"
+          id="volume-slider"
+          min="0"
+          max="100"
+          value="50"
+        />
+      </div>
+    </div>
+
+    <section class="hero" id="hero">
+      <p class="hero-pre handwritten">oyyeee/heyyy..drishti...</p>
+      <h1><em>come here</em></h1>
+      <p class="hero-sub">
+        since i can't write this in my own messy handwriting... here's something
+        i made instead ; )🤎
+      </p>
+      <div class="scroll-hint">
+        <span>sweetly scroll down, m'lady</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </section>
+
+    <section class="bridge">
+      <p class="bridge-text handwritten reveal">
+        if i could be there right now...<br />
+        here,,,is when i'd wrap my arms around you
+      </p>
+    </section>
+
+    <section class="moments" id="moments">
+      <div class="moments-heading">
+        <h2 class="reveal">when i'd hold you, embrace you</h2>
+        <p class="reveal">genuinely</p>
+      </div>
+      <div class="moments-grid">
+        <div class="moment-card reveal">
+          <div class="icon">🌠</div>
+          <h3>when you're soaring</h3>
+          <p>
+            When you're soaring through the skyyyy, my shooting star, when you
+            fly higher and higher in the sky, when you achieve something, when
+            you're absolutely the happiestttt ^^, I'd hold you and tell you how
+            incrEdibly happy I am for you.
+          </p>
+        </div>
+        <div class="moment-card reveal">
+          <div class="icon">🌿</div>
+          <h3>on the normal, simple days</h3>
+          <p>
+            eSPecially,, the normal ones,,, when you're just pushing through,
+            being quietly brave wiThout even realising it, doing your everyday
+            work, or studying, i reckon those hugs would matter the most
+          </p>
+        </div>
+        <div class="moment-card reveal">
+          <div class="icon">🌇</div>
+          <h3>after the looong, monotonic ones</h3>
+          <p>
+            i'd embrace you, say nothing at first,,,... then softly ask you
+            about your day..(if..that'd be okay..?). every little detail, I'd
+            listen to you so eagerly, : )) as if you're the most beautiful song
+            I've ever listened to(remember?). EVEN the (so called) boring ones.
+            <em>especially</em> the boring ones. Cz I value them more than I
+            myself realise.
+          </p>
+        </div>
+        <div class="moment-card reveal">
+          <div class="icon">🥀</div>
+          <h3>when it gets heavy...</h3>
+          <p>
+            I promise that I WOULD try my best, to make you feel warm, better.
+            not fix it, hmm?. just... <em>be there</em>. wrap you up in
+            something gentle until the weight lifts, even if a little, and I'll
+            stay nearby until you feel better..
+          </p>
+        </div>
+        <div class="moment-card reveal">
+          <div class="icon">🪞</div>
+          <h3>when you <em>forget</em> how incredible you are</h3>
+          <p>
+            I wish I could be right there, to look you in your..beautiful,
+            gorgeous eyes(<em
+              >this was to remind you how beautiful your eyes are</em
+            >), and make you realise how amazing you are. Because it's a lottt,
+            okay?? And even the strongest people need this reminder. 🫂
+          </p>
+        </div>
+        <div class="moment-card reveal">
+          <div class="icon">📍</div>
+          <h3>across these stupid miles</h3>
+          <p>
+            These mfing miles or kilometers won't let me be there,, not YET. But
+            every hug i owe you??? i'm keeping count ^^. all of them are
+            <em>yours</em>, and <em>yours only</em>. and one day I
+            <em>will</em> give them all at once, and gosh I'm going to cry in
+            that very moment.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="teddy-section" id="teddy">
+      <h2 class="reveal">in the meantime thoughhh,,,,</h2>
+      <p class="teddy-prompt reveal">hug this little guy X)</p>
+      <div class="teddy reveal" id="teddy-bear">
+        <div class="t-ear t-l"></div>
+        <div class="t-ear t-r"></div>
+
+        <div class="t-head" id="teddy-head">
+          <div class="t-eye t-l" id="eye-l"></div>
+          <div class="t-eye t-r" id="eye-r"></div>
+          <div class="t-muzzle">
+            <div class="t-nose"></div>
+            <div class="t-mouth"></div>
+          </div>
+          <div class="t-cheek t-l" id="cheek-l"></div>
+          <div class="t-cheek t-r" id="cheek-r"></div>
+        </div>
+
+        <div class="t-bow">
+          <div class="t-bow-knot"></div>
+        </div>
+
+        <div class="t-body">
+          <div class="t-belly"></div>
+        </div>
+
+        <div class="t-arm t-l" id="arm-l"></div>
+        <div class="t-arm t-r" id="arm-r"></div>
+
+        <div class="t-paw t-l"></div>
+        <div class="t-paw t-r"></div>
+      </div>
+      <div class="teddy-msg" id="teddy-msg">&nbsp;</div>
+      <div class="teddy-counter" id="teddy-counter"></div>
+    </section>
+
+    <section class="letter-section" id="letter">
+      <div class="letter reveal">
+        <div class="letter-stamp">SOMEDAY</div>
+        <h2>one and only, dearest drishti,</h2>
+        <p>
+          y'knowww wuttt? Peoples always talk about hugging someone when they're
+          sad, right? and yes, of course i'd be there for that, in a
+          heartbeatttt (poetically yes, but practically, as soon as possible).
+        </p>
+        <p>
+          but honestly?? i'd hug you on the
+          <strong>boring, normal, nothing soo special days</strong> even more.
+          the days when you're just getting through it. pushing through longgg
+          study hours, grinding the same routine. <strong>those</strong> are the
+          days that sit with me, the ordinary days, technically everyday..sigh
+        </p>
+        <p>
+          and when you feel low... when the world feels too heavy... i'd try my
+          <strong>ABSOLUTE</strong> best to make you feel
+          <strong>warmly, delicately, and gently cared for</strong>. not fix it,
+          like i said, just... <em>be there</em>,,, quietly, until it passes,
+          hmm?🫂
+        </p>
+        <p>
+          and the days when you don't believe in yourself? GOD, i
+          <strong>wish, i pray</strong> i could be there in person for those.
+          just to look into your eyes, and tell you that
+          <em
+            >you're <strong>SOOO</strong> much more than you
+            <strong>think</strong> you are.</em
+          >
+        </p>
+        <p>
+          but these bittttchhhhy miles... for now, they won't let me.
+          <strong>and it hurts... : (</strong> it hurts to not being able to
+          tell all this to you in person, to let you know how truly i mean it
+          all.
+        </p>
+        <p>
+          so unTIL then,,, this is me,, trying. Sending you every bit of warmth
+          i have,, across every <strong>STUPID</strong> kilometer between us. 🤎
+        </p>
+        <div class="letter-sign">— always yours, from too far away</div>
+      </div>
+    </section>
+
+    <section class="finale" id="finale">
+      <h2 class="reveal">some..more promises..</h2>
+      <ul class="promise-list reveal">
+        <li>
+          <span class="em">🎉</span> your wins?? I'll celebrate them
+          <strong>LOUDER</strong> than anyone
+        </li>
+        <li>
+          <span class="em">🍀</span> normal days?? I'll still show upp drishti,
+          like i always have been... <strong>EVERY. SINGLE. ONE.</strong> (thoda
+          issue aa raha hai idhar 😭 line wala)
+        </li>
+        <li>
+          <span class="em">🌇</span> long and exhausting days?? I'll sit, and
+          listen to every detail
+        </li>
+        <li>
+          <span class="em">🥀</span> low moments..? i'll... wrap you in warmth
+          until it passes, if..its okay..
+        </li>
+        <li>
+          <span class="em">🪞</span> self-doubt..? i'll... try to make you see
+          yourself the way i do, to make you realise how amazing you are, and
+          believe in yourself again.
+        </li>
+        <li>
+          <span class="em">🥸</span> These bitchy miles?? Scoff. They're
+          <strong>temporary</strong>. We're <strong>not</strong>.
+        </li>
+      </ul>
+      <p class="finale-closing reveal">
+        <strong>Every single hug i owe you?</strong> I'm keeping count X)<br />
+        and <strong>ONE</strong> day, when these miles
+        <strong>finally</strong> shrink...<br />
+        i'll give them all to you at once, and bear with me,,, I..know that i'm
+        going to cry. Badly X)... cz you've been there in not just the happy and
+        easy times, but also, the <strong>tough and difficult</strong> ones.
+      </p>
+      <div class="finale-sign reveal">
+        — for the foreseeable future, across EVERY, SINGLE , BITCHY MILE X) 🤎
+      </div>
+    </section>
+
+    <footer class="footer">made in silence...🫂</footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+      const bgMusic = document.getElementById("bg-music");
+      const musicToggle = document.getElementById("music-toggle");
+      const playIcon = document.getElementById("play-icon");
+      const volumeSlider = document.getElementById("volume-slider");
+      let isPlaying = false;
+      bgMusic.volume = 0.5;
+
+      function updatePlayIcon(playing) {
+        playIcon.innerHTML = playing ? "⏸" : "▶";
+        playIcon.style.marginLeft = playing ? "0" : "2px";
+      }
+
+      window.addEventListener("load", () => {
+        bgMusic
+          .play()
+          .then(() => {
+            isPlaying = true;
+            updatePlayIcon(true);
+          })
+          .catch(() => {
+            updatePlayIcon(false);
+            document.addEventListener(
+              "click",
+              function startMusic() {
+                if (!isPlaying) {
+                  bgMusic.play().then(() => {
+                    isPlaying = true;
+                    updatePlayIcon(true);
+                  });
+                }
+                document.removeEventListener("click", startMusic);
+              },
+              { once: true },
+            );
+          });
+      });
+
+      musicToggle.addEventListener("click", () => {
+        if (isPlaying) {
+          bgMusic.pause();
+          isPlaying = false;
+        } else {
+          bgMusic.play();
+          isPlaying = true;
+        }
+        updatePlayIcon(isPlaying);
+      });
+
+      volumeSlider.addEventListener("input", (e) => {
+        bgMusic.volume = e.target.value / 100;
+      });
+
+      const dot = document.getElementById("cursor-dot");
+      const ring = document.getElementById("cursor-ring");
+      const hoverTargets = "a, button, .moment-card, .teddy, .flip-card";
+      let mouseX = -100,
+        mouseY = -100;
+
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      const dotX = gsap.quickTo(dot, "left", {
+        duration: 0.15,
+        ease: "power3.out",
+      });
+      const dotY = gsap.quickTo(dot, "top", {
+        duration: 0.15,
+        ease: "power3.out",
+      });
+      const ringX = gsap.quickTo(ring, "left", {
+        duration: 0.35,
+        ease: "power2.out",
+      });
+      const ringY = gsap.quickTo(ring, "top", {
+        duration: 0.35,
+        ease: "power2.out",
+      });
+
+      document.addEventListener("mousemove", (e) => {
+        dotX(e.clientX);
+        dotY(e.clientY);
+        ringX(e.clientX);
+        ringY(e.clientY);
+      });
+
+      document.addEventListener("mouseover", (e) => {
+        if (e.target.closest(hoverTargets)) ring.classList.add("hovering");
+      });
+      document.addEventListener("mouseout", (e) => {
+        if (e.target.closest(hoverTargets)) ring.classList.remove("hovering");
+      });
+
+      document.addEventListener("mousedown", () => {
+        gsap.to(dot, { scale: 0.6, duration: 0.1 });
+        gsap.to(ring, { scale: 0.85, opacity: 0.6, duration: 0.1 });
+      });
+      document.addEventListener("mouseup", () => {
+        gsap.to(dot, { scale: 1, duration: 0.3, ease: "elastic.out(1,0.3)" });
+        gsap.to(ring, {
+          scale: 1,
+          opacity: 0.35,
+          duration: 0.3,
+          ease: "elastic.out(1,0.3)",
+        });
+      });
+
+      document.addEventListener("mouseleave", () => {
+        gsap.to([dot, ring], { opacity: 0, duration: 0.2 });
+      });
+      document.addEventListener("mouseenter", () => {
+        gsap.to(dot, { opacity: 1, duration: 0.2 });
+        gsap.to(ring, { opacity: 0.35, duration: 0.2 });
+      });
+
+      const heroTl = gsap.timeline({ delay: 0.3 });
+      heroTl
+        .to(".hero-pre", {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+        })
+        .from(".hero-pre", { y: 20, duration: 0.8, ease: "power2.out" }, "<")
+        .to(
+          ".hero h1",
+          { opacity: 1, duration: 1, ease: "power2.out" },
+          "-=0.3",
+        )
+        .from(".hero h1", { y: 30, duration: 1, ease: "power2.out" }, "<")
+        .to(
+          ".hero-sub",
+          { opacity: 1, duration: 0.8, ease: "power2.out" },
+          "-=0.4",
+        )
+        .from(".hero-sub", { y: 20, duration: 0.8, ease: "power2.out" }, "<")
+        .to(
+          ".scroll-hint",
+          { opacity: 0.6, duration: 0.6, ease: "power2.out" },
+          "-=0.2",
+        );
+
+      gsap.registerPlugin(ScrollTrigger);
+      document.querySelectorAll(".reveal").forEach((el) => {
+        gsap.to(el, {
+          scrollTrigger: {
+            trigger: el,
+            start: "top 88%",
+            toggleActions: "play none none none",
+          },
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+        });
+      });
+
+      gsap.utils.toArray(".moment-card").forEach((card, i) => {
+        gsap.to(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: "top 90%",
+          },
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          delay: i * 0.1,
+          ease: "power2.out",
+        });
+      });
+
+      const teddy = document.getElementById("teddy-bear");
+      const teddyHead = document.getElementById("teddy-head");
+      const teddyMsg = document.getElementById("teddy-msg");
+      const teddyCounter = document.getElementById("teddy-counter");
+      const cheekL = document.getElementById("cheek-l");
+      const cheekR = document.getElementById("cheek-r");
+      const armL = document.getElementById("arm-l");
+      const armR = document.getElementById("arm-r");
+
+      gsap.to(teddy, {
+        y: -6,
+        duration: 2,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+      });
+
+      gsap.to(armL, {
+        rotation: 14,
+        duration: 2.5,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+      });
+      gsap.to(armR, {
+        rotation: -14,
+        duration: 2.5,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+        delay: 0.3,
+      });
+
+      function updateEyes(cx, cy) {
+        const headRect = teddyHead.getBoundingClientRect();
+        const hx = headRect.left + headRect.width / 2;
+        const hy = headRect.top + headRect.height / 3;
+        const dx = Math.max(-1, Math.min(1, (cx - hx) / 250));
+        const dy = Math.max(-1, Math.min(1, (cy - hy) / 250));
+        gsap.to(".t-eye", {
+          x: dx * 3,
+          y: dy * 2,
+          duration: 0.3,
+          ease: "power2.out",
+        });
+      }
+      document.addEventListener("mousemove", (e) =>
+        updateEyes(e.clientX, e.clientY),
+      );
+      document.addEventListener(
+        "touchmove",
+        (e) => {
+          if (e.touches[0])
+            updateEyes(e.touches[0].clientX, e.touches[0].clientY);
+        },
+        { passive: true },
+      );
+
+      let hugCount = parseInt(localStorage.getItem("hugday-hugs") || "0");
+      updateCounter();
+
+      const messages = [
+        "that was...warm hehehe 🤎",
+        "one more...? pweaasee?🥺",
+        "don't.. let go just yet",
+        "sigh...i needed that",
+        "your hugs are the warmest...your majesty",
+        "sigh... can we.. please stay like this for a bit longer?",
+        "okayyy, one more then,,,(aussie accent heh XD)",
+        "NOTED. You give amazing hugs, cz i never hugged anyone else X) and never would wish/want to hug anyone else",
+      ];
+
+      const milestoneMessages = {
+        10: "10 already...!? hmmmmmmmmmmmmm 🤎",
+        25: "25 hugs. drishtiiiiiiiiiii!!! I might've lost count but my heart hasn't X) : )",
+        50: "50. okaaaaaaayyyyyy, you win. you're the best hugger ever X) You still were, with that first hug...",
+        100: "ONE HUNDRED HUGS... sighh... kya hi bolu...my life is beautiful 🤎(iske aage kuchh naii aayega, sachhmeee)",
+      };
+
+      function updateCounter() {
+        if (hugCount > 0) {
+          teddyCounter.textContent = hugCount + " hugs and counting 🤎";
+        }
+      }
+
+      function spawnFloatingHeart(x, y) {
+        const hearts = ["♡", "♥", "🤎", "🤍", "💛"];
+        const el = document.createElement("div");
+        el.className = "float-heart";
+        el.textContent = hearts[(Math.random() * hearts.length) | 0];
+        el.style.left = x + (Math.random() - 0.5) * 40 + "px";
+        el.style.top = y + "px";
+        teddy.parentElement.appendChild(el);
+
+        gsap.to(el, {
+          y: -(60 + Math.random() * 60),
+          x: (Math.random() - 0.5) * 50,
+          opacity: 1,
+          duration: 0.2,
+          ease: "power2.out",
+        });
+        gsap.to(el, {
+          y: -(120 + Math.random() * 60),
+          opacity: 0,
+          duration: 0.8,
+          delay: 0.3,
+          ease: "power2.in",
+          onComplete: () => el.remove(),
+        });
+      }
+
+      function hugTeddy(e) {
+        hugCount++;
+        localStorage.setItem("hugday-hugs", hugCount);
+        updateCounter();
+
+        gsap
+          .timeline()
+          .to(teddy, {
+            scaleY: 0.88,
+            scaleX: 1.12,
+            duration: 0.08,
+            ease: "power2.in",
+          })
+          .to(teddy, {
+            scaleY: 1.06,
+            scaleX: 0.94,
+            duration: 0.12,
+          })
+          .to(teddy, {
+            scaleY: 1,
+            scaleX: 1,
+            duration: 0.5,
+            ease: "elastic.out(1, 0.3)",
+          });
+
+        // Arms hug inward
+        gsap.to(armL, { rotation: 40, duration: 0.2 });
+        gsap.to(armR, { rotation: -40, duration: 0.2 });
+        setTimeout(() => {
+          gsap.to(armL, {
+            rotation: 18,
+            duration: 0.6,
+            ease: "elastic.out(1,0.4)",
+          });
+          gsap.to(armR, {
+            rotation: -18,
+            duration: 0.6,
+            ease: "elastic.out(1,0.4)",
+          });
+        }, 300);
+
+        const blushIntensity = Math.min(0.25 + hugCount * 0.008, 0.6);
+        gsap.to([cheekL, cheekR], {
+          background: `rgba(232, 160, 160, ${blushIntensity})`,
+          duration: 0.3,
+        });
+
+        const rect = teddy.getBoundingClientRect();
+        const hx =
+          rect.left +
+          rect.width / 2 -
+          teddy.parentElement.getBoundingClientRect().left;
+        const hy = rect.top - teddy.parentElement.getBoundingClientRect().top;
+        for (let i = 0; i < 3; i++) {
+          setTimeout(() => spawnFloatingHeart(hx, hy), i * 80);
+        }
+
+        const msg =
+          hugCount >= 100
+            ? milestoneMessages[100]
+            : milestoneMessages[hugCount] ||
+              messages[(Math.random() * messages.length) | 0];
+        gsap.to(teddyMsg, {
+          opacity: 0,
+          duration: 0.1,
+          onComplete: () => {
+            teddyMsg.textContent = msg;
+            gsap.to(teddyMsg, { opacity: 1, duration: 0.3 });
+          },
+        });
+      }
+
+      teddy.addEventListener("click", hugTeddy);
+      teddy.addEventListener(
+        "touchstart",
+        (e) => {
+          e.preventDefault();
+          hugTeddy(e);
+        },
+        { passive: false },
+      );
+    </script>
+  </body>
+</html>
