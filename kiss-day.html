@@ -1,0 +1,1157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happiestt Ki- Dayyy</title>
+    <meta
+      name="description"
+      content="welllllllllllllllllllllllllllllllllllllllllllll X)))."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Caveat:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #1a1118;
+        --bg-alt: #211820;
+        --surface: rgba(255, 255, 255, 0.06);
+        --text: #f5e6d8;
+        --text-soft: #b8a090;
+        --accent: #e8956a;
+        --accent-soft: #d4785a;
+        --coral: #e87c6a;
+        --lavender: #a888c4;
+        --warm-pink: #c97b8b;
+        --gold: #d4a86a;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+        cursor: none;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      /* ─── Custom Cursor ─── */
+      .cursor-dot,
+      .cursor-ring {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 99999;
+        border-radius: 50%;
+        will-change: transform;
+      }
+      .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        margin: -4px 0 0 -4px;
+      }
+      .cursor-ring {
+        width: 40px;
+        height: 40px;
+        border: 1.5px solid var(--accent);
+        opacity: 0.35;
+        margin: -20px 0 0 -20px;
+        transition:
+          width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+          height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+          margin 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+          opacity 0.25s;
+      }
+      .cursor-ring.hovering {
+        width: 60px;
+        height: 60px;
+        margin: -30px 0 0 -30px;
+        opacity: 0.5;
+        background: rgba(232, 149, 106, 0.06);
+      }
+      @media (hover: none), (pointer: coarse) {
+        body {
+          cursor: auto;
+        }
+        .cursor-dot,
+        .cursor-ring {
+          display: none !important;
+        }
+      }
+
+      .serif,
+      h1,
+      h2,
+      h3 {
+        font-family: "Instrument Serif", serif;
+        font-weight: 400;
+      }
+      .handwritten {
+        font-family: "Caveat", cursive;
+      }
+
+      /* ═══════════════════════════════════════════
+       ANIMATED BACKGROUND
+    ═══════════════════════════════════════════ */
+      .bg-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .gradient-orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.18;
+        pointer-events: none;
+        z-index: 0;
+        mix-blend-mode: screen;
+      }
+      .orb-1 {
+        width: 600px;
+        height: 600px;
+        top: -10%;
+        right: -5%;
+        background: radial-gradient(circle, var(--coral), transparent);
+        animation: orbDrift1 12s ease-in-out infinite;
+      }
+      .orb-2 {
+        width: 500px;
+        height: 500px;
+        bottom: 10%;
+        left: -5%;
+        background: radial-gradient(circle, var(--lavender), transparent);
+        animation: orbDrift2 15s ease-in-out infinite;
+      }
+      .orb-3 {
+        width: 450px;
+        height: 450px;
+        top: 40%;
+        left: 30%;
+        background: radial-gradient(circle, var(--warm-pink), transparent);
+        animation: orbDrift3 18s ease-in-out infinite;
+      }
+      .orb-4 {
+        width: 350px;
+        height: 350px;
+        top: 20%;
+        right: 30%;
+        background: radial-gradient(circle, var(--gold), transparent);
+        animation: orbDrift4 14s ease-in-out infinite;
+      }
+
+      @keyframes orbDrift1 {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+          opacity: 0.18;
+        }
+        33% {
+          transform: translate(-80px, 60px) scale(1.15);
+          opacity: 0.25;
+        }
+        66% {
+          transform: translate(40px, -30px) scale(0.95);
+          opacity: 0.15;
+        }
+      }
+      @keyframes orbDrift2 {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+          opacity: 0.15;
+        }
+        50% {
+          transform: translate(100px, -80px) scale(1.2);
+          opacity: 0.25;
+        }
+      }
+      @keyframes orbDrift3 {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        40% {
+          transform: translate(-60px, 50px) scale(1.1);
+        }
+        80% {
+          transform: translate(70px, -40px) scale(0.9);
+        }
+      }
+      @keyframes orbDrift4 {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+          opacity: 0.12;
+        }
+        50% {
+          transform: translate(-50px, 70px) scale(1.15);
+          opacity: 0.22;
+        }
+      }
+
+      /* Floating emoji particles */
+      .float-particle {
+        position: fixed;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0;
+        animation: emojiFloat linear infinite;
+      }
+      @keyframes emojiFloat {
+        0% {
+          transform: translateY(0) rotate(0deg) scale(1);
+          opacity: 0;
+        }
+        8% {
+          opacity: 0.15;
+        }
+        50% {
+          transform: translateY(-50vh) rotate(180deg) scale(0.9);
+          opacity: 0.12;
+        }
+        85% {
+          opacity: 0.08;
+        }
+        100% {
+          transform: translateY(-105vh) rotate(360deg) scale(0.6);
+          opacity: 0;
+        }
+      }
+
+      /* ═══════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════ */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+        padding: 2rem;
+      }
+      .hero-pre {
+        font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+        color: var(--text-soft);
+        opacity: 0;
+        margin-bottom: 0.5rem;
+        animation: fadeInUp 1s 0.3s forwards;
+      }
+      .hero h1 {
+        font-size: clamp(3rem, 9vw, 6rem);
+        color: var(--text);
+        line-height: 1.1;
+        opacity: 0;
+        letter-spacing: -0.02em;
+        animation: fadeInUp 1s 0.6s forwards;
+      }
+      .hero h1 em {
+        font-style: italic;
+        color: var(--accent);
+        display: inline-block;
+      }
+      .hero-sub {
+        font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+        color: var(--text-soft);
+        max-width: 520px;
+        margin-top: 1.5rem;
+        opacity: 0;
+        line-height: 1.8;
+        animation: fadeInUp 1s 0.9s forwards;
+      }
+      .hero-emoji {
+        font-size: clamp(3rem, 8vw, 5rem);
+        opacity: 0;
+        animation:
+          fadeInUp 1s 1.2s forwards,
+          gentleBounce 3s 2s infinite;
+        margin-top: 1.5rem;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes gentleBounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .scroll-hint {
+        position: absolute;
+        bottom: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0;
+        animation: fadeInUp 1s 1.5s forwards;
+      }
+      .scroll-hint span {
+        font-family: "Caveat", cursive;
+        font-size: 1rem;
+        color: var(--text-soft);
+      }
+      .scroll-arrow {
+        width: 20px;
+        height: 20px;
+        border-bottom: 2px solid var(--accent);
+        border-right: 2px solid var(--accent);
+        transform: rotate(45deg);
+        animation: bounceArrow 2s ease infinite;
+      }
+      @keyframes bounceArrow {
+        0%,
+        100% {
+          transform: rotate(45deg) translateY(0);
+        }
+        50% {
+          transform: rotate(45deg) translateY(6px);
+        }
+      }
+
+      /* ═══════════════════════════════════════════
+       SECTION COMMONS
+    ═══════════════════════════════════════════ */
+      section {
+        position: relative;
+        z-index: 2;
+        padding: 5rem 2rem;
+      }
+      .section-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .section-heading {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .section-heading h2 {
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        margin-bottom: 0.5rem;
+      }
+      .section-heading p {
+        color: var(--text-soft);
+        font-size: 1rem;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      /* ═══════════════════════════════════════════
+       BRIDGE TEXT
+    ═══════════════════════════════════════════ */
+      .bridge {
+        min-height: 40vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 4rem 2rem;
+      }
+      .bridge-text {
+        font-size: clamp(1.4rem, 3vw, 2.2rem);
+        color: var(--text-soft);
+        line-height: 1.8;
+        max-width: 600px;
+        font-family: "Instrument Serif", serif;
+      }
+      .bridge-text em {
+        color: var(--accent);
+        font-style: italic;
+      }
+
+      /* ═══════════════════════════════════════════
+       PHOTO GALLERY
+    ═══════════════════════════════════════════ */
+      .gallery-section {
+        padding: 6rem 2rem;
+      }
+      .gallery-grid {
+        columns: 3;
+        column-gap: 1.2rem;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .gallery-card {
+        break-inside: avoid;
+        margin-bottom: 1.2rem;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        background: var(--surface);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition:
+          transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+          box-shadow 0.4s,
+          border-color 0.3s;
+      }
+      .gallery-card:hover {
+        transform: translateY(-6px) scale(1.02);
+        box-shadow:
+          0 20px 60px rgba(232, 149, 106, 0.15),
+          0 0 30px rgba(232, 149, 106, 0.08);
+        border-color: rgba(232, 149, 106, 0.3);
+      }
+      .gallery-card img {
+        width: 100%;
+        display: block;
+        transition: transform 0.6s ease;
+      }
+      .gallery-card:hover img {
+        transform: scale(1.05);
+      }
+      .gallery-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2.5rem 1rem 1rem;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+        color: #fff;
+        font-family: "Caveat", cursive;
+        font-size: 1.15rem;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+      }
+      .gallery-card:hover .gallery-caption {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ─── Lightbox ─── */
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 100000;
+        background: rgba(10, 8, 6, 0.95);
+        backdrop-filter: blur(30px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1.5rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+        cursor: none;
+      }
+      .lightbox.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .lightbox img {
+        max-width: 90vw;
+        max-height: 80vh;
+        border-radius: 16px;
+        box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
+        transform: scale(0.9);
+        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .lightbox.active img {
+        transform: scale(1);
+      }
+      .lightbox-close {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+      }
+      .lightbox-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1) rotate(90deg);
+      }
+      .lightbox-caption {
+        font-family: "Caveat", cursive;
+        font-size: 1.4rem;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .lightbox-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #fff;
+        font-size: 1.3rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+      }
+      .lightbox-nav:hover {
+        background: rgba(255, 255, 255, 0.18);
+      }
+      .lightbox-nav.prev {
+        left: 2rem;
+      }
+      .lightbox-nav.next {
+        right: 2rem;
+      }
+
+      /* ═══════════════════════════════════════════
+       VIDEO SECTION
+    ═══════════════════════════════════════════ */
+      .video-section {
+        padding: 4rem 2rem 6rem;
+        text-align: center;
+      }
+      .video-wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        border: 2px solid rgba(232, 149, 106, 0.3);
+        box-shadow:
+          0 20px 60px rgba(232, 149, 106, 0.1),
+          0 0 40px rgba(201, 123, 139, 0.08);
+        animation: videoGlow 4s ease-in-out infinite;
+      }
+      .video-wrapper video {
+        width: 100%;
+        display: block;
+        border-radius: 18px;
+      }
+      @keyframes videoGlow {
+        0%,
+        100% {
+          box-shadow:
+            0 20px 60px rgba(232, 149, 106, 0.1),
+            0 0 40px rgba(201, 123, 139, 0.08);
+        }
+        50% {
+          box-shadow:
+            0 20px 80px rgba(232, 149, 106, 0.2),
+            0 0 60px rgba(201, 123, 139, 0.15);
+        }
+      }
+
+      /* ═══════════════════════════════════════════
+       MESSAGE / CLOSING
+    ═══════════════════════════════════════════ */
+      .closing-section {
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 6rem 2rem;
+      }
+      .closing-section h2 {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        margin-bottom: 1rem;
+      }
+      .closing-section h2 em {
+        color: var(--accent);
+        font-style: italic;
+      }
+      .closing-text {
+        max-width: 520px;
+        color: var(--text-soft);
+        font-size: 1.05rem;
+        line-height: 1.9;
+      }
+      .closing-emoji {
+        font-size: 3rem;
+        margin-top: 2rem;
+        animation: gentleBounce 3s ease infinite;
+      }
+
+      /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+      .footer {
+        text-align: center;
+        padding: 3rem 2rem;
+        font-size: 0.85rem;
+        color: var(--text-soft);
+        opacity: 0.5;
+      }
+
+      /* ═══════════════════════════════════════════
+       SCROLL REVEAL
+    ═══════════════════════════════════════════ */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ═══════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════ */
+      @media (max-width: 900px) {
+        .gallery-grid {
+          columns: 2;
+        }
+      }
+      @media (max-width: 600px) {
+        section {
+          padding: 3rem 1.25rem;
+        }
+        .gallery-grid {
+          columns: 1;
+          column-gap: 0;
+        }
+        .gallery-section {
+          padding: 4rem 1.25rem;
+        }
+        .lightbox-nav {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- Animated Background -->
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    <div class="gradient-orb orb-4"></div>
+    <canvas class="bg-canvas" id="bgCanvas"></canvas>
+
+    <!-- ═══ HERO ═══ -->
+    <section class="hero">
+      <p class="hero-pre handwritten">meowie-meow...</p>
+      <h1>Happy <em>Kiss Day</em></h1>
+      <p class="hero-sub">Hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm...........</p>
+      <div class="hero-emoji">🐾</div>
+    </section>
+
+    <!-- ═══ BRIDGE ═══ -->
+    <section class="bridge">
+      <p class="bridge-text reveal">
+        Sinceee today is kiss dayyy, of OUR week I'd say, cz valentines wagerah
+        kya hi hai XD<br />
+        Sooo,,, i thought of making something differenttt heheh
+      </p>
+    </section>
+
+    <!-- ═══ PHOTO GALLERY ═══ -->
+    <section class="gallery-section">
+      <div class="section-heading reveal">
+        <h2>The Furry kisssieee Galleryy 😬</h2>
+        <p>every photo a masterpiece. every pose, intentional. probably.</p>
+      </div>
+      <div class="gallery-grid" id="galleryGrid">
+        5
+        <!-- Photos injected by JS -->
+      </div>
+    </section>
+
+    <!-- ═══ PRETTY FURRY SOULS GALLERY ═══ -->
+    <section class="gallery-section">
+      <div class="section-heading reveal">
+        <h2>Pretty Furry souls</h2>
+        <p>✨✨✨</p>
+      </div>
+      <div class="gallery-grid" id="prettyGalleryGrid">
+        <!-- Photos injected by JS -->
+      </div>
+    </section>
+
+    <!-- ═══ VIDEO SECTION ═══ -->
+    <section class="video-section">
+      <div class="section-heading reveal">
+        <h2>Someone says that its always the damns eyes hmmm?</h2>
+        <p>Heheheheeh since you love eyes sooo muchhh, hereee ^^</p>
+      </div>
+      <div class="video-wrapper reveal">
+        <video controls loop playsinline preload="metadata">
+          <source
+            src="src/images/ginger/VID-20260116-WA0011.mp4"
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </section>
+
+    <!-- ═══ CLOSING ═══ -->
+    <section class="closing-section">
+      <h2 class="reveal">They deserve <em>all</em> the love</h2>
+      <p class="closing-text reveal">
+        You...sighhh urghhh X))) You can kiss Gingeerrrrr.
+        <br />ANDDDDDDDD,,,,,,,there's moreee hehe. its 17:17 rn(aaahh i got 3
+        seconds lateee to take the Screenshott!!)(I'm making this, in lab, cz i
+        am donw with my work, and i studied a little too. you are missing from
+        me rn..sigh. Since i cant leave the lab, i thought of continuing working
+        on this 🫂 I'm sorry drishti...sigh i hope you understand why i was
+        melancholic today.. im sorry..) sigh ye pura nahi hone wala ab, i'll
+        complete it ghar jaakar ^^
+        <img
+          src="src/images//ginger/time.png"
+          alt="17:17"
+          style="
+            width: 45px;
+            vertical-align: middle;
+            border-radius: 6px;
+            margin-left: 6px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+          "
+        />
+      </p>
+    </section>
+
+    <!-- ═══ LIGHTBOX ═══ -->
+    <div class="lightbox" id="lightbox">
+      <button class="lightbox-close" id="lightboxClose">✕</button>
+      <button class="lightbox-nav prev" id="lightboxPrev">‹</button>
+      <button class="lightbox-nav next" id="lightboxNext">›</button>
+      <img src="" alt="" id="lightboxImg" />
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+
+    <script>
+      /* ═══ Photo Data ═══ */
+      const photos = [
+        {
+          src: "src/images/ginger/IMG_20250910_150558430_AE.jpg",
+          caption: "The Royal Portrait",
+        },
+        {
+          src: "src/images/ginger/IMG_20251015_215419362_AE.jpg",
+          caption: "Late Night Contemplations",
+        },
+        {
+          src: "src/images/ginger/IMG_20251028_212718549.jpg",
+          caption: "The Look of Judgement",
+        },
+        {
+          src: "src/images/ginger/IMG_20251029_192558814.jpg",
+          caption: "The Classic Side-Eye",
+        },
+        {
+          src: "src/images/ginger/IMG_20251029_192606734.jpg",
+          caption: "Serving Looks",
+        },
+        {
+          src: "src/images/ginger/IMG-20251107-WA0024.jpg",
+          caption: "Casual Perfection",
+        },
+        {
+          src: "src/images/ginger/IMG-20251107-WA0026.jpg",
+          caption: "Chief Napping Officer",
+        },
+        {
+          src: "src/images/ginger/IMG_20251117_163751161_HDR_AE.jpg",
+          caption: "Golden Hour",
+        },
+        {
+          src: "src/images/ginger/IMG_20251130_083407060_AE.jpg",
+          caption: "Morning Majesty",
+        },
+        {
+          src: "src/images/ginger/IMG_20251213_114444495_AE.jpg",
+          caption: "Unbothered",
+        },
+        {
+          src: "src/images/ginger/IMG_20251216_170208561_HDR_AE.jpg",
+          caption: "The Thinker",
+        },
+        {
+          src: "src/images/ginger/20260106_074529.jpg",
+          caption: "New Year, Same Energy",
+        },
+        {
+          src: "src/images/ginger/20260110_183711.jpg",
+          caption: "Elegance Personified",
+        },
+        {
+          src: "src/images/ginger/20260110_183722.jpg",
+          caption: "Living Legend",
+        },
+        {
+          src: "src/images/ginger/20260113_215111.jpg",
+          caption: "Night Owl Vibes",
+        },
+        {
+          src: "src/images/ginger/20260130_072923.jpg",
+          caption: "Early Bird Gets the Treats",
+        },
+        {
+          src: "src/images/ginger/20260201_204231.jpg",
+          caption: "Too Cool For You",
+        },
+        {
+          src: "src/images/ginger/20260201_210641.jpg",
+          caption: "The Grand Pose",
+        },
+      ];
+
+      const prettyPhotos = [
+        { src: "src/images/Pretty/20260119_084903.jpg", caption: "✨" },
+        { src: "src/images/Pretty/20260119_085012.jpg", caption: "✨" },
+        { src: "src/images/Pretty/20260119_085034.jpg", caption: "✨" },
+        { src: "src/images/Pretty/20260121_132918.jpg", caption: "✨" },
+        { src: "src/images/Pretty/20260121_165007.jpg", caption: "✨" },
+        { src: "src/images/Pretty/20260123_133022.jpg", caption: "✨" },
+        { src: "src/images/Pretty/20260127_092421.jpg", caption: "✨" },
+        { src: "src/images/Pretty/20260127_092422.jpg", caption: "✨" },
+        { src: "src/images/Pretty/20260131_162106.jpg", caption: "✨" },
+        { src: "src/images/Pretty/IMG-20251127-WA0032.jpg", caption: "✨" },
+        { src: "src/images/Pretty/IMG-20260125-WA0004.jpeg", caption: "✨" },
+        {
+          src: "src/images/Pretty/IMG_20250930_161245927_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251011_174315438_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251015_151006501_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251015_163231272_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251015_163236559_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251015_165539810_HDR_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251015_165542842_HDR_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251016_131137463_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251017_110345890_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251021_161205299_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251021_172830859_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251021_172839789_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251103_161039255_HDR_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251110_182807158_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251116_160548598_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251127_160128778_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251127_160157405_HDR_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251127_180739333_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251202_155921850_HDR_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251202_155928679_HDR_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251213_204504418_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251214_080443321_HDR_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251214_080515593_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251215_132528455_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251215_133230015_AE.jpg",
+          caption: "✨",
+        },
+        {
+          src: "src/images/Pretty/IMG_20251216_115009001_HDR_AE.jpg",
+          caption: "✨",
+        },
+        { src: "src/images/Pretty/IMG_20260104_081519_453.jpg", caption: "✨" },
+      ];
+
+      /* ═══ Build Gallery ═══ */
+      /* ═══ Build Gallery ═══ */
+      const grid = document.getElementById("galleryGrid");
+      photos.forEach((photo, i) => {
+        const card = document.createElement("div");
+        card.className = "gallery-card reveal";
+        card.style.transitionDelay = `${Math.min(i * 0.04, 0.5)}s`;
+        card.innerHTML = `
+        <img src="${photo.src}" alt="${photo.caption}" loading="lazy" />
+        <div class="gallery-caption">${photo.caption}</div>
+      `;
+        card.addEventListener("click", () => openLightbox(i, photos));
+        grid.appendChild(card);
+      });
+
+      /* ═══ Build Pretty Gallery ═══ */
+      const prettyGrid = document.getElementById("prettyGalleryGrid");
+      prettyPhotos.forEach((photo, i) => {
+        const card = document.createElement("div");
+        card.className = "gallery-card reveal";
+        card.style.transitionDelay = `${Math.min(i * 0.04, 0.5)}s`;
+        card.innerHTML = `
+        <img src="${photo.src}" alt="${photo.caption}" loading="lazy" />
+        <div class="gallery-caption">${photo.caption}</div>
+      `;
+        card.addEventListener("click", () => openLightbox(i, prettyPhotos));
+        prettyGrid.appendChild(card);
+      });
+
+      /* ═══ Lightbox with Navigation ═══ */
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImg = document.getElementById("lightboxImg");
+      const lightboxCaption = document.getElementById("lightboxCaption");
+      let currentLightboxIndex = 0;
+      let currentGallery = photos;
+
+      function openLightbox(index, gallery) {
+        currentLightboxIndex = index;
+        currentGallery = gallery || photos;
+        updateLightbox();
+        lightbox.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+      function updateLightbox() {
+        const photo = currentGallery[currentLightboxIndex];
+        lightboxImg.src = photo.src;
+        lightboxImg.alt = photo.caption;
+        lightboxCaption.textContent = photo.caption;
+      }
+      function closeLightbox() {
+        lightbox.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+      function nextPhoto() {
+        currentLightboxIndex =
+          (currentLightboxIndex + 1) % currentGallery.length;
+        updateLightbox();
+      }
+      function prevPhoto() {
+        currentLightboxIndex =
+          (currentLightboxIndex - 1 + currentGallery.length) %
+          currentGallery.length;
+        updateLightbox();
+      }
+
+      document
+        .getElementById("lightboxClose")
+        .addEventListener("click", closeLightbox);
+      document
+        .getElementById("lightboxNext")
+        .addEventListener("click", nextPhoto);
+      document
+        .getElementById("lightboxPrev")
+        .addEventListener("click", prevPhoto);
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (!lightbox.classList.contains("active")) return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowRight") nextPhoto();
+        if (e.key === "ArrowLeft") prevPhoto();
+      });
+
+      /* ═══ Custom Cursor ═══ */
+      const dot = document.getElementById("cursorDot");
+      const ring = document.getElementById("cursorRing");
+      let mouseX = 0,
+        mouseY = 0;
+      let ringX = 0,
+        ringY = 0;
+
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+      });
+
+      function animateRing() {
+        ringX += (mouseX - ringX) * 0.15;
+        ringY += (mouseY - ringY) * 0.15;
+        ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
+        requestAnimationFrame(animateRing);
+      }
+      animateRing();
+
+      document
+        .querySelectorAll("a, button, .gallery-card, .video-wrapper")
+        .forEach((el) => {
+          el.addEventListener("mouseenter", () =>
+            ring.classList.add("hovering"),
+          );
+          el.addEventListener("mouseleave", () =>
+            ring.classList.remove("hovering"),
+          );
+        });
+
+      /* ═══ Floating Emoji Particles ═══ */
+      function createFloatingParticles() {
+        const emojis = ["🐾", "🧡", "✨", "🐱", "🐶", "🐰", "🐦", "🐠"];
+        for (let i = 0; i < 18; i++) {
+          const el = document.createElement("div");
+          el.className = "float-particle";
+          el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          el.style.left = Math.random() * 100 + "%";
+          el.style.bottom = "-20px";
+          el.style.fontSize = 0.7 + Math.random() * 0.9 + "rem";
+          el.style.animationDuration = 14 + Math.random() * 20 + "s";
+          el.style.animationDelay = Math.random() * 18 + "s";
+          document.body.appendChild(el);
+        }
+      }
+      createFloatingParticles();
+
+      /* ═══ Background Canvas (warm sparkles) ═══ */
+      const canvas = document.getElementById("bgCanvas");
+      const ctx = canvas.getContext("2d");
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      const sparkles = [];
+      for (let i = 0; i < 50; i++) {
+        sparkles.push({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          size: 0.5 + Math.random() * 1.5,
+          speed: 0.15 + Math.random() * 0.4,
+          opacity: Math.random(),
+          opacityDir: Math.random() > 0.5 ? 1 : -1,
+        });
+      }
+
+      function drawSparkles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        sparkles.forEach((s) => {
+          s.opacity += s.opacityDir * 0.006;
+          if (s.opacity >= 1 || s.opacity <= 0.05) s.opacityDir *= -1;
+          s.y -= s.speed;
+          if (s.y < -10) {
+            s.y = canvas.height + 10;
+            s.x = Math.random() * canvas.width;
+          }
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(232, 200, 170, ${s.opacity * 0.25})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(drawSparkles);
+      }
+      drawSparkles();
+
+      /* ═══ Scroll Reveal ═══ */
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+      );
+
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>
