@@ -455,6 +455,55 @@
         transform: translateY(0);
       }
 
+      /* ─── Special Kishu Card ─── */
+      .gallery-card.special-kishu {
+        overflow: visible;
+        border: 2px solid var(--warm-pink);
+        box-shadow: 0 0 30px rgba(201, 123, 139, 0.4);
+        z-index: 10;
+      }
+      .gallery-card.special-kishu img {
+        border-radius: 14px;
+      }
+      .flower-deco {
+        position: absolute;
+        font-size: 1.8rem;
+        z-index: 5;
+        pointer-events: none;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        animation: flowerFloat 3s ease-in-out infinite;
+      }
+      .flower-deco.top-left {
+        top: -15px;
+        left: -15px;
+        animation-delay: 0s;
+      }
+      .flower-deco.top-right {
+        top: -15px;
+        right: -15px;
+        animation-delay: 0.5s;
+      }
+      .flower-deco.bottom-left {
+        bottom: -15px;
+        left: -15px;
+        animation-delay: 1s;
+      }
+      .flower-deco.bottom-right {
+        bottom: -15px;
+        right: -15px;
+        animation-delay: 1.5s;
+      }
+
+      @keyframes flowerFloat {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-6px) rotate(10deg);
+        }
+      }
+
       /* ─── Lightbox ─── */
       .lightbox {
         position: fixed;
@@ -769,6 +818,11 @@
       /* ═══ Photo Data ═══ */
       const photos = [
         {
+          src: "src/images/Kishu/Kishu.jpg",
+          caption: "Kishu... 🌸",
+          special: true,
+        },
+        {
           src: "src/images/ginger/IMG_20250910_150558430_AE.jpg",
           caption: "The Royal Portrait",
         },
@@ -962,15 +1016,29 @@
       ];
 
       /* ═══ Build Gallery ═══ */
-      /* ═══ Build Gallery ═══ */
       const grid = document.getElementById("galleryGrid");
       photos.forEach((photo, i) => {
         const card = document.createElement("div");
         card.className = "gallery-card reveal";
+        if (photo.special) {
+          card.classList.add("special-kishu");
+        }
         card.style.transitionDelay = `${Math.min(i * 0.04, 0.5)}s`;
+
+        let extraDecorations = "";
+        if (photo.special) {
+          extraDecorations = `
+                <div class="flower-deco top-left">🌸</div>
+                <div class="flower-deco top-right">🌺</div>
+                <div class="flower-deco bottom-left">🌷</div>
+                <div class="flower-deco bottom-right">🌹</div>
+            `;
+        }
+
         card.innerHTML = `
         <img src="${photo.src}" alt="${photo.caption}" loading="lazy" />
         <div class="gallery-caption">${photo.caption}</div>
+        ${extraDecorations}
       `;
         card.addEventListener("click", () => openLightbox(i, photos));
         grid.appendChild(card);
