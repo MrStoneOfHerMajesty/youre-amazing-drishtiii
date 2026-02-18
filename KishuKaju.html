@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kishu & Kaju — Forever in Our Hearts</title>
+    <title>Kishu & Kaju Forever in Our Hearts</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap"
       rel="stylesheet"
@@ -25,6 +25,7 @@
         --deep: #3d2b1f;
         --soft-black: #1a1209;
         --white-fur: #f5f2ee;
+        --accent: #c07a5c;
       }
 
       html {
@@ -635,9 +636,117 @@
         color: var(--earth);
         letter-spacing: 0.02em;
       }
+
+      .video-wrapper {
+        margin-top: 4rem;
+        display: flex;
+        justify-content: center;
+        padding: 0 1rem;
+      }
+
+      .video-wrapper iframe {
+        width: 100%;
+        max-width: 800px;
+        aspect-ratio: 16 / 9;
+        border-radius: 4px; /* Matches gallery-item */
+        box-shadow: 0 10px 30px rgba(139, 111, 94, 0.2);
+        border: none;
+      }
+
+      /* Music Player Styles */
+      .music-player {
+        position: fixed;
+        top: 24px;
+        left: 24px;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(250, 246, 240, 0.7);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(192, 122, 92, 0.25);
+        border-radius: 50px;
+        padding: 10px 20px;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      }
+      .music-player:hover {
+        background: rgba(250, 246, 240, 0.9);
+        border-color: rgba(192, 122, 92, 0.5);
+        box-shadow: 0 6px 28px rgba(0, 0, 0, 0.1);
+      }
+      .music-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(192, 122, 92, 0.12);
+        border: 1px solid rgba(192, 122, 92, 0.3);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        color: var(--accent);
+      }
+      .music-btn:hover {
+        transform: scale(1.1);
+        background: rgba(192, 122, 92, 0.2);
+        box-shadow: 0 0 12px rgba(192, 122, 92, 0.2);
+      }
+      .volume-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+        transition: all 0.4s ease;
+      }
+      .music-player:hover .volume-container {
+        opacity: 1;
+        width: 110px;
+        padding-right: 4px;
+      }
+      .volume-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 75px;
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(192, 122, 92, 0.15);
+        outline: none;
+        cursor: pointer;
+      }
+      .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+        box-shadow: 0 0 8px rgba(192, 122, 92, 0.4);
+      }
     </style>
   </head>
   <body>
+    <div class="music-player">
+      <button class="music-btn" id="music-toggle" title="Play/Pause">
+        <span id="play-icon" style="margin-left: 2px">▶</span>
+      </button>
+      <div class="volume-container">
+        <span style="font-size: 1rem; color: var(--accent)">🔊</span>
+        <input
+          type="range"
+          class="volume-slider"
+          id="volume-slider"
+          min="0"
+          max="100"
+          value="50"
+        />
+      </div>
+    </div>
     <audio id="bg-music" src="src/chiraiyya.mp3" loop></audio>
     <section class="hero">
       <div class="paws" id="paws"></div>
@@ -740,6 +849,26 @@
           <img src="src/images/Kishu/kishu13.jpg" alt="Kishu 13" />
         </div>
       </div>
+
+      <div class="video-wrapper">
+        <iframe
+          width="1071"
+          height="602"
+          src="https://www.youtube.com/embed/kqggW34s9eg"
+          title="Just how fast the night changes |"
+          frameborder="0"
+          allow="
+            accelerometer;
+            autoplay;
+            clipboard-write;
+            encrypted-media;
+            gyroscope;
+            picture-in-picture;
+            web-share;
+          "
+          allowfullscreen
+        ></iframe>
+      </div>
     </section>
 
     <section class="tribute-section">
@@ -753,7 +882,7 @@
       </p>
       <div class="hearts">🤍 🖤 🤍</div>
     </section>
-
+    
     <footer>
       <span class="footer-names">Kishu &amp; Kaju</span>
       Forever Beloved
@@ -790,18 +919,69 @@
         .querySelectorAll("[data-observe]")
         .forEach((el) => observer.observe(el));
 
-      // Background Music Autoplay with Fallback
       const bgMusic = document.getElementById("bg-music");
+      const musicToggle = document.getElementById("music-toggle");
+      const playIcon = document.getElementById("play-icon");
+      const volumeSlider = document.getElementById("volume-slider");
+      let isPlaying = false;
+
+      function updateIcon(playing) {
+        if (playing) {
+          playIcon.textContent = "⏸";
+          playIcon.style.marginLeft = "0px";
+        } else {
+          playIcon.textContent = "▶";
+          playIcon.style.marginLeft = "2px";
+        }
+      }
+
+      function toggleMusic() {
+        if (bgMusic.paused) {
+          bgMusic
+            .play()
+            .then(() => {
+              isPlaying = true;
+              updateIcon(true);
+            })
+            .catch(console.error);
+        } else {
+          bgMusic.pause();
+          isPlaying = false;
+          updateIcon(false);
+        }
+      }
+
       if (bgMusic) {
         bgMusic.volume = 0.5;
-        bgMusic.play().catch(() => {
-          const playOnInteraction = () => {
-            bgMusic.play();
-            document.removeEventListener("click", playOnInteraction);
-            document.removeEventListener("touchstart", playOnInteraction);
-          };
-          document.addEventListener("click", playOnInteraction);
-          document.addEventListener("touchstart", playOnInteraction);
+        bgMusic
+          .play()
+          .then(() => {
+            isPlaying = true;
+            updateIcon(true);
+          })
+          .catch(() => {
+            console.log("Autoplay blocked. Waiting for interaction.");
+            isPlaying = false;
+            updateIcon(false);
+            const playOnInteraction = () => {
+              if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                  isPlaying = true;
+                  updateIcon(true);
+                });
+              }
+              document.removeEventListener("click", playOnInteraction);
+            };
+            document.addEventListener("click", playOnInteraction);
+          });
+
+        musicToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggleMusic();
+        });
+
+        volumeSlider.addEventListener("input", (e) => {
+          bgMusic.volume = e.target.value / 100;
         });
       }
     </script>
