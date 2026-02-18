@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Plead to You</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Sacramento&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --cream: #faf6f0;
+        --warm-white: #fff9f4;
+        --blush: #e8c4b0;
+        --rose: #c9877a;
+        --muted-rose: #d4a49a;
+        --deep: #5a3e3a;
+        --ink: #3d2b27;
+        --faded: #9c7b75;
+        --gold: #c8a97a;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background-color: var(--cream);
+        color: var(--ink);
+        font-family: "Lora", serif;
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 1000;
+        opacity: 0.5;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 60px 24px;
+        text-align: center;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 70% 60% at 50% 40%,
+            rgba(232, 196, 176, 0.35) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 40% 40% at 20% 80%,
+            rgba(201, 135, 122, 0.12) 0%,
+            transparent 60%
+          );
+      }
+
+      .hero-eyebrow {
+        font-family: "Sacramento", cursive;
+        font-size: clamp(1.2rem, 4vw, 1.8rem);
+        color: var(--muted-rose);
+        letter-spacing: 0.02em;
+        margin-bottom: 16px;
+        opacity: 0;
+        animation: fadeUp 1s ease 0.3s forwards;
+      }
+
+      .hero-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(3rem, 10vw, 7rem);
+        font-weight: 300;
+        line-height: 1.05;
+        color: var(--deep);
+        letter-spacing: -0.01em;
+        opacity: 0;
+        animation: fadeUp 1s ease 0.6s forwards;
+      }
+
+      .hero-title em {
+        font-style: italic;
+        color: var(--rose);
+      }
+
+      .hero-subtitle {
+        margin-top: 24px;
+        font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+        color: var(--faded);
+        font-style: italic;
+        font-weight: 400;
+        max-width: 420px;
+        line-height: 1.7;
+        opacity: 0;
+        animation: fadeUp 1s ease 0.9s forwards;
+      }
+
+      .scroll-hint {
+        margin-top: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        animation: fadeUp 1s ease 1.4s forwards;
+      }
+
+      .scroll-hint span {
+        font-size: 0.7rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--faded);
+      }
+
+      .scroll-line {
+        width: 1px;
+        height: 48px;
+        background: linear-gradient(to bottom, var(--blush), transparent);
+        animation: scrollPulse 2s ease-in-out infinite;
+      }
+
+      @keyframes scrollPulse {
+        0%,
+        100% {
+          opacity: 0.4;
+          transform: scaleY(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scaleY(1.15);
+        }
+      }
+
+      .letter-section {
+        padding: 80px 24px 60px;
+        max-width: 680px;
+        margin: 0 auto;
+      }
+
+      .section-label {
+        font-family: "Sacramento", cursive;
+        font-size: 1.4rem;
+        color: var(--muted-rose);
+        margin-bottom: 32px;
+        display: block;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+
+      .section-label.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .letter-card {
+        background: var(--warm-white);
+        border: 1px solid rgba(232, 196, 176, 0.5);
+        border-radius: 2px;
+        padding: clamp(32px, 6vw, 64px) clamp(24px, 6vw, 56px);
+        position: relative;
+        box-shadow:
+          0 2px 40px rgba(90, 62, 58, 0.06),
+          0 1px 4px rgba(90, 62, 58, 0.04);
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.9s ease 0.1s,
+          transform 0.9s ease 0.1s;
+      }
+
+      .letter-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .letter-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(
+          225deg,
+          var(--cream) 50%,
+          rgba(232, 196, 176, 0.4) 50%
+        );
+        border-bottom-left-radius: 2px;
+      }
+
+      .letter-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 56px;
+        right: 56px;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--blush),
+          transparent
+        );
+      }
+
+      .letter-opener {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(1.6rem, 4vw, 2.2rem);
+        font-weight: 300;
+        font-style: italic;
+        color: var(--deep);
+        margin-bottom: 24px;
+        line-height: 1.3;
+      }
+
+      .letter-body p {
+        font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+        line-height: 1.9;
+        color: var(--ink);
+        margin-bottom: 20px;
+      }
+
+      .letter-body p.highlight {
+        color: var(--rose);
+        font-style: italic;
+        font-size: clamp(1rem, 2.5vw, 1.15rem);
+      }
+
+      .letter-sign {
+        margin-top: 36px;
+        font-family: "Sacramento", cursive;
+        font-size: 1.8rem;
+        color: var(--muted-rose);
+      }
+
+      .rules-section {
+        padding: 60px 24px 80px;
+        max-width: 680px;
+        margin: 0 auto;
+      }
+
+      .rules-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(1.8rem, 5vw, 2.8rem);
+        font-weight: 400;
+        color: var(--deep);
+        margin-bottom: 8px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+
+      .rules-title.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .rules-subtitle {
+        font-size: 0.9rem;
+        color: var(--faded);
+        font-style: italic;
+        margin-bottom: 40px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.8s ease 0.15s,
+          transform 0.8s ease 0.15s;
+      }
+
+      .rules-subtitle.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .rule-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 28px 0;
+        border-bottom: 1px solid rgba(232, 196, 176, 0.4);
+        opacity: 0;
+        transform: translateX(-20px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+
+      .rule-card.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .rule-number {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: var(--blush);
+        line-height: 1;
+        min-width: 48px;
+        padding-top: 2px;
+      }
+
+      .rule-content h3 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--deep);
+        margin-bottom: 6px;
+      }
+
+      .rule-content p {
+        font-size: 0.92rem;
+        color: var(--faded);
+        line-height: 1.7;
+      }
+
+      .rule-content p strong {
+        color: var(--rose);
+        font-style: italic;
+        font-weight: 400;
+      }
+
+      /* ---- CLOSING ---- */
+      .closing-section {
+        padding: 60px 24px 100px;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .closing-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 56px;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+      }
+
+      .closing-divider.visible {
+        opacity: 1;
+      }
+
+      .closing-divider::before,
+      .closing-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--blush));
+      }
+
+      .closing-divider::after {
+        background: linear-gradient(to left, transparent, var(--blush));
+      }
+
+      .divider-ornament {
+        font-family: "Sacramento", cursive;
+        font-size: 1.6rem;
+        color: var(--muted-rose);
+      }
+
+      .closing-quote {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(1.4rem, 4vw, 2rem);
+        font-weight: 300;
+        font-style: italic;
+        color: var(--deep);
+        line-height: 1.5;
+        margin-bottom: 32px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.9s ease 0.1s,
+          transform 0.9s ease 0.1s;
+      }
+
+      .closing-quote.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .closing-note {
+        font-size: 0.9rem;
+        color: var(--faded);
+        line-height: 1.8;
+        font-style: italic;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.9s ease 0.2s,
+          transform 0.9s ease 0.2s;
+      }
+
+      .closing-note.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .closing-heart {
+        margin-top: 48px;
+        font-family: "Sacramento", cursive;
+        font-size: 1.4rem;
+        color: var(--muted-rose);
+        opacity: 0;
+        transition: opacity 0.8s ease 0.3s;
+      }
+
+      .closing-heart.visible {
+        opacity: 1;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .petal {
+        position: fixed;
+        pointer-events: none;
+        z-index: 0;
+        border-radius: 50% 0 50% 0;
+        opacity: 0;
+        animation: floatPetal linear infinite;
+      }
+
+      @keyframes floatPetal {
+        0% {
+          transform: translateY(-20px) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.35;
+        }
+        90% {
+          opacity: 0.2;
+        }
+        100% {
+          transform: translateY(110vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .letter-card {
+          padding: 32px 24px; 
+        }
+        .letter-card::after {
+          left: 24px;
+          right: 24px;
+        }
+      }
+      .music-control {
+        position: fixed;
+        top: 24px;
+        left: 24px;
+        z-index: 1000;
+        background: transparent;
+        border: 1px solid var(--muted-rose);
+        color: var(--deep);
+        font-family: "Cormorant Garamond", serif;
+        font-size: 0.9rem;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: lowercase;
+        opacity: 0.7;
+      }
+
+      .music-control:hover {
+        opacity: 1;
+        background: rgba(232, 196, 176, 0.1);
+        border-color: var(--rose);
+      }
+    </style>
+  </head> 
+  <body>
+    <audio id="bgMusic" loop preload="auto">
+      <source src="src/LoveYouSo.mp3" type="audio/mpeg" />
+    </audio>
+
+    <button id="musicControl" class="music-control">play music</button>
+
+    <div id="petals"></div>
+
+    <section class="hero">
+      <h1 class="hero-title">My <em>Plead</em><br />to You</h1>
+      <p class="hero-subtitle">
+        You may not know how much this matters to me, drishti, your health and
+        well-being. But please, just read this, and reflect on it... We'll do
+        it.
+      </p>
+    </section>
+
+    <section class="letter-section">
+      <span class="section-label reveal"
+        >From the imperfect but caring heart —</span
+      >
+      <div class="letter-card reveal">
+        <div class="letter-opener">dearest of the dearest drishti,</div>
+        <div class="letter-body">
+          <p>
+            (one of the only one)<br />
+            I've been feeling you push through the the headaches, you've been
+            having them a lot recently.. the nausea.. And I notice. I notice
+            more than you probably realize.
+          </p>
+          <p class="highlight">
+            You don't deserve ANY of this. Not a single bit of it.
+          </p>
+          <p>
+            I know headaches are so sh** and unbearable. And knowing you're
+            going through it makes me wish, more than anything, that I could
+            just take it all away from you..
+          </p>
+          <p>
+            Unfortunately I cannot. But there are things you can do, and I NEED
+            and WANT you to actually do them. For yourself, and indirectly for
+            me too, cz you and your health...sigh kya hi bolu drishti.. They are
+            of UTMOST importance.
+          </p>
+          <p>So please, read this..</p>
+    </section>
+
+    <section class="rules-section">
+      <h2 class="rules-title reveal">Things you <em>have</em> to follow.</h2>
+      <p class="rules-subtitle reveal">Non-negotiable. Please...</p>
+
+      <div class="rule-card reveal" style="transition-delay: 0.05s">
+        <div class="rule-number">01</div>
+        <div class="rule-content">
+          <h3>Sleep on time, every night</h3>
+          <p>
+            Most headaches and nausea are your body, want you get some rest.
+            <strong>Incomplete/irregular sleep, one of the main reasons.</strong> Set a
+            time and we'll follow it.
+          </p>
+        </div>
+      </div>
+
+      <div class="rule-card reveal" style="transition-delay: 0.12s">
+        <div class="rule-number">02</div>
+        <div class="rule-content">
+          <h3>Get new lenses or glasses, soon. Tomorrow.</h3>
+          <p>
+            Eye strain..sigh. If one's number has
+            changed even by a little, we don't know right? Maybe get them checked once.
+            if one's no. does change, the eyes are working overtime.
+            <strong>Please get this sorted as soon as possible, from a good optician. It's important, they're YOUR EYES, THEY MATTER. They are going to be with you for the rest of your life</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="rule-card reveal" style="transition-delay: 0.19s">
+        <div class="rule-number">03</div>
+        <div class="rule-content">
+          <h3>Eat your meals ON TIME</h3>
+          <p>
+            Skipping meals, or eating late drops your blood sugar. Stay hydrated. 
+            Take better care of your eyes.
+          </p>
+        </div>
+      </div>
+
+      <div class="rule-card reveal" style="transition-delay: 0.26s">
+        <div class="rule-number">04</div>
+        <div class="rule-content">
+          <h3>Wear your glasses, ALWAYS</h3>
+          <p>
+            You know what i will say right??
+            <strong>The less the strain, the less the headaches.</strong> Wear
+            them whenever you're awake. Until we get to the permanent solution for them hm?
+          </p>
+        </div>
+      </div>
+
+      <div class="rule-card reveal" style="transition-delay: 0.33s">
+        <div class="rule-number">05</div>
+        <div class="rule-content">
+          <h3>The 20 — 20 — 20 rule</h3>
+          <p>
+            Every <strong>20 minutes</strong> at a screen, look at something
+            <strong>20 feet away</strong> for at least
+            <strong>20 seconds.</strong> Set a timer if you have to, of 20 minutes, cz we don't realise kab time nikal jaata hai. This one
+            small habit can change EVERYTHING over time, its effective, and medically proven.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing-section">
+      <div class="closing-divider reveal">
+        <span class="divider-ornament">✦</span>
+      </div>
+      <p class="closing-quote reveal">
+        I'm not trying to lecture you... I'm just someone who CANNOT stand the
+        thought of you hurting.
+      </p>
+      <p class="closing-note reveal">
+        I'm sorry if any of this feels annoying or pushy... I just genuinely,
+        deeply, want to see you well.free from pain, free from exhaustion, free
+        from all of it. You deserve days where you feel like being in warm
+        sunshine on winter mornings.. You deserve that SO much, drishti..<br /><br />
+        So please. Take care of yourself. Follow these... Not because I said so
+        but because you deserve to be healthy, and happy. and i want it, so
+        badly, more than you think or realize..`
+      </p>
+      <div class="closing-heart reveal">with all the hmm and care i carry</div>
+    </section>
+
+    <script>
+      const musicButton = document.getElementById("musicControl");
+      const music = document.getElementById("bgMusic");
+      music.volume = 0.4;
+      let isPlaying = false;
+
+      function toggleMusic() {
+        if (isPlaying) {
+          music.pause();
+          musicButton.textContent = "play music";
+        } else {
+          music.play().then(() => {
+            musicButton.textContent = "pause music";
+          }).catch((e) => console.log("Playback failed:", e));
+        }
+        isPlaying = !isPlaying;
+      }
+
+      musicButton.addEventListener("click", toggleMusic);
+
+      const attemptPlay = () => {
+        music.play().then(() => {
+          isPlaying = true;
+          musicButton.textContent = "pause music";
+          document.removeEventListener("click", attemptPlay);
+          document.removeEventListener("scroll", attemptPlay);
+          document.removeEventListener("mousemove", attemptPlay);
+          document.removeEventListener("touchstart", attemptPlay);
+        }).catch(() => {
+        });
+      };
+
+      attemptPlay();
+      
+      document.addEventListener("click", attemptPlay, { once: true });
+      document.addEventListener("scroll", attemptPlay, { once: true });
+      document.addEventListener("mousemove", attemptPlay, { once: true });
+      document.addEventListener("touchstart", attemptPlay, { once: true });
+
+      const reveals = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
+      reveals.forEach((el) => observer.observe(el));
+
+      const petalContainer = document.getElementById("petals");
+      const petalColors = [
+        "#e8c4b0",
+        "#d4a49a",
+        "#c9877a",
+        "#f2ddd5",
+        "#e0b8ae",
+      ];
+
+      function createPetal() {
+        const petal = document.createElement("div");
+        petal.classList.add("petal");
+        const size = Math.random() * 10 + 6;
+        petal.style.cssText = `
+        width: ${size}px;
+        height: ${size * 0.6}px;
+        left: ${Math.random() * 100}vw;
+        top: -20px;
+        background: ${petalColors[Math.floor(Math.random() * petalColors.length)]};
+        animation-duration: ${Math.random() * 12 + 10}s;
+        animation-delay: ${Math.random() * 8}s;
+        transform-origin: center;
+        border-radius: ${Math.random() > 0.5 ? "50% 0 50% 0" : "0 50% 0 50%"};
+      `;
+        petalContainer.appendChild(petal);
+        setTimeout(() => petal.remove(), 22000);
+      }
+
+      for (let i = 0; i < 6; i++) setTimeout(createPetal, i * 1500);
+      setInterval(createPetal, 2500);
+    </script>
+  </body>
+</html>
