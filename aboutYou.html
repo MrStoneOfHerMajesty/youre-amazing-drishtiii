@@ -1433,6 +1433,41 @@
     </style>
   </head>
   <body>
+    <!-- BG MUSIC CONTROL -->
+    <button
+      id="bg-music-btn"
+      title="Toggle music"
+      style="
+        position: fixed;
+        top: 18px;
+        left: 18px;
+        z-index: 10000;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(249, 180, 187, 0.12);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(249, 180, 187, 0.25);
+        color: var(--rose);
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(249, 180, 187, 0.15);
+      "
+      onmouseenter="
+        this.style.background = 'rgba(249,180,187,0.25)';
+        this.style.transform = 'scale(1.1)';
+      "
+      onmouseleave="
+        this.style.background = 'rgba(249,180,187,0.12)';
+        this.style.transform = 'scale(1)';
+      "
+    >
+      ♫
+    </button>
     <div id="progress"></div>
     <div id="cur"></div>
     <div id="cur-outer"></div>
@@ -2732,6 +2767,13 @@
         "06": "src/loveYouSo.mp3",
         "07": "src/noSurprises.mp3",
         "08": "src/angelEyes.mp3",
+        "09": "src/Judaai.mp3",
+        10: "src/Panna.mp3",
+        11: "src/ihateuiloveyou.mp3",
+        12: "src/playingGames.mp3",
+        13: "src/JeTe.mp3",
+        14: "src/thatWay.mp3",
+        15: "src/Somebodysme.mp3",
       };
 
       // Pre-create audio elements
@@ -2744,6 +2786,71 @@
         cardAudios[num] = audio;
       });
 
+      // ── Background ambient music ──
+      const bgMusic = new Audio("src/cryInstru.mp3");
+      bgMusic.loop = true;
+      bgMusic.volume = 0.45;
+      let bgMusicUserPaused = false;
+      const bgMusicBtn = document.getElementById("bg-music-btn");
+
+      // Try to autoplay
+      function tryPlayBgMusic() {
+        if (!bgMusicUserPaused) {
+          bgMusic
+            .play()
+            .then(() => {
+              bgMusicBtn.textContent = "♫";
+            })
+            .catch(() => {
+              // Autoplay blocked — play on first interaction
+              const kickstart = () => {
+                if (!bgMusicUserPaused) {
+                  bgMusic
+                    .play()
+                    .then(() => {
+                      bgMusicBtn.textContent = "♫";
+                    })
+                    .catch(() => {});
+                }
+                document.removeEventListener("click", kickstart);
+                document.removeEventListener("scroll", kickstart);
+              };
+              document.addEventListener("click", kickstart, { once: false });
+              document.addEventListener("scroll", kickstart, { once: false });
+            });
+        }
+      }
+      tryPlayBgMusic();
+
+      bgMusicBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (bgMusic.paused) {
+          bgMusicUserPaused = false;
+          bgMusic.play().catch(() => {});
+          bgMusicBtn.textContent = "♫";
+        } else {
+          bgMusicUserPaused = true;
+          bgMusic.pause();
+          bgMusicBtn.textContent = "♪";
+        }
+      });
+
+      // Fade bg music helper
+      function fadeBgMusic(targetVol, cb) {
+        const steps = 40;
+        const diff = (targetVol - bgMusic.volume) / steps;
+        let s = 0;
+        const iv = setInterval(() => {
+          s++;
+          bgMusic.volume = Math.max(0, Math.min(0.45, bgMusic.volume + diff));
+          if (s >= steps) {
+            clearInterval(iv);
+            bgMusic.volume = targetVol;
+            if (cb) cb();
+          }
+        }, 30);
+      }
+
       let currentCardSong = null;
       let fadeInterval = null;
       const FADE_MS = 1200;
@@ -2755,7 +2862,7 @@
         const oldNum = currentCardSong;
         currentCardSong = cardNum;
 
-        // Fade out old
+        // Fade out old card song
         if (oldNum && cardAudios[oldNum]) {
           const oldAudio = cardAudios[oldNum];
           const fadeOutSteps = FADE_MS / FADE_STEP;
@@ -2772,8 +2879,14 @@
           }, FADE_STEP);
         }
 
-        // Fade in new
+        // Fade in new card song (and pause bg music)
         if (cardNum && cardAudios[cardNum]) {
+          // Fade out bg music
+          if (!bgMusicUserPaused && !bgMusic.paused) {
+            fadeBgMusic(0, () => {
+              bgMusic.pause();
+            });
+          }
           const newAudio = cardAudios[cardNum];
           newAudio.play().catch(() => {});
           const fadeInSteps = FADE_MS / FADE_STEP;
@@ -2786,17 +2899,26 @@
               clearInterval(fadeIn);
             }
           }, FADE_STEP);
+        } else {
+          // No card song playing — resume bg music
+          if (!bgMusicUserPaused && bgMusic.paused) {
+            bgMusic.volume = 0;
+            bgMusic.play().catch(() => {});
+            fadeBgMusic(0.45);
+            bgMusicBtn.textContent = "♫";
+          }
         }
       }
 
       // Collect all song-linked cards with their elements
       const songCards = [];
       document.querySelectorAll(".r-card").forEach((card) => {
+        // All cards get scroll resistance
+        card.style.scrollSnapAlign = "center";
+        card.style.scrollSnapStop = "always";
         const numEl = card.querySelector(".c-num");
         if (numEl && cardSongs[numEl.textContent.trim()]) {
           songCards.push({ el: card, num: numEl.textContent.trim() });
-          card.style.scrollSnapAlign = "center";
-          card.style.scrollSnapStop = "always";
         }
       });
 
