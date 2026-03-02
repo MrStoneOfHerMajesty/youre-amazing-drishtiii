@@ -1688,13 +1688,34 @@ opacity: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: #000000;
+        background:
+          radial-gradient(circle at 20% 25%, rgba(100, 200, 255, 0.18), transparent 45%),
+          radial-gradient(circle at 78% 72%, rgba(168, 94, 234, 0.20), transparent 48%),
+          radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05), transparent 65%),
+          #03040a;
         z-index: 99999;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         transition: opacity 0.8s ease, visibility 0.8s ease;
+        overflow: hidden;
+      }
+
+      .loading-screen::before {
+        content: '';
+        position: absolute;
+        inset: -25%;
+        background: conic-gradient(
+          from 180deg,
+          rgba(100, 200, 255, 0.14),
+          rgba(168, 94, 234, 0.17),
+          rgba(255, 215, 130, 0.13),
+          rgba(100, 200, 255, 0.14)
+        );
+        filter: blur(80px);
+        animation: loadingAurora 12s linear infinite;
+        pointer-events: none;
       }
 
       .loading-screen.fade-out {
@@ -1702,10 +1723,29 @@ opacity: 0;
         visibility: hidden;
       }
 
-      .loading-star {
-        width: 60px;
-        height: 60px;
+      .loading-content {
         position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 24px;
+      }
+
+      .loading-star {
+        width: 130px;
+        height: 130px;
+        position: relative;
+        border-radius: 50%;
+        margin-bottom: 18px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 0%, rgba(100, 200, 255, 0.07) 50%, transparent 72%);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        box-shadow:
+          0 0 32px rgba(100, 200, 255, 0.28),
+          0 0 84px rgba(168, 94, 234, 0.22),
+          inset 0 0 45px rgba(255, 255, 255, 0.06);
+        animation: loadingHalo 4.5s ease-in-out infinite;
       }
 
       .loading-star::before,
@@ -1730,6 +1770,46 @@ opacity: 0;
         animation-delay: 0.75s;
       }
 
+      .loading-star-ring {
+        position: absolute;
+        inset: -16px;
+        border-radius: 50%;
+        border: 1px solid rgba(184, 230, 255, 0.25);
+        border-top-color: rgba(255, 255, 255, 0.75);
+        border-right-color: rgba(168, 94, 234, 0.6);
+        animation: loadingRingSpin 2.8s linear infinite;
+      }
+
+      .loading-star-ring::before {
+        content: '';
+        position: absolute;
+        inset: -12px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 215, 130, 0.2);
+        border-bottom-color: rgba(100, 200, 255, 0.45);
+        border-left-color: rgba(255, 255, 255, 0.4);
+        animation: loadingRingSpinReverse 3.8s linear infinite;
+      }
+
+      .loading-title {
+        font-family: 'Playfair Display', 'Georgia', serif;
+        font-size: clamp(2rem, 5vw, 3.1rem);
+        letter-spacing: 1.3px;
+        color: #ffffff;
+        text-shadow:
+          0 0 26px rgba(100, 200, 255, 0.32),
+          0 0 52px rgba(168, 94, 234, 0.2);
+        margin-top: 6px;
+      }
+
+      .loading-subtext {
+        font-family: 'Lora', 'Georgia', serif;
+        color: rgba(230, 245, 255, 0.82);
+        font-size: clamp(0.98rem, 2vw, 1.18rem);
+        margin-top: 10px;
+        letter-spacing: 0.9px;
+      }
+
       @keyframes loadingStar {
         0%, 100% {
           transform: translate(-50%, -50%) scale(1);
@@ -1749,11 +1829,43 @@ opacity: 0;
 
       .loading-text {
         font-family: 'Lora', 'Georgia', serif;
-        color: rgba(184, 230, 255, 0.7);
-        font-size: 1.1em;
-        margin-top: 30px;
-        letter-spacing: 3px;
+        color: rgba(184, 230, 255, 0.82);
+        font-size: 0.98em;
+        margin-top: 16px;
+        letter-spacing: 2.6px;
+        text-transform: uppercase;
         animation: loadingPulse 2s ease-in-out infinite;
+      }
+
+      @keyframes loadingRingSpin {
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes loadingRingSpinReverse {
+        to { transform: rotate(-360deg); }
+      }
+
+      @keyframes loadingHalo {
+        0%, 100% {
+          transform: scale(1);
+          box-shadow:
+            0 0 32px rgba(100, 200, 255, 0.28),
+            0 0 84px rgba(168, 94, 234, 0.22),
+            inset 0 0 45px rgba(255, 255, 255, 0.06);
+        }
+        50% {
+          transform: scale(1.05);
+          box-shadow:
+            0 0 44px rgba(100, 200, 255, 0.45),
+            0 0 110px rgba(168, 94, 234, 0.36),
+            inset 0 0 62px rgba(255, 255, 255, 0.11);
+        }
+      }
+
+      @keyframes loadingAurora {
+        0% { transform: rotate(0deg) scale(1); }
+        50% { transform: rotate(180deg) scale(1.05); }
+        100% { transform: rotate(360deg) scale(1); }
       }
 
       @keyframes loadingPulse {
@@ -2461,8 +2573,14 @@ opacity: 0;
   <body>
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
-      <div class="loading-star"></div>
-      <div class="loading-text">✦ ✦ ✦</div>
+      <div class="loading-content">
+        <div class="loading-star">
+          <div class="loading-star-ring"></div>
+        </div>
+        <div class="loading-title">Welcome home..?, drishti ✨</div>
+        <div class="loading-subtext">A little universe made with hmmm,,, is opening for you</div>
+        <div class="loading-text">Please Wait ; )</div>
+      </div>
     </div>
 
     <!-- Back to Top Button -->
@@ -2514,8 +2632,8 @@ opacity: 0;
   <button class="galaxy-btn" id="galaxyBtn">
     <span class="galaxy-btn-text">✦ our little galaxy ✦</span>
   </button>
-  <button class="theme-link-button" onclick="window.location.href='my-plead.html'">
-    <span class="button-content">💝My Plead to You</span>
+  <button class="theme-link-button" onclick="window.location.href='happyHoliiidrishtii.html'">
+    <span class="button-content">💐💝 Happiestt Holi, drishtii ^^</span>
   </button>
 </div>
 
@@ -3574,7 +3692,7 @@ opacity: 0;
         loadingScreen.style.display = 'none';
         startTypewriter();
       }, 800);
-    }, 1500);
+    }, 1000);
   });
 
   // ===== TYPEWRITER EFFECT =====
