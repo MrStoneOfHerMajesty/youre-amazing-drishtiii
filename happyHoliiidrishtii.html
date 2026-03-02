@@ -1,0 +1,1063 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Holi, Drishti 🌸</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400&display=swap");
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+        background-color: #030305;
+        font-family: "Cormorant Garamond", serif;
+        color: #fff;
+        overflow: hidden;
+      }
+
+      /* ── Noise texture overlay ── */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        pointer-events: none;
+        opacity: 0.035;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        mix-blend-mode: overlay;
+      }
+
+      /* ── Vignette ── */
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: 998;
+        pointer-events: none;
+        background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
+      }
+
+      #holi-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      /* Ambient glow blobs */
+      .splash-bg {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(110px) hue-rotate(0deg) saturate(1.1) brightness(1);
+        opacity: 0.30;
+        z-index: 0;
+        animation: blobColorShift 22s infinite alternate ease-in-out;
+        transition: transform 0.6s cubic-bezier(.25,.46,.45,.94);
+        will-change: transform, filter;
+        mix-blend-mode: screen;
+      }
+      .splash-1 {
+        top: -10%;
+        left: -10%;
+        width: 50vw;
+        height: 50vw;
+        background: radial-gradient(circle at 35% 35%, #ff69b4 0%, #ff1493 45%, #8a2be2 100%);
+      }
+      .splash-2 {
+        bottom: -20%;
+        right: -10%;
+        width: 60vw;
+        height: 60vw;
+        background: radial-gradient(circle at 65% 45%, #7df9ff 0%, #8a2be2 48%, #00fff5 100%);
+        animation-delay: -3s;
+      }
+      .splash-3 {
+        top: 30%;
+        left: 50%;
+        width: 40vw;
+        height: 40vw;
+        background: radial-gradient(circle at 40% 60%, #00fff5 0%, #39ff14 50%, #ffd700 100%);
+        animation-delay: -5s;
+        opacity: 0.2;
+      }
+      .splash-4 {
+        bottom: 10%;
+        left: 20%;
+        width: 35vw;
+        height: 35vw;
+        background: radial-gradient(circle at 60% 40%, #ffd700 0%, #ff4500 55%, #ff1493 100%);
+        animation-delay: -7s;
+        opacity: 0.12;
+      }
+
+      @keyframes blobColorShift {
+        0% {
+          filter: blur(108px) hue-rotate(0deg) saturate(1.05) brightness(0.95);
+        }
+        50% {
+          filter: blur(115px) hue-rotate(80deg) saturate(1.32) brightness(1.08);
+        }
+        100% {
+          filter: blur(110px) hue-rotate(165deg) saturate(1.15) brightness(1.02);
+        }
+      }
+
+      /* Main layout */
+      .stage {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        pointer-events: none;
+      }
+
+      /* =====================
+         INTRO SCREEN
+      ===================== */
+      #intro {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        pointer-events: auto;
+        animation: fadeIn 1.8s ease forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .greeting {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(3.5rem, 8vw, 6.5rem);
+        line-height: 1.2;
+        text-align: center;
+        background: linear-gradient(
+          to right,
+          #ff1493,
+          #ffd700,
+          #00fff5,
+          #8a2be2,
+          #ff1493
+        );
+        background-size: 300% 300%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradient-flow 8s ease infinite, shimmer 3s ease-in-out infinite;
+        padding: 10px 0;
+        margin-bottom: 10px;
+        filter: drop-shadow(0 0 30px rgba(255,20,147,0.25));
+        position: relative;
+      }
+
+      @keyframes shimmer {
+        0%, 100% { filter: drop-shadow(0 0 25px rgba(255,20,147,0.2)); }
+        50% { filter: drop-shadow(0 0 45px rgba(138,43,226,0.4)); }
+      }
+
+      @keyframes gradient-flow {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .tagline {
+        font-family: "Outfit", sans-serif;
+        font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+        font-weight: 300;
+        font-style: normal;
+        color: rgba(255, 255, 255, 0.45);
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        margin-bottom: 60px;
+        text-align: center;
+      }
+
+      /* The orb button */
+      .orb-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .orb {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 35% 35%, rgba(255,255,255,0.45) 0%, transparent 50%),
+          radial-gradient(circle at 65% 65%, rgba(0,0,0,0.2) 0%, transparent 50%),
+          conic-gradient(#ff1493, #ffd700, #00fff5, #8a2be2, #ff1493);
+        box-shadow:
+          0 0 40px 10px rgba(255, 20, 147, 0.5),
+          0 0 80px 20px rgba(138, 43, 226, 0.3),
+          0 0 120px 40px rgba(255,215,0,0.1),
+          inset 0 0 30px rgba(255, 255, 255, 0.15);
+        animation:
+          orbSpin 6s linear infinite,
+          orbPulse 3s ease-in-out infinite;
+        transition: transform 0.45s cubic-bezier(.34,1.56,.64,1);
+        backdrop-filter: blur(4px);
+      }
+
+      .orb:hover {
+        transform: scale(1.18);
+      }
+
+      .orb-wrap:hover .ring {
+        border-width: 2px;
+        filter: brightness(1.4);
+      }
+
+      .orb-label {
+        position: absolute;
+        font-family: "Outfit", sans-serif;
+        font-size: 0.7rem;
+        font-weight: 300;
+        letter-spacing: 0.25em;
+        color: #fff;
+        text-transform: uppercase;
+        pointer-events: none;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      }
+
+      @keyframes orbSpin {
+        to {
+          filter: hue-rotate(360deg);
+        }
+      }
+
+      @keyframes orbPulse {
+        0%,
+        100% {
+          box-shadow:
+            0 0 40px 10px rgba(255, 20, 147, 0.5),
+            0 0 80px 20px rgba(138, 43, 226, 0.3);
+        }
+        50% {
+          box-shadow:
+            0 0 60px 20px rgba(255, 20, 147, 0.7),
+            0 0 120px 40px rgba(0, 255, 245, 0.4);
+        }
+      }
+
+      /* Rings rotating around orb */
+      .ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1.5px solid transparent;
+        animation: ringRotate linear infinite;
+        pointer-events: none;
+        transition: border-width 0.3s ease, filter 0.3s ease;
+        filter: brightness(1);
+      }
+
+      .ring-1 {
+        width: 160px;
+        height: 160px;
+        border-top-color: #ff1493;
+        border-right-color: #ff149355;
+        animation-duration: 3s;
+      }
+      .ring-2 {
+        width: 200px;
+        height: 200px;
+        border-bottom-color: #00fff5;
+        border-left-color: #00fff555;
+        animation-duration: 5s;
+        animation-direction: reverse;
+      }
+      .ring-3 {
+        width: 245px;
+        height: 245px;
+        border-top-color: #ffd700;
+        border-right-color: #ffd70044;
+        animation-duration: 7s;
+      }
+
+      @keyframes ringRotate {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* =====================
+         MESSAGE SCREEN
+      ===================== */
+      #message {
+        display: none;
+        opacity: 0;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        pointer-events: auto;
+        max-width: min(720px, 92vw);
+        padding: 20px;
+        overflow-y: auto;
+        max-height: 92vh;
+      }
+
+      #message::-webkit-scrollbar {
+        width: 4px;
+      }
+      #message::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+      }
+
+      .msg-title {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(3rem, 7vw, 5.5rem);
+        text-align: center;
+        background: linear-gradient(
+          to right,
+          #ff1493,
+          #ffd700,
+          #00fff5,
+          #8a2be2,
+          #ff1493
+        );
+        background-size: 300% 300%;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradient-flow 8s ease infinite;
+        line-height: 1.25;
+        margin-bottom: 50px;
+        filter: drop-shadow(0 0 35px rgba(255,20,147,0.2));
+      }
+
+      /* Individual message lines that fly in */
+      .line {
+        font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+        font-weight: 300;
+        line-height: 1.9;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.88);
+        margin-bottom: 22px;
+        opacity: 0;
+        transform: translateY(30px) scale(0.97);
+        transition:
+          opacity 0.9s cubic-bezier(.16,1,.3,1),
+          transform 0.9s cubic-bezier(.16,1,.3,1);
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+        position: relative;
+        letter-spacing: 0.01em;
+      }
+
+      .line.visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      .line em {
+        font-style: italic;
+        color: #ffd700;
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+      }
+
+      .line strong {
+        color: #00fff5;
+        font-weight: 400;
+        font-style: italic;
+        text-shadow: 0 0 15px rgba(0, 255, 245, 0.3);
+      }
+
+      /* Color word pills */
+      .color-word {
+        display: inline-block;
+        padding: 2px 14px;
+        border-radius: 30px;
+        font-style: italic;
+        font-weight: 300;
+        transition: box-shadow 0.4s ease, transform 0.3s ease;
+      }
+      .color-word:hover {
+        transform: translateY(-1px);
+      }
+
+      .cw-1 {
+        background: rgba(255, 20, 147, 0.15);
+        color: #ff79c6;
+        box-shadow: 0 0 12px rgba(255,20,147,0.08);
+      }
+      .cw-1:hover { box-shadow: 0 0 20px rgba(255,20,147,0.3); }
+      .cw-2 {
+        background: rgba(255, 215, 0, 0.12);
+        color: #ffd700;
+        box-shadow: 0 0 12px rgba(255,215,0,0.08);
+      }
+      .cw-2:hover { box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+      .cw-3 {
+        background: rgba(0, 255, 245, 0.10);
+        color: #00fff5;
+        box-shadow: 0 0 12px rgba(0,255,245,0.08);
+      }
+      .cw-3:hover { box-shadow: 0 0 20px rgba(0,255,245,0.3); }
+      .cw-4 {
+        background: rgba(57, 255, 20, 0.10);
+        color: #39ff14;
+        box-shadow: 0 0 12px rgba(57,255,20,0.08);
+      }
+      .cw-4:hover { box-shadow: 0 0 20px rgba(57,255,20,0.3); }
+      .cw-5 {
+        background: rgba(138, 43, 226, 0.15);
+        color: #c77dff;
+        box-shadow: 0 0 12px rgba(138,43,226,0.08);
+      }
+      .cw-5:hover { box-shadow: 0 0 20px rgba(138,43,226,0.3); }
+      .cw-6 {
+        background: rgba(255, 120, 50, 0.13);
+        color: #ffaa66;
+        box-shadow: 0 0 12px rgba(255,120,50,0.08);
+      }
+      .cw-6:hover { box-shadow: 0 0 20px rgba(255,120,50,0.3); }
+
+      .divider {
+        width: 80px;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          rgba(255,20,147,0.4),
+          rgba(255,215,0,0.4),
+          rgba(0,255,245,0.4),
+          transparent
+        );
+        margin: 24px auto 34px;
+        opacity: 0;
+        transform: scaleX(0);
+        transition: opacity 0.7s ease 0.2s, transform 0.8s cubic-bezier(.16,1,.3,1) 0.2s;
+        position: relative;
+      }
+      .divider::before {
+        content: '✦';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 0.5rem;
+        color: rgba(255,215,0,0.5);
+        text-shadow: 0 0 8px rgba(255,215,0,0.4);
+      }
+      .divider.visible {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+
+      /* Closing heart */
+      .heart-close {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(1.4rem, 3vw, 1.9rem);
+        text-align: center;
+        color: rgba(255, 255, 255, 0.7);
+        margin-top: 15px;
+        opacity: 0;
+        transition: opacity 1s ease;
+        font-style: italic;
+      }
+
+      .heart-close.visible {
+        opacity: 1;
+      }
+
+      .heart-close span {
+        color: #ff1493;
+        text-shadow: 0 0 20px rgba(255, 20, 147, 0.6);
+        animation: heartBeat 1.5s ease-in-out infinite;
+        display: inline-block;
+      }
+
+      @keyframes heartBeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        14% {
+          transform: scale(1.25);
+        }
+        28% {
+          transform: scale(1);
+        }
+        42% {
+          transform: scale(1.15);
+        }
+      }
+
+      /* Powder puff animations */
+      .puff {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9;
+        animation: puffAnim 1.6s ease-out forwards;
+      }
+
+      @keyframes puffAnim {
+        0% {
+          opacity: 0.9;
+          transform: scale(0);
+          filter: blur(0px);
+        }
+        50% {
+          opacity: 0.6;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(4.5);
+          filter: blur(30px);
+        }
+      }
+
+      @media (max-width: 500px) {
+        .ring-3 {
+          display: none;
+        }
+      }
+      /* ── Music Player ── */
+      .music-player {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(10, 8, 18, 0.65);
+        backdrop-filter: blur(24px) saturate(1.4);
+        -webkit-backdrop-filter: blur(24px) saturate(1.4);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 50px;
+        padding: 8px 16px;
+        transition: all 0.4s cubic-bezier(.25,.46,.45,.94);
+        box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+      }
+      .music-player:hover {
+        background: rgba(10, 8, 18, 0.82);
+        border-color: rgba(255,255,255,0.1);
+        box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 30px rgba(255,20,147,0.08);
+        transform: translateY(-1px);
+      }
+      .music-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(255,20,147,0.25), rgba(138,43,226,0.2));
+        border: 1.5px solid rgba(255,255,255,0.12);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        transition: all 0.3s cubic-bezier(.34,1.56,.64,1);
+        color: white;
+      }
+      .music-btn:hover {
+        transform: scale(1.15);
+        box-shadow: 0 0 20px rgba(255,20,147,0.35);
+        border-color: rgba(255,20,147,0.4);
+      }
+      .music-btn.playing {
+        animation: vinylSpin 2s linear infinite;
+      }
+      @keyframes vinylSpin {
+        to { transform: rotate(360deg); }
+      }
+      .volume-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+        transition: all 0.35s cubic-bezier(.25,.46,.45,.94);
+      }
+      .volume-container span {
+        font-size: 0.75rem;
+      }
+      .music-player:hover .volume-container {
+        opacity: 1;
+        width: 90px;
+      }
+      .volume-slider {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 65px;
+        height: 3px;
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.15);
+        outline: none;
+        cursor: pointer;
+      }
+      .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff1493, #8a2be2);
+        box-shadow: 0 0 8px rgba(255,20,147,0.4);
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+      .volume-slider::-webkit-slider-thumb:hover {
+        transform: scale(1.3);
+      }
+
+      /* ── Floating gulal specks ── */
+      .gulal-speck {
+        position: fixed;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 2;
+        animation: floatDrift linear infinite;
+        opacity: 0;
+      }
+      @keyframes floatDrift {
+        0%   { opacity: 0; transform: translateY(100vh) rotate(0deg); }
+        10%  { opacity: 0.6; }
+        90%  { opacity: 0.6; }
+        100% { opacity: 0; transform: translateY(-10vh) rotate(360deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Music -->
+    <audio
+      id="bg-music"
+      src="src/summerTimeSadnessInstrumental.mp3"
+      loop
+      autoplay
+    ></audio>
+
+    <!-- Music Player -->
+    <div class="music-player">
+      <button class="music-btn" id="music-toggle" title="Play/Pause">🌷</button>
+      <div class="volume-container">
+        <span>🔊</span>
+        <input
+          type="range"
+          class="volume-slider"
+          id="volume-slider"
+          min="0"
+          max="100"
+          value="50"
+        />
+      </div>
+    </div>
+
+    <div class="splash-bg splash-1" data-parallax="0.02"></div>
+    <div class="splash-bg splash-2" data-parallax="-0.015"></div>
+    <div class="splash-bg splash-3" data-parallax="0.025"></div>
+    <div class="splash-bg splash-4" data-parallax="-0.018"></div>
+
+    <canvas id="holi-canvas"></canvas>
+
+    <div class="stage">
+      <!-- INTRO -->
+      <div id="intro">
+        <h1 class="greeting">Happy Holi,<br />drishti ^^ 💝</h1>
+        <p class="tagline">something special, for someone special</p>
+
+        <div class="orb-wrap" onclick="revealMessage()">
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="ring ring-3"></div>
+          <div class="orb"></div>
+          <span class="orb-label">open</span>
+        </div>
+      </div>
+
+      <!-- MESSAGE -->
+      <div id="message">
+        <div class="msg-title">for youuuh, drishti 🌸</div>
+
+        <div class="line" data-delay="0">
+          May all the upcoming days, weeks, months, years, and decades be colorful, full of
+          <span class="color-word cw-1">happiness,</span>
+          <span class="color-word cw-2">joy,</span>
+          those
+          <span class="color-word cw-3">beautiful smiles,</span>
+          <span class="color-word cw-4">prosperity,</span>
+          growth,
+          <span class="color-word cw-5">success</span>
+          and
+          <span class="color-word cw-6">everything positive.</span>
+        </div>
+
+        <div class="divider" data-delay="200"></div>
+
+        <div class="line" data-delay="700">
+          You deserve all of it. Every good thing. No exceptions. 🌈
+        </div>
+
+        <div class="divider" data-delay="950"></div>
+
+        <div class="line" data-delay="1100">
+          And for your family — <strong>my prayer</strong> is simple. May they
+          always be happy and healthy. That's all. That's everything.
+        </div>
+
+        <div class="line" data-delay="1450">
+          Wishing this from the entirety of my heart ^^     
+        </div>
+
+        <div class="heart-close" data-delay="1800">
+          Happyyy Holiiii, drishtiiiiiiii ^^ <span>💝</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+
+      // ─── Parallax background blobs on mouse ───────────────────
+      (function() {
+        const blobs = document.querySelectorAll('.splash-bg[data-parallax]');
+        let mx = 0, my = 0;
+        document.addEventListener('mousemove', e => {
+          mx = (e.clientX / innerWidth - 0.5) * 2;
+          my = (e.clientY / innerHeight - 0.5) * 2;
+        });
+        function parallaxTick() {
+          const t = performance.now() * 0.00008;
+          blobs.forEach((b, idx) => {
+            const f = parseFloat(b.dataset.parallax);
+            const tx = mx * f * 100;
+            const ty = my * f * 100;
+            const driftX = Math.sin(t + idx * 1.7) * (16 + idx * 7);
+            const driftY = Math.cos(t * 1.12 + idx * 1.3) * (12 + idx * 5);
+            b.style.transform = `translate(${(tx + driftX).toFixed(2)}px, ${(ty + driftY).toFixed(2)}px)`;
+          });
+          requestAnimationFrame(parallaxTick);
+        }
+        parallaxTick();
+      })();
+
+      // ─── Floating gulal specks ─────────────────────────────────
+      (function() {
+        const colors = ['#ff1493','#ffd700','#00fff5','#8a2be2','#39ff14','#ff4500','#ff69b4'];
+        for (let i = 0; i < 18; i++) {
+          const el = document.createElement('div');
+          el.className = 'gulal-speck';
+          const size = 3 + Math.random() * 5;
+          el.style.width = size + 'px';
+          el.style.height = size + 'px';
+          el.style.left = Math.random() * 100 + 'vw';
+          el.style.background = colors[Math.floor(Math.random() * colors.length)];
+          el.style.boxShadow = '0 0 ' + (size * 2) + 'px ' + el.style.background;
+          el.style.animationDuration = (12 + Math.random() * 18) + 's';
+          el.style.animationDelay = (-Math.random() * 20) + 's';
+          document.body.appendChild(el);
+        }
+      })();
+
+      // ─── Canvas particle engine ─────────────────────────────────
+      const canvas = document.getElementById("holi-canvas");
+      const ctx = canvas.getContext("2d");
+      let W, H;
+
+      function resize() {
+        W = canvas.width = innerWidth;
+        H = canvas.height = innerHeight;
+      }
+      addEventListener("resize", resize);
+      resize();
+
+      const COLORS = [
+        "#FF1493",
+        "#00FFF5",
+        "#FFD700",
+        "#FF4500",
+        "#8A2BE2",
+        "#39FF14",
+        "#FF69B4",
+        "#7DF9FF",
+      ];
+      const particles = [];
+
+      class Particle {
+        constructor(x, y, burst = false) {
+          this.x = x ?? Math.random() * W;
+          this.y = y ?? Math.random() * H;
+          this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+          this.size = Math.random() * 7 + 2;
+          this.burst = burst;
+          if (burst) {
+            const a = Math.random() * Math.PI * 2;
+            const s = Math.random() * 18 + 5;
+            this.vx = Math.cos(a) * s;
+            this.vy = Math.sin(a) * s;
+            this.life = 1;
+            this.decay = Math.random() * 0.02 + 0.008;
+            this.gravity = 0.3;
+            this.friction = 0.96;
+          } else {
+            this.vx = (Math.random() - 0.5) * 1.5;
+            this.vy = (Math.random() - 0.5) * 1.5 - 0.5;
+            this.life = 1;
+            this.decay = 0;
+            this.gravity = 0;
+            this.friction = 1;
+          }
+        }
+        update() {
+          if (this.burst) {
+            this.vx *= this.friction;
+            this.vy *= this.friction;
+            this.vy += this.gravity;
+            this.life -= this.decay;
+          }
+          this.x += this.vx;
+          this.y += this.vy;
+          if (!this.burst) {
+            if (this.x > W + 30) this.x = -30;
+            if (this.x < -30) this.x = W + 30;
+            if (this.y > H + 30) this.y = -30;
+            if (this.y < -30) this.y = H + 30;
+          }
+        } 
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          if (this.burst) {
+            const alpha = Math.max(0, Math.floor(this.life * 255))
+              .toString(16)
+              .padStart(2, "0");
+            ctx.fillStyle = this.color + alpha;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = this.color;
+          } else {
+            ctx.shadowBlur = 12;
+            ctx.shadowColor = this.color;
+            ctx.fillStyle = this.color + "AA";
+          }
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+      }
+
+      for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+      function createBurst(x, y, mult = 1) {
+        for (let i = 0; i < 100 * mult; i++)
+          particles.push(new Particle(x, y, true));
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, W, H);
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.update();
+          p.draw();
+          if (p.burst && p.life <= 0) particles.splice(i, 1);
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+
+      // Trail on move
+      function addTrail(x, y) {
+        if (Math.random() > 0.45) {
+          const p = new Particle(x, y, true);
+          p.size = Math.random() * 4 + 2;
+          p.vx = (Math.random() - 0.5) * 4;
+          p.vy = (Math.random() - 0.5) * 4;
+          p.gravity = 0.08;
+          p.decay = 0.03;
+          particles.push(p);
+        }
+      }
+      document.addEventListener("mousemove", (e) =>
+        addTrail(e.clientX, e.clientY),
+      );
+      document.addEventListener("touchmove", (e) => {
+        if (e.touches.length)
+          addTrail(e.touches[0].clientX, e.touches[0].clientY);
+      });
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest("#message, #intro"))
+          createBurst(e.clientX, e.clientY, 0.5);
+      });
+
+      // Powder puff effect
+      function spawnPuff(x, y) {
+        const puff = document.createElement("div");
+        puff.className = "puff";
+        const size = 80 + Math.random() * 60;
+        puff.style.cssText = `width:${size}px;height:${size}px;left:${x - size / 2}px;top:${y - size / 2}px;
+          background:radial-gradient(circle, ${COLORS[Math.floor(Math.random() * COLORS.length)]}55, transparent 70%);`;
+        document.body.appendChild(puff);
+        setTimeout(() => puff.remove(), 1700);
+      }
+
+      // ─── Reveal message ─────────────────────────────────────────
+      function revealMessage() {
+        // Big burst from orb center
+        createBurst(W / 2, H / 2, 2.5);
+        createBurst(W * 0.1, H * 0.1, 1);
+        createBurst(W * 0.9, H * 0.15, 1);
+        createBurst(W * 0.15, H * 0.9, 1);
+        createBurst(W * 0.85, H * 0.85, 1);
+
+        // Puffs
+        for (let i = 0; i < 8; i++) {
+          setTimeout(
+            () => spawnPuff(W * Math.random(), H * Math.random()),
+            i * 120,
+          );
+        }
+
+        const intro = document.getElementById("intro");
+        const message = document.getElementById("message");
+
+        intro.style.transition = "opacity 0.8s cubic-bezier(.16,1,.3,1), transform 0.8s cubic-bezier(.16,1,.3,1), filter 0.8s ease";
+        intro.style.opacity = "0";
+        intro.style.transform = "scale(0.92) translateY(-20px)";
+        intro.style.filter = "blur(8px)";
+
+        setTimeout(() => {
+          intro.style.display = "none";
+          message.style.display = "flex";
+          void message.offsetWidth;
+          message.style.transition = "opacity 1s cubic-bezier(.16,1,.3,1)";
+          message.style.opacity = "1";
+
+          // Stagger each line in
+          const lines = message.querySelectorAll(
+            ".line, .divider, .heart-close",
+          );
+          lines.forEach((el) => {
+            const delay = parseInt(el.dataset.delay || 0);
+            setTimeout(() => el.classList.add("visible"), delay + 200);
+          });
+
+          // Extra bursts every few seconds for magic
+          let count = 0;
+          const sparkInterval = setInterval(() => {
+            if (count++ > 5) {
+              clearInterval(sparkInterval);
+              return;
+            }
+            createBurst(Math.random() * W, Math.random() * H * 0.6, 0.4);
+          }, 900);
+        }, 700);
+      }
+
+      // ─── Music Player Setup ─────────────────────────────────────
+      const musicState = { playing: false, interacted: false };
+      const bgMusic = document.getElementById("bg-music");
+      const musicToggle = document.getElementById("music-toggle");
+      const volumeSlider = document.getElementById("volume-slider");
+
+      function startMusic() {
+        if (!bgMusic || musicState.playing) return;
+
+        bgMusic.muted = false;
+        bgMusic.defaultMuted = false;
+        bgMusic.volume = (parseInt(volumeSlider?.value || "50", 10) || 50) / 100;
+        const playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              musicToggle.textContent = "🌸";
+              musicToggle.classList.add('playing');
+              musicState.playing = true;
+              musicState.interacted = true;
+            })
+            .catch((err) => {
+              console.log("Autoplay blocked:", err);
+              musicToggle.textContent = "🌷";
+              musicToggle.classList.remove('playing');
+            });
+        }
+      }
+
+      if (musicToggle && volumeSlider && bgMusic) {
+        bgMusic.volume = 0.5;
+
+        musicToggle.addEventListener("click", (e) => {
+          // Stop event from bubbling up and triggering other click handlers
+          e.stopPropagation();
+
+          if (musicState.playing) {
+            bgMusic.pause();
+            musicToggle.textContent = "🌷";
+            musicToggle.classList.remove('playing');
+            musicState.playing = false;
+          } else {
+            bgMusic.muted = false;
+            bgMusic.defaultMuted = false;
+            bgMusic.volume = (parseInt(volumeSlider?.value || "50", 10) || 50) / 100;
+
+            bgMusic
+              .play()
+              .then(() => {
+                musicToggle.textContent = "🌸";
+                musicToggle.classList.add('playing');
+                musicState.playing = true;
+                musicState.interacted = true;
+              })
+              .catch((err) => console.log("Playback failed:", err));
+          }
+        });
+
+        volumeSlider.addEventListener("input", (e) => {
+          e.stopPropagation();
+          bgMusic.volume = e.target.value / 100;
+        });
+        volumeSlider.addEventListener("click", (e) => e.stopPropagation());
+      }
+
+      // Try starting music immediately
+      startMusic();
+
+      // In case autoplay is blocked, start on first interaction
+      document.body.addEventListener(
+        "click",
+        () => {
+          if (!musicState.interacted) startMusic();
+        },
+        { once: true },
+      );
+      document.body.addEventListener(
+        "touchstart",
+        () => {
+          if (!musicState.interacted) startMusic();
+        },
+        { once: true },
+      );
+    </script>
+  </body>
+</html>
