@@ -1,0 +1,3377 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For Your Boards</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,600;1,700&family=DM+Serif+Display:ital@1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #0a0e1a;
+        --bg-warm: #0f1525;
+        --paper: #fdf6e3;
+        --paper-aged: #f5e8c8;
+        --gold: #c8a97e;
+        --gold-light: #e8cfa0;
+        --gold-dim: #7a6040;
+        --crimson: #8b2635;
+        --crimson-dk: #5a1420;
+        --blush: #7eb8c8;
+        --blush-light: #b0d8ed;
+        --ink: #2c1a12;
+        --ink-mid: #4a3028;
+        --ink-light: #7a6050;
+        --white: #f0f4ff;
+        --glow-gold: rgba(200, 169, 126, 0.15);
+        --glow-rose: rgba(126, 184, 200, 0.12);
+        --accent: #6c63ff;
+        --accent-light: #a29bfe;
+        --success: #2ecc71;
+        --success-dim: rgba(46, 204, 113, 0.15);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        font-family: "Cormorant Garamond", Georgia, serif;
+        color: var(--white);
+        overflow-x: hidden;
+        overflow-y: hidden;
+        cursor: none;
+      }
+
+      body.unlocked {
+        overflow-y: auto;
+      }
+
+      /* =========================================
+       CUSTOM CURSOR
+       ========================================= */
+      #cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--blush);
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+        will-change: transform;
+        transition:
+          width 0.2s ease,
+          height 0.2s ease,
+          background 0.2s ease,
+          border-radius 0.2s ease;
+        mix-blend-mode: screen;
+      }
+
+      #cursor.hovering {
+        width: 18px;
+        height: 16px;
+        border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
+        background: var(--crimson);
+        filter: blur(0.5px);
+      }
+
+      #cursor-trail {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 1px solid rgba(200, 169, 126, 0.25);
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+        will-change: transform;
+        transition:
+          width 0.3s ease,
+          height 0.3s ease;
+      }
+
+      /* =========================================
+       LIQUID CANVAS LAYER
+       ========================================= */
+      #liquid-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1; /* Behind everything */
+        z-index: -1; /* Behind everything */
+        /* filter: url("#goo");  <-- REMOVED for real fluid solver */
+        opacity: 0.8;
+      }
+
+      /* =========================================
+       PETAL LAYER
+       ========================================= */
+      /* =========================================
+       PETAL LAYER
+       ========================================= */
+      .petal {
+        position: fixed;
+        pointer-events: auto; /* Allow interaction */
+        z-index: 8;
+        opacity: 0;
+        font-size: 1rem;
+        will-change: transform, opacity;
+        user-select: none;
+      }
+
+      /* =========================================
+       TEXT INTERACTION STYLES
+       ========================================= */
+      .char-span {
+        display: inline-block;
+        will-change: transform, opacity, color;
+        transition: color 0.3s ease;
+      }
+
+      .magnetic-word {
+        display: inline-block;
+        will-change: transform;
+        cursor: text;
+      }
+
+      /* =========================================
+       INTRO / ENVELOPE SCENE
+       ========================================= */
+      #intro-scene {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg);
+        transition: opacity 1.5s ease;
+      }
+
+      #intro-scene.fade-out {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* Intro hint text */
+      #intro-hint {
+        font-family: "Caveat", cursive;
+        font-size: 1.2rem;
+        color: rgba(200, 169, 126, 0.6);
+        margin-bottom: 2.5rem;
+        letter-spacing: 0.05em;
+        opacity: 0;
+        animation: breathe 3s ease-in-out infinite;
+      }
+
+      @keyframes breathe {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: translateY(0);
+        }
+        50% {
+          opacity: 0.7;
+          transform: translateY(-3px);
+        }
+      }
+
+      /* =========================================
+       ENVELOPE COMPONENT
+       ========================================= */
+      .envelope-wrap {
+        position: relative;
+        width: 320px;
+        height: 230px;
+        cursor: none;
+        perspective: 1200px;
+      }
+
+      /* The main envelope body */
+      .envelope-body {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(145deg, #f0dcb8, #e8cfa0);
+        border-radius: 4px;
+        box-shadow:
+          0 30px 80px rgba(0, 0, 0, 0.7),
+          0 0 60px rgba(200, 169, 126, 0.12),
+          inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+
+      /* Bottom triangle fold */
+      .envelope-body::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 160px solid transparent;
+        border-right: 160px solid transparent;
+        border-bottom: 115px solid #d4b888;
+      }
+
+      /* Left side fold line */
+      .envelope-body::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background:
+          linear-gradient(
+            135deg,
+            transparent 49.5%,
+            rgba(0, 0, 0, 0.06) 49.5%,
+            rgba(0, 0, 0, 0.06) 50.5%,
+            transparent 50.5%
+          ),
+          linear-gradient(
+            225deg,
+            transparent 49.5%,
+            rgba(0, 0, 0, 0.06) 49.5%,
+            rgba(0, 0, 0, 0.06) 50.5%,
+            transparent 50.5%
+          );
+      }
+
+      /* Envelope flap (top) */
+      .envelope-flap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 160px solid transparent;
+        border-right: 160px solid transparent;
+        border-top: 115px solid #dfc99a;
+        transform-origin: top center;
+        transform-style: preserve-3d;
+        transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 3;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+      }
+
+      .envelope-flap.open {
+        transform: rotateX(-180deg);
+      }
+
+      /* Wax seal */
+      .wax-seal {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 56px;
+        height: 56px;
+        z-index: 4;
+        cursor: none;
+      }
+
+      .wax-seal svg {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 3px 10px rgba(139, 38, 53, 0.5));
+        animation: sealPulse 2.5s ease-in-out infinite;
+      }
+
+      @keyframes sealPulse {
+        0%,
+        100% {
+          filter: drop-shadow(0 3px 10px rgba(139, 38, 53, 0.5));
+          transform: scale(1);
+        }
+        50% {
+          filter: drop-shadow(0 3px 20px rgba(139, 38, 53, 0.8));
+          transform: scale(1.04);
+        }
+      }
+
+      /* Letter inside the envelope */
+      .letter-inside {
+        position: absolute;
+        bottom: 10px;
+        left: 14px;
+        width: calc(100% - 28px);
+        height: 80%;
+        background: linear-gradient(to bottom, #fdf6e3, #faf0d5);
+        border-radius: 2px;
+        z-index: 2;
+        transform: translateY(20px);
+        opacity: 0;
+        transition:
+          transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s,
+          opacity 0.4s ease 0.3s;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .letter-inside.show {
+        transform: translateY(-100px);
+        opacity: 1;
+      }
+
+      .letter-inside-text {
+        font-family: "Caveat", cursive;
+        color: var(--crimson);
+        font-size: 1.3rem;
+        text-align: center;
+        padding: 1rem;
+        line-height: 1.6;
+      }
+
+      /* ── DIARY PHOTOS ── */
+      .diary-photos {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        padding: 1rem 0;
+      }
+      .diary-photo {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        border-radius: 8px;
+        box-shadow:
+          0 8px 24px rgba(0, 0, 0, 0.3),
+          0 4px 8px rgba(0, 0, 0, 0.2);
+        border: 8px solid #fefcfb;
+        border-bottom-width: 24px;
+        background: #fefcfb;
+        transform: rotate(-2deg);
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .diary-photo:nth-child(2) {
+        transform: rotate(3deg);
+        margin-top: -10px;
+      }
+      .diary-photo:hover {
+        transform: scale(1.03) rotate(0deg);
+        z-index: 2;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+      }
+
+      /* =========================================
+       MAIN CONTENT (UNLOCKED AFTER OPEN)
+       ========================================= */
+      #main-content {
+        position: relative;
+        z-index: 10;
+        display: none;
+        opacity: 0;
+      }
+
+      #main-content.visible {
+        display: block;
+        animation: fadeInContent 1.5s ease forwards;
+      }
+
+      @keyframes fadeInContent {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* =========================================
+       HERO SECTION
+       ========================================= */
+      #hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        position: relative;
+      }
+
+      .hero-date {
+        font-family: "Caveat", cursive;
+        font-size: 1.1rem;
+        color: var(--gold-dim);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        opacity: 0;
+        transform: translateY(10px);
+        margin-bottom: 1.5rem;
+      }
+
+      .hero-headline {
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-style: italic;
+        font-weight: 300;
+        font-size: clamp(2.2rem, 6vw, 4.5rem);
+        line-height: 1.2;
+        color: var(--white);
+        opacity: 0;
+        transform: translateY(20px);
+        max-width: 780px;
+        text-shadow: 0 0 40px rgba(200, 169, 126, 0.15);
+      }
+
+      .hero-headline em {
+        color: var(--gold-light);
+        font-style: italic;
+      }
+
+      .hero-divider {
+        width: 0;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--gold),
+          transparent
+        );
+        margin: 2.5rem auto;
+        transition: width 1.2s ease;
+      }
+
+      .hero-divider.expand {
+        width: min(400px, 80vw);
+      }
+
+      .hero-sub {
+        font-family: "Caveat", cursive;
+        font-size: clamp(1.1rem, 3vw, 1.5rem);
+        color: rgba(255, 240, 220, 0.65);
+        max-width: 500px;
+        line-height: 1.7;
+        opacity: 0;
+        transform: translateY(15px);
+      }
+
+      /* SVG Heart that draws itself */
+      .svg-heart-wrap {
+        margin: 3rem auto 1rem;
+        width: 100px;
+        height: 90px;
+        opacity: 0;
+      }
+
+      .heart-path {
+        fill: none;
+        stroke: var(--crimson);
+        stroke-width: 2;
+        stroke-dasharray: 500;
+        stroke-dashoffset: 500;
+        filter: drop-shadow(0 0 8px rgba(139, 38, 53, 0.5));
+        transition: stroke-dashoffset 2s ease 0.5s;
+      }
+
+      .heart-path.drawn {
+        stroke-dashoffset: 0;
+      }
+
+      /* Scroll cue */
+      .scroll-cue {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        color: rgba(200, 169, 126, 0.4);
+        font-family: "Caveat", cursive;
+        font-size: 0.9rem;
+        letter-spacing: 0.1em;
+        opacity: 0;
+        animation: scrollBounce 2s ease-in-out infinite;
+      }
+
+      @keyframes scrollBounce {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: translateX(-50%) translateY(0);
+        }
+        50% {
+          opacity: 0.7;
+          transform: translateX(-50%) translateY(5px);
+        }
+      }
+
+      .scroll-cue-arrow {
+        font-size: 1.2rem;
+      }
+
+      /* =========================================
+       SECTION: REASONS
+       ========================================= */
+      #reasons-section {
+        padding: 100px 5vw 80px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .section-label {
+        font-family: "Caveat", cursive;
+        font-size: 1rem;
+        color: var(--gold-dim);
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      .section-heading {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-weight: 300;
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        color: var(--white);
+        text-align: center;
+        margin-bottom: 4rem;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      /* Sticky note grid */
+      .notes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 2.5rem;
+        max-width: 1000px;
+        width: 100%;
+      }
+
+      .sticky-note {
+        background: var(--paper-aged);
+        padding: 2rem 1.8rem 2.5rem;
+        border-radius: 2px;
+        color: var(--ink);
+        position: relative;
+        opacity: 0;
+        transform: translateY(40px) rotate(var(--note-tilt, -1.5deg));
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+        box-shadow:
+          3px 3px 12px rgba(0, 0, 0, 0.45),
+          0 0 0 1px rgba(0, 0, 0, 0.05),
+          inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      }
+
+      /* Pin */
+      .sticky-note::before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 12px;
+        height: 12px;
+        background: radial-gradient(
+          circle at 40% 35%,
+          #e0a0a0,
+          var(--crimson-dk)
+        );
+        border-radius: 50%;
+        box-shadow:
+          0 2px 6px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+
+      /* Tape strip alternative (for variety) */
+      .sticky-note.tape::before {
+        content: "";
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 14px;
+        background: rgba(240, 225, 190, 0.7);
+        border-radius: 1px;
+        box-shadow: none;
+      }
+
+      .sticky-note:hover {
+        transform: translateY(-5px) rotate(0deg) scale(1.02);
+        box-shadow:
+          8px 16px 30px rgba(0, 0, 0, 0.5),
+          0 0 0 1px rgba(0, 0, 0, 0.05),
+          inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      }
+
+      .note-icon {
+        font-size: 1.6rem;
+        margin-bottom: 0.8rem;
+        display: block;
+      }
+
+      .note-title {
+        font-family: "Caveat", cursive;
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 0.6rem;
+      }
+
+      .note-text {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.05rem;
+        line-height: 1.65;
+        color: var(--ink-mid);
+      }
+
+      /* Ruled lines on note */
+      .sticky-note::after {
+        content: "";
+        position: absolute;
+        bottom: 14px;
+        left: 18px;
+        right: 18px;
+        height: 1px;
+        background: rgba(100, 60, 40, 0.1);
+        box-shadow:
+          0 -8px 0 rgba(100, 60, 40, 0.07),
+          0 -16px 0 rgba(100, 60, 40, 0.05);
+      }
+
+      /* =========================================
+       SECTION: TRAITS / "GRAVITY"
+       ========================================= */
+      #traits-section {
+        padding: 80px 5vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 80vh;
+        position: relative;
+      }
+
+      .traits-intro {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(1rem, 2.5vw, 1.3rem);
+        color: rgba(255, 240, 220, 0.5);
+        text-align: center;
+        max-width: 560px;
+        line-height: 1.7;
+        margin-top: 2rem;
+        margin-bottom: 3.5rem;
+        opacity: 0;
+      }
+
+      .traits-scatter {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem 1.5rem;
+        max-width: 800px;
+      }
+
+      .trait-tag {
+        font-family: "Caveat", cursive;
+        font-size: 1.15rem;
+        padding: 0.55rem 1.5rem;
+        border-radius: 40px;
+        border: 1px solid rgba(200, 169, 126, 0.2);
+        background: rgba(200, 169, 126, 0.04);
+        color: var(--gold-light);
+        letter-spacing: 0.02em;
+        opacity: 0;
+        transform: scale(0.85) translateY(10px);
+        cursor: default;
+        transition: all 0.25s ease;
+        position: relative;
+      }
+
+      .trait-tag:hover {
+        border-color: rgba(200, 169, 126, 0.6);
+        background: rgba(200, 169, 126, 0.1);
+        transform: scale(1.08) translateY(-2px);
+        box-shadow: 0 4px 20px rgba(200, 169, 126, 0.15);
+        color: var(--white);
+      }
+
+      /* =========================================
+       SECTION: DIARY ENTRY
+       ========================================= */
+      #diary-section {
+        padding: 80px 5vw 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .diary-paper {
+        max-width: 620px;
+        width: 100%;
+        background: linear-gradient(to bottom, #fdf6e3, #faf0d5);
+        padding: 3rem 3.5rem 3.5rem;
+        border-radius: 3px;
+        color: var(--ink);
+        position: relative;
+        box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.5),
+          0 2px 4px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(30px) rotate(-0.5deg);
+      }
+
+      /* Left red margin line */
+      .diary-paper::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 72px;
+        width: 1px;
+        background: rgba(180, 60, 60, 0.3);
+      }
+
+      /* Horizontal rules */
+      .diary-paper::after {
+        content: "";
+        position: absolute;
+        top: 5rem;
+        bottom: 2rem;
+        left: 2rem;
+        right: 2rem;
+        background-image: repeating-linear-gradient(
+          to bottom,
+          transparent,
+          transparent 27px,
+          rgba(100, 60, 40, 0.1) 27px,
+          rgba(100, 60, 40, 0.1) 28px
+        );
+      }
+
+      .diary-date-line {
+        font-family: "Caveat", cursive;
+        font-size: 1.1rem;
+        color: var(--ink-light);
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .diary-body {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.15rem;
+        line-height: 1.95;
+        color: var(--ink-mid);
+        position: relative;
+        z-index: 1;
+      }
+
+      .diary-body p {
+        margin-bottom: 1.2rem;
+      }
+      .diary-body em {
+        color: var(--crimson);
+        font-style: italic;
+      }
+      .diary-body strong {
+        font-weight: 600;
+        color: var(--ink);
+      }
+
+      .diary-signature {
+        font-family: "Caveat", cursive;
+        font-size: 1.6rem;
+        color: var(--crimson-dk);
+        text-align: right;
+        margin-top: 2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* =========================================
+       SECTION: FINAL / CLOSING
+       ========================================= */
+      #closing-section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 4rem 2rem;
+        position: relative;
+      }
+
+      .closing-eyebrow {
+        font-family: "Caveat", cursive;
+        font-size: 1rem;
+        color: var(--gold-dim);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 2rem;
+        opacity: 0;
+      }
+
+      .closing-headline {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-weight: 300;
+        font-size: clamp(2.5rem, 7vw, 5.5rem);
+        line-height: 1.15;
+        color: var(--white);
+        opacity: 0;
+        max-width: 800px;
+        text-shadow: 0 0 80px rgba(200, 169, 126, 0.2);
+      }
+
+      .closing-headline .gold {
+        color: var(--gold-light);
+      }
+
+      .closing-sub {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+        color: rgba(255, 240, 220, 0.55);
+        max-width: 500px;
+        line-height: 1.7;
+        margin-top: 2rem;
+        opacity: 0;
+      }
+
+      .closing-from {
+        font-family: "Caveat", cursive;
+        font-size: 1.8rem;
+        color: var(--gold);
+        margin-top: 3rem;
+        opacity: 0;
+      }
+
+      /* Big SVG heart for closing */
+      .closing-heart {
+        margin: 2.5rem auto;
+        width: 120px;
+        height: 108px;
+        opacity: 0;
+      }
+
+      .closing-heart-path {
+        fill: none;
+        stroke: var(--crimson);
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-dasharray: 700;
+        stroke-dashoffset: 700;
+        filter: drop-shadow(0 0 12px rgba(139, 38, 53, 0.6));
+      }
+
+      /* =========================================
+       DECORATIVE SVG DIVIDERS
+       ========================================= */
+      .svg-divider {
+        width: min(500px, 90vw);
+        margin: 3rem auto;
+        opacity: 0.35;
+        display: block;
+      }
+
+      .divider-path {
+        fill: none;
+        stroke: var(--gold);
+        stroke-width: 1;
+        stroke-dasharray: 600;
+        stroke-dashoffset: 600;
+        transition: stroke-dashoffset 1.5s ease;
+      }
+
+      .divider-path.drawn {
+        stroke-dashoffset: 0;
+      }
+
+      /* =========================================
+       GRAIN OVERLAY
+       ========================================= */
+      #grain {
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        opacity: 0.025;
+        pointer-events: none;
+        z-index: 9997;
+        animation: grainMove 0.5s steps(1) infinite;
+      }
+
+      @keyframes grainMove {
+        0% {
+          transform: translate(0, 0);
+        }
+        20% {
+          transform: translate(-2%, -3%);
+        }
+        40% {
+          transform: translate(2%, 1%);
+        }
+        60% {
+          transform: translate(-1%, 3%);
+        }
+        80% {
+          transform: translate(3%, -1%);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
+
+      /* =========================================
+       VIGNETTE
+       ========================================= */
+      #vignette {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+          ellipse at center,
+          transparent 50%,
+          rgba(5, 3, 2, 0.7) 100%
+        );
+        z-index: 9;
+        pointer-events: none;
+      }
+
+      /* =========================================
+       SCROLLBAR
+       ========================================= */
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--gold-dim);
+        border-radius: 3px;
+      }
+
+      /* =========================================
+       COUNTDOWN TIMER
+       ========================================= */
+      #countdown-section {
+        padding: 60px 5vw 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .countdown-wrap {
+        display: flex;
+        gap: 1.5rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .countdown-unit {
+        background: rgba(108, 99, 255, 0.08);
+        border: 1px solid rgba(108, 99, 255, 0.2);
+        border-radius: 16px;
+        padding: 1.5rem 1.8rem;
+        min-width: 100px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+      }
+
+      .countdown-unit:hover {
+        border-color: rgba(108, 99, 255, 0.5);
+        background: rgba(108, 99, 255, 0.12);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(108, 99, 255, 0.15);
+      }
+
+      .countdown-number {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: var(--accent-light);
+        line-height: 1;
+        text-shadow: 0 0 30px rgba(108, 99, 255, 0.4);
+      }
+
+      .countdown-label {
+        font-family: "Caveat", cursive;
+        font-size: 0.95rem;
+        color: rgba(200, 169, 126, 0.6);
+        margin-top: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .countdown-exam-name {
+        font-family: "Caveat", cursive;
+        font-size: 1.6rem;
+        color: var(--accent-light);
+        margin-top: 1.5rem;
+        opacity: 0.9;
+      }
+
+      /* =========================================
+       EXAM TIMELINE / PROGRESS
+       ========================================= */
+      #timeline-section {
+        padding: 60px 5vw 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .timeline {
+        position: relative;
+        max-width: 600px;
+        width: 100%;
+        margin-top: 2rem;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 24px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, var(--accent), var(--gold-dim));
+        opacity: 0.3;
+      }
+
+      .timeline-item {
+        position: relative;
+        padding-left: 60px;
+        padding-bottom: 2.5rem;
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+
+      .timeline-dot {
+        position: absolute;
+        left: 16px;
+        top: 4px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--bg);
+        border: 2px solid var(--gold-dim);
+        z-index: 2;
+        transition: all 0.3s ease;
+      }
+
+      .timeline-item.next .timeline-dot {
+        border-color: var(--accent-light);
+        background: var(--accent);
+        box-shadow: 0 0 15px rgba(108, 99, 255, 0.5);
+        animation: dotPulse 2s ease-in-out infinite;
+      }
+
+      .timeline-item.done .timeline-dot {
+        border-color: var(--success);
+        background: var(--success);
+      }
+
+      .timeline-item.done .timeline-dot::after {
+        content: "✓";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 0.6rem;
+        font-weight: bold;
+      }
+
+      @keyframes dotPulse {
+        0%,
+        100% {
+          box-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 25px rgba(108, 99, 255, 0.7);
+        }
+      }
+
+      .timeline-date {
+        font-family: "Caveat", cursive;
+        font-size: 0.95rem;
+        color: var(--gold-dim);
+        margin-bottom: 0.3rem;
+      }
+
+      .timeline-subject {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--white);
+      }
+
+      .timeline-item.next .timeline-subject {
+        color: var(--accent-light);
+      }
+
+      .timeline-msg {
+        font-family: "Caveat", cursive;
+        font-size: 1rem;
+        color: rgba(255, 240, 220, 0.45);
+        margin-top: 0.3rem;
+      }
+
+      /* =========================================
+       PHILOSOPHY HIGHLIGHT CARD
+       ========================================= */
+      #philosophy-section {
+        padding: 40px 5vw 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .philo-card {
+        max-width: 650px;
+        width: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(108, 99, 255, 0.08),
+          rgba(200, 169, 126, 0.05)
+        );
+        border: 1px solid rgba(108, 99, 255, 0.15);
+        border-radius: 20px;
+        padding: 3rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin: 1.5rem 0;
+      }
+
+      /* ── Music Player ── */
+      .music-player {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(10, 8, 18, 0.65);
+        backdrop-filter: blur(24px) saturate(1.4);
+        -webkit-backdrop-filter: blur(24px) saturate(1.4);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 50px;
+        padding: 8px 16px;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+      }
+      .music-player:hover {
+        background: rgba(10, 8, 18, 0.82);
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow:
+          0 8px 40px rgba(0, 0, 0, 0.5),
+          0 0 30px rgba(108, 99, 255, 0.2);
+        transform: translateY(-1px);
+      }
+      .music-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          rgba(108, 99, 255, 0.3),
+          rgba(162, 155, 254, 0.2)
+        );
+        border: 1.5px solid rgba(255, 255, 255, 0.12);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        color: white;
+      }
+      .music-btn:hover {
+        transform: scale(1.15);
+        box-shadow: 0 0 20px rgba(108, 99, 255, 0.35);
+        border-color: rgba(108, 99, 255, 0.4);
+      }
+      .music-btn.playing {
+        animation: vinylSpin 2s linear infinite;
+      }
+      @keyframes vinylSpin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .volume-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        opacity: 0;
+        width: 0;
+        overflow: hidden;
+        transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+      .volume-container span {
+        font-size: 0.75rem;
+      }
+      .music-player:hover .volume-container {
+        opacity: 1;
+        width: 90px;
+      }
+      .volume-slider {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 65px;
+        height: 3px;
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.15);
+        outline: none;
+        cursor: pointer;
+      }
+      .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #6c63ff, #a29bfe);
+        box-shadow: 0 0 8px rgba(108, 99, 255, 0.4);
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+      .volume-slider::-webkit-slider-thumb:hover {
+        transform: scale(1.3);
+      }
+
+      /* ── Typography & Headings ── */
+      .philo-card::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(108, 99, 255, 0.06),
+          transparent 50%
+        );
+        pointer-events: none;
+      }
+
+      .philo-emoji {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      .philo-title {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+        color: var(--accent-light);
+        margin-bottom: 1rem;
+      }
+
+      .philo-msg {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: rgba(240, 244, 255, 0.65);
+        max-width: 500px;
+        margin: 0 auto 1.5rem;
+      }
+
+      .philo-tip {
+        font-family: "Caveat", cursive;
+        font-size: 1.2rem;
+        color: var(--gold-light);
+        padding: 1rem 1.5rem;
+        background: rgba(200, 169, 126, 0.06);
+        border: 1px solid rgba(200, 169, 126, 0.12);
+        border-radius: 12px;
+        display: inline-block;
+      }
+
+      /* =========================================
+       MOTIVATIONAL QUOTES
+       ========================================= */
+      #quotes-section {
+        padding: 60px 5vw 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .quotes-container {
+        max-width: 600px;
+        width: 100%;
+        position: relative;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .quote-card {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+        pointer-events: none;
+      }
+
+      .quote-card.active {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .quote-text {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(1.3rem, 3vw, 1.8rem);
+        line-height: 1.7;
+        color: var(--white);
+        margin-bottom: 1.5rem;
+      }
+
+      .quote-author {
+        font-family: "Caveat", cursive;
+        font-size: 1.1rem;
+        color: var(--gold);
+      }
+
+      .quote-dots {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 2rem;
+      }
+
+      .quote-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(200, 169, 126, 0.2);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .quote-dot.active {
+        background: var(--accent-light);
+        box-shadow: 0 0 10px rgba(108, 99, 255, 0.4);
+        transform: scale(1.3);
+      }
+
+      /* =========================================
+       RESPONSIVE
+       ========================================= */
+      @media (max-width: 600px) {
+        .envelope-wrap {
+          width: 280px;
+          height: 200px;
+        }
+        .envelope-flap {
+          border-left-width: 140px;
+          border-right-width: 140px;
+          border-top-width: 100px;
+        }
+        .envelope-body::before {
+          border-left-width: 140px;
+          border-right-width: 140px;
+          border-bottom-width: 100px;
+        }
+        .diary-paper {
+          padding: 2rem 1.5rem 2.5rem;
+        }
+        .diary-paper::before {
+          left: 52px;
+        }
+        .notes-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+        .countdown-wrap {
+          gap: 0.8rem;
+        }
+        .countdown-unit {
+          min-width: 75px;
+          padding: 1rem 1.2rem;
+        }
+        .countdown-number {
+          font-size: 2rem;
+        }
+        .philo-card {
+          padding: 2rem 1.5rem;
+        }
+        .timeline-item {
+          padding-left: 50px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SVG Filter for the Gooey Effect -->
+    <svg style="position: absolute; width: 0; height: 0; pointer-events: none">
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur" />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9"
+            result="goo"
+          />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Liquid Background Layer (Replaces Bokeh) -->
+    <canvas id="liquid-canvas"></canvas>
+
+    <!-- Grain + Vignette atmospheric layers -->
+    <div id="grain"></div>
+    <div id="vignette"></div>
+
+    <!-- Custom cursor -->
+    <div id="cursor"></div>
+    <div id="cursor-trail"></div>
+
+    <!-- Cursor effects canvas (full-screen overlay) -->
+    <canvas
+      id="cursor-fx-canvas"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9996;
+      "
+    ></canvas>
+
+    <!-- Cursor effect toggle button -->
+    <button
+      id="poison-btn"
+      style="
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 9999;
+        font-family: &quot;Caveat&quot;, cursive;
+        font-size: 1.1rem;
+        color: rgba(200, 169, 126, 0.7);
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(200, 169, 126, 0.15);
+        border-radius: 30px;
+        padding: 0.5rem 1.3rem;
+        cursor: none;
+        backdrop-filter: blur(8px);
+        transition: all 0.3s ease;
+        letter-spacing: 0.02em;
+      "
+      onmouseenter="
+        this.style.borderColor = 'rgba(162,155,254,0.5)';
+        this.style.color = 'rgba(162,155,254,0.9)';
+        this.style.background = 'rgba(162,155,254,0.08)';
+      "
+      onmouseleave="
+        this.style.borderColor = 'rgba(200,169,126,0.15)';
+        this.style.color = 'rgba(200,169,126,0.7)';
+        this.style.background = 'rgba(255,255,255,0.04)';
+      "
+    >
+      choose your poison X) — ✨ sparkle
+    </button>
+
+    <!-- Audio Control (Hidden until played) -->
+    <div
+      id="audio-control"
+      style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 999;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 1s;
+      "
+    >
+      <svg
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+        fill="rgba(200,169,126,0.6)"
+      >
+        <path
+          d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"
+        />
+      </svg>
+    </div>
+    <!-- Audio Background -->
+    <audio id="bg-music" loop autoplay src="src/LoseYourself.mp3"></audio>
+
+    <!-- Music Player Controls (Top Left) -->
+    <div class="music-player">
+      <button class="music-btn" id="music-toggle" title="Play/Pause">🎵</button>
+      <div class="volume-container">
+        <span>🔊</span>
+        <input
+          type="range"
+          class="volume-slider"
+          id="volume-slider"
+          min="0"
+          max="100"
+          value="40"
+        />
+      </div>
+    </div>
+
+    <!-- ============================================================
+       INTRO SCENE — Envelope
+       ============================================================ -->
+    <div id="intro-scene">
+      <p id="intro-hint">: ))) Click the 🦭 to open heheh</p>
+
+      <div class="envelope-wrap" id="envelope-wrap">
+        <!-- Back of envelope (always behind) -->
+        <div class="envelope-body"></div>
+
+        <!-- Letter peeking out -->
+        <div class="letter-inside" id="letter-inside">
+          <div class="letter-inside-text">
+            Psst...<br />
+            I know exams are stressful... Let me help you out.<br />
+            (pwease? 🥺)
+          </div>
+        </div>
+
+        <!-- The flap (opens on click) -->
+        <div class="envelope-flap" id="envelope-flap"></div>
+
+        <!-- Wax seal (click target) -->
+        <div class="wax-seal" id="wax-seal">
+          <svg
+            viewBox="0 0 56 56"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <!-- Seal base circle -->
+            <circle
+              cx="28"
+              cy="28"
+              r="26"
+              fill="#7a1a28"
+              stroke="#4a0f1a"
+              stroke-width="1.5"
+            />
+            <circle
+              cx="28"
+              cy="28"
+              r="22"
+              fill="none"
+              stroke="rgba(255,200,170,0.2)"
+              stroke-width="0.8"
+            />
+            <!-- Decorative outer ring marks -->
+            <circle
+              cx="28"
+              cy="28"
+              r="24"
+              fill="none"
+              stroke="rgba(200,120,100,0.25)"
+              stroke-width="0.5"
+              stroke-dasharray="3 4"
+            />
+            <!-- Heart path in seal -->
+            <path
+              d="M28 37 C28 37 16 29 16 22 C16 18.5 19 16 22 16 C24.5 16 26.5 17.5 28 20 C29.5 17.5 31.5 16 34 16 C37 16 40 18.5 40 22 C40 29 28 37 28 37Z"
+              fill="rgba(255,190,160,0.85)"
+              stroke="rgba(255,220,200,0.4)"
+              stroke-width="0.5"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+       PETAL CONTAINER
+       ============================================================ -->
+    <div id="petal-container"></div>
+
+    <!-- ============================================================
+       MAIN CONTENT (revealed after envelope opens)
+       ============================================================ -->
+    <div id="main-content">
+      <!-- ── HERO ── -->
+      <section id="hero">
+        <p class="hero-date" id="hero-date">Board Exams 2026 · Class XII</p>
+
+        <h1 class="hero-headline" id="hero-headline">
+          Heeyyy officerrrr : D <br />
+          <em>You're</em><br />
+          <em> gonna crush these exams!</em><br />
+        </h1>
+
+        <!-- Animated SVG heart -->
+        <div class="svg-heart-wrap" id="small-heart">
+          <svg
+            viewBox="0 0 80 72"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              class="heart-path"
+              id="small-heart-path"
+              d="M40 64 C40 64 6 44 6 22 C6 13 13 7 20 7 C26 7 32 11 40 20 C48 11 54 7 60 7 C67 7 74 13 74 22 C74 44 40 64 40 64Z"
+            />
+          </svg>
+        </div>
+
+        <div class="hero-divider" id="hero-divider"></div>
+
+        <p class="hero-sub" id="hero-sub">
+          Your first exam is tomorrow,,,, Philosophyy heheh<br />
+          And you love Philosophyyy, its
+          <em><strong>YOUR thing ; )</strong></em> <br />
+          Take a deep breath, you're ready. 💜
+        </p>
+
+        <!-- Scroll cue -->
+        <div class="scroll-cue" id="scroll-cue">
+          <span>scroll gently...</span>
+          <span class="scroll-cue-arrow">↓</span>
+        </div>
+      </section>
+
+      <!-- ── COUNTDOWN TO NEXT EXAM ── -->
+      <section id="countdown-section">
+        <p class="section-label" id="countdown-label">next exam in</p>
+        <h2 class="section-heading" id="countdown-heading">
+          Countdown to <em id="countdown-exam-name">Philosophy</em>
+        </h2>
+        <div class="countdown-wrap" id="countdown-wrap">
+          <div class="countdown-unit">
+            <div class="countdown-number" id="cd-hours">--</div>
+            <div class="countdown-label">Hours</div>
+          </div>
+          <div class="countdown-unit">
+            <div class="countdown-number" id="cd-minutes">--</div>
+            <div class="countdown-label">Minutes</div>
+          </div>
+          <div class="countdown-unit">
+            <div class="countdown-number" id="cd-seconds">--</div>
+            <div class="countdown-label">Seconds</div>
+          </div>
+        </div>
+        <p class="countdown-exam-name" id="countdown-msg">
+          You'll do amazinglyyy 🌟
+        </p>
+      </section>
+
+      <!-- Decorative divider -->
+      <svg
+        class="svg-divider"
+        viewBox="0 0 500 30"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          class="divider-path"
+          d="M0 15 Q60 5 100 15 Q140 25 180 15 Q220 5 250 15 Q280 25 320 15 Q360 5 400 15 Q440 25 500 15"
+        />
+      </svg>
+
+      <!-- ── REASONS SECTION ── -->
+      <section id="reasons-section">
+        <p class="section-label" id="reasons-label">Your Exam Schedule</p>
+        <h2 class="section-heading" id="reasons-heading">
+          Just a quick reminder of<br />
+          what you're going to <em>ace</em>.
+        </h2>
+
+        <div class="notes-grid">
+          <div class="sticky-note" style="--note-tilt: -2deg">
+            <span class="note-icon">✖️➕➖➗</span>
+            <div class="note-title">Math</div>
+            <p class="note-text">
+              9th March. Trigonometry ho ya Probablity, you've got thiss
+            </p>
+          </div>
+
+          <div class="sticky-note tape" style="--note-tilt: 1.5deg">
+            <span class="note-icon">✍️</span>
+            <div class="note-title">English</div>
+            <p class="note-text">
+              12th March. <br />: ))))) Englishhh?? Scoffff that your baay haath
+              ka khel ; ) You and your words... perfect combination 😋😋
+            </p>
+          </div>
+
+          <div class="sticky-note" style="--note-tilt: -1deg">
+            <span class="note-icon">📈</span>
+            <div class="note-title">Economics</div>
+            <p class="note-text">
+              18th March. Supply, demand, and a whole lot of high scores coming
+              your way.
+            </p>
+          </div>
+
+          <div class="sticky-note tape" style="--note-tilt: 2deg">
+            <span class="note-icon">🏛️</span>
+            <div class="note-title">Political Science</div>
+            <p class="note-text">
+              23rd March. You already know how to rule the world, this is just a
+              test! 😋
+            </p>
+          </div>
+
+          <div class="sticky-note" style="--note-tilt: -1.5deg">
+            <span class="note-icon">🤝</span>
+            <div class="note-title">Sociology</div>
+            <p class="note-text">
+              4th April. The grand finale! Finish strong, I'm so proud of you.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── PHILOSOPHY HIGHLIGHT ── -->
+      <section id="philosophy-section">
+        <p class="section-label" id="philo-label">Tomorrow · 5th March</p>
+        <div class="philo-card" id="philo-card">
+          <div class="philo-emoji">📖</div>
+          <h2 class="philo-title">Philosophy — Your First Exam</h2>
+          <p class="philo-msg">
+            "The unexamined life is not worth living" — Socrates said that. But
+            tomorrow, your examined paper IS worth living for. You've thought
+            deeply, studied well, and you're more than ready.
+          </p>
+          <div class="philo-tip">
+            💡 Quick tip: Read each question twice, plan your answers, and trust
+            what you know!
+          </div>
+        </div>
+      </section>
+
+      <!-- Decorative divider -->
+      <svg
+        class="svg-divider"
+        viewBox="0 0 500 30"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          class="divider-path"
+          d="M500 15 Q440 25 400 15 Q360 5 320 15 Q280 25 250 15 Q220 5 180 15 Q140 25 100 15 Q60 5 0 15"
+        />
+      </svg>
+
+      <!-- ── TRAITS SECTION ── -->
+      <section id="traits-section">
+        <p class="section-label" id="traits-label">your superpower</p>
+        <h2 class="section-heading" id="traits-heading">
+          You are capable of <em>everything</em> 🌟
+        </h2>
+        <p class="traits-intro" id="traits-intro">
+          Just a reminder of all the amazing qualities you have that will help
+          you ace these exams.
+        </p>
+
+        <div class="traits-scatter">
+          <span class="trait-tag">Brilliant 🧠</span>
+          <span class="trait-tag">Hardworking 📚</span>
+          <span class="trait-tag">Dedicated 🔥</span>
+          <span class="trait-tag">Strong 💪</span>
+          <span class="trait-tag">Focused 🎯</span>
+          <span class="trait-tag">Calm 🕊️</span>
+          <span class="trait-tag">Unstoppable 🚀</span>
+          <span class="trait-tag">My Superstar ⭐</span>
+        </div>
+      </section>
+
+      <!-- ── EXAM TIMELINE ── -->
+      <section id="timeline-section">
+        <p class="section-label" id="timeline-label">your journey</p>
+        <h2 class="section-heading" id="timeline-heading">
+          The Road to <em>Victory</em>
+        </h2>
+
+        <div class="timeline" id="timeline">
+          <div class="timeline-item next" data-date="2026-03-05">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">5th March</div>
+            <div class="timeline-subject">📖 Philosophy — TOMORROW!</div>
+            <div class="timeline-msg">
+              Your journey begins here. You've got this!
+            </div>
+          </div>
+          <div class="timeline-item" data-date="2026-03-09">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">9th March</div>
+            <div class="timeline-subject">📐 Mathematics</div>
+            <div class="timeline-msg">
+              Numbers are your friends, trust the process!
+            </div>
+          </div>
+          <div class="timeline-item" data-date="2026-03-12">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">12th March</div>
+            <div class="timeline-subject">✍️ English</div>
+            <div class="timeline-msg">
+              Write from the heart, express with confidence.
+            </div>
+          </div>
+          <div class="timeline-item" data-date="2026-03-18">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">18th March</div>
+            <div class="timeline-subject">📈 Economics</div>
+            <div class="timeline-msg">
+              Supply your best, demand nothing less!
+            </div>
+          </div>
+          <div class="timeline-item" data-date="2026-03-23">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">23rd March</div>
+            <div class="timeline-subject">🏛️ Political Science</div>
+            <div class="timeline-msg">
+              The future diplomat takes on one more exam.
+            </div>
+          </div>
+          <div class="timeline-item" data-date="2026-04-04">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">4th April</div>
+            <div class="timeline-subject">🤝 Sociology</div>
+            <div class="timeline-msg">
+              The grand finale! Finish strong, champion. 🏆
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── MOTIVATIONAL QUOTES ── -->
+      <section id="quotes-section">
+        <p class="section-label" id="quotes-label">words to carry</p>
+        <h2 class="section-heading" id="quotes-heading">
+          A Little <em>Inspiration</em>
+        </h2>
+
+        <div class="quotes-container" id="quotes-container">
+          <div class="quote-card active">
+            <p class="quote-text">
+              "Believe you can and you're halfway there."
+            </p>
+            <p class="quote-author">— Theodore Roosevelt</p>
+          </div>
+          <div class="quote-card">
+            <p class="quote-text">
+              "The future belongs to those who believe in the beauty of their
+              dreams."
+            </p>
+            <p class="quote-author">— Eleanor Roosevelt</p>
+          </div>
+          <div class="quote-card">
+            <p class="quote-text">
+              "It does not matter how slowly you go as long as you do not stop."
+            </p>
+            <p class="quote-author">— Confucius</p>
+          </div>
+          <div class="quote-card">
+            <p class="quote-text">
+              "Success is not final, failure is not fatal: it is the courage to
+              continue that counts."
+            </p>
+            <p class="quote-author">— Winston Churchill</p>
+          </div>
+          <div class="quote-card">
+            <p class="quote-text">
+              "You are braver than you believe, stronger than you seem, and
+              smarter than you think."
+            </p>
+            <p class="quote-author">— A.A. Milne</p>
+          </div>
+        </div>
+        <div class="quote-dots" id="quote-dots"></div>
+      </section>
+
+      <!-- ── DIARY SECTION ── -->
+      <section id="diary-section">
+        <p class="section-label" id="diary-label" style="text-align: center">
+          a little push
+        </p>
+        <h2 class="section-heading" id="diary-heading">
+          A Letter for Your Exam Days
+        </h2>
+
+        <div class="diary-paper" id="diary-paper">
+          <div class="diary-date-line">
+            March 4th, 2026. You are well prepared drish.
+          </div>
+
+          <div class="diary-photos">
+            <img
+              src="src/images/Boards1.jpg"
+              alt="A letter for your exam days - Page 1"
+              class="diary-photo"
+            />
+            <img
+              src="src/images/Boards2.jpg"
+              alt="A letter for your exam days - Page 2"
+              class="diary-photo"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CLOSING SECTION ── -->
+      <section id="closing-section">
+        <p class="closing-eyebrow" id="closing-eyebrow">You're almost there!</p>
+
+        <!-- Big animated heart -->
+        <div class="closing-heart" id="closing-heart">
+          <svg
+            viewBox="0 0 120 108"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              class="closing-heart-path"
+              id="closing-heart-path"
+              d="M60 96 C60 96 8 64 8 32 C8 18 18 9 29 9 C38 9 47 15 60 28 C73 15 82 9 91 9 C102 9 112 18 112 32 C112 64 60 96 60 96Z"
+            />
+          </svg>
+        </div>
+
+        <h2 class="closing-headline" id="closing-headline">
+          All the <span class="gold">Best</span>,<br />
+          Drishti! 💜
+        </h2>
+
+        <p class="closing-sub" id="closing-sub">
+          I believe in you more than you know.<br />
+          Go ace every single one of them.
+        </p>
+
+        <p class="closing-from" id="closing-from">
+          — With all my love, Kaustubh
+        </p>
+      </section>
+    </div>
+    <!-- /#main-content -->
+
+    <!-- ============================================================
+       JAVASCRIPT
+       ============================================================ -->
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+
+      // ─── CURSOR ──────────────────────────────────────────────────
+      const cursor = document.getElementById("cursor");
+      const cursorTrail = document.getElementById("cursor-trail");
+
+      // Raw mouse target
+      let mouseX = -100,
+        mouseY = -100;
+      // Smoothed positions for dot and trail (two separate lerp speeds)
+      let dotX = -100,
+        dotY = -100;
+      let trailX = -100,
+        trailY = -100;
+      // For velocity-based squish
+      let prevDotX = -100,
+        prevDotY = -100;
+
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      // Single unified rAF loop — both dot and trail lerp every frame
+      (function cursorLoop() {
+        // Dot: fast lerp (feels "attached" but not snappy)
+        dotX += (mouseX - dotX) * 0.18;
+        dotY += (mouseY - dotY) * 0.18;
+
+        // Trail: slower lerp for the ring
+        trailX += (dotX - trailX) * 0.1;
+        trailY += (dotY - trailY) * 0.1;
+
+        // Velocity for squish effect on the dot
+        const vx = dotX - prevDotX;
+        const vy = dotY - prevDotY;
+        const speed = Math.sqrt(vx * vx + vy * vy);
+        // Squish: elongate in direction of travel, clamp effect
+        const squish = Math.min(speed * 0.06, 0.35);
+        const angle = Math.atan2(vy, vx) * (180 / Math.PI);
+        const sx = 1 + squish;
+        const sy = 1 - squish * 0.5;
+
+        cursor.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%) rotate(${angle}deg) scale(${sx}, ${sy})`;
+        cursorTrail.style.transform = `translate3d(${trailX}px, ${trailY}px, 0) translate(-50%, -50%)`;
+
+        prevDotX = dotX;
+        prevDotY = dotY;
+
+        requestAnimationFrame(cursorLoop);
+      })();
+
+      // Cursor hover state on interactive elements
+      document
+        .querySelectorAll(
+          "a, button, .sticky-note, .trait-tag, #wax-seal, .envelope-wrap",
+        )
+        .forEach((el) => {
+          el.addEventListener("mouseenter", () =>
+            cursor.classList.add("hovering"),
+          );
+          el.addEventListener("mouseleave", () =>
+            cursor.classList.remove("hovering"),
+          );
+        });
+
+      // ─── REAL FLUID MECHANICS (Grid-Based Navier-Stokes) ─────────
+      const canvas = document.getElementById("liquid-canvas");
+      const ctx = canvas.getContext("2d");
+      let W, H;
+
+      function resizeCanvas() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+
+      // Fluid Config
+      const N = 64; // Grid resolution (keep low for performance)
+      const iter = 4; // Solver iterations
+      const scale = 4; // Display scale
+
+      // Arrays
+      let size = (N + 2) * (N + 2);
+      let u = new Float32Array(size); // Velocity X
+      let v = new Float32Array(size); // Velocity Y
+      let u_prev = new Float32Array(size);
+      let v_prev = new Float32Array(size);
+      let dens = new Float32Array(size); // Density (Ink)
+      let dens_prev = new Float32Array(size);
+
+      // Audio setup
+      let audioCtx, analyser, dataArray;
+      let isAudioInit = false;
+
+      function initAudio() {
+        if (isAudioInit) return;
+        try {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          analyser = audioCtx.createAnalyser();
+          const audio = document.getElementById("bg-music");
+          const src = audioCtx.createMediaElementSource(audio);
+          src.connect(analyser);
+          analyser.connect(audioCtx.destination);
+          analyser.fftSize = 64;
+          dataArray = new Uint8Array(analyser.frequencyBinCount);
+          isAudioInit = true;
+          audio.play().then(() => gsap.to("#audio-control", { opacity: 1 }));
+        } catch (e) {
+          console.log("Audio init error", e);
+        }
+      }
+
+      // Audio Control Click
+      document.getElementById("audio-control").addEventListener("click", () => {
+        const audio = document.getElementById("bg-music");
+        if (audio.paused) {
+          audio.play();
+          gsap.to("#audio-control", { opacity: 1, scale: 1.1 });
+        } else {
+          audio.pause();
+          gsap.to("#audio-control", { opacity: 0.5, scale: 1 });
+        }
+      });
+
+      // FLUID SOLVER FUNCTIONS
+      function IX(x, y) {
+        return x + (N + 2) * y;
+      }
+
+      function add_source(x, s, dt) {
+        for (let i = 0; i < size; i++) x[i] += dt * s[i];
+      }
+
+      function set_bnd(b, x) {
+        for (let i = 1; i <= N; i++) {
+          x[IX(0, i)] = b === 1 ? -x[IX(1, i)] : x[IX(1, i)];
+          x[IX(N + 1, i)] = b === 1 ? -x[IX(N, i)] : x[IX(N, i)];
+          x[IX(i, 0)] = b === 2 ? -x[IX(i, 1)] : x[IX(i, 1)];
+          x[IX(i, N + 1)] = b === 2 ? -x[IX(i, N)] : x[IX(i, N)];
+        }
+        x[IX(0, 0)] = 0.5 * (x[IX(1, 0)] + x[IX(0, 1)]);
+        x[IX(0, N + 1)] = 0.5 * (x[IX(1, N + 1)] + x[IX(0, N)]);
+        x[IX(N + 1, 0)] = 0.5 * (x[IX(N, 0)] + x[IX(N + 1, 1)]);
+        x[IX(N + 1, N + 1)] = 0.5 * (x[IX(N, N + 1)] + x[IX(N + 1, N)]);
+      }
+
+      function lin_solve(b, x, x0, a, c) {
+        let cRecip = 1.0 / c;
+        for (let k = 0; k < iter; k++) {
+          for (let j = 1; j <= N; j++) {
+            for (let i = 1; i <= N; i++) {
+              x[IX(i, j)] =
+                (x0[IX(i, j)] +
+                  a *
+                    (x[IX(i - 1, j)] +
+                      x[IX(i + 1, j)] +
+                      x[IX(i, j - 1)] +
+                      x[IX(i, j + 1)])) *
+                cRecip;
+            }
+          }
+          set_bnd(b, x);
+        }
+      }
+
+      function diffuse(b, x, x0, diff, dt) {
+        let a = dt * diff * (N - 2) * (N - 2);
+        lin_solve(b, x, x0, a, 1 + 6 * a); // 6 for neighbor check? 4 usually. using 4 in lin_solve loop
+        // Standard loop uses 4 neighbors. a should be used with 1+4a divisor logic in lin_solve but here using simplified.
+        // Actually, let's stick to standard implementation:
+        // Divisor is 1+4a
+        // Correction: inside lin_solve, it's 4 neighbors.
+        // Let's rewrite lin_solve slightly to be safer
+      }
+
+      function lin_solve_standard(b, x, x0, a, c) {
+        let cRecip = 1.0 / c;
+        for (let k = 0; k < iter; k++) {
+          for (let j = 1; j <= N; j++) {
+            for (let i = 1; i <= N; i++) {
+              x[IX(i, j)] =
+                (x0[IX(i, j)] +
+                  a *
+                    (x[IX(i - 1, j)] +
+                      x[IX(i + 1, j)] +
+                      x[IX(i, j - 1)] +
+                      x[IX(i, j + 1)])) *
+                cRecip;
+            }
+          }
+          set_bnd(b, x);
+        }
+      }
+
+      function diffuse_standard(b, x, x0, diff, dt) {
+        let a = dt * diff * (N - 2) * (N - 2);
+        lin_solve_standard(b, x, x0, a, 1 + 4 * a);
+      }
+
+      function project(u, v, p, div) {
+        for (let j = 1; j <= N; j++) {
+          for (let i = 1; i <= N; i++) {
+            div[IX(i, j)] =
+              (-0.5 *
+                (u[IX(i + 1, j)] -
+                  u[IX(i - 1, j)] +
+                  v[IX(i, j + 1)] -
+                  v[IX(i, j - 1)])) /
+              N;
+            p[IX(i, j)] = 0;
+          }
+        }
+        set_bnd(0, div);
+        set_bnd(0, p);
+        lin_solve_standard(0, p, div, 1, 4);
+
+        for (let j = 1; j <= N; j++) {
+          for (let i = 1; i <= N; i++) {
+            u[IX(i, j)] -= 0.5 * (p[IX(i + 1, j)] - p[IX(i - 1, j)]) * N;
+            v[IX(i, j)] -= 0.5 * (p[IX(i, j + 1)] - p[IX(i, j - 1)]) * N;
+          }
+        }
+        set_bnd(1, u);
+        set_bnd(2, v);
+      }
+
+      function advect(b, d, d0, u, v, dt) {
+        let i0, i1, j0, j1;
+        let x, y, s0, t0, s1, t1, dt0;
+        dt0 = dt * (N - 2);
+        for (let i = 1; i <= N; i++) {
+          for (let j = 1; j <= N; j++) {
+            x = i - dt0 * u[IX(i, j)];
+            y = j - dt0 * v[IX(i, j)];
+            if (x < 0.5) x = 0.5;
+            if (x > N + 0.5) x = N + 0.5;
+            i0 = Math.floor(x);
+            i1 = i0 + 1;
+            if (y < 0.5) y = 0.5;
+            if (y > N + 0.5) y = N + 0.5;
+            j0 = Math.floor(y);
+            j1 = j0 + 1;
+            s1 = x - i0;
+            s0 = 1.0 - s1;
+            t1 = y - j0;
+            t0 = 1.0 - t1;
+            d[IX(i, j)] =
+              s0 * (t0 * d0[IX(i0, j0)] + t1 * d0[IX(i0, j1)]) +
+              s1 * (t0 * d0[IX(i1, j0)] + t1 * d0[IX(i1, j1)]);
+          }
+        }
+        set_bnd(b, d);
+      }
+
+      // Loop
+      let lastTime = Date.now();
+      function fluidStep() {
+        let dt = 0.1; // fixed step
+
+        // Audio Injection
+        if (isAudioInit && analyser) {
+          analyser.getByteFrequencyData(dataArray);
+          let bass = 0;
+          for (let i = 0; i < 10; i++) bass += dataArray[i];
+          bass = bass / 10;
+
+          // Pump center if bass kick
+          if (bass > 150) {
+            let cx = N / 2;
+            let cy = N / 2;
+            dens[IX(cx, cy)] += 200; // Add ink
+            // Add random velocity
+            u[IX(cx, cy)] += (Math.random() - 0.5) * 10;
+            v[IX(cx, cy)] += (Math.random() - 0.5) * 10;
+          }
+        }
+
+        // Mouse Injection
+        if (mouseX > 0 && mouseY > 0) {
+          // Map screen mouse to grid
+          let i = Math.floor((mouseX / W) * N);
+          let j = Math.floor((mouseY / H) * N);
+
+          if (i > 1 && i < N - 1 && j > 1 && j < N - 1) {
+            dens[IX(i, j)] += 200; // More ink
+            let idx = IX(i, j);
+            u[idx] += (mouseX - trailX) * 0.2;
+            v[idx] += (mouseY - trailY) * 0.2;
+          }
+        }
+
+        // Ambient Noise (so it's never fully black)
+        if (Math.random() < 0.1) {
+          let ri = Math.floor(Math.random() * (N - 2)) + 1;
+          let rj = Math.floor(Math.random() * (N - 2)) + 1;
+          dens[IX(ri, rj)] += 50;
+          v[IX(ri, rj)] -= 1; // drifting up
+        }
+
+        // Step
+        diffuse_standard(1, u_prev, u, 0, dt);
+        diffuse_standard(2, v_prev, v, 0, dt);
+        project(u_prev, v_prev, u, v);
+        advect(1, u, u_prev, u_prev, v_prev, dt);
+        advect(2, v, v_prev, u_prev, v_prev, dt);
+        project(u, v, u_prev, v_prev);
+        diffuse_standard(0, dens_prev, dens, 0, dt);
+        advect(0, dens, dens_prev, u, v, dt);
+
+        // Render
+        ctx.clearRect(0, 0, W, H);
+        // We render density as red/dark smoke
+        let cellW = W / N;
+        let cellH = H / N;
+
+        for (let i = 1; i <= N; i++) {
+          for (let j = 1; j <= N; j++) {
+            let d = dens[IX(i, j)];
+            if (d > 0.1) {
+              // Color mapping: base red/black + density
+              // Boost brightness so it's visible
+              let r = Math.min(255, 60 + d * 4);
+              let g = Math.min(255, 20 + d * 0.8);
+              let b = Math.min(255, 25 + d * 0.4);
+              let a = Math.min(1, d * 0.008); // Transparency
+
+              ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
+              // Draw slightly overlapping rects for smooth look
+              ctx.fillRect(
+                (i - 1) * cellW - 1,
+                (j - 1) * cellH - 1,
+                cellW + 2,
+                cellH + 2,
+              );
+            }
+            // Decay density (slower decay for longer trails)
+            dens[IX(i, j)] *= 0.99;
+          }
+        }
+
+        requestAnimationFrame(fluidStep);
+      }
+      fluidStep();
+
+      // AUTO SPLASH ON LOAD (so it's not empty)
+      setTimeout(() => {
+        let cx = N / 2,
+          cy = N / 2;
+        for (let k = 0; k < 10; k++) {
+          dens[IX(cx + k, cy)] += 500;
+          dens[IX(cx - k, cy)] += 500;
+          u[IX(cx, cy)] += 50; // push right
+        }
+      }, 1000);
+
+      // ─── PHYSICS PETALS ──────────────────────────────────────────
+      // These will be DOM elements that obey gravity and mouse wind
+      const activePetals = [];
+      const petalEmojis = ["🌸", "✿", "❀", "🌺", "✾"];
+
+      class PhysicsPetal {
+        constructor(x, y) {
+          this.el = document.createElement("div");
+          this.el.className = "petal";
+          this.el.textContent =
+            petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+          document.body.appendChild(this.el);
+
+          this.x = x;
+          this.y = y;
+          this.vx = (Math.random() - 0.5) * 10;
+          this.vy = (Math.random() - 1) * 10 - 5; // Upward burst initially
+          this.rotation = Math.random() * 360;
+          this.vr = (Math.random() - 0.5) * 10;
+          this.friction = 0.98;
+          this.gravity = 0.15;
+          this.size = Math.random() * 1.2 + 0.8;
+
+          this.el.style.fontSize = `${this.size}rem`;
+
+          // Animate in
+          gsap.fromTo(
+            this.el,
+            { scale: 0 },
+            { scale: 1, opacity: 1, duration: 0.3 },
+          );
+
+          this.settled = false;
+        }
+
+        update() {
+          // Mouse Interaction (Wind)
+          const dx = this.x - cx;
+          const dy = this.y - cy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 150) {
+            const force = (150 - dist) / 150;
+            const angle = Math.atan2(dy, dx);
+            this.vx += Math.cos(angle) * force * 2;
+            this.vy += Math.sin(angle) * force * 2;
+            this.vr += force * 5;
+            this.settled = false; // Wake up if settled
+          }
+
+          if (!this.settled) {
+            this.vy += this.gravity;
+            this.x += this.vx;
+            this.y += this.vy;
+            this.rotation += this.vr;
+
+            this.vx *= this.friction;
+            this.vy *= this.friction;
+            this.vr *= 0.95;
+
+            // Floor collision (virtual floor or screen bottom)
+            // Let's have them stop near the bottom of the screen or settle?
+            // Actually, let's make them float down and disappear eventually or land "on" text elements?
+            // Simple: Bounce off edges
+            if (this.x < 0 || this.x > W) this.vx *= -0.8;
+
+            if (this.y > H + 50) {
+              // Reset to top or remove? Remove for now to save performance
+              // or recycle?
+              this.active = false;
+              this.el.remove();
+            }
+          } else {
+            // Drift slowly if settled?
+          }
+
+          this.el.style.transform = `translate3d(${this.x}px, ${this.y}px, 0) rotate(${this.rotation}deg)`;
+        }
+      }
+
+      function burstInteractivePetals() {
+        const cx = window.innerWidth / 2;
+        const cy = window.innerHeight / 2;
+
+        for (let i = 0; i < 40; i++) {
+          activePetals.push(new PhysicsPetal(cx, cy));
+        }
+
+        // Game loop for petals
+        function updatePetals() {
+          for (let i = activePetals.length - 1; i >= 0; i--) {
+            const p = activePetals[i];
+            if (p.active === false) {
+              activePetals.splice(i, 1);
+            } else {
+              p.update();
+            }
+          }
+          if (activePetals.length > 0) requestAnimationFrame(updatePetals);
+        }
+        updatePetals();
+      }
+
+      // ─── ENVELOPE INTERACTION ────────────────────────────────────
+      const introScene = document.getElementById("intro-scene");
+      const envelopeFlap = document.getElementById("envelope-flap");
+      const letterInside = document.getElementById("letter-inside");
+      const mainContent = document.getElementById("main-content");
+      const waxSeal = document.getElementById("wax-seal");
+
+      let opened = false;
+
+      function openEnvelope() {
+        if (opened) return;
+        opened = true;
+
+        // 1. Remove wax seal with a pop
+        gsap.to(waxSeal, {
+          scale: 1.3,
+          opacity: 0,
+          duration: 0.4,
+          ease: "back.in(2)",
+          onComplete: () => (waxSeal.style.display = "none"),
+        });
+
+        // 2. Open flap
+        setTimeout(() => {
+          envelopeFlap.classList.add("open");
+        }, 350);
+
+        // 3. Letter slides up
+        setTimeout(() => {
+          letterInside.classList.add("show");
+        }, 900);
+
+        // 4. Burst petals (Interactive Physics)
+        setTimeout(() => {
+          burstInteractivePetals();
+        }, 1200);
+
+        // 5. Fade out intro, show main content
+        setTimeout(() => {
+          introScene.classList.add("fade-out");
+          document.body.classList.add("unlocked");
+
+          setTimeout(() => {
+            introScene.style.display = "none";
+            mainContent.classList.add("visible");
+            startHeroAnimations();
+            startScrollAnimations();
+
+            // Audio begins directly on page load, or user interaction if blocked
+          }, 1500);
+        }, 2000);
+      }
+
+      waxSeal.addEventListener("click", openEnvelope);
+      document
+        .getElementById("envelope-wrap")
+        .addEventListener("click", openEnvelope);
+
+      // Intro hint fade in
+      setTimeout(() => {
+        document.getElementById("intro-hint").style.animationPlayState =
+          "running";
+      }, 800);
+      // Set initial opacity before animation starts
+      document.getElementById("intro-hint").style.opacity = "0";
+      gsap.to("#intro-hint", { opacity: 1, duration: 1.2, delay: 0.8 });
+
+      // ─── HERO ANIMATIONS ─────────────────────────────────────────
+      function startHeroAnimations() {
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+        tl.to("#hero-date", { opacity: 1, y: 0, duration: 1, delay: 0.3 })
+          .to("#hero-headline", { opacity: 1, y: 0, duration: 1.4 }, "-=0.5")
+          .to("#small-heart", { opacity: 1, duration: 0.5 }, "-=0.6")
+          .add(() => {
+            document.getElementById("small-heart-path").classList.add("drawn");
+          }, "-=0.3")
+          .add(() => {
+            document.getElementById("hero-divider").classList.add("expand");
+          }, "-=0.2")
+          .to("#hero-sub", { opacity: 1, y: 0, duration: 1.2 }, "-=0.8")
+          .to("#scroll-cue", { opacity: 1, duration: 0.8 }, "+=0.5");
+      }
+
+      // ─── SCROLL ANIMATIONS ───────────────────────────────────────
+      function startScrollAnimations() {
+        // Animate all section labels
+        gsap.utils.toArray(".section-label").forEach((el) => {
+          gsap.to(el, {
+            scrollTrigger: { trigger: el, start: "top 85%" },
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+          });
+        });
+
+        // Section headings
+        gsap.utils.toArray(".section-heading").forEach((el) => {
+          gsap.to(el, {
+            scrollTrigger: { trigger: el, start: "top 80%" },
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out",
+          });
+        });
+
+        // SVG dividers
+        gsap.utils.toArray(".divider-path").forEach((path) => {
+          ScrollTrigger.create({
+            trigger: path,
+            start: "top 80%",
+            onEnter: () => path.classList.add("drawn"),
+          });
+        });
+
+        // Sticky notes (staggered)
+        gsap.utils.toArray(".sticky-note").forEach((note, i) => {
+          gsap.to(note, {
+            scrollTrigger: { trigger: "#reasons-section", start: "top 70%" },
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            delay: i * 0.12,
+            ease: "power2.out",
+          });
+        });
+
+        // Traits intro text
+        gsap.to("#traits-intro", {
+          scrollTrigger: { trigger: "#traits-section", start: "top 75%" },
+          opacity: 1,
+          duration: 1,
+          ease: "power2.out",
+        });
+
+        // Trait tags (stagger with slight scale)
+        gsap.utils.toArray(".trait-tag").forEach((tag, i) => {
+          gsap.to(tag, {
+            scrollTrigger: { trigger: ".traits-scatter", start: "top 80%" },
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.5,
+            delay: i * 0.06,
+            ease: "back.out(1.6)",
+          });
+        });
+
+        // Diary section label
+        gsap.to("#diary-label", {
+          scrollTrigger: { trigger: "#diary-section", start: "top 75%" },
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+        });
+
+        // Diary paper appears
+        gsap.to("#diary-paper", {
+          scrollTrigger: { trigger: "#diary-paper", start: "top 80%" },
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: "power3.out",
+        });
+
+        // Closing section
+        const closingTl = gsap.timeline({
+          scrollTrigger: { trigger: "#closing-section", start: "top 65%" },
+          defaults: { ease: "power3.out" },
+        });
+
+        closingTl
+          .to("#closing-eyebrow", { opacity: 1, duration: 0.7 })
+          .to("#closing-heart", { opacity: 1, duration: 0.5 }, "-=0.3")
+          .add(() => {
+            const path = document.getElementById("closing-heart-path");
+            gsap.to(path, {
+              strokeDashoffset: 0,
+              duration: 2.2,
+              ease: "power2.inOut",
+            });
+            // Add a fill fade after draw
+            setTimeout(() => {
+              gsap.to(path, {
+                fill: "rgba(139, 38, 53, 0.12)",
+                duration: 1,
+              });
+            }, 2200);
+          }, "-=0.2")
+          .to("#closing-headline", { opacity: 1, y: 0, duration: 1.2 }, "-=1.5")
+          .to("#closing-sub", { opacity: 1, duration: 1 }, "-=0.6")
+          .to("#closing-from", { opacity: 1, duration: 0.8 }, "-=0.4");
+
+        // Parallax on sticky notes
+        gsap.utils.toArray(".sticky-note").forEach((note, i) => {
+          gsap.to(note, {
+            y: i % 2 === 0 ? -20 : 20,
+            ease: "none",
+            scrollTrigger: {
+              trigger: "#reasons-section",
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.5,
+            },
+          });
+        });
+
+        // Subtle rotation on diary paper on scroll
+        gsap.to("#diary-paper", {
+          rotate: 0.5,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#diary-section",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 2,
+          },
+        });
+
+        // ── NEW: Countdown section ──
+        gsap.to("#countdown-label", {
+          scrollTrigger: { trigger: "#countdown-section", start: "top 85%" },
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+        });
+        gsap.to("#countdown-heading", {
+          scrollTrigger: { trigger: "#countdown-section", start: "top 80%" },
+          opacity: 1,
+          y: 0,
+          duration: 1,
+        });
+
+        // ── NEW: Philosophy card ──
+        gsap.to("#philo-label", {
+          scrollTrigger: { trigger: "#philosophy-section", start: "top 85%" },
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+        });
+        gsap.to("#philo-card", {
+          scrollTrigger: { trigger: "#philo-card", start: "top 80%" },
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: "power3.out",
+        });
+
+        // ── NEW: Timeline items staggered ──
+        gsap.utils.toArray(".timeline-item").forEach((item, i) => {
+          gsap.to(item, {
+            scrollTrigger: { trigger: "#timeline", start: "top 75%" },
+            opacity: 1,
+            x: 0,
+            duration: 0.7,
+            delay: i * 0.15,
+            ease: "power2.out",
+          });
+        });
+
+        // ── NEW: Quotes section ──
+        gsap.to("#quotes-label", {
+          scrollTrigger: { trigger: "#quotes-section", start: "top 85%" },
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+        });
+        gsap.to("#quotes-heading", {
+          scrollTrigger: { trigger: "#quotes-section", start: "top 80%" },
+          opacity: 1,
+          y: 0,
+          duration: 1,
+        });
+      }
+
+      // ─── HOVER SPARKLE ON TRAIT TAGS ────────────────────────────
+      document.querySelectorAll(".trait-tag").forEach((tag) => {
+        tag.addEventListener("mouseenter", function () {
+          const sparkle = document.createElement("span");
+          sparkle.textContent = ["✦", "✧", "✸", "·", "✺"][
+            Math.floor(Math.random() * 5)
+          ];
+          sparkle.style.cssText = `
+          position:absolute; pointer-events:none;
+          font-size:${Math.random() * 0.4 + 0.5}rem;
+          color:rgba(200,169,126,0.8);
+          top:${Math.random() * 80}%;
+          left:${Math.random() * 80 + 10}%;
+          transform:translate(-50%,-50%);
+          z-index:999;
+          animation: sparkleOut 0.7s ease forwards;
+        `;
+          // inject keyframe if not already there
+          if (!document.getElementById("sparkle-style")) {
+            const s = document.createElement("style");
+            s.id = "sparkle-style";
+            s.textContent = `@keyframes sparkleOut {
+            0%   { opacity:1; transform:translate(-50%,-50%) scale(1); }
+            100% { opacity:0; transform:translate(-50%,-150%) scale(0.3); }
+          }`;
+            document.head.appendChild(s);
+          }
+          this.style.position = "relative";
+          this.appendChild(sparkle);
+          setTimeout(() => sparkle.remove(), 700);
+        });
+      });
+
+      // ─── SUBTLE PARALLAX ON HERO HEADLINE ───────────────────────
+      // ─── SUBTLE PARALLAX ON HERO HEADLINE ───────────────────────
+      let ticking = false;
+      document.addEventListener("mousemove", (e) => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const headline = document.getElementById("hero-headline");
+            if (headline) {
+              const mx = (e.clientX / window.innerWidth - 0.5) * 8;
+              const my = (e.clientY / window.innerHeight - 0.5) * 5;
+              headline.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+
+      // ─── RESIZE HANDLER ─────────────────────────────────────────
+      window.addEventListener("resize", () => {
+        ScrollTrigger.refresh();
+      });
+
+      // ─── TEXT INTERACTOR LOGIC ──────────────────────────────────
+      class TextInteractor {
+        constructor() {
+          this.chars = [];
+          this.words = [];
+
+          this.initParams = {
+            scrambleSpeed: 2,
+            magneticRadius: 100,
+            magneticPower: 0.4,
+          };
+
+          // Initialize
+          this.prepareText();
+          this.addListeners();
+
+          // Start render loop
+          this.tick = this.tick.bind(this);
+          requestAnimationFrame(this.tick);
+        }
+
+        prepareText() {
+          // Target HEADLINES for Character Scramble
+          const headlines = document.querySelectorAll(
+            ".hero-headline, .hero-sub, .section-heading, .note-title, .countdown-label, .closing-eyebrow, .closing-headline",
+          );
+          headlines.forEach((el) => this.splitText(el, "char"));
+
+          // Target SHORT TEXT for Magnetic Words
+          const tags = document.querySelectorAll(
+            ".trait-tag, .note-title, .hero-date, .scroll-cue span",
+          );
+          tags.forEach((el) => {
+            el.classList.add("magnetic-word");
+            this.words.push({
+              el: el,
+              x: 0,
+              y: 0,
+              tx: 0,
+              ty: 0,
+              rect: el.getBoundingClientRect(),
+            });
+          });
+
+          // Breath Animation for Paragraphs
+          const paragraphs = document.querySelectorAll(
+            "p, .note-text, .diary-body",
+          );
+          paragraphs.forEach((p) => {
+            gsap.to(p, {
+              y: "5px",
+              duration: 3 + Math.random() * 2,
+              yoyo: true,
+              repeat: -1,
+              ease: "sine.inOut",
+            });
+          });
+        }
+
+        splitText(element, type) {
+          if (type === "char") {
+            // Use a TreeWalker to only split text nodes, preserving HTML elements like <br> and <span>
+            const walk = document.createTreeWalker(
+              element,
+              NodeFilter.SHOW_TEXT,
+              null,
+              false,
+            );
+            const textNodes = [];
+            let n;
+            while ((n = walk.nextNode())) {
+              textNodes.push(n);
+            }
+
+            textNodes.forEach((node) => {
+              const text = node.nodeValue;
+              // Skip pure structural whitespace
+              if (!text.trim() && !text.includes(" ")) return;
+
+              const frag = document.createDocumentFragment();
+              text.split("").forEach((char) => {
+                const span = document.createElement("span");
+                span.innerText = char;
+                span.className = "char-span";
+                if (char === " ") span.innerHTML = "&nbsp;";
+
+                // Only animate visible characters (ignore newlines/tabs inside HTML source)
+                if (char !== "\n" && char !== "\t") {
+                  this.chars.push({
+                    el: span,
+                    original: char,
+                    isHovering: false,
+                    scrambled: false,
+                  });
+                }
+                frag.appendChild(span);
+              });
+              node.parentNode.replaceChild(frag, node);
+            });
+          }
+        }
+
+        addListeners() {
+          window.addEventListener("mousemove", (e) => {
+            this.mouseX = e.clientX;
+            this.mouseY = e.clientY;
+
+            // Check Magnetic Words
+            this.words.forEach((word) => {
+              const dx = this.mouseX - (word.rect.left + word.rect.width / 2);
+              const dy = this.mouseY - (word.rect.top + word.rect.height / 2);
+              const dist = Math.sqrt(dx * dx + dy * dy);
+
+              if (dist < this.initParams.magneticRadius) {
+                word.tx = dx * this.initParams.magneticPower;
+                word.ty = dy * this.initParams.magneticPower;
+              } else {
+                word.tx = 0;
+                word.ty = 0;
+              }
+            });
+
+            // Check Scramble Chars
+            this.chars.forEach((char) => {
+              // Never scramble spaces — preserves word gaps
+              if (char.original === " " || char.original === "\n") return;
+              // Already scrambled permanently — skip
+              if (char.scrambled) return;
+
+              const rect = char.el.getBoundingClientRect();
+              const dx = this.mouseX - (rect.left + rect.width / 2);
+              const dy = this.mouseY - (rect.top + rect.height / 2);
+              const dist = Math.sqrt(dx * dx + dy * dy);
+
+              if (dist < 50) {
+                if (!char.isHovering) {
+                  char.isHovering = true;
+                  this.startScramble(char);
+                }
+              } else {
+                char.isHovering = false;
+              }
+            });
+          });
+
+          // Re-calc rects on resize/scroll
+          window.addEventListener("scroll", () => this.updateRects());
+          window.addEventListener("resize", () => this.updateRects());
+          setTimeout(() => this.updateRects(), 1000);
+        }
+
+        updateRects() {
+          this.words.forEach((w) => (w.rect = w.el.getBoundingClientRect()));
+        }
+
+        startScramble(char) {
+          const possible =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+          let counter = 0;
+          const totalFrames = 10; // scramble for ~500ms then reveal
+
+          const interval = setInterval(() => {
+            counter++;
+            if (counter < totalFrames) {
+              // Show a random char during the scramble + popping animation
+              char.el.innerText = possible.charAt(
+                Math.floor(Math.random() * possible.length),
+              );
+              char.el.style.color = "#c8a97e";
+              char.el.style.transform = "scale(1.2) translateY(-2px)";
+            } else {
+              // Settle back on the original character, stay gold
+              clearInterval(interval);
+              char.el.innerText = char.original;
+              char.el.style.color = "#c8a97e";
+              char.el.style.textShadow = "0 0 10px rgba(200,169,126,0.5)";
+              char.el.style.transform = "scale(1)";
+              char.scrambled = true; // lock — never touch again
+            }
+          }, 50);
+        }
+
+        tick() {
+          this.words.forEach((word) => {
+            word.x += (word.tx - word.x) * 0.1;
+            word.y += (word.ty - word.y) * 0.1;
+            word.el.style.transform = `translate(${word.x}px, ${word.y}px)`;
+          });
+          requestAnimationFrame(this.tick);
+        }
+      }
+
+      // ─── COUNTDOWN TIMER ──────────────────────────────────────────
+      const examSchedule = [
+        { name: "Philosophy", date: new Date(2026, 2, 5, 10, 0, 0) },
+        { name: "Mathematics", date: new Date(2026, 2, 9, 10, 0, 0) },
+        { name: "English", date: new Date(2026, 2, 12, 10, 0, 0) },
+        { name: "Economics", date: new Date(2026, 2, 18, 10, 0, 0) },
+        { name: "Political Science", date: new Date(2026, 2, 23, 10, 0, 0) },
+        { name: "Sociology", date: new Date(2026, 3, 4, 10, 0, 0) },
+      ];
+
+      function getNextExam() {
+        const now = new Date();
+        for (const exam of examSchedule) {
+          if (exam.date > now) return exam;
+        }
+        return null;
+      }
+
+      function updateCountdown() {
+        const next = getNextExam();
+        if (!next) {
+          document.getElementById("cd-hours").textContent = "🎉";
+          document.getElementById("cd-minutes").textContent = "";
+          document.getElementById("cd-seconds").textContent = "";
+          document.getElementById("countdown-exam-name").textContent = next
+            ? next.name
+            : "Exams";
+          document.getElementById("countdown-msg").textContent =
+            "All done! You did it! 🎉";
+          return;
+        }
+
+        document.getElementById("countdown-exam-name").textContent = next.name;
+
+        const now = new Date();
+        const diff = next.date - now;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById("cd-hours").textContent = String(
+          hours,
+        ).padStart(2, "0");
+        document.getElementById("cd-minutes").textContent = String(
+          minutes,
+        ).padStart(2, "0");
+        document.getElementById("cd-seconds").textContent = String(
+          seconds,
+        ).padStart(2, "0");
+
+        // Update timeline done/next states
+        document.querySelectorAll(".timeline-item").forEach((item) => {
+          const dateStr = item.getAttribute("data-date");
+          const examDate = new Date(dateStr + "T10:00:00");
+          item.classList.remove("done", "next");
+          if (now > examDate) {
+            item.classList.add("done");
+          }
+        });
+        // Mark the next upcoming one
+        const nextDate = next.date.toISOString().split("T")[0];
+        const nextItem = document.querySelector(
+          `.timeline-item[data-date="${nextDate}"]`,
+        );
+        if (nextItem) nextItem.classList.add("next");
+      }
+
+      setInterval(updateCountdown, 1000);
+      updateCountdown();
+
+      // ─── QUOTES CAROUSEL ──────────────────────────────────────────
+      (function initQuotes() {
+        const cards = document.querySelectorAll(".quote-card");
+        const dotsContainer = document.getElementById("quote-dots");
+        let current = 0;
+
+        // Create dots
+        cards.forEach((_, i) => {
+          const dot = document.createElement("div");
+          dot.className = "quote-dot" + (i === 0 ? " active" : "");
+          dot.addEventListener("click", () => goTo(i));
+          dotsContainer.appendChild(dot);
+        });
+
+        function goTo(index) {
+          cards[current].classList.remove("active");
+          dotsContainer.children[current].classList.remove("active");
+          current = index;
+          cards[current].classList.add("active");
+          dotsContainer.children[current].classList.add("active");
+        }
+
+        // Auto-rotate every 5 seconds
+        setInterval(() => {
+          goTo((current + 1) % cards.length);
+        }, 5000);
+      })();
+
+      // ─── CURSOR EFFECTS: SPARKLE / AURORA / COMET ─────────────────
+      (function initCursorFX() {
+        const fxCanvas = document.getElementById("cursor-fx-canvas");
+        const fxCtx = fxCanvas.getContext("2d");
+        function resizeFX() {
+          fxCanvas.width = window.innerWidth;
+          fxCanvas.height = window.innerHeight;
+        }
+        resizeFX();
+        window.addEventListener("resize", resizeFX);
+
+        const effects = ["sparkle", "aurora", "comet"];
+        const labels = ["✨ sparkle", "🌊 aurora", "☄️ comet"];
+        let currentFX = 0;
+
+        const btn = document.getElementById("poison-btn");
+        btn.addEventListener("click", () => {
+          currentFX = (currentFX + 1) % effects.length;
+          btn.textContent = "choose your poison X) — " + labels[currentFX];
+          // Clear canvas on switch
+          fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
+          sparkleParticles.length = 0;
+          auroraTrail.length = 0;
+          cometParticles.length = 0;
+        });
+
+        // --- SPARKLE DATA ---
+        const sparkleParticles = [];
+        const sparkleChars = ["✦", "✧", "·", "✸", "⭑"];
+        let sparkleFrame = 0;
+
+        function sparkleSpawn(x, y) {
+          for (let i = 0; i < 3; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 2 + 0.5;
+            sparkleParticles.push({
+              x,
+              y,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed,
+              life: 1,
+              decay: Math.random() * 0.025 + 0.015,
+              size: Math.random() * 3 + 1.5,
+              char: sparkleChars[Math.floor(Math.random() * 5)],
+            });
+          }
+        }
+
+        function drawSparkle(ctx, mx, my) {
+          sparkleFrame++;
+          if (sparkleFrame % 2 === 0) sparkleSpawn(mx, my);
+          for (let i = sparkleParticles.length - 1; i >= 0; i--) {
+            const p = sparkleParticles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.02;
+            p.life -= p.decay;
+            if (p.life <= 0) {
+              sparkleParticles.splice(i, 1);
+              continue;
+            }
+            ctx.save();
+            ctx.globalAlpha = p.life;
+            ctx.fillStyle = `hsl(${40 + Math.random() * 10}, 60%, ${70 + p.life * 20}%)`;
+            ctx.font = `${p.size * 4}px serif`;
+            ctx.fillText(p.char, p.x, p.y);
+            ctx.restore();
+          }
+        }
+
+        // --- AURORA DATA ---
+        const auroraTrail = [];
+        const maxAuroraTrail = 60;
+
+        function drawAurora(ctx, mx, my) {
+          auroraTrail.push({ x: mx, y: my });
+          if (auroraTrail.length > maxAuroraTrail) auroraTrail.shift();
+          if (auroraTrail.length < 2) return;
+
+          for (let w = 0; w < 3; w++) {
+            ctx.beginPath();
+            const offset = (w - 1) * 8;
+            ctx.moveTo(auroraTrail[0].x, auroraTrail[0].y + offset);
+            for (let i = 1; i < auroraTrail.length; i++) {
+              const prev = auroraTrail[i - 1];
+              const cur = auroraTrail[i];
+              const cpx = (prev.x + cur.x) / 2;
+              const cpy = (prev.y + cur.y) / 2 + offset;
+              ctx.quadraticCurveTo(prev.x, prev.y + offset, cpx, cpy);
+            }
+            const t = auroraTrail.length;
+            const hueShift = w * 40;
+            const grad = ctx.createLinearGradient(
+              auroraTrail[0].x,
+              auroraTrail[0].y,
+              auroraTrail[t - 1].x,
+              auroraTrail[t - 1].y,
+            );
+            grad.addColorStop(0, `hsla(${260 + hueShift},80%,65%,0)`);
+            grad.addColorStop(0.5, `hsla(${260 + hueShift},80%,70%,0.4)`);
+            grad.addColorStop(1, `hsla(${260 + hueShift},80%,75%,0.8)`);
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = 6 - w * 1.5;
+            ctx.lineCap = "round";
+            ctx.stroke();
+          }
+          // glow at tip
+          const tip = auroraTrail[auroraTrail.length - 1];
+          const g = ctx.createRadialGradient(tip.x, tip.y, 0, tip.x, tip.y, 30);
+          g.addColorStop(0, "rgba(162,155,254,0.35)");
+          g.addColorStop(1, "rgba(162,155,254,0)");
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(tip.x, tip.y, 30, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // --- COMET DATA ---
+        const cometParticles = [];
+
+        function drawComet(ctx, mx, my) {
+          for (let i = 0; i < 5; i++) {
+            cometParticles.push({
+              x: mx + (Math.random() - 0.5) * 4,
+              y: my + (Math.random() - 0.5) * 4,
+              vx: (Math.random() - 0.5) * 1.5,
+              vy: (Math.random() - 0.5) * 1.5,
+              life: 1,
+              decay: Math.random() * 0.02 + 0.01,
+              size: Math.random() * 4 + 2,
+              hue: 260 + Math.random() * 50,
+            });
+          }
+          for (let i = cometParticles.length - 1; i >= 0; i--) {
+            const p = cometParticles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vx *= 0.98;
+            p.vy *= 0.98;
+            p.life -= p.decay;
+            p.size *= 0.995;
+            if (p.life <= 0) {
+              cometParticles.splice(i, 1);
+              continue;
+            }
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            const a = p.life * 0.7;
+            ctx.fillStyle = `hsla(${p.hue},70%,65%,${a})`;
+            ctx.shadowBlur = 12;
+            ctx.shadowColor = `hsla(${p.hue},80%,60%,${a * 0.5})`;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          }
+          // bright core
+          const cg = ctx.createRadialGradient(mx, my, 0, mx, my, 20);
+          cg.addColorStop(0, "rgba(230,220,255,0.6)");
+          cg.addColorStop(0.3, "rgba(162,155,254,0.3)");
+          cg.addColorStop(1, "rgba(162,155,254,0)");
+          ctx.fillStyle = cg;
+          ctx.beginPath();
+          ctx.arc(mx, my, 20, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // --- MAIN LOOP ---
+        function fxLoop() {
+          const active = effects[currentFX];
+          // Clear canvas each frame (transparent overlay — never covers page content)
+          fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
+
+          if (mouseX > 0 && mouseY > 0) {
+            if (active === "sparkle") drawSparkle(fxCtx, mouseX, mouseY);
+            else if (active === "aurora") drawAurora(fxCtx, mouseX, mouseY);
+            else if (active === "comet") drawComet(fxCtx, mouseX, mouseY);
+          }
+
+          requestAnimationFrame(fxLoop);
+        }
+        fxLoop();
+      })();
+
+      // ─── AUDIO PLAYER LOGIC ─────────────────────────────────────
+      const musicState = { playing: false, interacted: false };
+      const bgMusic = document.getElementById("bg-music");
+      const musicToggle = document.getElementById("music-toggle");
+      const volumeSlider = document.getElementById("volume-slider");
+
+      function startMusic() {
+        if (!bgMusic || musicState.playing) return;
+
+        bgMusic.muted = false;
+        bgMusic.defaultMuted = false;
+        bgMusic.volume =
+          (parseInt(volumeSlider?.value || "40", 10) || 40) / 100;
+        const playPromise = bgMusic.play();
+
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              musicToggle.textContent = "🎧";
+              musicToggle.classList.add("playing");
+              musicState.playing = true;
+              musicState.interacted = true;
+            })
+            .catch((err) => {
+              console.log("Autoplay blocked:", err);
+              musicToggle.textContent = "🎵";
+              musicToggle.classList.remove("playing");
+            });
+        }
+      }
+
+      if (musicToggle && volumeSlider && bgMusic) {
+        bgMusic.volume = 0.4;
+
+        musicToggle.addEventListener("click", (e) => {
+          e.stopPropagation(); // keep canvas effect from firing underneath
+
+          if (musicState.playing) {
+            bgMusic.pause();
+            musicToggle.textContent = "🎵";
+            musicToggle.classList.remove("playing");
+            musicState.playing = false;
+          } else {
+            bgMusic.muted = false;
+            bgMusic.defaultMuted = false;
+            bgMusic.volume =
+              (parseInt(volumeSlider?.value || "40", 10) || 40) / 100;
+
+            bgMusic
+              .play()
+              .then(() => {
+                musicToggle.textContent = "🎧";
+                musicToggle.classList.add("playing");
+                musicState.playing = true;
+                musicState.interacted = true;
+              })
+              .catch((err) => console.log("Playback failed:", err));
+          }
+        });
+
+        volumeSlider.addEventListener("input", (e) => {
+          e.stopPropagation();
+          bgMusic.volume = e.target.value / 100;
+        });
+        volumeSlider.addEventListener("click", (e) => e.stopPropagation());
+      }
+
+      // Try autoplay on load
+      startMusic();
+
+      // Browsers often block autoplay until user interacts (e.g. clicking the envelope)
+      document.body.addEventListener(
+        "click",
+        () => {
+          if (!musicState.interacted) startMusic();
+        },
+        { once: true },
+      );
+      document.body.addEventListener(
+        "touchstart",
+        () => {
+          if (!musicState.interacted) startMusic();
+        },
+        { once: true },
+      );
+    </script>
+  </body>
+</html>
