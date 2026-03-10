@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>my..med, my heavens...</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🫂</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500&family=Satisfy&family=Marcellus&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ========================================
+           ROOT & RESET
+        ======================================== */
+        :root {
+            --storm-dark: #0a0c14;
+            --storm-mid: #111827;
+            --storm-blue: #1e2a4a;
+            --storm-grey: #374151;
+            --cloud-light: #9ca3af;
+            --gold: #f4d160;
+            --gold-warm: #fbbf24;
+            --amber: #f59e0b;
+            --rose: #fb7185;
+            --blush: #fda4af;
+            --cream: #fef3c7;
+            --sunset-orange: #f97316;
+            --peace-blue: #93c5fd;
+            --peace-purple: #c4b5fd;
+            --chat-her: rgba(251, 113, 133, 0.12);
+            --chat-me: rgba(147, 197, 253, 0.1);
+            --chat-her-border: rgba(251, 113, 133, 0.25);
+            --chat-me-border: rgba(147, 197, 253, 0.2);
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--storm-dark);
+            color: #e5e7eb;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           LOADING / INTRO SCREEN
+        ======================================== */
+        .intro-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: #0a0c14;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 1.2s ease, visibility 1.2s ease;
+        }
+
+        .intro-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .intro-date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            color: rgba(156, 163, 175, 0.5);
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 1.5s ease 0.5s forwards;
+        }
+
+        .intro-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.8rem, 5vw, 3.5rem);
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(229, 231, 235, 0.9);
+            text-align: center;
+            padding: 0 2rem;
+            opacity: 0;
+            animation: fadeUp 1.8s ease 1.2s forwards;
+        }
+
+        .intro-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: rgba(156, 163, 175, 0.4);
+            margin-top: 2rem;
+            letter-spacing: 0.15em;
+            opacity: 0;
+            animation: fadeUp 1.5s ease 2.5s forwards;
+        }
+
+        .intro-enter {
+            margin-top: 3rem;
+            padding: 14px 40px;
+            background: transparent;
+            border: 1px solid rgba(147, 197, 253, 0.25);
+            color: var(--peace-blue);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            opacity: 0;
+            animation: fadeUp 1.5s ease 3.5s forwards;
+        }
+
+        .intro-enter:hover {
+            background: rgba(147, 197, 253, 0.08);
+            border-color: rgba(147, 197, 253, 0.5);
+            transform: scale(1.03);
+            box-shadow: 0 0 30px rgba(147, 197, 253, 0.1);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========================================
+           RAIN CANVAS
+        ======================================== */
+        #rainCanvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6;
+            transition: opacity 2s ease;
+        }
+
+        #rainCanvas.fading {
+            opacity: 0;
+        }
+
+        /* ========================================
+           AMBIENT BACKGROUND
+        ======================================== */
+        .ambient-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(30, 42, 74, 0.5) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(55, 65, 81, 0.3) 0%, transparent 50%),
+                linear-gradient(180deg, #0a0c14 0%, #111827 40%, #0a0c14 100%);
+            transition: background 3s ease;
+        }
+
+        .ambient-bg.warm {
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(251, 191, 36, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(251, 113, 133, 0.05) 0%, transparent 50%),
+                linear-gradient(180deg, #0a0c14 0%, #111320 40%, #0f0d16 100%);
+        }
+
+        /* ========================================
+           STORM SECTION (What was on my mind)
+        ======================================== */
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-short {
+            min-height: auto;
+            padding: 60px 24px;
+        }
+
+        .storm-section {
+            text-align: center;
+        }
+
+        .storm-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(156, 163, 175, 0.7);
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s ease;
+        }
+
+        .storm-heading.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .storm-subheading {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: rgba(156, 163, 175, 0.4);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease 0.3s;
+        }
+
+        .storm-subheading.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* The raw thoughts block */
+        .raw-thoughts {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: left;
+            padding: 3rem;
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid rgba(75, 85, 99, 0.2);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s ease;
+        }
+
+        .raw-thoughts.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .raw-thoughts::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 24px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5rem;
+            color: rgba(156, 163, 175, 0.15);
+            line-height: 1;
+        }
+
+        .raw-thoughts p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: rgba(209, 213, 219, 0.85);
+            line-height: 1.9;
+            margin-bottom: 1.2rem;
+        }
+
+        .raw-thoughts p:last-child {
+            margin-bottom: 0;
+        }
+
+        .raw-thoughts .sigh-text {
+            color: rgba(156, 163, 175, 0.5);
+            font-style: italic;
+        }
+
+        /* ========================================
+           CONTEXT SECTION (pressure & feelings)
+        ======================================== */
+        .context-card {
+            max-width: 600px;
+            padding: 2.5rem;
+            background: rgba(17, 24, 39, 0.4);
+            border: 1px solid rgba(75, 85, 99, 0.15);
+            border-radius: 16px;
+            backdrop-filter: blur(8px);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+
+        .context-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .context-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            font-style: italic;
+            color: rgba(209, 213, 219, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        .context-card p {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: rgba(156, 163, 175, 0.7);
+            line-height: 1.8;
+        }
+
+        /* ========================================
+           TRANSITION - "But then..."
+        ======================================== */
+        .transition-section {
+            text-align: center;
+        }
+
+        .transition-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(251, 191, 36, 0.6);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1.5s ease;
+        }
+
+        .transition-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .transition-emoji {
+            font-size: 2.5rem;
+            margin-top: 1.5rem;
+            opacity: 0;
+            transition: all 1s ease 0.5s;
+        }
+
+        .transition-emoji.visible {
+            opacity: 1;
+        }
+
+        /* ========================================
+           NARRATIVE SECTION - HOW I FELT
+        ======================================== */
+        .narrative-section {
+            padding: 80px 24px;
+            position: relative;
+        }
+
+        .narrative-intro {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .narrative-intro h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(209, 213, 219, 0.7);
+            margin-bottom: 0.8rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1.2s ease;
+        }
+
+        .narrative-intro h2.visible { opacity: 1; transform: translateY(0); }
+
+        .narrative-intro p {
+            font-size: 0.8rem;
+            color: rgba(156, 163, 175, 0.35);
+            letter-spacing: 0.15em;
+            opacity: 0;
+            transition: all 1s ease 0.3s;
+        }
+
+        .narrative-intro p.visible { opacity: 1; }
+
+        .narrative-flow {
+            max-width: 660px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 3.5rem;
+        }
+
+        /* Narrative paragraphs */
+        .narrative-block {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+
+        .narrative-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .narrative-block p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: rgba(209, 213, 219, 0.75);
+            line-height: 2;
+        }
+
+        .narrative-block p .emphasis {
+            color: rgba(251, 191, 36, 0.8);
+            font-style: italic;
+        }
+
+        .narrative-block p .her-words {
+            color: rgba(253, 164, 175, 0.85);
+            font-style: italic;
+        }
+
+        /* Key moment cards */
+        .moment-card {
+            padding: 2rem 2.5rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .moment-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .moment-card.her-moment {
+            background: rgba(251, 113, 133, 0.06);
+            border: 1px solid rgba(251, 113, 133, 0.15);
+            border-left: 3px solid rgba(251, 113, 133, 0.4);
+        }
+
+        .moment-card.warm-moment {
+            background: rgba(251, 191, 36, 0.05);
+            border: 1px solid rgba(251, 191, 36, 0.12);
+            border-left: 3px solid rgba(251, 191, 36, 0.35);
+        }
+
+        .moment-card.blue-moment {
+            background: rgba(147, 197, 253, 0.05);
+            border: 1px solid rgba(147, 197, 253, 0.12);
+            border-left: 3px solid rgba(147, 197, 253, 0.3);
+        }
+
+        .moment-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .moment-card.her-moment .moment-label {
+            color: var(--rose);
+        }
+
+        .moment-card.warm-moment .moment-label {
+            color: var(--gold-warm);
+        }
+
+        .moment-card.blue-moment .moment-label {
+            color: var(--peace-blue);
+        }
+
+        .moment-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.9;
+        }
+
+        .moment-card.her-moment .moment-quote {
+            color: rgba(253, 164, 175, 0.85);
+        }
+
+        .moment-card.warm-moment .moment-quote {
+            color: rgba(251, 191, 36, 0.85);
+        }
+
+        .moment-card.blue-moment .moment-quote {
+            color: rgba(191, 219, 254, 0.85);
+        }
+
+        .moment-reflection {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: rgba(156, 163, 175, 0.55);
+            margin-top: 1rem;
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        /* Thin divider between moments */
+        .moment-divider {
+            width: 30px;
+            height: 1px;
+            background: rgba(156, 163, 175, 0.12);
+            margin: 0 auto;
+        }
+
+        /* 19:19 special */
+        .timestamp-highlight {
+            text-align: center;
+            padding: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+
+        .timestamp-highlight.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timestamp-highlight .time {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: rgba(251, 191, 36, 0.5);
+            letter-spacing: 0.1em;
+        }
+
+        .timestamp-highlight .time-note {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: rgba(156, 163, 175, 0.35);
+            letter-spacing: 0.15em;
+            margin-top: 0.5rem;
+        }
+
+        /* ========================================
+           THE GOLDEN QUOTE - HIGHLIGHT
+        ======================================== */
+        .golden-quote-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .golden-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.08) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+            50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+        }
+
+        .golden-quote-card {
+            max-width: 700px;
+            padding: 4rem 3rem;
+            background: rgba(17, 24, 39, 0.5);
+            border: 1px solid rgba(251, 191, 36, 0.15);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .golden-quote-card.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .golden-quote-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), transparent 40%, transparent 60%, rgba(251, 191, 36, 0.1));
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .golden-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(251, 191, 36, 0.5);
+            margin-bottom: 2rem;
+        }
+
+        .golden-quote-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.3rem, 3.5vw, 2rem);
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.8;
+            color: var(--gold-warm);
+            text-shadow: 0 0 40px rgba(251, 191, 36, 0.15);
+            margin-bottom: 2rem;
+        }
+
+        .golden-attribution {
+            font-family: 'Satisfy', cursive;
+            font-size: 1.3rem;
+            color: rgba(253, 164, 175, 0.6);
+        }
+
+        /* Floating golden particles */
+        .golden-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(251, 191, 36, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatParticle 6s ease-in-out infinite;
+        }
+
+        @keyframes floatParticle {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+            25% { transform: translateY(-30px) translateX(15px); opacity: 0.7; }
+            50% { transform: translateY(-50px) translateX(-10px); opacity: 0.5; }
+            75% { transform: translateY(-25px) translateX(20px); opacity: 0.8; }
+        }
+
+        /* ========================================
+           THANK YOU SECTION
+        ======================================== */
+        .thankyou-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 24px;
+            position: relative;
+        }
+
+        .thankyou-heading {
+            font-family: 'Satisfy', cursive;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            background: linear-gradient(135deg, var(--gold-warm), var(--rose), var(--peace-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.5s ease;
+        }
+
+        .thankyou-heading.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .thankyou-message {
+            max-width: 600px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            font-style: italic;
+            color: rgba(209, 213, 219, 0.7);
+            line-height: 2;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1.2s ease 0.3s;
+        }
+
+        .thankyou-message.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .thankyou-footer {
+            font-size: 0.8rem;
+            color: rgba(156, 163, 175, 0.3);
+            letter-spacing: 0.2em;
+            margin-top: 3rem;
+            opacity: 0;
+            transition: all 1s ease 0.8s;
+        }
+
+        .thankyou-footer.visible {
+            opacity: 1;
+        }
+
+        .medicine-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: rgba(251, 191, 36, 0.06);
+            border: 1px solid rgba(251, 191, 36, 0.12);
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: rgba(251, 191, 36, 0.6);
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transition: all 1s ease 0.5s;
+        }
+
+        .medicine-badge.visible {
+            opacity: 1;
+        }
+
+        /* ========================================
+           WHAT I DIDN'T TELL YOU SECTION
+        ======================================== */
+        .untold-section {
+            text-align: center;
+        }
+
+        .untold-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: rgba(156, 163, 175, 0.35);
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 1s ease;
+        }
+
+        .untold-label.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .untold-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.6rem, 4vw, 2.5rem);
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(209, 213, 219, 0.65);
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1.2s ease 0.2s;
+        }
+
+        .untold-heading.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           SCROLL INDICATOR
+        ======================================== */
+        .scroll-indicator {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-indicator:hover {
+            opacity: 0.8;
+        }
+
+        .scroll-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(156, 163, 175, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .scroll-dot.active {
+            background: var(--gold-warm);
+            transform: scale(1.4);
+            box-shadow: 0 0 8px rgba(251, 191, 36, 0.3);
+        }
+
+        /* ========================================
+           MUSIC PLAYER CONTROLS
+        ======================================== */
+        .music-player {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 12px 18px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: 1001;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .music-player.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .music-player:hover {
+            background: rgba(0, 0, 0, 0.85);
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .music-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fbbf24 0%, #d4af37 100%);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(251, 191, 36, 0.3);
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.5);
+        }
+
+        .music-btn:active {
+            transform: scale(0.95);
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover .volume-container,
+        .music-player.expanded .volume-container {
+            opacity: 1;
+            width: 120px;
+        }
+
+        .volume-icon {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .volume-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 80px;
+            height: 4px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #fbbf24;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .volume-slider::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #fbbf24;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+        }
+
+        .music-visualizer {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 20px;
+            margin-left: 5px;
+        }
+
+        .music-bar {
+            width: 3px;
+            background: linear-gradient(to top, #fbbf24, #f472b6);
+            border-radius: 2px;
+            transition: height 0.1s ease;
+        }
+
+        .music-bar.playing {
+            animation: musicBounce 0.5s ease-in-out infinite;
+        }
+
+        .music-bar:nth-child(1) { animation-delay: 0s; }
+        .music-bar:nth-child(2) { animation-delay: 0.1s; }
+        .music-bar:nth-child(3) { animation-delay: 0.2s; }
+        .music-bar:nth-child(4) { animation-delay: 0.15s; }
+        .music-bar:nth-child(5) { animation-delay: 0.05s; }
+
+        @keyframes musicBounce {
+            0%, 100% { height: 4px; }
+            50% { height: 18px; }
+        }
+
+        .music-bar.paused {
+            height: 4px !important;
+            animation: none;
+        }
+
+        /* ========================================
+           GOLDEN HIGHLIGHT WITH STARS
+        ======================================== */
+        .golden-highlight {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 500;
+            position: relative;
+            padding: 0 4px;
+            transition: all 0.3s ease;
+        }
+
+        .golden-highlight::before,
+        .golden-highlight::after {
+            content: '✨';
+            position: absolute;
+            font-size: 0.8em;
+            top: -8px;
+            opacity: 0;
+            animation: starFloat 2s ease-in-out infinite;
+        }
+
+        .golden-highlight::before {
+            left: -12px;
+            animation-delay: 0s;
+        }
+
+        .golden-highlight::after {
+            right: -12px;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes starFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-8px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(0) scale(0.8);
+            }
+        }
+
+        /* ========================================
+           BACK BUTTON
+        ======================================== */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            color: rgba(156, 163, 175, 0.5);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(209, 213, 219, 0.8);
+        }
+
+        /* ========================================
+           DIVIDER
+        ======================================== */
+        .section-divider {
+            width: 40px;
+            height: 1px;
+            background: rgba(156, 163, 175, 0.15);
+            margin: 0 auto;
+        }
+
+        /* ========================================
+           RESPONSIVE
+        ======================================== */
+        @media (max-width: 640px) {
+            .raw-thoughts {
+                padding: 2rem 1.5rem;
+            }
+
+            .golden-quote-card {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .chat-bubble {
+                max-width: 88%;
+                font-size: 0.85rem;
+            }
+
+            .scroll-indicator {
+                display: none;
+            }
+
+            .music-player {
+                padding: 8px 12px;
+                top: 12px;
+                right: 12px;
+            }
+
+            .music-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 1rem;
+            }
+
+            .back-btn {
+                top: 12px;
+                left: 12px;
+            }
+        }
+
+        /* ========================================
+           CUSTOM CURSOR (desktop only)
+        ======================================== */
+        @media (min-width: 769px) {
+            * {
+                cursor: none !important;
+            }
+        }
+
+        .cursor-ring {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            border: 1.5px solid rgba(251, 191, 36, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            background: rgba(251, 191, 36, 0.9);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%);
+            display: none;
+            box-shadow: 0 0 6px rgba(251, 191, 36, 0.5), 0 0 12px rgba(251, 191, 36, 0.2);
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99998;
+            opacity: 0;
+            background: rgba(251, 191, 36, 0.6);
+            transition: none;
+        }
+
+        .cursor-ring.hovering {
+            width: 48px;
+            height: 48px;
+            border-color: rgba(251, 191, 36, 0.6);
+            background: rgba(251, 191, 36, 0.06);
+        }
+
+        @media (min-width: 769px) {
+            .cursor-ring, .cursor-dot {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============ CUSTOM CURSOR ============ -->
+    <div class="cursor-ring" id="cursorRing"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- ============ RAIN CANVAS ============ -->
+    <canvas id="rainCanvas"></canvas>
+
+    <!-- ============ AMBIENT BACKGROUND ============ -->
+    <div class="ambient-bg" id="ambientBg"></div>
+
+    <!-- ============ INTRO OVERLAY ============ -->
+    <div class="intro-overlay" id="introOverlay">
+        <div class="intro-date">10th March, 2026</div>
+        <div class="intro-title">some evenings hit differently.</div>
+        <div class="intro-subtitle">it all rained down on me today. but then,,, : ) you happened.</div>
+        <button class="intro-enter" id="enterBtn" onclick="enterSite()">enter</button>
+    </div>
+
+    <!-- ============ MUSIC PLAYER ============ -->
+    <div class="music-player" id="musicPlayer">
+        <button class="music-btn" id="musicToggle" title="Play/Pause Music">⏸️</button>
+        <div class="music-visualizer" id="musicVisualizer">
+            <div class="music-bar paused"></div>
+            <div class="music-bar paused"></div>
+            <div class="music-bar paused"></div>
+            <div class="music-bar paused"></div>
+            <div class="music-bar paused"></div>
+        </div>
+        <div class="volume-container">
+            <span class="volume-icon">🔊</span>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50" title="Volume" />
+        </div>
+    </div>
+
+    <!-- ============ AUDIO ============ -->
+    <audio id="bgMusic" src="src/sweetCAS.mp3" loop></audio>
+
+    <!-- ============ BACK BUTTON ============ -->
+    <a href="index.html" class="back-btn">← back</a>
+
+    <!-- ============ SCROLL INDICATORS ============ -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        <div class="scroll-dot active" data-section="0"></div>
+        <div class="scroll-dot" data-section="1"></div>
+        <div class="scroll-dot" data-section="2"></div>
+        <div class="scroll-dot" data-section="3"></div>
+        <div class="scroll-dot" data-section="4"></div>
+        <div class="scroll-dot" data-section="5"></div>
+    </div>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main id="mainContent" style="opacity: 0; transition: opacity 1.5s ease;">
+
+        <!-- ====== SECTION 1: THE STORM ====== -->
+        <section class="section storm-section" data-section="0">
+            <div class="storm-heading observe-me">today, i wasn't okay</div>
+            <div class="storm-subheading observe-me">and i haven't told you everything</div>
+        </section>
+
+        <!-- ====== SECTION 2: CONTEXT ====== -->
+        <section class="section section-short" data-section="1" style="padding-top: 0;">
+            <div class="context-card observe-me">
+                <h3>the weight of it all</h3>
+                <p>
+                    Unsuccessful hackathon participations. The ongoing work on the SLI portal.
+                    Deadlines crashing into ISE exams. And then... something deeper. Related to life.. Something about
+                    the sky I want to call my working space sigh.
+                </p>
+            </div>
+        </section>
+
+        <!-- ====== SECTION 3: THE UNTOLD (IAF thoughts) ====== -->
+        <section class="section untold-section" data-section="2">
+            <div class="untold-label observe-me">what i haven't told you</div>
+            <div class="untold-heading observe-me">about the IAF... and what's been on my mind</div>
+            <div class="raw-thoughts observe-me">
+                <p>
+                    Based on the recent Sukhoi crash, backed up by the Rafale that crashed during Dubai airshow. And the politician wala crash. The female pilot wasn't a pilot in the IAF, but had studied at Air Force bal bharati, which leads to people thinking that she was a defense pilot.
+                </p>
+                <p class="sigh-text">Sigh anyway...</p>
+                <p>
+                    yeah, their concerns have been concerning me. I am willing to..risk my life in the job. That is in the nature of it. Paapa said that after every take off, the moment you leave the ground, there are always chances of death. Mumma doesn't want me to go. 
+                </p>
+                <p>
+                    although there are no reports released yet,     for what was the cause of the crash, but i think it was the terrain, hilly area. Might be technical and human error....<span class="sigh-text">sigh</span>
+                </p>
+                <p>So yeaahh... ive been thinking about this.</p>
+            </div>
+        </section>
+
+        <!-- ====== SECTION 4: TRANSITION ====== -->
+        <section class="section transition-section" data-section="3">
+            <div class="transition-text observe-me">
+                but then... you texted me.
+            </div>
+            <div class="transition-emoji observe-me">🫂</div>
+        </section>
+
+        <!-- ====== SECTION 5: HOW I FELT ====== -->
+        <section class="narrative-section" data-section="4">
+            <div class="narrative-intro">
+                <h2 class="observe-me">what you did for me tonight</h2>
+                <p class="observe-me">7:04 PM · 10th March, 2026</p>
+            </div>
+
+            <div class="narrative-flow">
+
+                <!-- MOMENT 1: You saw through me -->
+                <div class="narrative-block observe-me">
+                    <p>
+                        I wasn't going to tell you. I said <span class="emphasis">"yeeepsiees i am"</span> But you saw right through it. You always do..
+                    </p>
+                </div>
+
+                <div class="moment-card her-moment observe-me">
+                    <div class="moment-quote">"Liar liar pants on 🔥"</div>
+                    <div class="moment-reflection">
+                        sigh.. drishti : )💝 the way you try to lighten the mood and ask what's wrong simultaneously..that breaks me in the most beautiful way possible..like..wow. <br>you're..nice
+                    </div>
+                </div>
+
+                <div class="moment-divider"></div>
+
+                <!-- MOMENT 2: You refused to leave -->
+                <div class="narrative-block observe-me">
+                    <p>
+                        I kept telling you to go study. You had your boards. Your time is precious. I kept saying <span class="emphasis">"please study"</span>, <span class="emphasis">"we'll talk at night"</span> I didn't want to take much of your time.. but.. you ignored all those texts and kept asking me to talk. You kept asking me to tell you what's wrong. You kept talking to me... <br>
+                        Remember the reel i had sent to you not long ago? Of that tiny aag wala monster and i think the other one was Elsa? Remember what i had said? <br>
+                        You take and throw away all my sadness and negative things away just like that. Thank you.. 
+                    </p>
+                </div>
+
+                <div class="moment-card warm-moment observe-me">
+                    <div class="moment-label">The way you saidddd</div>
+                    <div class="moment-quote">"Noo you shut up and tell me, please"</div>
+                    <div class="moment-reflection">
+                        sigh.... i dont' have wrods to express how much that meant to me.. but hmm.. that.. was lovely...
+                    </div>
+                </div>
+
+                <div class="moment-divider"></div>
+
+                <!-- MOMENT 3: You believed in me -->
+                <div class="narrative-block observe-me">
+                    <p>
+                        I told you bits and pieces.. the hackathons, the ISE pressure, the SLI shi- work piling up. Not the IAF stuff, not the deep fears. But even with just that, you knew exactly what to say. I didn't tell you that cz i didn't want to take much of time, and didn't want to worry you. But sach mei i am alright haaa. promiseeee ^^ 
+                    </p>
+                </div>
+
+                <div class="moment-card her-moment observe-me">
+                    <div class="moment-label">you reminded me of my..capabilities and potential</div>
+                    <div class="moment-quote">"Sab ho jaega sahi se.. just believe in yourself and your capabilities.. Seriously"</div>
+                    <div class="moment-reflection">
+                        Simple words.. But from you? They carried weight. They carried warmth. They carried something I and NO ONE else couldn't give myself that evening. Belief.. and so much more
+                    </div>
+                </div>
+
+                <div class="moment-card her-moment observe-me" style="margin-top: 1.5rem;">
+                    <div class="moment-label">the perspective i needed..</div>
+                    <div class="moment-quote">"Plus remember that? it's only preparing you forward your future 🫂"</div>
+                    <div class="moment-reflection">
+                        You turned my pressure into purpose. Just like that. What felt like a weight on my shoulders, you turned that into steps..? you framed it that way.. and i didn't know how MUCH i needed to hear that.
+                    </div>
+                </div>
+
+                <div class="moment-divider"></div>
+
+                <!-- MOMENT 4: You value me -->
+                <div class="narrative-block observe-me">
+                    <p>
+                        I told you you're important to me. I asked you not to take it for "granted", which was..so wrong..im sorry..sigh. And I meant it.. I always do...
+                    </p>
+                </div>
+
+                <div class="moment-card warm-moment observe-me">
+                    <div class="moment-quote">"I know... you mean it.. believe me in this matter I don't.. I do realise how.. sigh how much that phrase is important.. I don't take it for granted.. I don't express it but i do value that.."</div>
+                    <div class="moment-reflection">
+                        You don't always say it. But you feel it. And knowing that you value what I say to you, it's relieving.
+                    </div>
+                </div>
+
+                <div class="moment-divider"></div>
+
+                <!-- MOMENT 5: Not a passing acquaintance -->
+                <div class="narrative-block observe-me">
+                    <p>
+                        And then you said the thing that made everything inside me go quiet..sigh beautifully quiet..
+                    </p>
+                </div>
+
+                <div class="moment-card warm-moment observe-me" style="border-left-width: 4px; border-color: rgba(251, 191, 36, 0.35);">
+                    <div class="moment-quote">"I..hope. 🫂💐 you are awsome okay, I mean that. And I haven't said it in a while but you're not just a passing acquaintance in my uhh life, you matter to me. I swear."</div>
+                    <div class="moment-reflection">
+                        i...dont have any words for this but... that was...meaningfully close to me. : ) <3333333
+                    </div>
+                </div>
+
+                <div class="timestamp-highlight observe-me">
+                    <div class="time">19:19 🌸</div>
+                    <div class="time-note">: )) Our beautiful moments together...</div>
+                </div>
+
+                <div class="moment-divider"></div>
+
+
+                <div class="moment-card blue-moment observe-me">
+                    <div class="moment-quote">"my letter buddy hehe 🫂"</div>
+                    <div class="moment-reflection">
+                        That's us. That's always been us. And hearing you say it tonight.. in the middle of my lowest, reminded me of everything good. Everything worth holding onto.
+                    </div>
+                </div>
+
+                <div class="moment-divider"></div>
+
+                <!-- MOMENT 8: The foreseeable future -->
+                <div class="narrative-block observe-me">
+                    <p>
+                        I asked you if you believe I'll stay for the rest of my life. And your answer — sigh — was the most <em>you</em> answer possible.
+                    </p>
+                </div>
+
+                <div class="moment-card warm-moment observe-me">
+                    <div class="moment-label">for the foreseeable future</div>
+                    <div class="moment-quote">"Sigh.. no one can foresee the future but for the foreseeable future I don't see you or me going anywhere ^^"</div>
+                    <div class="moment-reflection">
+                        You're careful. You're measured. You don't promise the moon. But you promise <em>now</em>. And that honesty? It's worth more than a million careless forevers.
+                    </div>
+                </div>
+
+                <div class="moment-divider"></div>
+
+                <div class="moment-card blue-moment observe-me">
+                    <div class="moment-label">how you left me feeling</div>
+                    <div class="moment-quote">"You're welcome 🫂🌷💐🌸🌻🌻"</div>
+                    <div class="moment-reflection">
+                        That was..beautiful : ). Simple.. Warm.. Enough... I was the calmest I'd been all evening.. You didn't just fix my problems, you fixed <em>me</em>. You..are my medicine.
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ====== SECTION 6: THE GOLDEN QUOTE HIGHLIGHT ====== -->
+        <section class="golden-quote-section" data-section="5">
+            <div class="golden-glow"></div>
+
+            <!-- Floating particles -->
+            <div class="golden-particle" style="top: 20%; left: 15%; animation-delay: 0s;"></div>
+            <div class="golden-particle" style="top: 30%; left: 80%; animation-delay: 1s;"></div>
+            <div class="golden-particle" style="top: 60%; left: 25%; animation-delay: 2s;"></div>
+            <div class="golden-particle" style="top: 70%; left: 70%; animation-delay: 0.5s;"></div>
+            <div class="golden-particle" style="top: 40%; left: 50%; animation-delay: 3s;"></div>
+            <div class="golden-particle" style="top: 80%; left: 40%; animation-delay: 1.5s;"></div>
+            <div class="golden-particle" style="top: 15%; left: 60%; animation-delay: 2.5s;"></div>
+            <div class="golden-particle" style="top: 55%; left: 10%; animation-delay: 4s;"></div>
+            <div class="golden-particle" style="top: 45%; left: 85%; animation-delay: 3.5s;"></div>
+            <div class="golden-particle" style="top: 25%; left: 35%; animation-delay: 1.2s;"></div>
+
+            <div class="golden-quote-card observe-me" id="goldenQuoteCard">
+                <div class="golden-label">words  of someone beautiful and intelligent ^^</div>
+                <div class="golden-quote-text" id="goldenQuoteText">
+                    "Save work for work.. when you're working, fully focus on it not other thoughts that come into the mind. Save joy for joy. Don't mix em up."
+                </div>
+                <div class="golden-attribution">— drishti 🌷</div>
+            </div>
+        </section>
+
+        <!-- ====== SECTION 7: THANK YOU ====== -->
+        <section class="thankyou-section">
+            <div class="medicine-badge observe-me">🫂 you're my medicine</div>
+            <div class="thankyou-heading observe-me">Thank You, drishti</div>
+            <div class="thankyou-message observe-me">
+                You didn't just talk to me this evening, drish.. sigh you held me together.
+                You had your boards to study for, your own world toa deal with, syllabus to cover,
+                and yet you stayed. The way you told me to shut up and tell you : ) I absolutely loved and adored that..
+                You reminded me to believe in myself.
+                <br><br>
+                You brought me back from the depths of my thoughts.. You took me out of that deeep wellllllllll you have been pointing out X))
+                <br><br>
+                And i hadn't even told you the half of it, what really had been weighing on me.
+                But even without knowing, you made it lighter.. Just by being you. by being there, and everything you did.. : ) ^^ <3333
+                <br><br>
+                For the foreseeable future, and wellllllll beyond it, thank you, drishi, my..angel 🫂
+            </div>
+            <div class="thankyou-footer observe-me">
+                10th March, 2026 · 7:04 PM.. the evening you saved 💝
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // ========================================
+        // ENTER SITE
+        // ========================================
+        function enterSite() {
+            const overlay = document.getElementById('introOverlay');
+            overlay.classList.add('hidden');
+            const main = document.getElementById('mainContent');
+            main.style.opacity = '1';
+            startRain();
+
+            // Start playing music
+            const bgMusic = document.getElementById('bgMusic');
+            bgMusic.volume = 0.5;
+            bgMusic.play().then(() => {
+                isMusicPlaying = true;
+                document.getElementById('musicToggle').textContent = '⏸️';
+                updateMusicVisualizer(true);
+            }).catch(err => console.log('Autoplay blocked:', err));
+
+            // Show the music player
+            document.getElementById('musicPlayer').classList.add('visible');
+
+            // Warm up ambient after scroll
+            setTimeout(() => {
+                document.getElementById('ambientBg').classList.add('warm');
+            }, 8000);
+        }
+
+        // ========================================
+        // RAIN EFFECT
+        // ========================================
+        function startRain() {
+            const canvas = document.getElementById('rainCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const drops = [];
+            const dropCount = 120;
+
+            for (let i = 0; i < dropCount; i++) {
+                drops.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    length: Math.random() * 20 + 10,
+                    speed: Math.random() * 4 + 4,
+                    opacity: Math.random() * 0.15 + 0.05,
+                    width: Math.random() * 1.5 + 0.5
+                });
+            }
+
+            let animating = true;
+
+            function drawRain() {
+                if (!animating) return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                drops.forEach(drop => {
+                    ctx.beginPath();
+                    ctx.moveTo(drop.x, drop.y);
+                    ctx.lineTo(drop.x + 1, drop.y + drop.length);
+                    ctx.strokeStyle = `rgba(147, 197, 253, ${drop.opacity})`;
+                    ctx.lineWidth = drop.width;
+                    ctx.stroke();
+
+                    drop.y += drop.speed;
+                    if (drop.y > canvas.height) {
+                        drop.y = -drop.length;
+                        drop.x = Math.random() * canvas.width;
+                    }
+                });
+
+                requestAnimationFrame(drawRain);
+            }
+
+            drawRain();
+
+            // Fade rain as user scrolls deeper
+            window.addEventListener('scroll', () => {
+                const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+                if (scrollPercent > 0.3) {
+                    canvas.classList.add('fading');
+                    setTimeout(() => { animating = false; }, 2000);
+                }
+            });
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+
+        // ========================================
+        // INTERSECTION OBSERVER - Reveal animations
+        // ========================================
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.observe-me').forEach(el => {
+            observer.observe(el);
+        });
+
+        // No chat observer needed — all elements use observe-me now
+
+        // ========================================
+        // SCROLL INDICATOR
+        // ========================================
+        const sections = document.querySelectorAll('[data-section]');
+        const scrollDots = document.querySelectorAll('.scroll-dot');
+
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY + window.innerHeight / 2;
+
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+                const idx = parseInt(section.dataset.section);
+
+                if (scrollPos >= top && scrollPos < top + height) {
+                    scrollDots.forEach(dot => dot.classList.remove('active'));
+                    if (scrollDots[idx]) scrollDots[idx].classList.add('active');
+                }
+            });
+        });
+
+        // ========================================
+        // CUSTOM CURSOR (desktop)
+        // ========================================
+        const cursorDot = document.getElementById('cursorDot');
+        const cursorRing = document.getElementById('cursorRing');
+        let mouseX = 0, mouseY = 0;
+        let ringX = 0, ringY = 0;
+
+        // Trail particles
+        const trailParticles = [];
+        const trailCount = 12;
+        for (let i = 0; i < trailCount; i++) {
+            const trail = document.createElement('div');
+            trail.classList.add('cursor-trail');
+            document.body.appendChild(trail);
+            trailParticles.push({ el: trail, x: 0, y: 0 });
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+        });
+
+        // Smooth ring follow + trail
+        function animateCursor() {
+            ringX += (mouseX - ringX) * 0.15;
+            ringY += (mouseY - ringY) * 0.15;
+            cursorRing.style.left = ringX + 'px';
+            cursorRing.style.top = ringY + 'px';
+
+            // Shift trail positions
+            for (let i = trailParticles.length - 1; i > 0; i--) {
+                trailParticles[i].x = trailParticles[i - 1].x;
+                trailParticles[i].y = trailParticles[i - 1].y;
+            }
+            trailParticles[0].x = mouseX;
+            trailParticles[0].y = mouseY;
+
+            trailParticles.forEach((p, i) => {
+                const scale = 1 - (i / trailCount);
+                const opacity = (1 - (i / trailCount)) * 0.4;
+                p.el.style.left = p.x + 'px';
+                p.el.style.top = p.y + 'px';
+                p.el.style.opacity = opacity;
+                p.el.style.transform = `translate(-50%, -50%) scale(${scale})`;
+            });
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Hover effect on interactive elements
+        document.querySelectorAll('a, button, input, .moment-card, .music-btn').forEach(el => {
+            el.addEventListener('mouseenter', () => cursorRing.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => cursorRing.classList.remove('hovering'));
+        });
+
+        // ========================================
+        // GOLDEN QUOTE TYPEWRITER EFFECT
+        // ========================================
+        const goldenQuoteCard = document.getElementById('goldenQuoteCard');
+        const goldenQuoteText = document.getElementById('goldenQuoteText');
+        const fullQuoteText = '"Save work for work.. when you\'re working fully focus on it not other thoughts that come into the mind. Save joy for joy. Don\'t mix em up."';
+        let quoteTyped = false;
+
+        const quoteObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !quoteTyped) {
+                    quoteTyped = true;
+                    goldenQuoteText.textContent = '';
+                    goldenQuoteCard.classList.add('visible');
+
+                    let i = 0;
+                    const typeSpeed = 35;
+
+                    function typeChar() {
+                        if (i < fullQuoteText.length) {
+                            goldenQuoteText.textContent += fullQuoteText[i];
+                            i++;
+                            setTimeout(typeChar, typeSpeed);
+                        }
+                    }
+
+                    setTimeout(typeChar, 800);
+                }
+            });
+        }, { threshold: 0.4 });
+
+        quoteObserver.observe(goldenQuoteCard);
+
+        // ========================================
+        // AMBIENT WARMUP ON SCROLL
+        // ========================================
+        window.addEventListener('scroll', () => {
+            const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+            const ambientBg = document.getElementById('ambientBg');
+
+            if (scrollPercent > 0.25) {
+                ambientBg.classList.add('warm');
+            }
+        });
+
+        // ========================================
+        // MUSIC PLAYER CONTROLS
+        // ========================================
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const musicBars = document.querySelectorAll('.music-bar');
+        let isMusicPlaying = false;
+
+        bgMusic.volume = 0.5;
+
+        function updateMusicVisualizer(playing) {
+            musicBars.forEach(bar => {
+                if (playing) {
+                    bar.classList.remove('paused');
+                    bar.classList.add('playing');
+                } else {
+                    bar.classList.remove('playing');
+                    bar.classList.add('paused');
+                }
+            });
+        }
+
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicToggle.textContent = '▶️';
+                isMusicPlaying = false;
+            } else {
+                bgMusic.play().then(() => {
+                    musicToggle.textContent = '⏸️';
+                    isMusicPlaying = true;
+                }).catch(err => console.log('Playback failed:', err));
+            }
+            updateMusicVisualizer(isMusicPlaying);
+        }
+
+        musicToggle.addEventListener('click', toggleMusic);
+
+        volumeSlider.addEventListener('input', (e) => {
+            const volume = e.target.value / 100;
+            bgMusic.volume = volume;
+            const volumeIcon = document.querySelector('.volume-icon');
+            if (volume === 0) {
+                volumeIcon.textContent = '🔇';
+            } else if (volume < 0.5) {
+                volumeIcon.textContent = '🔉';
+            } else {
+                volumeIcon.textContent = '🔊';
+            }
+        });
+
+        bgMusic.addEventListener('play', () => {
+            isMusicPlaying = true;
+            musicToggle.textContent = '⏸️';
+            updateMusicVisualizer(true);
+        });
+
+        bgMusic.addEventListener('pause', () => {
+            isMusicPlaying = false;
+            musicToggle.textContent = '▶️';
+            updateMusicVisualizer(false);
+        });
+
+        // ========================================
+        // KEYBOARD SHORTCUT: ENTER TO START
+        // ========================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const overlay = document.getElementById('introOverlay');
+                if (!overlay.classList.contains('hidden')) {
+                    enterSite();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
