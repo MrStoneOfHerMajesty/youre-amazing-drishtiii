@@ -1,0 +1,1376 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>our beautiful coincidences ✨</title>
+    <meta name="description" content="a collection of beautiful coincidences" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+        background: #07060b;
+        color: #f0e8e0;
+        overflow-x: hidden;
+        min-height: 100vh;
+        line-height: 1.7;
+        cursor: default;
+      }
+
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        background: #07060b;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition:
+          opacity 1s ease,
+          visibility 1s ease;
+      }
+
+      #splash.fade-out {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .splash-text {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(1.4rem, 4vw, 2.4rem);
+        font-weight: 300;
+        font-style: italic;
+        color: rgba(240, 200, 180, 0.9);
+        letter-spacing: 0.06em;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: splash-reveal 1.6s ease 0.3s forwards;
+        text-shadow:
+          0 0 60px rgba(200, 140, 120, 0.4),
+          0 0 120px rgba(160, 100, 180, 0.2);
+      }
+
+      .splash-sub {
+        font-family: "Lora", serif;
+        font-size: clamp(0.85rem, 2vw, 1.05rem);
+        color: rgba(180, 160, 200, 0.6);
+        margin-top: 16px;
+        letter-spacing: 0.15em;
+        opacity: 0;
+        animation: splash-reveal 1.4s ease 0.8s forwards;
+      }
+
+      .splash-stars {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+
+      .splash-star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 50%;
+        animation: twinkle-splash 3s ease-in-out infinite;
+      }
+
+      @keyframes splash-reveal {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes twinkle-splash {
+        0%,
+        100% {
+          opacity: 0.2;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.5);
+        }
+      }
+
+      #main-content {
+        opacity: 0;
+        transition: opacity 1.2s ease;
+        position: relative;
+        z-index: 1;
+      }
+
+      #main-content.visible {
+        opacity: 1;
+      }
+
+      .bg-starfield {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        background: radial-gradient(
+          ellipse at center,
+          #0d0a18 0%,
+          #07060b 100%
+        );
+      }
+
+      #bg-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .nebula-layer {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .neb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(110px);
+        opacity: 0.18;
+        mix-blend-mode: screen;
+        animation: neb-drift 30s ease-in-out infinite;
+        will-change: transform;
+      }
+
+      .neb-1 {
+        width: 55vmax;
+        height: 55vmax;
+        background: radial-gradient(
+          circle,
+          rgba(180, 100, 160, 0.5),
+          transparent 70%
+        );
+        top: -15%;
+        right: -10%;
+        animation-delay: 0s;
+      }
+      .neb-2 {
+        width: 65vmax;
+        height: 65vmax;
+        background: radial-gradient(
+          circle,
+          rgba(100, 120, 220, 0.4),
+          transparent 70%
+        );
+        bottom: -25%;
+        left: -15%;
+        animation-delay: -10s;
+        animation-duration: 35s;
+      }
+      .neb-3 {
+        width: 50vmax;
+        height: 50vmax;
+        background: radial-gradient(
+          circle,
+          rgba(200, 150, 100, 0.35),
+          transparent 70%
+        );
+        top: 40%;
+        left: 35%;
+        animation-delay: -18s;
+        animation-duration: 28s;
+      }
+      .neb-4 {
+        width: 40vmax;
+        height: 40vmax;
+        background: radial-gradient(
+          circle,
+          rgba(100, 180, 180, 0.3),
+          transparent 70%
+        );
+        bottom: 5%;
+        right: 10%;
+        animation-delay: -6s;
+        animation-duration: 32s;
+      }
+
+      @keyframes neb-drift {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1) rotate(0deg);
+        }
+        25% {
+          transform: translate(35px, -25px) scale(1.06) rotate(2deg);
+        }
+        50% {
+          transform: translate(-25px, 40px) scale(0.95) rotate(-1.5deg);
+        }
+        75% {
+          transform: translate(20px, 20px) scale(1.04) rotate(1deg);
+        }
+      }
+
+      .grain-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      .vignette-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background: radial-gradient(
+          ellipse at center,
+          transparent 0%,
+          transparent 45%,
+          rgba(7, 6, 11, 0.6) 100%
+        );
+      }
+
+      #spotlight {
+        position: fixed;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(180, 140, 160, 0.06) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+        z-index: 0;
+        transform: translate(-50%, -50%);
+        transition:
+          left 0.4s ease-out,
+          top 0.4s ease-out;
+        will-change: left, top;
+      }
+
+      .page-header {
+        text-align: center;
+        padding: 100px 24px 50px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .page-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 5.5vw, 3.8rem);
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        color: #fff;
+        text-shadow:
+          0 0 80px rgba(200, 150, 180, 0.35),
+          0 0 160px rgba(140, 100, 200, 0.15);
+        opacity: 0;
+        transform: translateY(30px);
+        animation: title-in 1.5s ease 0.3s forwards;
+      }
+
+      .page-subtitle {
+        font-family: "Lora", serif;
+        font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+        color: rgba(200, 180, 220, 0.65);
+        margin-top: 14px;
+        font-style: italic;
+        letter-spacing: 0.1em;
+        opacity: 0;
+        animation: title-in 1.3s ease 0.7s forwards;
+      }
+
+      @keyframes title-in {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        margin: 20px auto 0;
+        opacity: 0;
+        animation: title-in 1.2s ease 1s forwards;
+      }
+
+      .divider-line {
+        width: 60px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(200, 160, 180, 0.4),
+          transparent
+        );
+      }
+
+      .divider-dot {
+        width: 5px;
+        height: 5px;
+        background: rgba(200, 160, 180, 0.5);
+        border-radius: 50%;
+        box-shadow: 0 0 12px rgba(200, 160, 180, 0.4);
+      }
+
+      .calendar-section {
+        max-width: 480px;
+        margin: 30px auto 60px;
+        padding: 0 20px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .calendar-container {
+        background: rgba(255, 255, 255, 0.035);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 28px;
+        padding: 32px 28px;
+        box-shadow:
+          0 0 80px rgba(160, 100, 180, 0.08),
+          0 20px 50px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .calendar-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.15),
+          transparent
+        );
+      }
+
+      .cal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+      }
+
+      .cal-nav-btn {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: rgba(220, 200, 240, 0.8);
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+      }
+
+      .cal-nav-btn:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(200, 160, 220, 0.3);
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(180, 120, 200, 0.2);
+      }
+
+      .cal-month-year {
+        font-family: "Playfair Display", serif;
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: #fff;
+        letter-spacing: 0.05em;
+        text-shadow: 0 0 30px rgba(200, 160, 180, 0.3);
+      }
+
+      .cal-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 4px;
+      }
+
+      .cal-day-name {
+        text-align: center;
+        font-family: "Lora", serif;
+        font-size: 0.75rem;
+        color: rgba(180, 160, 200, 0.5);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 8px 0;
+      }
+
+      .cal-cell {
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-family: "Lora", serif;
+        font-size: 0.9rem;
+        color: rgba(220, 210, 230, 0.6);
+        cursor: default;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .cal-cell.other-month {
+        color: rgba(150, 140, 160, 0.2);
+      }
+
+      .cal-cell.today {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.08);
+        font-weight: 600;
+      }
+
+      .cal-cell.has-coincidence {
+        cursor: pointer;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .cal-cell.has-coincidence::after {
+        content: "";
+        position: absolute;
+        inset: 2px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(220, 160, 200, 0.5);
+        box-shadow:
+          0 0 15px rgba(200, 130, 180, 0.3),
+          inset 0 0 10px rgba(200, 130, 180, 0.1);
+        animation: glow-pulse 3s ease-in-out infinite;
+      }
+
+      .cal-cell.has-coincidence:hover {
+        transform: scale(1.2);
+        color: #fce4ec;
+      }
+
+      .cal-cell.has-coincidence:hover::after {
+        border-color: rgba(240, 180, 220, 0.8);
+        box-shadow:
+          0 0 25px rgba(220, 150, 200, 0.5),
+          inset 0 0 15px rgba(220, 150, 200, 0.2);
+      }
+
+      .cal-cell.has-coincidence::before {
+        content: "";
+        position: absolute;
+        bottom: 3px;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: rgba(240, 180, 210, 0.9);
+        box-shadow: 0 0 8px rgba(240, 180, 210, 0.6);
+      }
+
+      @keyframes glow-pulse {
+        0%,
+        100% {
+          box-shadow:
+            0 0 15px rgba(200, 130, 180, 0.3),
+            inset 0 0 10px rgba(200, 130, 180, 0.1);
+        }
+        50% {
+          box-shadow:
+            0 0 25px rgba(200, 130, 180, 0.5),
+            inset 0 0 15px rgba(200, 130, 180, 0.2);
+        }
+      }
+
+      .timeline-section {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 40px 24px 120px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .timeline-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.3rem, 3vw, 1.8rem);
+        text-align: center;
+        color: rgba(240, 220, 240, 0.85);
+        margin-bottom: 50px;
+        letter-spacing: 0.04em;
+        font-weight: 400;
+      }
+
+      .timeline {
+        position: relative;
+        padding-left: 40px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 12px;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(200, 160, 200, 0.3) 10%,
+          rgba(200, 160, 200, 0.3) 90%,
+          transparent
+        );
+      }
+
+      .timeline-entry {
+        position: relative;
+        margin-bottom: 50px;
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 1.2s ease,
+          transform 1.2s ease;
+      }
+
+      .timeline-entry.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .timeline-entry::before {
+        content: "";
+        position: absolute;
+        left: -34px;
+        top: 24px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(220, 170, 200, 0.7);
+        box-shadow:
+          0 0 15px rgba(200, 140, 180, 0.5),
+          0 0 30px rgba(200, 140, 180, 0.2);
+        border: 2px solid rgba(240, 200, 220, 0.5);
+      }
+
+      .entry-card {
+        background: rgba(255, 255, 255, 0.035);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 24px;
+        padding: 32px 30px;
+        position: relative;
+        overflow: hidden;
+        box-shadow:
+          0 0 60px rgba(160, 100, 160, 0.06),
+          0 15px 40px rgba(0, 0, 0, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        transition:
+          transform 0.4s ease,
+          box-shadow 0.4s ease;
+      }
+
+      .entry-card:hover {
+        transform: translateY(-4px);
+        box-shadow:
+          0 0 80px rgba(180, 120, 170, 0.1),
+          0 20px 50px rgba(0, 0, 0, 0.35),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+
+      .entry-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.12),
+          transparent
+        );
+      }
+
+      .entry-card::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.03),
+          transparent
+        );
+        animation: card-shimmer 6s infinite;
+        pointer-events: none;
+      }
+
+      @keyframes card-shimmer {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+      }
+
+      .entry-date {
+        font-family: "Lora", serif;
+        font-size: 0.82rem;
+        color: rgba(200, 170, 220, 0.7);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+
+      .entry-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.2rem, 2.8vw, 1.6rem);
+        font-weight: 500;
+        color: #fff;
+        margin-bottom: 8px;
+        text-shadow: 0 0 30px rgba(200, 160, 180, 0.2);
+      }
+
+      .entry-description {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+        color: rgba(230, 220, 240, 0.7);
+        line-height: 1.9;
+        font-style: italic;
+      }
+
+      .timeline-entry.featured::before {
+        background: rgba(220, 180, 100, 0.85);
+        box-shadow:
+          0 0 18px rgba(210, 170, 80, 0.6),
+          0 0 40px rgba(210, 170, 80, 0.25);
+        border-color: rgba(240, 210, 140, 0.7);
+        width: 12px;
+        height: 12px;
+        left: -35px;
+        top: 22px;
+      }
+
+      .entry-card.featured-card {
+        background: rgba(200, 160, 80, 0.04);
+        border: 1.5px solid rgba(210, 175, 100, 0.2);
+        padding: 40px 36px;
+        box-shadow:
+          0 0 80px rgba(210, 170, 80, 0.1),
+          0 0 40px rgba(180, 140, 60, 0.06),
+          0 20px 50px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 230, 160, 0.08);
+      }
+
+      .entry-card.featured-card:hover {
+        box-shadow:
+          0 0 100px rgba(210, 170, 80, 0.18),
+          0 0 60px rgba(180, 140, 60, 0.1),
+          0 25px 55px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 230, 160, 0.12);
+        transform: translateY(-5px);
+      }
+
+      .entry-card.featured-card::before {
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(220, 185, 110, 0.25),
+          transparent
+        );
+      }
+
+      .entry-card.featured-card::after {
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(220, 185, 110, 0.04),
+          transparent
+        );
+        animation: card-shimmer 4s infinite;
+      }
+
+      .featured-border {
+        position: absolute;
+        inset: -1px;
+        border-radius: 25px;
+        padding: 1.5px;
+        background: linear-gradient(
+          135deg,
+          rgba(220, 185, 110, 0.5),
+          rgba(180, 140, 60, 0.2),
+          rgba(240, 210, 140, 0.4),
+          rgba(180, 140, 60, 0.2),
+          rgba(220, 185, 110, 0.5)
+        );
+        background-size: 300% 300%;
+        -webkit-mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        animation: golden-border-flow 5s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      @keyframes golden-border-flow {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      .entry-card.featured-card .entry-date {
+        color: rgba(220, 185, 120, 0.85);
+        letter-spacing: 0.15em;
+      }
+
+      .entry-card.featured-card .entry-title {
+        font-size: clamp(1.4rem, 3.2vw, 2rem);
+        background: linear-gradient(
+          135deg,
+          rgba(240, 215, 150, 1) 0%,
+          rgba(220, 185, 110, 1) 30%,
+          rgba(255, 235, 180, 1) 50%,
+          rgba(210, 170, 90, 1) 70%,
+          rgba(240, 215, 150, 1) 100%
+        );
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gold-text-shimmer 4s ease-in-out infinite;
+        text-shadow: none;
+        font-weight: 600;
+        margin-bottom: 14px;
+      }
+
+      @keyframes gold-text-shimmer {
+        0%,
+        100% {
+          background-position: 0% center;
+        }
+        50% {
+          background-position: 200% center;
+        }
+      }
+
+      .entry-card.featured-card .entry-description {
+        color: rgba(240, 225, 200, 0.75);
+        font-size: clamp(1.1rem, 2.4vw, 1.3rem);
+      }
+
+      .featured-label {
+        display: inline-block;
+        font-family: "Lora", serif;
+        font-size: 0.68rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(220, 190, 120, 0.7);
+        background: rgba(220, 185, 110, 0.08);
+        border: 1px solid rgba(220, 185, 110, 0.15);
+        border-radius: 20px;
+        padding: 4px 14px;
+        margin-bottom: 14px;
+      }
+
+      .cal-cell.has-coincidence.golden::after {
+        border-color: rgba(220, 185, 110, 0.6);
+        box-shadow:
+          0 0 15px rgba(210, 170, 80, 0.4),
+          inset 0 0 10px rgba(210, 170, 80, 0.15);
+      }
+
+      .cal-cell.has-coincidence.golden::before {
+        background: rgba(220, 190, 120, 0.9);
+        box-shadow: 0 0 8px rgba(220, 190, 120, 0.6);
+      }
+
+      .cal-cell.has-coincidence.golden:hover::after {
+        border-color: rgba(240, 210, 140, 0.9);
+        box-shadow:
+          0 0 25px rgba(220, 185, 110, 0.6),
+          inset 0 0 15px rgba(220, 185, 110, 0.25);
+      }
+
+      .shooting-star {
+        position: fixed;
+        width: 2px;
+        height: 2px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.8);
+        opacity: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .shooting-star::before {
+        content: "";
+        position: absolute;
+        width: 80px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 1),
+          rgba(255, 255, 255, 0.5) 50%,
+          transparent
+        );
+        transform: translateX(-80px) translateY(0.5px);
+        box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+      }
+
+      @keyframes shoot {
+        0% {
+          opacity: 0;
+          transform: translateX(0) translateY(0) scale(1);
+        }
+        5% {
+          opacity: 1;
+        }
+        70% {
+          opacity: 0.7;
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(250px) translateY(250px) scale(0.2);
+        }
+      }
+
+      .float-particles {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .fp {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 220, 230, 0.8),
+          transparent 70%
+        );
+        animation: fp-rise 25s infinite linear;
+        opacity: 0;
+      }
+
+      @keyframes fp-rise {
+        0% {
+          opacity: 0;
+          transform: translateY(100vh) translateX(0) scale(0.4);
+        }
+        10% {
+          opacity: 0.5;
+        }
+        85% {
+          opacity: 0.3;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-15vh) translateX(80px) scale(1);
+        }
+      }
+
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(200, 160, 200, 0.2);
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(200, 160, 200, 0.35);
+      }
+
+      @media (max-width: 600px) {
+        .calendar-container {
+          padding: 24px 18px;
+          border-radius: 22px;
+        }
+        .cal-cell {
+          font-size: 0.8rem;
+        }
+        .timeline {
+          padding-left: 30px;
+        }
+        .timeline::before {
+          left: 8px;
+        }
+        .timeline-entry::before {
+          left: -26px;
+          width: 8px;
+          height: 8px;
+        }
+        .entry-card {
+          padding: 24px 20px;
+          border-radius: 18px;
+        }
+        .page-header {
+          padding: 80px 20px 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="bgMusic" src="src/nightWeMet.mp3" loop></audio>
+    <div id="splash" style="cursor: pointer" onclick="startExperience()">
+      <div class="splash-stars" id="splash-stars"></div>
+      <p class="splash-text">every coincidence has a meaning...</p>
+      <p class="splash-sub">✦ ours are.. ahem.. written in the stars ✦</p>
+      <p
+        id="tap-hint"
+        style="
+          position: absolute;
+          bottom: 60px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-family: &quot;Lora&quot;, serif;
+          font-size: 0.72rem;
+          color: rgba(200, 180, 220, 0.4);
+          letter-spacing: 0.15em;
+          opacity: 0;
+          animation: splash-reveal 1.2s ease 1.5s forwards;
+        "
+      >
+        tap anywhere to begin
+      </p>
+    </div>
+    <script>
+      let started = false;
+      function startExperience() {
+        if (started) return;
+        started = true;
+        document.getElementById("bgMusic").play();
+        document.getElementById("splash").classList.add("fade-out");
+        document.getElementById("main-content").classList.add("visible");
+      }
+      const tryAuto = document.getElementById("bgMusic");
+      tryAuto
+        .play()
+        .then(() => {
+          setTimeout(startExperience, 4000);
+        })
+        .catch(() => {});
+    </script>
+
+    <div class="bg-starfield"></div>
+    <canvas id="bg-canvas"></canvas>
+    <div class="nebula-layer">
+      <div class="neb neb-1"></div>
+      <div class="neb neb-2"></div>
+      <div class="neb neb-3"></div>
+      <div class="neb neb-4"></div>
+    </div>
+    <div class="float-particles" id="float-particles"></div>
+    <div class="grain-overlay"></div>
+    <div class="vignette-overlay"></div>
+    <div id="spotlight"></div>
+
+    <div id="main-content">
+      <header class="page-header">
+        <h1 class="page-title">Our Beautiful Coincidences</h1>
+        <p class="page-subtitle">moments the universe conspired for us</p>
+        <div class="divider">
+          <span class="divider-line"></span>
+          <span class="divider-dot"></span>
+          <span class="divider-line"></span>
+        </div>
+      </header>
+
+      <section class="calendar-section">
+        <div class="calendar-container">
+          <div class="cal-header">
+            <button
+              class="cal-nav-btn"
+              id="cal-prev"
+              aria-label="Previous month"
+            >
+              ‹
+            </button>
+            <span class="cal-month-year" id="cal-month-year"></span>
+            <button class="cal-nav-btn" id="cal-next" aria-label="Next month">
+              ›
+            </button>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+        </div>
+      </section>
+
+      <section class="timeline-section">
+        <h2 class="timeline-title">— the story so far —</h2>
+        <div class="timeline" id="timeline"></div>
+      </section>
+    </div>
+
+    <script>
+      const coincidences = [
+        {
+          date: "2025-09-28",
+          title: "The Night We Met",
+          description:
+            "the most beautiful,  most meaningful... life-changing coincidence of them all..the night the universe finally made sense... : ) You.. drishti, are the most beautiful thing that has ever happened to me, and ever will.. I know that for sure.",
+          featured: true,
+          golden: true,
+        },
+        {
+          date: "2025-08-04",
+          title: "Her Birthday",
+          description: "our dates might not be the same, but our month is.",
+        },
+      ];
+
+      (function () {
+        const container = document.getElementById("splash-stars");
+        for (let i = 0; i < 80; i++) {
+          const star = document.createElement("div");
+          star.className = "splash-star";
+          star.style.left = Math.random() * 100 + "%";
+          star.style.top = Math.random() * 100 + "%";
+          star.style.width = Math.random() * 2.5 + 0.5 + "px";
+          star.style.height = star.style.width;
+          star.style.animationDelay = Math.random() * 3 + "s";
+          star.style.animationDuration = Math.random() * 3 + 2 + "s";
+          container.appendChild(star);
+        }
+      })();
+
+      (function () {
+        const canvas = document.getElementById("bg-canvas");
+        const ctx = canvas.getContext("2d");
+        let stars = [];
+        const STAR_COUNT = 220;
+
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        for (let i = 0; i < STAR_COUNT; i++) {
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.4 + 0.3,
+            a: Math.random(),
+            da: (Math.random() - 0.5) * 0.008,
+            baseA: Math.random() * 0.5 + 0.3,
+          });
+        }
+
+        function drawStars() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          stars.forEach((s) => {
+            s.a += s.da;
+            if (s.a > 1 || s.a < 0.1) s.da *= -1;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${s.a * s.baseA})`;
+            ctx.fill();
+          });
+          requestAnimationFrame(drawStars);
+        }
+        drawStars();
+      })();
+
+      (function () {
+        const container = document.getElementById("float-particles");
+        for (let i = 0; i < 15; i++) {
+          const p = document.createElement("div");
+          p.className = "fp";
+          const size = Math.random() * 4 + 2;
+          p.style.width = size + "px";
+          p.style.height = size + "px";
+          p.style.left = Math.random() * 100 + "%";
+          p.style.animationDelay = Math.random() * 25 + "s";
+          p.style.animationDuration = Math.random() * 15 + 18 + "s";
+          container.appendChild(p);
+        }
+      })();
+
+      function createShootingStar() {
+        const star = document.createElement("div");
+        star.className = "shooting-star";
+        star.style.left = Math.random() * 70 + "%";
+        star.style.top = Math.random() * 40 + "%";
+        const duration = Math.random() * 1 + 1.2 + "s";
+        star.style.animation = `shoot ${duration} ease-out forwards`;
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), parseFloat(duration) * 1000 + 100);
+      }
+      setInterval(() => {
+        if (Math.random() > 0.5) createShootingStar();
+      }, 4000);
+
+      document.addEventListener("mousemove", (e) => {
+        const sp = document.getElementById("spotlight");
+        sp.style.left = e.clientX + "px";
+        sp.style.top = e.clientY + "px";
+      });
+
+      const MONTHS = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+      const coincidenceSet = new Set(coincidences.map((c) => c.date));
+
+      let calYear, calMonth;
+
+      (function () {
+        const first = coincidences[0];
+        const d = new Date(first.date + "T00:00:00");
+        calYear = d.getFullYear();
+        calMonth = d.getMonth();
+      })();
+
+      function renderCalendar() {
+        const grid = document.getElementById("cal-grid");
+        grid.innerHTML = "";
+
+        document.getElementById("cal-month-year").textContent =
+          MONTHS[calMonth] + " " + calYear;
+
+        DAYS.forEach((d) => {
+          const el = document.createElement("div");
+          el.className = "cal-day-name";
+          el.textContent = d;
+          grid.appendChild(el);
+        });
+
+        const firstDay = new Date(calYear, calMonth, 1).getDay();
+        const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+        const prevDays = new Date(calYear, calMonth, 0).getDate();
+
+        const today = new Date();
+        const todayStr =
+          today.getFullYear() +
+          "-" +
+          String(today.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(today.getDate()).padStart(2, "0");
+
+        for (let i = firstDay - 1; i >= 0; i--) {
+          const el = document.createElement("div");
+          el.className = "cal-cell other-month";
+          el.textContent = prevDays - i;
+          grid.appendChild(el);
+        }
+
+        for (let d = 1; d <= daysInMonth; d++) {
+          const dateStr =
+            calYear +
+            "-" +
+            String(calMonth + 1).padStart(2, "0") +
+            "-" +
+            String(d).padStart(2, "0");
+          const el = document.createElement("div");
+          el.className = "cal-cell";
+          el.textContent = d;
+
+          if (dateStr === todayStr) el.classList.add("today");
+
+          if (coincidenceSet.has(dateStr)) {
+            el.classList.add("has-coincidence");
+            const coinc = coincidences.find((c) => c.date === dateStr);
+            el.title = coinc.title;
+            if (coinc.golden) el.classList.add("golden");
+            el.addEventListener("click", () => {
+              const target = document.getElementById("entry-" + dateStr);
+              if (target) {
+                target.scrollIntoView({ behavior: "smooth", block: "center" });
+                target.style.transition = "box-shadow 0.4s ease";
+                target.style.boxShadow =
+                  "0 0 60px rgba(220, 160, 200, 0.3), 0 20px 50px rgba(0,0,0,0.35)";
+                setTimeout(() => {
+                  target.style.boxShadow = "";
+                }, 2000);
+              }
+            });
+          }
+
+          grid.appendChild(el);
+        }
+
+        const totalCells = firstDay + daysInMonth;
+        const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+        for (let i = 1; i <= remaining; i++) {
+          const el = document.createElement("div");
+          el.className = "cal-cell other-month";
+          el.textContent = i;
+          grid.appendChild(el);
+        }
+      }
+
+      document.getElementById("cal-prev").addEventListener("click", () => {
+        calMonth--;
+        if (calMonth < 0) {
+          calMonth = 11;
+          calYear--;
+        }
+        renderCalendar();
+      });
+
+      document.getElementById("cal-next").addEventListener("click", () => {
+        calMonth++;
+        if (calMonth > 11) {
+          calMonth = 0;
+          calYear++;
+        }
+        renderCalendar();
+      });
+
+      renderCalendar();
+
+      function formatDate(dateStr) {
+        const d = new Date(dateStr + "T00:00:00");
+        const day = d.getDate();
+        const month = MONTHS[d.getMonth()];
+        const year = d.getFullYear();
+        const suffix =
+          day === 1 || day === 21 || day === 31
+            ? "st"
+            : day === 2 || day === 22
+              ? "nd"
+              : day === 3 || day === 23
+                ? "rd"
+                : "th";
+        return `${month} ${day}${suffix}, ${year}`;
+      }
+
+      function buildTimeline() {
+        const container = document.getElementById("timeline");
+        container.innerHTML = "";
+
+        const sorted = [...coincidences].sort(
+          (a, b) => new Date(a.date) - new Date(b.date),
+        );
+
+        sorted.forEach((c) => {
+          const entry = document.createElement("div");
+          entry.className = "timeline-entry";
+          if (c.featured) entry.classList.add("featured");
+
+          const card = document.createElement("div");
+          card.className = "entry-card";
+          card.id = "entry-" + c.date;
+          if (c.featured) card.classList.add("featured-card");
+
+          if (c.featured) {
+            const border = document.createElement("div");
+            border.className = "featured-border";
+            card.appendChild(border);
+          }
+
+          if (c.featured) {
+            const label = document.createElement("span");
+            label.className = "featured-label";
+            label.textContent = "✦ where it all began ✦";
+            card.appendChild(label);
+          }
+
+          const dateEl = document.createElement("div");
+          dateEl.className = "entry-date";
+          dateEl.textContent = formatDate(c.date);
+
+          const titleEl = document.createElement("h3");
+          titleEl.className = "entry-title";
+          titleEl.textContent = c.title;
+
+          card.appendChild(dateEl);
+          card.appendChild(titleEl);
+
+          if (c.description) {
+            const descEl = document.createElement("p");
+            descEl.className = "entry-description";
+            descEl.textContent = c.description;
+            card.appendChild(descEl);
+          }
+
+          entry.appendChild(card);
+          container.appendChild(entry);
+        });
+
+        observeEntries();
+      }
+
+      function observeEntries() {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("visible");
+              }
+            });
+          },
+          { threshold: 0.15 },
+        );
+
+        document
+          .querySelectorAll(".timeline-entry")
+          .forEach((el) => observer.observe(el));
+      }
+
+      buildTimeline();
+    </script>
+  </body>
+</html>
