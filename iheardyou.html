@@ -1,0 +1,1279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I get you drish</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&family=Great+Vibes&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --surface: #7dd8f5;
+        --shallows: #3baed9;
+        --lagoon: #1a72c7;
+        --cerulean: #0d3d6b;
+        --midnight: #071e38;
+        --deep: #041325;
+        --abyss: #020b18;
+        /* aliases kept for component styles */
+        --ocean: #0a2a4a;
+        --sapphire: #1157a0;
+        --aqua: #4aaed9;
+        --foam: #a8d8ea;
+        --white: #eef7ff;
+        --glow: rgba(74, 174, 217, 0.55);
+        --glow-soft: rgba(74, 174, 217, 0.18);
+        --gold: #d4b896;
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        min-height: 100%;
+        background: linear-gradient(
+          180deg,
+          #1a648f 0%,
+          #186594 4%,
+          #165c8c 10%,
+          #124a75 18%,
+          #0d3d6b 27%,
+          #0b3156 38%,
+          #0a2a4a 50%,
+          #071e38 64%,
+          #041325 80%,
+          #020b18 100%
+        );
+        background-attachment: scroll;
+      }
+
+      body {
+        background: transparent;
+        color: var(--white);
+        font-family: "Jost", sans-serif;
+        font-weight: 300;
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      #cursor {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background: var(--aqua);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.2s,
+          height 0.2s,
+          background 0.2s;
+        box-shadow: 0 0 14px 4px var(--glow);
+      }
+      #cursor-ring {
+        position: fixed;
+        width: 36px;
+        height: 36px;
+        border: 1px solid rgba(74, 174, 217, 0.4);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition:
+          transform 0.12s ease-out,
+          width 0.25s,
+          height 0.25s;
+      }
+      a:hover ~ #cursor,
+      button:hover ~ #cursor {
+        width: 18px;
+        height: 18px;
+      }
+
+      /* Audio Controls */
+      .audio-controls {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(7, 30, 56, 0.4);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(74, 174, 217, 0.2);
+        padding: 10px 16px;
+        border-radius: 40px;
+        z-index: 9000;
+        transition: all 0.4s ease;
+      }
+
+      .audio-controls:hover {
+        background: rgba(7, 30, 56, 0.7);
+        border-color: rgba(74, 174, 217, 0.5);
+      }
+
+      .music-toggle {
+        background: none;
+        border: none;
+        color: var(--foam);
+        font-size: 1.1rem;
+        cursor: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+        transition:
+          transform 0.2s ease,
+          color 0.2s ease;
+      }
+
+      .music-toggle:hover {
+        transform: scale(1.1);
+        color: var(--white);
+      }
+
+      .volume-slider {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 60px;
+        height: 3px;
+        background: rgba(74, 174, 217, 0.2);
+        border-radius: 3px;
+        outline: none;
+        cursor: none;
+        transition: width 0.3s ease;
+      }
+
+      .volume-slider::-webkit-slider-thumb {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--aqua);
+        cursor: none;
+        box-shadow: 0 0 8px var(--glow);
+        transition: transform 0.2s;
+      }
+
+      .volume-slider::-webkit-slider-thumb:hover {
+        transform: scale(1.3);
+        background: var(--white);
+      }
+
+      @media (max-width: 640px) {
+        .audio-controls {
+          bottom: 1.5rem;
+          right: 1.5rem;
+          padding: 8px 12px;
+        }
+        .volume-slider {
+          width: 45px;
+        }
+      }
+
+      #ocean-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      section {
+        position: relative;
+        z-index: 1;
+      }
+
+      #hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 4rem 2rem;
+        background: transparent;
+      }
+
+      .hero-eyebrow {
+        font-family: "Jost", sans-serif;
+        font-weight: 200;
+        font-size: clamp(0.65rem, 1.5vw, 0.8rem);
+        letter-spacing: 0.45em;
+        text-transform: uppercase;
+        color: var(--aqua);
+        opacity: 0;
+        animation: fadeUp 1s 0.3s forwards;
+      }
+
+      .hero-title {
+        font-family: "Great Vibes", cursive;
+        font-size: clamp(4.5rem, 10vw, 11rem);
+        line-height: 1;
+        color: var(--white);
+        margin: 0.15em 0 0.2em;
+        opacity: 0;
+        animation: fadeUp 1s 0.65s forwards;
+        text-shadow:
+          0 0 60px rgba(74, 174, 217, 0.35),
+          0 0 120px rgba(74, 174, 217, 0.15);
+      }
+
+      .hero-subtitle {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        color: var(--foam);
+        opacity: 0;
+        animation: fadeUp 1s 1s forwards;
+        max-width: 560px;
+      }
+
+      .hero-divider {
+        margin: 2.8rem auto 0;
+        width: 1px;
+        height: 80px;
+        background: linear-gradient(to bottom, var(--aqua), transparent);
+        opacity: 0;
+        animation: fadeIn 1.4s 1.5s forwards;
+      }
+
+      .scroll-hint {
+        position: absolute;
+        bottom: 2.2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.7rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(168, 216, 234, 0.5);
+        animation: pulse 2.5s infinite;
+      }
+
+      .wave-divider {
+        display: none;
+      }
+
+      #letter {
+        background: transparent;
+        padding: 8rem 2rem 10rem;
+      }
+
+      .letter-inner {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .section-label {
+        font-family: "Jost", sans-serif;
+        font-weight: 200;
+        font-size: 0.7rem;
+        letter-spacing: 0.5em;
+        text-transform: uppercase;
+        color: var(--aqua);
+        margin-bottom: 2.5rem;
+        display: block;
+      }
+
+      .section-label1 {
+        font-family: "Jost", sans-serif;
+        font-weight: 200;
+        font-size: 0.7rem;
+        letter-spacing: 0.5em;
+        color: var(--aqua);
+        margin-bottom: 2.5rem;
+        display: block;
+      }
+
+      .letter-heading {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 300;
+        font-size: clamp(2.6rem, 6vw, 4.2rem);
+        line-height: 1.15;
+        color: var(--white);
+        margin-bottom: 2.8rem;
+      }
+
+      .letter-heading em {
+        font-style: italic;
+        color: var(--foam);
+      }
+
+      .letter-body p {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(1.15rem, 2vw, 1.35rem);
+        line-height: 1.95;
+        color: rgba(238, 247, 255, 0.82);
+        margin-bottom: 1.6rem;
+      }
+
+      .letter-body p strong {
+        color: var(--foam);
+        font-weight: 500;
+      }
+
+      .letter-signature {
+        margin-top: 3.5rem;
+        font-family: "Great Vibes", cursive;
+        font-size: clamp(2.2rem, 5vw, 3.2rem);
+        color: var(--aqua);
+        text-shadow: 0 0 40px var(--glow);
+      }
+
+      #promises {
+        background: transparent;
+        padding: 8rem 2rem 10rem;
+      }
+
+      .promises-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.6rem;
+        max-width: 1000px;
+        margin: 4rem auto 0;
+      }
+
+      .promise-card {
+        background: rgba(7, 30, 56, 0.55);
+        border: 1px solid rgba(74, 174, 217, 0.18);
+        border-radius: 18px;
+        padding: 2.2rem 1.8rem 2.4rem;
+        backdrop-filter: blur(12px);
+        transition:
+          transform 0.4s ease,
+          box-shadow 0.4s ease,
+          border-color 0.4s ease;
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      .promise-card.visible {
+        animation: cardIn 0.7s ease forwards;
+      }
+
+      .promise-card:hover {
+        transform: translateY(-6px);
+        box-shadow:
+          0 20px 60px rgba(13, 61, 107, 0.6),
+          0 0 30px rgba(74, 174, 217, 0.1);
+        border-color: rgba(74, 174, 217, 0.4);
+      }
+
+      .promise-icon {
+        font-size: 1.8rem;
+        margin-bottom: 1.1rem;
+        display: block;
+      }
+
+      .promise-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--foam);
+        margin-bottom: 0.7rem;
+      }
+
+      .promise-text {
+        font-size: 0.9rem;
+        line-height: 1.75;
+        color: rgba(168, 216, 234, 0.72);
+        font-weight: 300;
+      }
+
+      #notice {
+        background: transparent;
+        padding: 8rem 2rem 10rem;
+      }
+
+      .notice-list {
+        max-width: 680px;
+        margin: 4rem auto 0;
+        list-style: none;
+        counter-reset: notice-counter;
+      }
+
+      .notice-item {
+        counter-increment: notice-counter;
+        display: flex;
+        gap: 2rem;
+        align-items: flex-start;
+        padding: 2rem 0;
+        border-bottom: 1px solid rgba(74, 174, 217, 0.1);
+        opacity: 0;
+        transform: translateX(-30px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+
+      .notice-item.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .notice-num {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 3rem;
+        font-weight: 300;
+        color: rgba(74, 174, 217, 0.2);
+        line-height: 1;
+        flex-shrink: 0;
+        min-width: 2.4rem;
+      }
+
+      .notice-content h4 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.3rem;
+        font-weight: 500;
+        color: var(--white);
+        margin-bottom: 0.45rem;
+      }
+
+      .notice-content p {
+        font-size: 0.9rem;
+        line-height: 1.8;
+        color: rgba(168, 216, 234, 0.65);
+      }
+
+      #deepdive {
+        background: transparent;
+        padding: 10rem 2rem;
+        text-align: center;
+      }
+
+      .quote-wrap {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .quote-mark {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 12rem;
+        line-height: 0;
+        color: rgba(74, 174, 217, 0.08);
+        position: absolute;
+        top: 2rem;
+        left: -1rem;
+        user-select: none;
+      }
+
+      .quote-text {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(1.6rem, 4vw, 2.6rem);
+        line-height: 1.65;
+        color: var(--foam);
+        position: relative;
+        z-index: 1;
+      }
+
+      .quote-attribution {
+        margin-top: 2.5rem;
+        font-size: 0.78rem;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: rgba(74, 174, 217, 0.55);
+      }
+
+      #memories {
+        background: transparent;
+        padding: 8rem 2rem 10rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .memories-heading {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 300;
+        font-size: clamp(2.2rem, 5vw, 3.6rem);
+        text-align: center;
+        margin-bottom: 5rem;
+        color: var(--white);
+      }
+
+      .memories-heading span {
+        color: var(--aqua);
+        font-style: italic;
+      }
+
+      .memories-track {
+        display: flex;
+        flex-direction: column;
+        gap: 3.5rem;
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .memory-bubble {
+        background: linear-gradient(
+          135deg,
+          rgba(7, 30, 56, 0.7),
+          rgba(17, 87, 160, 0.15)
+        );
+        border: 1px solid rgba(74, 174, 217, 0.15);
+        border-radius: 24px 24px 24px 6px;
+        padding: 2.2rem 2.5rem;
+        backdrop-filter: blur(8px);
+        position: relative;
+        transition: all 0.4s ease;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      .memory-bubble.right {
+        border-radius: 24px 24px 6px 24px;
+        align-self: flex-end;
+        background: linear-gradient(
+          135deg,
+          rgba(13, 61, 107, 0.5),
+          rgba(26, 114, 199, 0.12)
+        );
+      }
+
+      .memory-bubble.visible {
+        opacity: 1;
+        transform: translateY(0);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+
+      .memory-bubble:hover {
+        border-color: rgba(74, 174, 217, 0.35);
+        box-shadow: 0 10px 40px rgba(0, 20, 50, 0.4);
+      }
+
+      .memory-tag {
+        font-size: 0.68rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--aqua);
+        margin-bottom: 0.8rem;
+        display: block;
+      }
+
+      .memory-text {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.15rem;
+        line-height: 1.85;
+        color: rgba(238, 247, 255, 0.8);
+      }
+
+      #ending {
+        background: transparent;
+        padding: 10rem 2rem 8rem;
+        text-align: center;
+      }
+
+      .ending-small {
+        font-size: 0.72rem;
+        letter-spacing: 0.45em;
+        text-transform: uppercase;
+        color: rgba(74, 174, 217, 0.5);
+        margin-bottom: 2.2rem;
+      }
+
+      .ending-title {
+        font-family: "Great Vibes", cursive;
+        font-size: clamp(3.5rem, 10vw, 7rem);
+        color: var(--white);
+        line-height: 1.1;
+        text-shadow:
+          0 0 80px rgba(74, 174, 217, 0.3),
+          0 0 160px rgba(74, 174, 217, 0.12);
+        margin-bottom: 2.5rem;
+      }
+
+      .ending-body {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+        color: var(--foam);
+        max-width: 580px;
+        margin: 0 auto 3.5rem;
+        line-height: 1.9;
+      }
+
+      .glow-btn {
+        display: inline-block;
+        padding: 0.95rem 2.8rem;
+        border: 1px solid rgba(74, 174, 217, 0.5);
+        border-radius: 40px;
+        font-family: "Jost", sans-serif;
+        font-weight: 300;
+        font-size: 0.8rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--foam);
+        text-decoration: none;
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        box-shadow: 0 0 24px rgba(74, 174, 217, 0.12);
+      }
+
+      .glow-btn:hover {
+        background: rgba(74, 174, 217, 0.1);
+        box-shadow: 0 0 40px rgba(74, 174, 217, 0.3);
+        border-color: rgba(74, 174, 217, 0.8);
+        color: var(--white);
+      }
+
+      footer {
+        background: var(--abyss);
+        padding: 3rem 2rem;
+        text-align: center;
+        font-size: 0.72rem;
+        letter-spacing: 0.25em;
+        color: rgba(74, 174, 217, 0.25);
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+      @keyframes cardIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-12px);
+        }
+      }
+
+      .orb {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(80px);
+        opacity: 0.12;
+      }
+      .orb-1 {
+        width: 500px;
+        height: 500px;
+        background: var(--lagoon);
+        top: -100px;
+        left: -150px;
+        animation: float 9s ease-in-out infinite;
+      }
+      .orb-2 {
+        width: 350px;
+        height: 350px;
+        background: var(--aqua);
+        top: 30%;
+        right: -80px;
+        animation: float 11s 2s ease-in-out infinite;
+      }
+      .orb-3 {
+        width: 280px;
+        height: 280px;
+        background: var(--sapphire);
+        bottom: 10%;
+        left: 30%;
+        animation: float 8s 1s ease-in-out infinite;
+      }
+
+      @media (max-width: 640px) {
+        .promise-card {
+          padding: 1.8rem 1.4rem;
+        }
+        .notice-num {
+          font-size: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Audio -->
+    <audio id="bg-music" loop autoplay>
+      <source src="src/standByMe.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- Audio Controls UI -->
+    <div class="audio-controls">
+      <button id="music-toggle" class="music-toggle" aria-label="Play/Pause">
+        ⏸️
+      </button>
+      <input
+        type="range"
+        id="volume-slider"
+        class="volume-slider"
+        min="0"
+        max="100"
+        value="60"
+        aria-label="Volume"
+      />
+    </div>
+
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+
+    <canvas id="ocean-canvas"></canvas>
+
+    <section id="hero">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <p class="hero-eyebrow">with you, always</p>
+      <h1 class="hero-title">Through the Highs & Lows</h1>
+      <p class="hero-subtitle">
+        Some things don't need the right words..<br />
+        they just need to be felt, quietly.
+      </p>
+    </section>
+
+    <div
+      class="wave-divider"
+      style="
+        background: linear-gradient(180deg, var(--ocean) 0%, var(--ocean) 100%);
+      "
+    >
+      <svg
+        viewBox="0 0 1440 80"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+        height="80"
+      >
+        <path
+          d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"
+          fill="#0a2a4a"
+        />
+      </svg>
+    </div>
+    <section id="letter">
+      <div class="letter-inner">
+        <span class="section-label1">drishti...</span>
+        <h2 class="letter-heading">
+          I..heard you. I get you.<br />
+          <em>Every single word.</em>
+        </h2>
+        <div class="letter-body">
+          <p>
+            You said things you needed to say for a long time, and I'm SO glad
+            you did.. rather than letting it simmer up.. You literally..invested
+            half an hour in writing that 🫂
+          </p>
+          <p>
+            You're.. right.
+            <strong
+              >You shouldn't have to feel like talking to me is an
+              obligation.</strong
+            >
+            It was <em>never</em> supposed to feel like that. You have your
+            exams going, family, your <em><strong>own</strong></em> mind that
+            deserves to be quiet when it needs to be. I forgot that.. and I'm
+            sorry.. not as a word to erase things.. but as something I genuinely
+            mean. 🫂🫂
+          </p>
+          <p>
+            You don't have to be more. You don't have to reply faster, be more
+            available, feel more, or express things differently than you
+            naturally do, genuinelyyyyyyy 🫂🫂 I.. adore the way you are.
+            Nothinggg lessss nothingg moreeeee heheheh. 💝💐🌸🌷
+            <strong
+              >The way you are is not a shortcoming, it's just you, anddd i
+              valuee that a lottt 🫂🌷</strong
+            >
+            It never was. 🫂
+          </p>
+        </div>
+        <div class="letter-signature">always yours, <br />kaustubh</div>
+      </div>
+    </section>
+
+    <div class="wave-divider" style="background-color: #0d3d6b">
+      <svg
+        viewBox="0 0 1440 80"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+        height="80"
+      >
+        <path
+          d="M0,40 C360,0 720,80 1080,40 C1260,20 1380,60 1440,40 L1440,80 L0,80 Z"
+          fill="#0d3d6b"
+        />
+      </svg>
+    </div>
+
+    <section id="promises">
+      <div style="max-width: 900px; margin: 0 auto; text-align: center">
+        <span class="section-label">what i promise</span>
+        <h2 class="letter-heading" style="text-align: center">
+          No more empty words.<br /><em>Only real ones.</em>
+        </h2>
+      </div>
+      <div class="promises-grid">
+        <div class="promise-card">
+          <span class="promise-icon">🕊️</span>
+          <h3 class="promise-title">Space when you need it</h3>
+          <p class="promise-text">
+            Exam season.. its yours. Your silence is not a..bad thing, its just
+            the way we..all are. It's focus, it's prioroty, dedication, and it's
+            beautiful. I'll wait.. 🫂
+          </p>
+        </div>
+        <div class="promise-card">
+          <span class="promise-icon">💐</span>
+          <h3 class="promise-title">
+            No more (saying & feeling pehli baat to) deleting messages
+          </h3>
+          <p class="promise-text">
+            "IF" I say something wrong, I'll own it properly.. not delete
+            it..although my intentions of deleting them is to..not keep them in
+            the chats in case you'd ever read them again...dont want to remind
+            you of my.. stupdity..sigh. Sorry drish...im sorry..
+          </p>
+        </div>
+        <div class="promise-card">
+          <span class="promise-icon">🦢</span>
+          <h3 class="promise-title">being yourself 🫂</h3>
+          <p class="promise-text">
+            Not energy, not long replies, not feelings you don't have during
+            exams.. Just be yourself.. that's.. more than enough hmm?
+            🫂💐🌷🌸💝🪻🪷
+          </p>
+        </div>
+        <div class="promise-card">
+          <span class="promise-icon">✨</span>
+          <h3 class="promise-title">When.. I say always for..</h3>
+          <p class="promise-text">
+            I'm always going to stay here with you, for youm no matter what.. as
+            long as i'm alive 🫂 And that has no exceptions.. I do mean it with
+            the entirety of my life and my soul.
+          </p>
+        </div>
+        <div class="promise-card">
+          <span class="promise-icon">🫧</span>
+          <h3 class="promise-title">No more wrong..things</h3>
+          <p class="promise-text">
+            I.. am genuinely, deeply sorry for saying those things.. I'll try to
+            not say such things again.. I WILL be more.. understanding and..
+            patient.. with you.. 🫂
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="wave-divider" style="background-color: #1157a0">
+      <svg
+        viewBox="0 0 1440 80"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+        height="80"
+      >
+        <path
+          d="M0,20 C180,60 360,0 540,40 C720,80 900,10 1080,50 C1260,80 1380,20 1440,30 L1440,80 L0,80 Z"
+          fill="#1157a0"
+        />
+      </svg>
+    </div>
+
+    <section id="notice">
+      <div style="max-width: 680px; margin: 0 auto; text-align: center">
+        <span class="section-label">the big-small things</span>
+        <h2 class="letter-heading" style="text-align: center">
+          Things I notice<br /><em>about you</em>
+        </h2>
+      </div>
+      <ul class="notice-list">
+        <li class="notice-item">
+          <span class="notice-num">01</span>
+          <div class="notice-content">
+            <h4>The way you think before you speak</h4>
+            <p>
+              Even when you're frustrated, even when you're hurt.. (fuck im in
+              tears rn..) you still choose your words carefully.. You said...
+              "sigh. im not saying anything rn."..that was you being
+              considerate.. and not saying things you'd regret.. and i..
+              realized that.. and i felt so.. so.. guilty.. for what i said.. i
+              did not mean it.. 🫂 you're..the best drish..💝 sorry yaar
+              drishti...🫂
+            </p>
+          </div>
+        </li>
+        <li class="notice-item">
+          <span class="notice-num">02</span>
+          <div class="notice-content">
+            <h4>How hard you're working</h4>
+            <p>
+              Exams, family, health... you're holding <strong>so</strong> much
+              right now and you haven't..stalled. I see how much strength that
+              actually takes.. thank..you so much for staying and still talking
+              to me.. thank you so much for everything..
+            </p>
+          </div>
+        </li>
+        <li class="notice-item">
+          <span class="notice-num">03</span>
+          <div class="notice-content">
+            <h4>That you wrote all of this out</h4>
+            <p>
+              Half an hour of honesty instead of silence.. That's who you are..
+              someone who <strong>does</strong>, even when it's hard.
+            </p>
+          </div>
+        </li>
+        <li class="notice-item">
+          <span class="notice-num">04</span>
+          <div class="notice-content">
+            <h4>The way you..are so considerate and..patient and calm.</h4>
+            <p>
+              You don't make it a "performance". It shows up in patience, in the
+              way you don't complain.. in the little things you quietly do.. I
+              notice all of it.. and i feel <strong>so</strong> lucky to have
+              you in my life.. 🫂
+            </p>
+          </div>
+        </li>
+        <li class="notice-item">
+          <span class="notice-num">05</span>
+          <div class="notice-content">
+            <h4>That you ended with "I'm really fucking sorry"</h4>
+            <p>
+              You were upset, frustrated, exhausted.. and still you said that.
+              You have so much heart. you.. are amazing.. and you deserve so
+              much better.. I.. will bring goodness in myself.. 🫂
+            </p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <div class="wave-divider" style="background-color: #071e38">
+      <svg
+        viewBox="0 0 1440 80"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+        height="80"
+      >
+        <path
+          d="M0,60 C360,10 720,70 1080,30 C1260,15 1380,50 1440,60 L1440,80 L0,80 Z"
+          fill="#041325"
+        />
+      </svg>
+    </div>
+
+    <section id="memories">
+      <div class="orb orb-3"></div>
+      <h2 class="memories-heading">Moments I'm <span>grateful</span> for</h2>
+      <div class="memories-track">
+        <div class="memory-bubble">
+          <span class="memory-tag">the way you are..</span>
+          <p class="memory-text">
+            A person balancing her..unsaid problems.., her health, her exams,
+            and still finding letting me stay in her tiny little precious
+            bubble... That's not.."anything".. that literally everything if i
+            really think about it... 🫂
+          </p>
+        </div>
+        <div class="memory-bubble right">
+          <span class="memory-tag">when you check in..</span>
+          <p class="memory-text">
+            "Noo you shut up and tell me please".. sigh you had and have your
+            own exams.. your own world.. and still you stopped by.. just to make
+            sure I was okay..🫂
+          </p>
+        </div>
+        <div class="memory-bubble">
+          <span class="memory-tag">"for the foreseeable future"</span>
+          <p class="memory-text">
+            That phrase.. it became <strong><em>ours</em></strong
+            >.. You said it so carefully, so honestly.. not promising forever
+            because you're too real for that.. but promising right now, and that
+            means everything.. 🫂🌷 but but but... : ) genuinelyyyyyyy, no
+            matter WHAT, i'm staying with youuuuh for the rest of my lifeee,
+            only some supernatural force could stop me..🫂
+          </p>
+        </div>
+        <div class="memory-bubble">
+          <span class="memory-tag">what stays</span>
+          <p class="memory-text">
+            Even after all the words.. We are staying the same...
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="ending">
+      <p class="ending-small">and at the end of it all</p>
+      <h2 class="ending-title">I'm happy for you.</h2>
+      <p class="ending-body">
+        Go <strong>ace</strong> the rest of your exams as welllll. Take care of
+        your health, yuor beautiful eyes. Rest when you need to. Stay hydrated.
+        And just know.. quietly.. that somewhere there's this person who sees
+        you, values you, and know how wonderful you are, drish. You are
+        amazing.. and SO much more that i cannot express in words.. 🫂
+      </p>
+      <button
+        class="glow-btn"
+        onclick="
+          document.getElementById('hero').scrollIntoView({ behavior: 'smooth' })
+        "
+      >
+        Back to the top
+      </button>
+    </section>
+
+    <footer>
+      made with care and hmm.. &nbsp;·&nbsp; for you &nbsp;·&nbsp; always
+    </footer>
+
+    <script>
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursor-ring");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        cursor.style.left = mx + "px";
+        cursor.style.top = my + "px";
+      });
+
+      function animRing() {
+        rx += (mx - rx) * 0.1;
+        ry += (my - ry) * 0.1;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(animRing);
+      }
+      animRing();
+
+      const canvas = document.getElementById("ocean-canvas");
+      const ctx = canvas.getContext("2d");
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      const PARTICLE_COUNT = 110;
+      const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: Math.random() * 2.2 + 0.3,
+        speed: Math.random() * 0.35 + 0.08,
+        drift: (Math.random() - 0.5) * 0.25,
+        alpha: Math.random() * 0.45 + 0.05,
+        pulse: Math.random() * Math.PI * 2,
+      }));
+      const jellies = Array.from({ length: 6 }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight + window.innerHeight,
+        r: Math.random() * 45 + 20,
+        speed: Math.random() * 0.4 + 0.12,
+        phase: Math.random() * Math.PI * 2,
+        hue: Math.random() * 40 + 190,
+      }));
+
+      // Audio Controls Logic
+      const bgMusic = document.getElementById("bg-music");
+      const musicToggle = document.getElementById("music-toggle");
+      const volumeSlider = document.getElementById("volume-slider");
+
+      let isPlaying = false;
+
+      // Set initial volume
+      bgMusic.volume = volumeSlider.value / 100;
+
+      // Handle Autoplay Policy (browsers might block autoplay until interaction)
+      const playAttempt = setInterval(() => {
+        bgMusic
+          .play()
+          .then(() => {
+            isPlaying = true;
+            musicToggle.textContent = "⏸️";
+            clearInterval(playAttempt);
+          })
+          .catch((err) => {
+            // Autoplay blocked, wait for user interaction
+            isPlaying = false;
+            musicToggle.textContent = "▶️";
+          });
+      }, 1000);
+
+      // We clear the interval on any user interaction as a fallback
+      document.addEventListener(
+        "click",
+        () => {
+          if (!isPlaying) {
+            bgMusic
+              .play()
+              .then(() => {
+                isPlaying = true;
+                musicToggle.textContent = "⏸️";
+                clearInterval(playAttempt);
+              })
+              .catch((e) => console.log("Audio play failed:", e));
+          }
+        },
+        { once: true },
+      );
+
+      musicToggle.addEventListener("click", (e) => {
+        e.stopPropagation(); // prevent document click
+        if (isPlaying) {
+          bgMusic.pause();
+          musicToggle.textContent = "▶️";
+          isPlaying = false;
+        } else {
+          bgMusic
+            .play()
+            .then(() => {
+              musicToggle.textContent = "⏸️";
+              isPlaying = true;
+              clearInterval(playAttempt);
+            })
+            .catch((err) => console.log("Playback failed:", err));
+        }
+      });
+
+      volumeSlider.addEventListener("input", (e) => {
+        e.stopPropagation(); // prevent document click
+        bgMusic.volume = e.target.value / 100;
+        // If they adjust volume but it's paused, maybe they want to play it
+        if (!isPlaying && e.target.value > 0) {
+          bgMusic
+            .play()
+            .then(() => {
+              isPlaying = true;
+              musicToggle.textContent = "⏸️";
+              clearInterval(playAttempt);
+            })
+            .catch(() => {});
+        }
+      });
+
+      function drawFrame(t) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach((p) => {
+          p.pulse += 0.018;
+          const a = p.alpha * (0.6 + 0.4 * Math.sin(p.pulse));
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${a * 0.65})`;
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = `rgba(200, 240, 255, ${a * 0.5})`;
+          ctx.fill();
+
+          p.y -= p.speed;
+          p.x += p.drift;
+
+          if (p.y < -10) {
+            p.y = window.innerHeight + 10;
+            p.x = Math.random() * window.innerWidth;
+          }
+          if (p.x < -10 || p.x > window.innerWidth + 10) {
+            p.x = Math.random() * window.innerWidth;
+          }
+        });
+
+        jellies.forEach((j) => {
+          j.phase += 0.008;
+          j.y -= j.speed;
+          const sway = Math.sin(j.phase) * 18;
+
+          const grd = ctx.createRadialGradient(
+            j.x + sway,
+            j.y,
+            0,
+            j.x + sway,
+            j.y,
+            j.r,
+          );
+          grd.addColorStop(0, `hsla(${j.hue}, 70%, 65%, 0.08)`);
+          grd.addColorStop(1, `hsla(${j.hue}, 70%, 65%, 0)`);
+
+          ctx.beginPath();
+          ctx.arc(j.x + sway, j.y, j.r, 0, Math.PI * 2);
+          ctx.fillStyle = grd;
+          ctx.fill();
+
+          if (j.y < -j.r * 2) {
+            j.y = window.innerHeight + j.r;
+            j.x = Math.random() * window.innerWidth;
+          }
+        });
+
+        requestAnimationFrame(drawFrame);
+      }
+      requestAnimationFrame(drawFrame);
+
+      const revealEls = document.querySelectorAll(
+        ".promise-card, .notice-item, .memory-bubble",
+      );
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+              const delay = entry.target.classList.contains("promise-card")
+                ? (Array.from(revealEls).indexOf(entry.target) % 3) * 120
+                : 0;
+              setTimeout(() => entry.target.classList.add("visible"), delay);
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
+
+      revealEls.forEach((el) => io.observe(el));
+
+      window.addEventListener("scroll", () => {
+        const hero = document.getElementById("hero");
+        const sy = window.scrollY;
+        hero.style.backgroundPositionY = `${sy * 0.35}px`;
+      });
+    </script>
+  </body>
+</html>
