@@ -183,7 +183,6 @@
         );
       }
 
-      /* Scroll reveal */
       .sr {
         opacity: 0;
         transform: translateY(40px);
@@ -205,7 +204,6 @@
         transition-delay: 0.3s;
       }
 
-      /* Moon */
       @keyframes moonGlow {
         from {
           box-shadow:
@@ -252,7 +250,6 @@
         border: 1px solid rgba(248, 234, 197, 0.13);
       }
 
-      /* Sun */
       @keyframes sunPulse {
         0%,
         100% {
@@ -302,7 +299,6 @@
         box-shadow: 0 0 30px rgba(255, 180, 50, 0.05) inset;
       }
 
-      /* Aurora */
       @keyframes gentleFloat {
         0%,
         100% {
@@ -320,7 +316,6 @@
         transition: background 2s ease;
       }
 
-      /* Particles */
       @keyframes particleFloat {
         0%,
         100% {
@@ -346,7 +341,6 @@
         transition: background 1s ease;
       }
 
-      /* Sections */
       section {
         min-height: 100vh;
         display: flex;
@@ -363,7 +357,6 @@
         justify-content: flex-start;
       }
 
-      /* Cards expand */
       .card-expanded-content {
         max-height: 0;
         overflow: hidden;
@@ -375,12 +368,11 @@
         padding: 0 1.6rem;
       }
       .card-expanded-content.open {
-        max-height: 1000px; /* Large enough to hold any text */
+        max-height: 1000px;
         opacity: 1;
         padding: 0 1.6rem 1.5rem;
       }
 
-      /* Conquest cards */
       .conquest-card {
         padding: 2rem 1.6rem;
         backdrop-filter: blur(14px);
@@ -394,7 +386,6 @@
         transform: translateY(-4px);
       }
 
-      /* Activity cards */
       .act-card {
         border-radius: 24px;
         padding: 3rem 2rem;
@@ -420,7 +411,6 @@
         transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
-      /* Stagger children */
       .stagger > * {
         opacity: 0;
         transform: translateY(20px);
@@ -444,7 +434,6 @@
         transform: translateY(0);
       }
 
-      /* Button */
       .app-btn {
         display: inline-flex;
         align-items: center;
@@ -466,7 +455,6 @@
         transform: translateY(-2px);
       }
 
-      /* Gallery Style */
       .gallery-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -488,9 +476,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        aspect-ratio: 1 / 1; /* uniform container for art */
+        aspect-ratio: 1 / 1;
       }
-      /* Specific style for poetry to ensure legibility */
       .poetry-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         max-width: 1000px;
@@ -510,18 +497,17 @@
         width: auto;
         height: auto;
         display: block;
-        object-fit: contain; /* Keeps original shape */
+        object-fit: contain;
         transition: filter 0.4s ease;
       }
       .poetry-grid .gallery-img {
-        width: 100%; /* Take full width for poetry readability */
+        width: 100%;
         height: auto;
       }
       .gallery-item:hover .gallery-img {
         filter: brightness(1.1);
       }
 
-      /* Lightbox Modal */
       #lightbox-modal {
         position: fixed;
         inset: 0;
@@ -564,7 +550,6 @@
         opacity: 1;
       }
 
-      /* Caution Button & Special Overlay */
       .caution-btn {
         display: inline-block;
         padding: 1rem 2.5rem;
@@ -623,7 +608,6 @@
         margin-bottom: 2rem;
       }
 
-      /* Responsive */
       @media (max-width: 768px) {
         section {
           padding: 4rem 1rem;
@@ -645,7 +629,7 @@
           padding: 0 0.5rem;
         }
         .poetry-grid {
-          grid-template-columns: 1fr; /* Stack poetry for full view on mobile */
+          grid-template-columns: 1fr;
         }
         .poetry-grid .gallery-item {
           min-height: 300px;
@@ -668,10 +652,7 @@
       }
       @media (max-width: 480px) {
         .gallery-grid {
-          grid-template-columns: repeat(
-            2,
-            1fr
-          ); /* Force 2 columns for art on very small screens */
+          grid-template-columns: repeat(2, 1fr);
         }
       }
     </style>
@@ -679,7 +660,6 @@
   <body>
     <div id="scene-bg"></div>
 
-    <!-- Music -->
     <audio id="bg-music" loop>
       <source src="src/smnLikeYou.mp3" type="audio/mpeg" />
     </audio>
@@ -2446,7 +2426,6 @@
       }
       window.addEventListener("scroll", onScroll, { passive: true });
 
-      // ─── Intersection Observer ───
       const obs = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
@@ -2460,7 +2439,6 @@
       );
       document.querySelectorAll(".sr").forEach((el) => obs.observe(el));
 
-      // ─── Mouse parallax ───
       window.addEventListener("mousemove", (e) => {
         const x = (e.clientX / window.innerWidth - 0.5) * 2;
         const y = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -2468,7 +2446,6 @@
         sunW.style.transform = `translate(${x * -8}px,${y * -8}px)`;
       });
 
-      // ─── Conquest card expand ───
       let expandedCard = null;
       document.querySelectorAll(".conquest-card").forEach((card) => {
         card.addEventListener("click", () => {
@@ -2479,7 +2456,6 @@
           const title = card.querySelector(".card-title");
           const hint = card.querySelector(".card-hint");
 
-          // Close all others
           document.querySelectorAll(".conquest-card").forEach((c) => {
             if (c !== card) {
               c.querySelector(".card-expanded-content").classList.remove(
@@ -2508,7 +2484,6 @@
             expandedCard = null;
           } else {
             content.classList.add("open");
-            // Set max-height to the actual height of the content plus some padding
             content.style.maxHeight = content.scrollHeight + 40 + "px";
             glow.style.opacity = "1";
             title.style.color = color;
@@ -2522,10 +2497,8 @@
         });
       });
 
-      // Initial scroll
       onScroll();
 
-      // ─── Lightbox Logic ───
       const modal = document.getElementById("lightbox-modal");
       const modalImg = document.getElementById("lightbox-img");
       const closeBtn = document.getElementById("lightbox-close");
@@ -2535,13 +2508,13 @@
           e.stopPropagation();
           modalImg.src = img.src;
           modal.classList.add("active");
-          document.body.style.overflow = "hidden"; // Prevent scroll
+          document.body.style.overflow = "hidden";
         });
       });
 
       const closeModal = () => {
         modal.classList.remove("active");
-        document.body.style.overflow = ""; // Restore scroll
+        document.body.style.overflow = "";
       };
 
       modal.addEventListener("click", closeModal);
@@ -2550,7 +2523,6 @@
         closeModal();
       });
 
-      // Esc key support
       window.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
           closeModal();
@@ -2558,7 +2530,6 @@
         }
       });
 
-      // ─── Special Overlay Logic ───
       const specialOverlay = document.getElementById("special-overlay");
       const cautionBtn = document.getElementById("caution-trigger");
       const specialClose = document.getElementById("special-close");
@@ -2579,7 +2550,6 @@
         if (e.target === specialOverlay) closeSpecial();
       });
 
-      // ─── Music Logic ───
       const music = document.getElementById("bg-music");
       const musicToggle = document.getElementById("music-toggle");
       const musicIcon = document.getElementById("music-icon");
@@ -2588,14 +2558,12 @@
       const playPauseBtn = document.getElementById("play-pause-btn");
       let musicStarted = false;
 
-      // Toggle catalogue visibility
       musicToggle.addEventListener("click", () => {
         catalogue.classList.toggle("active");
         const hint = document.getElementById("music-hint");
         if (hint) hint.style.opacity = "0";
       });
 
-      // Handle song selection
       songItems.forEach((item) => {
         item.addEventListener("click", (e) => {
           e.stopPropagation();
@@ -2606,12 +2574,10 @@
             music.play();
             musicStarted = true;
           } else {
-            // If clicking the same song, just toggle play/pause
             if (music.paused) music.play();
             else music.pause();
           }
 
-          // Update UI
           songItems.forEach((i) => i.classList.remove("active"));
           item.classList.add("active");
           updateMusicUI();
@@ -2637,7 +2603,6 @@
             if (music.paused) music.play();
             else music.pause();
           } else {
-            // First time play
             music.play().then(() => {
               musicStarted = true;
               updateMusicUI();
@@ -2646,14 +2611,12 @@
         });
       }
 
-      // Close catalogue when clicking outside
       document.addEventListener("click", (e) => {
         if (!musicToggle.contains(e.target) && !catalogue.contains(e.target)) {
           catalogue.classList.remove("active");
         }
       });
 
-      // Auto-play attempt on first interaction
       const startMusicOnce = () => {
         if (!musicStarted) {
           music
@@ -2671,7 +2634,6 @@
       document.addEventListener("click", startMusicOnce);
       document.addEventListener("scroll", startMusicOnce);
 
-      // Listener for pause/play events to sync icon
       music.onplay = updateMusicUI;
       music.onpause = updateMusicUI;
     </script>
