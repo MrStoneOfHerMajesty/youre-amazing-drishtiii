@@ -31,7 +31,6 @@
         overflow-x: hidden;
       }
 
-      /* Music Toggle */
       #music-toggle {
         position: fixed;
         bottom: 2rem;
@@ -70,7 +69,6 @@
         }
       }
 
-      /* Catalogue Menu */
       #music-catalogue {
         position: fixed;
         bottom: 5.5rem;
@@ -130,7 +128,6 @@
         background: rgba(74, 174, 217, 0.3);
       }
 
-      /* Music Hint */
       #music-hint {
         position: fixed;
         bottom: 5.5rem;
@@ -167,7 +164,6 @@
         }
       }
 
-      /* Dynamic BG */
       #scene-bg {
         position: fixed;
         inset: 0;
@@ -2454,7 +2450,10 @@
       const obs = new IntersectionObserver(
         (entries) => {
           entries.forEach((e) => {
-            if (e.isIntersecting) e.target.classList.add("vis");
+            if (e.isIntersecting && !e.target.classList.contains("vis")) {
+              e.target.classList.add("vis");
+              if ("vibrate" in navigator) navigator.vibrate(50);
+            }
           });
         },
         { threshold: 0.15, rootMargin: "0px 0px -50px 0px" },
