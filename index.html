@@ -129,7 +129,6 @@ opacity: 0;
         }
       }
 
-      /* New Year Button */
       .newyear-button {
         display: inline-block;
         vertical-align: middle;
@@ -370,7 +369,6 @@ opacity: 0;
         position: relative;
       }
 
-      /* === AURORA BACKGROUND OVERLAY === */
       body::before {
         content: '';
         position: fixed;
@@ -579,7 +577,6 @@ opacity: 0;
       }
 
 
-      /* === COLLISION TRACKER === */
       .collision-tracker {
         text-align: center;
         margin-bottom: 30px;
@@ -1496,7 +1493,6 @@ opacity: 0;
           font-size: 1.25em;
         }
 
-        /* Disable parallax effect on mobile for better performance */
         .nebula-1,
         .nebula-2,
         .nebula-3 {
@@ -1504,17 +1500,14 @@ opacity: 0;
           animation: none !important;
         }
 
-        /* Reduce star count effect on mobile */
         #starfield-canvas {
           opacity: 0.7;
         }
 
-        /* Optimize animations for mobile */
         * {
           -webkit-tap-highlight-color: transparent;
         }
 
-        /* Disable expensive backdrop-filter on mobile */
         .nav-toggle, .nav-menu, .nav-item, .playlist,
         .song-item, .surprise-button, .celebration-button,
         .dance-button, .lyrics-container, .theme-link-button,
@@ -1523,7 +1516,6 @@ opacity: 0;
           -webkit-backdrop-filter: none !important;
         }
 
-        /* Pause non-essential shimmer/glow animations on mobile */
         .surprise-button::before, .surprise-button::after,
         .newyear-button::before, .newyear-button::after,
         .celebration-button::before,
@@ -1681,7 +1673,6 @@ opacity: 0;
         }
       }
 
-      /* === LOADING SCREEN === */
       .loading-screen {
         position: fixed;
         top: 0;
@@ -1873,7 +1864,6 @@ opacity: 0;
         50% { opacity: 1; }
       }
 
-      /* === TYPEWRITER EFFECT === */
       .typewriter-cursor {
         display: inline-block;
         width: 3px;
@@ -1890,7 +1880,6 @@ opacity: 0;
         50% { opacity: 0; }
       }
 
-      /* === SCROLL REVEAL === */
       .reveal {
         opacity: 0;
         transform: translateY(50px) scale(0.97);
@@ -1906,7 +1895,6 @@ opacity: 0;
       .reveal-delay-2 { transition-delay: 0.4s; }
       .reveal-delay-3 { transition-delay: 0.6s; }
 
-      /* === MUSIC PROGRESS BAR === */
       .song-progress-wrap {
         position: absolute;
         bottom: 0;
@@ -1954,7 +1942,6 @@ opacity: 0;
         display: block;
       }
 
-      /* === CURSOR GLOW TRAIL === */
       .cursor-glow {
         position: fixed;
         width: 20px;
@@ -1980,7 +1967,6 @@ opacity: 0;
         will-change: transform, opacity;
       }
 
-      /* === BACK TO TOP BUTTON === */
       .back-to-top {
         position: fixed;
         bottom: 30px;
@@ -2018,7 +2004,6 @@ opacity: 0;
           0 0 20px rgba(100, 200, 255, 0.3);
       }
 
-      /* === SWIPE HINT (mobile) === */
       .swipe-hint {
         text-align: center;
         font-family: 'Lora', serif;
@@ -2047,7 +2032,6 @@ opacity: 0;
         }
       }
 
-      /* === SPECIAL GALAXY BUTTON === */
       .galaxy-btn {
         display: inline-block;
         position: relative;
@@ -2148,7 +2132,6 @@ opacity: 0;
         }
       }
 
-      /* === 2025 CATALOGUE === */
       .catalogue-2025 {
         position: relative;
         background: rgba(10, 15, 35, 0.75);
@@ -2300,7 +2283,6 @@ opacity: 0;
         font-size: 0.85em;
       }
 
-      /* CLAT Era sub-section */
       .clat-era-section {
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(168, 94, 234, 0.2);
@@ -2364,7 +2346,6 @@ opacity: 0;
           inset 0 0 12px rgba(255, 255, 255, 0.08);
       }
 
-      /* Golden New Year Button */
       .golden-newyear-btn {
         display: inline-block;
         margin-top: 30px;
@@ -2489,7 +2470,6 @@ opacity: 0;
           animation: none !important;
         }
       }
-      /* === GOLDEN SPECIALTY BUTTON === */
       .golden-special-btn {
         display: inline-block;
         vertical-align: middle;
@@ -2625,7 +2605,7 @@ opacity: 0;
     <div class="collision-tracker-inner" id="collisionTracker"></div>
   </div>
 
-  <div class="message reveal reveal-delay-1" id="message">
+  <div class="message reveal" id="message">
     <p>
       <p id="personal">Your majestyy, : ) this site is <b>yours</b>, and <b>yours</b> aloneee, <b>FOREVER</b>.</p>
 <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 10px; margin-bottom: 10px;">
@@ -3291,44 +3271,53 @@ opacity: 0;
   const MAX_SPARKLES_PER_WORD = 50;
 
   function attachEventsToAllWords() {
-    const words = document.querySelectorAll(".word");
+    if (window._eventsAttached) return;
+    window._eventsAttached = true;
 
-    words.forEach((word) => {
-      word.replaceWith(word.cloneNode(true));
+    document.body.addEventListener("mouseover", function(e) {
+      if (isMobile) return;
+      const word = e.target.closest(".word");
+      if (!word) return;
+
+      if (!sparkleIntervals.has(word)) {
+        activeSparkles.set(word, []);
+        const interval = setInterval(() => {
+          createSparkle(word);
+        }, 100);
+        sparkleIntervals.set(word, interval);
+      }
     });
 
-    document.querySelectorAll(".word").forEach((word) => {
-      word.addEventListener("mouseenter", function (e) {
-        if (isMobile) return; // Skip sparkles on mobile
-        activeSparkles.set(e.target, []);
-        const interval = setInterval(() => {
-          createSparkle(e.target);
-        }, 100);
-        sparkleIntervals.set(e.target, interval);
-      });
+    document.body.addEventListener("mouseout", function(e) {
+      const word = e.target.closest(".word");
+      if (!word) return;
+      
+      const related = e.relatedTarget;
+      if (related && word.contains(related)) return;
 
-      word.addEventListener("mouseleave", function (e) {
-        const interval = sparkleIntervals.get(e.target);
-        if (interval) {
-          clearInterval(interval);
-          sparkleIntervals.delete(e.target);
-        }
+      const interval = sparkleIntervals.get(word);
+      if (interval) {
+        clearInterval(interval);
+        sparkleIntervals.delete(word);
+      }
 
-        const sparkles = activeSparkles.get(e.target);
-        if (sparkles) {
-          sparkles.forEach((sparkle) => {
-            if (sparkle && sparkle.parentNode) {
-              sparkle.remove();
-            }
-          });
-          activeSparkles.delete(e.target);
-        }
-      });
+      const sparkles = activeSparkles.get(word);
+      if (sparkles) {
+        sparkles.forEach((sparkle) => {
+          if (sparkle && sparkle.parentNode) {
+            sparkle.remove();
+          }
+        });
+        activeSparkles.delete(word);
+      }
+    });
 
-      word.addEventListener("click", function (e) {
+    document.body.addEventListener("click", function(e) {
+      const word = e.target.closest(".word");
+      if (word) {
         e.stopPropagation();
         createFirework(e);
-      });
+      }
     });
   }
 
@@ -3474,7 +3463,6 @@ opacity: 0;
     animate();
   }
 
-  // Parallax effect (disabled on mobile for performance)
   if (!isMobile) {
     let parallaxFrame;
     document.addEventListener("mousemove", (e) => {
@@ -3491,7 +3479,6 @@ opacity: 0;
     });
   }
 
-  // Lyrics data
   const lyricsData = {
     cry: [
       { time: 55, text: "It's making you cry every time" },
@@ -3514,7 +3501,6 @@ opacity: 0;
     ]
   };
 
-  // Lyrics display functionality
   function displayLyrics(songKey) {
     const lyricsContainer = document.getElementById('lyricsContainer');
     const lyricsDisplay = document.getElementById('lyricsDisplay');
@@ -3530,7 +3516,6 @@ opacity: 0;
     
     lyricsContainer.classList.add('visible');
     
-    // Scroll lyrics container into view
     setTimeout(() => {
       lyricsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 100);
@@ -3561,7 +3546,6 @@ opacity: 0;
     });
   }
 
-  // Audio player functionality
   let currentAudio = null;
   let currentPlayingItem = null;
 
@@ -3571,7 +3555,6 @@ opacity: 0;
       const src = this.getAttribute("data-src");
       const icon = this.querySelector(".play-icon");
       
-      // Extract song key from src (e.g., "./src/Cry.mp3" -> "cry")
       const songKey = src.split('/').pop().split('.')[0].toLowerCase();
 
       if (currentPlayingItem === this) {
@@ -3590,7 +3573,6 @@ opacity: 0;
           if (currentPlayingItem) {
             currentPlayingItem.classList.remove("playing");
             currentPlayingItem.querySelector(".play-icon").textContent = "▶";
-            // Reset previous song's progress bar
             const prevBar = currentPlayingItem.querySelector('.song-progress-bar');
             if (prevBar) prevBar.style.width = '0%';
             const prevTime = currentPlayingItem.querySelector('.song-time');
@@ -3607,15 +3589,12 @@ opacity: 0;
         // Display lyrics
         displayLyrics(songKey);
         
-        // Update lyrics as song plays
         currentAudio.addEventListener("timeupdate", () => {
           updateLyrics(songKey, currentAudio.currentTime);
-          // Update progress bar
           if (currentAudio.duration) {
             const pct = (currentAudio.currentTime / currentAudio.duration) * 100;
             const bar = this.querySelector('.song-progress-bar');
             if (bar) bar.style.width = pct + '%';
-            // Update time display
             const timeEl = this.querySelector('.song-time');
             if (timeEl) {
               const cur = formatTime(currentAudio.currentTime);
@@ -3629,7 +3608,6 @@ opacity: 0;
           this.classList.remove("playing");
           icon.textContent = "▶";
           document.getElementById('lyricsContainer').classList.remove('visible');
-          // Reset progress bar
           const bar = this.querySelector('.song-progress-bar');
           if (bar) bar.style.width = '0%';
           const timeEl = this.querySelector('.song-time');
@@ -3641,7 +3619,6 @@ opacity: 0;
     });
   });
 
-  // Surprise button functionality
   const surpriseBtn = document.getElementById("surpriseBtn");
   const playlist = document.getElementById("playlist");
 
@@ -3659,7 +3636,6 @@ opacity: 0;
     }, 800);
   });
 
-  // Dance button functionality
   const danceBtn = document.getElementById("danceBtn");
   let isDancing = false;
 
@@ -3680,7 +3656,6 @@ opacity: 0;
     }
   });
 
-  // Galaxy link opener
   const galaxyBtn = document.getElementById("galaxyBtn");
   const GALAXY_LINK = "https://ksneoge1-pixel.github.io/testing/";
 
@@ -3688,7 +3663,6 @@ opacity: 0;
     window.open(GALAXY_LINK, "_blank", "noopener,noreferrer");
   });
 
-  // ===== HELPER: Format seconds to mm:ss =====
   function formatTime(sec) {
     if (!sec || isNaN(sec)) return '0:00';
     const m = Math.floor(sec / 60);
@@ -3696,7 +3670,6 @@ opacity: 0;
     return m + ':' + (s < 10 ? '0' : '') + s;
   }
 
-  // ===== PROGRESS BAR SEEKING =====
   document.querySelectorAll('.song-progress-wrap').forEach(wrap => {
     wrap.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -3709,7 +3682,6 @@ opacity: 0;
     });
   });
 
-  // ===== LOADING SCREEN =====
   window.addEventListener('load', () => {
     const loadingScreen = document.getElementById('loadingScreen');
     setTimeout(() => {
@@ -3717,15 +3689,14 @@ opacity: 0;
       setTimeout(() => { 
         loadingScreen.style.display = 'none';
         startTypewriter();
-      }, 800);
-    }, 1000);
+      }, 600);
+    }, 400);
   });
 
-  // ===== TYPEWRITER EFFECT =====
   function startTypewriter() {
     const titleEl = document.getElementById('title');
     const titleText = 'Heyyy There,  My Shooting Star ^^💝';
-    const titleChars = Array.from(titleText); // Properly handle emoji
+    const titleChars = Array.from(titleText); 
     titleEl.textContent = '';
     titleEl.classList.add('revealed');
     
@@ -3740,38 +3711,33 @@ opacity: 0;
       if (i < titleChars.length) {
         textNode.textContent += titleChars[i];
         i++;
-        setTimeout(typeNext, 60 + Math.random() * 40);
+        setTimeout(typeNext, 40 + Math.random() * 30);
       } else {
-        // Remove cursor after typing completes
         setTimeout(() => {
           cursor.style.opacity = '0';
-          setTimeout(() => cursor.remove(), 500);
-          // After typewriter, re-wrap words for hover effects
+          setTimeout(() => cursor.remove(), 400);
           wrapWordsInElement(titleEl);
           attachEventsToAllWords();
-        }, 2000);
+        }, 1000);
       }
     }
     typeNext();
   }
 
-  // ===== SCROLL REVEAL (IntersectionObserver) =====
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('revealed');
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.05, rootMargin: '0px 0px 100px 0px' });
 
   document.querySelectorAll('.reveal').forEach(el => {
-    // Don't observe the title, it's handled by typewriter
     if (el.id !== 'title') {
       revealObserver.observe(el);
     }
   });
 
-  // ===== CURSOR GLOW TRAIL (desktop only) =====
   if (!isMobile) {
     const glow = document.createElement('div');
     glow.className = 'cursor-glow';
@@ -3798,12 +3764,10 @@ opacity: 0;
     });
     
     function animateTrail() {
-      // Smooth glow follow
       glowX += (cursorX - glowX) * 0.15;
       glowY += (cursorY - glowY) * 0.15;
       glow.style.transform = `translate(${glowX - 10}px, ${glowY - 10}px)`;
       
-      // Trail dots follow with increasing lag
       let prevX = cursorX, prevY = cursorY;
       trailDots.forEach((dot, i) => {
         const speed = 0.12 - i * 0.01;
@@ -3819,7 +3783,6 @@ opacity: 0;
     animateTrail();
   }
 
-  // ===== BACK TO TOP BUTTON =====
   const backToTopBtn = document.getElementById('backToTop');
   
   window.addEventListener('scroll', () => {
@@ -3834,7 +3797,6 @@ opacity: 0;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // ===== COLLISION TRACKER =====
   (function() {
     const startDate = new Date('2025-09-29');
     const today = new Date();
@@ -3850,7 +3812,6 @@ opacity: 0;
     }
   })();
 
-  // ===== SWIPE GESTURES FOR MOBILE SONGS =====
   if (isMobile) {
     const songItems = Array.from(document.querySelectorAll('.song-item[data-src]'));
     let touchStartX = 0;
@@ -3871,20 +3832,16 @@ opacity: 0;
         const deltaX = touchEndX - touchStartX;
         const deltaY = touchEndY - touchStartY;
         
-        // Only trigger if horizontal swipe is dominant and long enough
         if (Math.abs(deltaX) > 60 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
           e.preventDefault();
           let targetIndex;
           if (deltaX < 0) {
-            // Swipe left = next song
             targetIndex = Math.min(index + 1, songItems.length - 1);
           } else {
-            // Swipe right = previous song
             targetIndex = Math.max(index - 1, 0);
           }
           
           if (targetIndex !== index) {
-            // Visual feedback
             songItems[targetIndex].style.transform = 'scale(1.03)';
             setTimeout(() => {
               songItems[targetIndex].style.transform = '';
@@ -3896,7 +3853,6 @@ opacity: 0;
       });
     });
     
-    // Hide swipe hint after first swipe
     const swipeHint = document.getElementById('swipeHint');
     if (swipeHint) {
       document.addEventListener('touchend', () => {
