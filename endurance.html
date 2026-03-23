@@ -1,0 +1,2680 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>An Amazing Journey</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@200;300;400;500&family=Dancing+Script:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --mx: 0;
+        --my: 0;
+      }
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        background: #040111;
+      }
+      body {
+        font-family: "Outfit", sans-serif;
+        font-weight: 300;
+        color: #eef7ff;
+        overflow-x: hidden;
+      }
+
+      /* Music Toggle */
+      #music-toggle {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 1000;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: rgba(74, 174, 217, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(74, 174, 217, 0.4);
+        color: #eef7ff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 20px rgba(74, 174, 217, 0.2);
+      }
+      #music-toggle:hover {
+        background: rgba(74, 174, 217, 0.4);
+        transform: scale(1.1);
+      }
+      #music-toggle.playing {
+        animation: musicPulse 2s infinite;
+      }
+      @keyframes musicPulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(74, 174, 217, 0.4);
+        }
+        70% {
+          box-shadow: 0 0 0 15px rgba(74, 174, 217, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(74, 174, 217, 0);
+        }
+      }
+
+      /* Catalogue Menu */
+      #music-catalogue {
+        position: fixed;
+        bottom: 5.5rem;
+        right: 2rem;
+        z-index: 999;
+        background: rgba(6, 4, 20, 0.85);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(74, 174, 217, 0.3);
+        border-radius: 16px;
+        padding: 0.8rem;
+        width: 200px;
+        display: none;
+        flex-direction: column;
+        gap: 0.5rem;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      }
+      #music-catalogue.active {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .song-item {
+        padding: 0.6rem 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        color: rgba(238, 247, 255, 0.7);
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 1px solid transparent;
+      }
+      .song-item:hover {
+        background: rgba(74, 174, 217, 0.15);
+        color: #fff;
+      }
+      .song-item.active {
+        background: rgba(74, 174, 217, 0.25);
+        color: #4aaed9;
+        border-color: rgba(74, 174, 217, 0.4);
+      }
+      #play-pause-btn {
+        margin-top: 0.5rem;
+        padding: 0.6rem;
+        border-radius: 8px;
+        background: rgba(74, 174, 217, 0.15);
+        border: 1px solid rgba(74, 174, 217, 0.3);
+        color: #eef7ff;
+        font-size: 0.85rem;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.2s;
+        font-weight: 500;
+      }
+      #play-pause-btn:hover {
+        background: rgba(74, 174, 217, 0.3);
+      }
+
+      /* Music Hint */
+      #music-hint {
+        position: fixed;
+        bottom: 5.5rem;
+        right: 1.5rem;
+        z-index: 1001;
+        background: rgba(74, 174, 217, 0.15);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(74, 174, 217, 0.3);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: #a8d8ea;
+        pointer-events: none;
+        animation: hintFloat 3s ease-in-out infinite;
+        white-space: nowrap;
+        transition: opacity 0.5s ease;
+      }
+      #music-hint::after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        right: 20px;
+        border-width: 6px 6px 0;
+        border-style: solid;
+        border-color: rgba(74, 174, 217, 0.3) transparent transparent;
+      }
+      @keyframes hintFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+
+      /* Dynamic BG */
+      #scene-bg {
+        position: fixed;
+        inset: 0;
+        z-index: -10;
+        transition: background 0.3s ease;
+        background: linear-gradient(
+          180deg,
+          #040111 0%,
+          #07052a 10%,
+          #0b1040 22%,
+          #0d1c58 36%,
+          #0c2868 50%,
+          #0a2255 64%,
+          #071838 76%,
+          #050f26 88%,
+          #030a18 100%
+        );
+      }
+
+      /* Scroll reveal */
+      .sr {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .sr.vis {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .sr.d1 {
+        transition-delay: 0.1s;
+      }
+      .sr.d2 {
+        transition-delay: 0.2s;
+      }
+      .sr.d3 {
+        transition-delay: 0.3s;
+      }
+
+      /* Moon */
+      @keyframes moonGlow {
+        from {
+          box-shadow:
+            0 0 18px 8px rgba(248, 234, 197, 0.35),
+            0 0 56px 24px rgba(248, 234, 197, 0.16),
+            0 0 115px 50px rgba(216, 181, 104, 0.08);
+        }
+        to {
+          box-shadow:
+            0 0 26px 13px rgba(248, 234, 197, 0.5),
+            0 0 80px 35px rgba(248, 234, 197, 0.24),
+            0 0 160px 68px rgba(216, 181, 104, 0.14);
+        }
+      }
+      #moon-wrap {
+        position: fixed;
+        top: 7vh;
+        right: 17vw;
+        z-index: 2;
+        pointer-events: none;
+        transition: opacity 0.5s;
+      }
+      .moon-orb {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 37% 35%,
+          #fffbf4 0%,
+          #f8eac5 38%,
+          #eed098 68%,
+          #d8b568 100%
+        );
+        animation: moonGlow 9s ease-in-out infinite alternate;
+      }
+      .moon-halo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 172px;
+        height: 172px;
+        border-radius: 50%;
+        border: 1px solid rgba(248, 234, 197, 0.13);
+      }
+
+      /* Sun */
+      @keyframes sunPulse {
+        0%,
+        100% {
+          box-shadow:
+            0 0 40px 20px rgba(255, 180, 50, 0.3),
+            0 0 100px 50px rgba(255, 150, 30, 0.15),
+            0 0 200px 80px rgba(255, 120, 20, 0.08);
+        }
+        50% {
+          box-shadow:
+            0 0 60px 30px rgba(255, 180, 50, 0.45),
+            0 0 140px 70px rgba(255, 150, 30, 0.22),
+            0 0 260px 110px rgba(255, 120, 20, 0.12);
+        }
+      }
+      #sun-wrap {
+        position: fixed;
+        top: 10vh;
+        right: 20vw;
+        z-index: 2;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+      .sun-orb {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 45% 40%,
+          #fff8e8 0%,
+          #ffe4a0 30%,
+          #ffb840 60%,
+          #ff8c20 100%
+        );
+        animation: sunPulse 6s ease-in-out infinite;
+      }
+      .sun-halo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 180, 50, 0.1);
+        box-shadow: 0 0 30px rgba(255, 180, 50, 0.05) inset;
+      }
+
+      /* Aurora */
+      @keyframes gentleFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-12px);
+        }
+      }
+      .aurora {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        mix-blend-mode: screen;
+        transition: background 2s ease;
+      }
+
+      /* Particles */
+      @keyframes particleFloat {
+        0%,
+        100% {
+          transform: translateY(0) translateX(0) scale(1);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) translateX(20px) scale(0);
+          opacity: 0;
+        }
+      }
+      .particle {
+        position: fixed;
+        border-radius: 50%;
+        z-index: 5;
+        pointer-events: none;
+        transition: background 1s ease;
+      }
+
+      /* Sections */
+      section {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 6rem 2rem;
+        position: relative;
+        z-index: 20;
+      }
+      section.auto-h {
+        min-height: auto;
+        justify-content: flex-start;
+      }
+
+      /* Cards expand */
+      .card-expanded-content {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+          opacity 0.4s ease,
+          padding 0.4s ease;
+        opacity: 0;
+        padding: 0 1.6rem;
+      }
+      .card-expanded-content.open {
+        max-height: 1000px; /* Large enough to hold any text */
+        opacity: 1;
+        padding: 0 1.6rem 1.5rem;
+      }
+
+      /* Conquest cards */
+      .conquest-card {
+        padding: 2rem 1.6rem;
+        backdrop-filter: blur(14px);
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+        text-align: left;
+        cursor: pointer;
+      }
+      .conquest-card:hover {
+        transform: translateY(-4px);
+      }
+
+      /* Activity cards */
+      .act-card {
+        border-radius: 24px;
+        padding: 3rem 2rem;
+        text-align: center;
+        backdrop-filter: blur(12px);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .act-card:hover {
+        transform: translateY(-8px) scale(1.01);
+      }
+      .act-card:hover .act-emoji {
+        transform: scale(1.2) rotate(-5deg);
+      }
+      .act-card:hover .act-glow {
+        opacity: 1;
+      }
+      .act-emoji {
+        font-size: 3rem;
+        display: block;
+        margin-bottom: 1.5rem;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      /* Stagger children */
+      .stagger > * {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+      .stagger.vis > *:nth-child(1) {
+        transition-delay: 0.05s;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .stagger.vis > *:nth-child(2) {
+        transition-delay: 0.15s;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .stagger.vis > *:nth-child(3) {
+        transition-delay: 0.25s;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Button */
+      .app-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 1.8rem;
+        padding: 12px 28px;
+        background: rgba(4, 2, 18, 0.65);
+        border-radius: 30px;
+        color: #eef7ff;
+        font-family: "Outfit", sans-serif;
+        font-size: 1.05rem;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+        font-weight: 400;
+        transition: all 0.3s ease;
+      }
+      .app-btn:hover {
+        box-shadow: 0 0 20px rgba(251, 146, 60, 0.3);
+        transform: translateY(-2px);
+      }
+
+      /* Gallery Style */
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1rem;
+        width: 100%;
+        max-width: 1300px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition:
+          transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.4s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 1 / 1; /* uniform container for art */
+      }
+      /* Specific style for poetry to ensure legibility */
+      .poetry-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        max-width: 1000px;
+      }
+      .poetry-grid .gallery-item {
+        aspect-ratio: auto;
+        min-height: 400px;
+      }
+      .gallery-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        z-index: 10;
+      }
+      .gallery-img {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        display: block;
+        object-fit: contain; /* Keeps original shape */
+        transition: filter 0.4s ease;
+      }
+      .poetry-grid .gallery-img {
+        width: 100%; /* Take full width for poetry readability */
+        height: auto;
+      }
+      .gallery-item:hover .gallery-img {
+        filter: brightness(1.1);
+      }
+
+      /* Lightbox Modal */
+      #lightbox-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        background: rgba(4, 1, 17, 0.95);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        backdrop-filter: blur(10px);
+        cursor: pointer;
+      }
+      #lightbox-modal.active {
+        display: flex;
+        opacity: 1;
+      }
+      #lightbox-img {
+        max-width: 90vw;
+        max-height: 90vh;
+        border-radius: 8px;
+        box-shadow: 0 0 50px rgba(74, 174, 217, 0.3);
+        transform: scale(0.95);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      #lightbox-modal.active #lightbox-img {
+        transform: scale(1);
+      }
+      #lightbox-close {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        font-size: 2rem;
+        color: #fff;
+        cursor: pointer;
+        opacity: 0.6;
+        transition: opacity 0.3s;
+      }
+      #lightbox-close:hover {
+        opacity: 1;
+      }
+
+      /* Caution Button & Special Overlay */
+      .caution-btn {
+        display: inline-block;
+        padding: 1rem 2.5rem;
+        margin-top: 2rem;
+        background: rgba(4, 1, 11, 0.4);
+        border: 1px solid rgba(232, 180, 184, 0.4);
+        color: #e8b4b8;
+        font-family: "Outfit", sans-serif;
+        font-weight: 300;
+        letter-spacing: 0.15em;
+        text-decoration: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        backdrop-filter: blur(5px);
+      }
+      .caution-btn:hover {
+        background: rgba(232, 180, 184, 0.15);
+        border-color: rgba(232, 180, 184, 0.8);
+        box-shadow: 0 0 30px rgba(232, 180, 184, 0.2);
+        transform: translateY(-2px);
+      }
+
+      #special-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 20000;
+        background: rgba(0, 0, 0, 0.98);
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.6s ease;
+      }
+      #special-overlay.active {
+        display: flex;
+        opacity: 1;
+      }
+      .special-img {
+        max-width: 85vw;
+        max-height: 65vh;
+        border-radius: 12px;
+        box-shadow: 0 0 60px rgba(232, 180, 184, 0.3);
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .special-msg {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+        color: rgba(238, 247, 255, 0.9);
+        max-width: 700px;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        section {
+          padding: 4rem 1rem;
+        }
+        .conquests-grid {
+          grid-template-columns: 1fr !important;
+        }
+        #moon-wrap {
+          right: 5vw;
+          top: 3vh;
+        }
+        .moon-orb {
+          width: 44px;
+          height: 44px;
+        }
+        .gallery-grid {
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+          gap: 0.8rem;
+          padding: 0 0.5rem;
+        }
+        .poetry-grid {
+          grid-template-columns: 1fr; /* Stack poetry for full view on mobile */
+        }
+        .poetry-grid .gallery-item {
+          min-height: 300px;
+        }
+        h1 {
+          font-size: clamp(3.5rem, 15vw, 6rem) !important;
+        }
+        h2,
+        h3 {
+          font-size: 1.8rem !important;
+        }
+        #lightbox-close {
+          top: 1rem;
+          right: 1rem;
+        }
+        #closing-name {
+          letter-spacing: 0.4em !important;
+          font-size: 0.9rem !important;
+        }
+      }
+      @media (max-width: 480px) {
+        .gallery-grid {
+          grid-template-columns: repeat(
+            2,
+            1fr
+          ); /* Force 2 columns for art on very small screens */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="scene-bg"></div>
+
+    <!-- Music -->
+    <audio id="bg-music" loop>
+      <source src="src/smnLikeYou.mp3" type="audio/mpeg" />
+    </audio>
+    <div id="music-catalogue">
+      <div class="song-item active" data-src="src/smnLikeYou.mp3">
+        Someone Like You
+      </div>
+      <div class="song-item" data-src="src/skyfall.mp3">Skyfall</div>
+      <div class="song-item" data-src="src/fireToRain.mp3">
+        Fire to the Rain
+      </div>
+      <div class="song-item" data-src="src/easyOnMe.mp3">Easy On Me</div>
+      <div id="play-pause-btn">Pause</div>
+    </div>
+    <div id="music-hint">please click here, drish</div>
+    <div id="music-toggle" title="Music Catalogue">
+      <span id="music-icon">🎵</span>
+    </div>
+
+    <!-- Particles -->
+    <div id="particles"></div>
+
+    <!-- Moon -->
+    <div id="moon-wrap">
+      <div class="moon-orb"></div>
+      <div class="moon-halo"></div>
+    </div>
+
+    <!-- Sun -->
+    <div id="sun-wrap">
+      <div class="sun-orb"></div>
+      <div class="sun-halo"></div>
+    </div>
+
+    <!-- Aurora -->
+    <div
+      style="
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        overflow: hidden;
+      "
+    >
+      <div
+        class="aurora"
+        id="aurora-0"
+        style="
+          width: 75vw;
+          height: 55vh;
+          top: -10%;
+          left: -10%;
+          animation: gentleFloat 18s ease-in-out infinite;
+        "
+      ></div>
+      <div
+        class="aurora"
+        id="aurora-1"
+        style="
+          width: 55vw;
+          height: 48vh;
+          top: 18%;
+          right: -5%;
+          animation: gentleFloat 23s ease-in-out infinite 0.5s;
+        "
+      ></div>
+      <div
+        class="aurora"
+        id="aurora-2"
+        style="
+          width: 68vw;
+          height: 52vh;
+          bottom: -8%;
+          left: 22%;
+          animation: gentleFloat 28s ease-in-out infinite 1s;
+        "
+      ></div>
+    </div>
+
+    <!-- ══════ HERO ══════ -->
+    <section>
+      <div
+        class="sr"
+        style="
+          font-family: &quot;Outfit&quot;, sans-serif;
+          font-weight: 200;
+          font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+          letter-spacing: 0.5em;
+          text-transform: uppercase;
+          color: #4aaed9;
+          margin-bottom: 1rem;
+        "
+      >
+        the wait is over ✦
+      </div>
+      <h1
+        class="sr d1"
+        style="
+          font-family: &quot;Dancing Script&quot;, cursive;
+          font-size: clamp(4rem, 11vw, 11rem);
+          line-height: 1;
+          color: #eef7ff;
+          margin: 0.1em 0 0.3em;
+          text-shadow:
+            0 0 80px rgba(74, 174, 217, 0.5),
+            0 0 200px rgba(74, 174, 217, 0.2);
+        "
+      >
+        You Did It ^^
+      </h1>
+      <p
+        class="sr d2"
+        style="
+          font-family: &quot;Playfair Display&quot;, serif;
+          font-style: italic;
+          font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+          color: rgba(168, 216, 234, 0.7);
+          max-width: 700px;
+          line-height: 1.7;
+          margin: 0 auto 2rem;
+        "
+      >
+        I'd love to take a few moments to tell you how genuinely amazing you
+        are, drishti, and how deeply happy I am for you.
+      </p>
+      <div
+        class="sr d3"
+        style="
+          width: 1px;
+          height: 70px;
+          background: linear-gradient(to bottom, #4aaed9, transparent);
+          margin: 2rem auto;
+        "
+      ></div>
+    </section>
+
+    <!-- ══════ CONQUESTS ══════ -->
+    <section class="auto-h" style="padding: 4rem 2rem 8rem">
+      <div
+        class="sr"
+        style="
+          font-family: &quot;Outfit&quot;, sans-serif;
+          font-weight: 200;
+          font-size: 0.75rem;
+          letter-spacing: 0.5em;
+          text-transform: uppercase;
+          color: rgba(168, 216, 234, 0.5);
+          margin-bottom: 3rem;
+        "
+      >
+        what you conquered
+      </div>
+
+      <div
+        class="conquests-grid stagger sr"
+        id="conquests-grid"
+        style="
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.6rem;
+          max-width: 960px;
+          margin: 0 auto;
+          width: 100%;
+        "
+      >
+        <div
+          class="conquest-card"
+          data-card="health"
+          data-color="#e85d75"
+          style="
+            background: rgba(6, 4, 20, 0.58);
+            border: 1px solid rgba(75, 58, 138, 0.2);
+          "
+        >
+          <div
+            class="card-glow-line"
+            style="
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              height: 2px;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                #e85d7588,
+                transparent
+              );
+              opacity: 0;
+              transition: opacity 0.4s;
+            "
+          ></div>
+          <span style="font-size: 2rem; margin-bottom: 0.8rem; display: block"
+            >🤕</span
+          >
+          <h3
+            class="card-title"
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: 1.4rem;
+              font-weight: 500;
+              color: #a8d8ea;
+              margin-bottom: 0.5rem;
+              transition: color 0.4s;
+            "
+          >
+            Relentless Headaches and health
+          </h3>
+          <p
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 0.88rem;
+              font-weight: 300;
+              color: rgba(168, 216, 234, 0.6);
+              line-height: 1.6;
+            "
+          >
+            Studying through pain that would've made most people give up
+            entirely. You didn't. Not once.
+          </p>
+          <div class="card-expanded-content">
+            <div
+              style="
+                margin-top: 1rem;
+                padding-top: 1rem;
+                border-top: 1px solid #e85d7533;
+              "
+            >
+              <p
+                style="
+                  font-family: &quot;Playfair Display&quot;, serif;
+                  font-size: 0.95rem;
+                  font-style: italic;
+                  color: rgba(238, 247, 255, 0.75);
+                  line-height: 1.8;
+                "
+              >
+                Every single day, you stayed consistent. Through the migraines,
+                through the exhaustion, through the moments when your body was
+                screaming at you to get some rest. That kind of resilience
+                is...sigh indescribable.
+              </p>
+            </div>
+          </div>
+          <div
+            class="card-hint"
+            style="
+              margin-top: 1rem;
+              font-size: 0.7rem;
+              letter-spacing: 0.2em;
+              color: #e85d7588;
+              text-transform: uppercase;
+              transition: color 0.3s;
+            "
+          >
+            tap to read more
+          </div>
+        </div>
+
+        <div
+          class="conquest-card"
+          data-card="stupidity"
+          data-color="#a78bfa"
+          style="
+            background: rgba(6, 4, 20, 0.58);
+            border: 1px solid rgba(75, 58, 138, 0.2);
+          "
+        >
+          <div
+            class="card-glow-line"
+            style="
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              height: 2px;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                #a78bfa88,
+                transparent
+              );
+              opacity: 0;
+              transition: opacity 0.4s;
+            "
+          ></div>
+          <span style="font-size: 2rem; margin-bottom: 0.8rem; display: block"
+            >🤦</span
+          >
+          <h3
+            class="card-title"
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: 1.4rem;
+              font-weight: 500;
+              color: #a8d8ea;
+              margin-bottom: 0.5rem;
+              transition: color 0.4s;
+            "
+          >
+            My Stupidity
+          </h3>
+          <p
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 0.88rem;
+              font-weight: 300;
+              color: rgba(168, 216, 234, 0.6);
+              line-height: 1.6;
+            "
+          >
+            Putting up with me and my..sigh stupidness with patience, grace, and
+            more.. considerate-ness(if that is a word?) than I deserve.
+          </p>
+          <div class="card-expanded-content">
+            <div
+              style="
+                margin-top: 1rem;
+                padding-top: 1rem;
+                border-top: 1px solid #a78bfa33;
+              "
+            >
+              <p
+                style="
+                  font-family: &quot;Playfair Display&quot;, serif;
+                  font-size: 0.95rem;
+                  font-style: italic;
+                  color: rgba(238, 247, 255, 0.75);
+                  line-height: 1.8;
+                "
+              >
+                You...never once made me feel bad for being... well, me. You
+                held space for my chaos with the gentlest hands, with the
+                gentlest heart, you..took care of that, you changed yourself a
+                bit for me... That's not just patience...that's something really
+                beautiful, and i am SO grateful for that. I am the most grateful
+                for you, for having you, drishti.
+              </p>
+            </div>
+          </div>
+          <div
+            class="card-hint"
+            style="
+              margin-top: 1rem;
+              font-size: 0.7rem;
+              letter-spacing: 0.2em;
+              color: #a78bfa88;
+              text-transform: uppercase;
+              transition: color 0.3s;
+            "
+          >
+            tap to read more
+          </div>
+        </div>
+
+        <div
+          class="conquest-card"
+          data-card="family"
+          data-color="#4aaed9"
+          style="
+            background: rgba(6, 4, 20, 0.58);
+            border: 1px solid rgba(75, 58, 138, 0.2);
+          "
+        >
+          <div
+            class="card-glow-line"
+            style="
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              height: 2px;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                #4aaed988,
+                transparent
+              );
+              opacity: 0;
+              transition: opacity 0.4s;
+            "
+          ></div>
+          <span style="font-size: 2rem; margin-bottom: 0.8rem; display: block"
+            >🏠</span
+          >
+          <h3
+            class="card-title"
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: 1.4rem;
+              font-weight: 500;
+              color: #a8d8ea;
+              margin-bottom: 0.5rem;
+              transition: color 0.4s;
+            "
+          >
+            Family Pressures
+          </h3>
+          <p
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 0.88rem;
+              font-weight: 300;
+              color: rgba(168, 216, 234, 0.6);
+              line-height: 1.6;
+            "
+          >
+            Carrying weight at home while carrying books in your hands. That
+            takes a kind of strength most people don't see. Even i didn't..until
+            you fortunalely told me..🫂
+          </p>
+          <div class="card-expanded-content">
+            <div
+              style="
+                margin-top: 1rem;
+                padding-top: 1rem;
+                border-top: 1px solid #4aaed933;
+              "
+            >
+              <p
+                style="
+                  font-family: &quot;Playfair Display&quot;, serif;
+                  font-size: 0.95rem;
+                  font-style: italic;
+                  color: rgba(238, 247, 255, 0.75);
+                  line-height: 1.8;
+                "
+              >
+                The invisible weight you carried.. the expectations not just
+                from your parents and grandparents, but also from your teachers,
+                the responsibilities, that you told me about.., all while acing
+                your exams. You are so much stronger than you give yourself
+                credit for, drishti... You aren't ordinary. You are a strong
+                young woman. 🫂 I respect you SO 🚒 much, drishti. SO much. 🫂💝
+              </p>
+            </div>
+          </div>
+          <div
+            class="card-hint"
+            style="
+              margin-top: 1rem;
+              font-size: 0.7rem;
+              letter-spacing: 0.2em;
+              color: #4aaed988;
+              text-transform: uppercase;
+              transition: color 0.3s;
+            "
+          >
+            tap to read more
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════ MESSAGE ══════ -->
+    <section class="auto-h" style="padding: 4rem 2rem 6rem">
+      <div
+        class="sr"
+        style="max-width: 680px; margin: 0 auto; text-align: center"
+      >
+        <div
+          style="
+            font-family: &quot;Playfair Display&quot;, serif;
+            font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+            line-height: 1.9;
+            color: rgba(238, 247, 255, 0.88);
+          "
+        >
+          <p>
+            You stayed so focused and composed despite all of these things
+            weighing on you at once.
+          </p>
+          <p style="margin-top: 1em">
+            This was a true endurance test..not just academically, but
+            <em style="color: #e8b4b8; font-style: italic">emotionally</em>,
+            <em style="color: #e8b4b8; font-style: italic">physically</em>, and
+            <em style="color: #e8b4b8; font-style: italic">mentally</em>.
+          </p>
+          <p style="margin-top: 1em">
+            And you passed
+            <strong style="color: #4aaed9; font-weight: 500"
+              >every single one</strong
+            >.
+          </p>
+          <p style="margin-top: 1em">
+            I am so incredibly happy for you, and beyond proud of everything you
+            held together while the the pressure was weighing down on you.
+          </p>
+        </div>
+      </div>
+      <div
+        class="sr d2 divider-line"
+        style="
+          width: 1px;
+          height: 70px;
+          margin: 4rem auto;
+          transition: background 2s ease;
+        "
+      ></div>
+      <div class="sr d3" style="text-align: center">
+        <p
+          style="
+            font-family: &quot;Playfair Display&quot;, serif;
+            font-style: italic;
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            color: #a8d8ea;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+          "
+        >
+          And now... look at everything taht's waiting for you.
+        </p>
+      </div>
+    </section>
+
+    <section class="auto-h" style="padding: 4rem 2rem 6rem">
+      <div
+        class="sr"
+        style="
+          font-family: &quot;Playfair Display&quot;, serif;
+          font-style: italic;
+          font-size: clamp(1.4rem, 3vw, 2rem);
+          color: #a8d8ea;
+          text-align: center;
+          margin-bottom: 4rem;
+        "
+      ></div>
+
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 4rem;
+          max-width: 900px;
+          margin: 0 auto;
+        "
+        id="activities-list"
+      >
+        <div
+          class="act-card sr"
+          style="
+            background:
+              radial-gradient(
+                ellipse at 50% 0%,
+                rgba(52, 211, 153, 0.08) 0%,
+                transparent 70%
+              ),
+              rgba(5, 4, 18, 0.55);
+            border: 1px solid rgba(52, 211, 153, 0.25);
+          "
+        >
+          <div
+            style="
+              position: absolute;
+              top: 0;
+              left: 20%;
+              right: 20%;
+              height: 1px;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(52, 211, 153, 0.33),
+                transparent
+              );
+            "
+          ></div>
+          <div
+            class="act-glow"
+            style="
+              position: absolute;
+              inset: 0;
+              background: radial-gradient(
+                ellipse at 50% 50%,
+                rgba(52, 211, 153, 0.08) 0%,
+                transparent 60%
+              );
+              opacity: 0;
+              transition: opacity 0.5s;
+              pointer-events: none;
+            "
+          ></div>
+          <span
+            class="act-emoji"
+            style="filter: drop-shadow(0 0 12px rgba(52, 211, 153, 0.33))"
+            >🍃♾️</span
+          >
+          <h3
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: clamp(1.6rem, 3vw, 2.2rem);
+              font-weight: 500;
+              color: #a8d8ea;
+              margin-bottom: 1rem;
+              line-height: 1.3;
+            "
+          >
+            Morning Runs, Like Before
+          </h3>
+          <p
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 1.05rem;
+              font-weight: 300;
+              color: rgba(168, 216, 234, 0.8);
+              line-height: 1.8;
+              max-width: 700px;
+              margin: 0 auto;
+            "
+          >
+            The morning cool breeze, perfect time to go for a runnn heheh.
+            Can'ttt wait for us to go for ittt. But yesss, you should take a
+            week or at least 3-4 days of resttt, cz gosh you've worked so hard
+            during these boards, exhausted. You deserve a lot of rest
+            🫂💖✨🪻💝💝💝
+          </p>
+        </div>
+
+        <div
+          class="act-card sr d1"
+          style="
+            background:
+              radial-gradient(
+                ellipse at 50% 0%,
+                rgba(251, 146, 60, 0.08) 0%,
+                transparent 70%
+              ),
+              rgba(5, 4, 18, 0.55);
+            border: 1px solid rgba(251, 146, 60, 0.25);
+          "
+        >
+          <div
+            style="
+              position: absolute;
+              top: 0;
+              left: 20%;
+              right: 20%;
+              height: 1px;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(251, 146, 60, 0.33),
+                transparent
+              );
+            "
+          ></div>
+          <div
+            class="act-glow"
+            style="
+              position: absolute;
+              inset: 0;
+              background: radial-gradient(
+                ellipse at 50% 50%,
+                rgba(251, 146, 60, 0.08) 0%,
+                transparent 60%
+              );
+              opacity: 0;
+              transition: opacity 0.5s;
+              pointer-events: none;
+            "
+          ></div>
+          <span
+            class="act-emoji"
+            style="filter: drop-shadow(0 0 12px rgba(251, 146, 60, 0.33))"
+            >💪🔥</span
+          >
+          <h3
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: clamp(1.6rem, 3vw, 2.2rem);
+              font-weight: 500;
+              color: #a8d8ea;
+              margin-bottom: 1rem;
+              line-height: 1.3;
+            "
+          >
+            Workout Sessions
+          </h3>
+          <p
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 1.05rem;
+              font-weight: 300;
+              color: rgba(168, 216, 234, 0.8);
+              line-height: 1.8;
+              max-width: 700px;
+              margin: 0 auto;
+            "
+          >
+            Weeee bothhh willl work harderrr. Not just in lifeeee, but
+            physically as welll, startinggg todayyy heheheh. Andddd here's the
+            app that i was talking about, which i followed and worked out
+            consistently. But but but but but, you HAVE to do it in moderation.
+            Do NOT do too much, just do what you can. Not too much okay?? Pehle
+            hi bata raha hu nahi to phir se wo dumbell jaisa ho jayega. And we
+            don't want that at all. We want gradual, consistent progression hmm?
+          </p>
+          <a
+            href="https://play.google.com/store/apps/details?id=homeworkout.homeworkouts.noequipment&pli=1"
+            class="app-btn"
+            style="border: 1px solid rgba(251, 146, 60, 0.4)"
+            >The App</a
+          >
+        </div>
+
+        <div
+          class="act-card sr d2"
+          style="
+            background:
+              radial-gradient(
+                ellipse at 50% 0%,
+                rgba(168, 85, 247, 0.08) 0%,
+                transparent 70%
+              ),
+              rgba(5, 4, 18, 0.55);
+            border: 1px solid rgba(168, 85, 247, 0.25);
+          "
+        >
+          <div
+            style="
+              position: absolute;
+              top: 0;
+              left: 20%;
+              right: 20%;
+              height: 1px;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(168, 85, 247, 0.33),
+                transparent
+              );
+            "
+          ></div>
+          <div
+            class="act-glow"
+            style="
+              position: absolute;
+              inset: 0;
+              background: radial-gradient(
+                ellipse at 50% 50%,
+                rgba(168, 85, 247, 0.08) 0%,
+                transparent 60%
+              );
+              opacity: 0;
+              transition: opacity 0.5s;
+              pointer-events: none;
+            "
+          ></div>
+          <span
+            class="act-emoji"
+            style="filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.33))"
+            >🎨</span
+          >
+          <h3
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: clamp(1.6rem, 3vw, 2.2rem);
+              font-weight: 500;
+              color: #a8d8ea;
+              margin-bottom: 1rem;
+              line-height: 1.3;
+            "
+          >
+            Skribbl Chaos X)
+          </h3>
+          <p
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 1.05rem;
+              font-weight: 300;
+              color: rgba(168, 216, 234, 0.8);
+              line-height: 1.8;
+              max-width: 700px;
+              margin: 0 auto;
+            "
+          >
+            Stupidly hilarious drawings (of mine XD), impossible guesses that
+            youuuuhh make possible. I've missed playing with you sigh.. a lot,
+            drishti. I didn't say anything about it cz..hmm.. but yeah.. been
+            wanting to play that a lot, with you. Andddddddd Vihaaann tooo X))
+          </p>
+        </div>
+
+        <div
+          class="act-card sr"
+          style="
+            background:
+              radial-gradient(
+                ellipse at 50% 0%,
+                rgba(251, 191, 36, 0.08) 0%,
+                transparent 70%
+              ),
+              rgba(5, 4, 18, 0.55);
+            border: 1px solid rgba(251, 191, 36, 0.25);
+          "
+        >
+          <div
+            style="
+              position: absolute;
+              top: 0;
+              left: 20%;
+              right: 20%;
+              height: 1px;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(251, 191, 36, 0.33),
+                transparent
+              );
+            "
+          ></div>
+          <div
+            class="act-glow"
+            style="
+              position: absolute;
+              inset: 0;
+              background: radial-gradient(
+                ellipse at 50% 50%,
+                rgba(251, 191, 36, 0.08) 0%,
+                transparent 60%
+              );
+              opacity: 0;
+              transition: opacity 0.5s;
+              pointer-events: none;
+            "
+          ></div>
+          <span
+            class="act-emoji"
+            style="filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.33))"
+            >🍿</span
+          >
+          <h3
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: clamp(1.6rem, 3vw, 2.2rem);
+              font-weight: 500;
+              color: #a8d8ea;
+              margin-bottom: 1rem;
+              line-height: 1.3;
+            "
+          >
+            maybe..a few Movie Nights (hopefully)
+          </h3>
+          <p
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 1.05rem;
+              font-weight: 300;
+              color: rgba(168, 216, 234, 0.8);
+              line-height: 1.8;
+              max-width: 700px;
+              margin: 0 auto;
+            "
+          >
+            The uhmm.. incomlpete Veer-Zaara.. although i can and will wait to
+            watch it with youuhh in person somedayyy. But as youuhh wishhh ^^
+          </p>
+        </div>
+
+        <div
+          class="act-card sr d1"
+          style="
+            background:
+              radial-gradient(
+                ellipse at 50% 0%,
+                rgba(245, 158, 11, 0.08) 0%,
+                transparent 70%
+              ),
+              rgba(5, 4, 18, 0.55);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+          "
+        >
+          <div
+            style="
+              position: absolute;
+              top: 0;
+              left: 20%;
+              right: 20%;
+              height: 1px;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(245, 158, 11, 0.33),
+                transparent
+              );
+            "
+          ></div>
+          <div
+            class="act-glow"
+            style="
+              position: absolute;
+              inset: 0;
+              background: radial-gradient(
+                ellipse at 50% 50%,
+                rgba(245, 158, 11, 0.08) 0%,
+                transparent 60%
+              );
+              opacity: 0;
+              transition: opacity 0.5s;
+              pointer-events: none;
+            "
+          ></div>
+          <span
+            class="act-emoji"
+            style="filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.33))"
+            >📚🔖</span
+          >
+          <h3
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: clamp(1.6rem, 3vw, 2.2rem);
+              font-weight: 500;
+              color: #a8d8ea;
+              margin-bottom: 1rem;
+              line-height: 1.3;
+            "
+          >
+            Reading Again
+          </h3>
+          <p
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 1.05rem;
+              font-weight: 300;
+              color: rgba(168, 216, 234, 0.8);
+              line-height: 1.8;
+              max-width: 700px;
+              margin: 0 auto;
+            "
+          >
+            Your favourite books, the ones you've been wanting to read. Now you
+            finally have the time to read as many books as you'd like, without
+            the worrying thought of exams at the back of your mind.
+          </p>
+        </div>
+
+        <div
+          class="act-card sr d2"
+          style="
+            background:
+              radial-gradient(
+                ellipse at 50% 0%,
+                rgba(244, 114, 182, 0.08) 0%,
+                transparent 70%
+              ),
+              rgba(5, 4, 18, 0.55);
+            border: 1px solid rgba(244, 114, 182, 0.25);
+          "
+        >
+          <div
+            style="
+              position: absolute;
+              top: 0;
+              left: 20%;
+              right: 20%;
+              height: 1px;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(244, 114, 182, 0.33),
+                transparent
+              );
+            "
+          ></div>
+          <div
+            class="act-glow"
+            style="
+              position: absolute;
+              inset: 0;
+              background: radial-gradient(
+                ellipse at 50% 50%,
+                rgba(244, 114, 182, 0.08) 0%,
+                transparent 60%
+              );
+              opacity: 0;
+              transition: opacity 0.5s;
+              pointer-events: none;
+            "
+          ></div>
+          <span
+            class="act-emoji"
+            style="filter: drop-shadow(0 0 12px rgba(244, 114, 182, 0.33))"
+            >🏡💖</span
+          >
+          <h3
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: clamp(1.6rem, 3vw, 2.2rem);
+              font-weight: 500;
+              color: #a8d8ea;
+              margin-bottom: 1rem;
+              line-height: 1.3;
+            "
+          >
+            Time With Family
+          </h3>
+          <p
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 1.05rem;
+              font-weight: 300;
+              color: rgba(168, 216, 234, 0.8);
+              line-height: 1.8;
+              max-width: 700px;
+              margin: 0 auto;
+              white-space: pre-line;
+            "
+          >
+            We've talked about this before, hmm? You have.. little time left
+            until you leave for college, you won't have your beautiful family
+            around you for a long time. So.. spend quality time with them. Enjoy
+            the time with them. Go watch movies with them. Go on trekking. I
+            remember you had said, that dad used to tell you about rocks, back
+            when you used to go trekking with him 💝🫂🫂✨🪻 I want you to enjoy
+            this time with them, and make memories together. 💝🫂
+          </p>
+        </div>
+
+        <div
+          class="act-card sr d2"
+          style="
+            background:
+              radial-gradient(
+                ellipse at 50% 0%,
+                rgba(56, 189, 248, 0.08) 0%,
+                transparent 70%
+              ),
+              rgba(5, 4, 18, 0.55);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+          "
+        >
+          <div
+            style="
+              position: absolute;
+              top: 0;
+              left: 20%;
+              right: 20%;
+              height: 1px;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(56, 189, 248, 0.33),
+                transparent
+              );
+            "
+          ></div>
+          <div
+            class="act-glow"
+            style="
+              position: absolute;
+              inset: 0;
+              background: radial-gradient(
+                ellipse at 50% 50%,
+                rgba(56, 189, 248, 0.08) 0%,
+                transparent 60%
+              );
+              opacity: 0;
+              transition: opacity 0.5s;
+              pointer-events: none;
+            "
+          ></div>
+          <span
+            class="act-emoji"
+            style="filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.33))"
+            >🚗</span
+          >
+          <h3
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: clamp(1.6rem, 3vw, 2.2rem);
+              font-weight: 500;
+              color: #a8d8ea;
+              margin-bottom: 1rem;
+              line-height: 1.3;
+            "
+          >
+            Learning to Driveee
+          </h3>
+          <p
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 1.05rem;
+              font-weight: 300;
+              color: rgba(168, 216, 234, 0.8);
+              line-height: 1.8;
+              max-width: 700px;
+              margin: 0 auto;
+            "
+          >
+            You finally have the time to learn how to driveeee heheheh. Although
+            i am not there to see you drive, YET, but I am sooo exciteddd for
+            ittt. Gosh i wish i could teach you that 😭 I knowww I don't have
+            much experience, but people dooo sayy it. You're going to be
+            ammmmazing at it by timeeee 🫂🫂💖✨💝
+          </p>
+        </div>
+
+        <div
+          class="act-card sr"
+          style="
+            background:
+              radial-gradient(
+                ellipse at 50% 0%,
+                rgba(232, 180, 184, 0.08) 0%,
+                transparent 70%
+              ),
+              rgba(5, 4, 18, 0.55);
+            border: 1px solid rgba(232, 180, 184, 0.25);
+          "
+        >
+          <div
+            style="
+              position: absolute;
+              top: 0;
+              left: 20%;
+              right: 20%;
+              height: 1px;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(232, 180, 184, 0.33),
+                transparent
+              );
+            "
+          ></div>
+          <div
+            class="act-glow"
+            style="
+              position: absolute;
+              inset: 0;
+              background: radial-gradient(
+                ellipse at 50% 50%,
+                rgba(232, 180, 184, 0.08) 0%,
+                transparent 60%
+              );
+              opacity: 0;
+              transition: opacity 0.5s;
+              pointer-events: none;
+            "
+          ></div>
+          <span
+            class="act-emoji"
+            style="filter: drop-shadow(0 0 12px rgba(232, 180, 184, 0.33))"
+            >🫂💝</span
+          >
+          <h3
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: clamp(1.6rem, 3vw, 2.2rem);
+              font-weight: 500;
+              color: #a8d8ea;
+              margin-bottom: 1rem;
+              line-height: 1.3;
+            "
+          >
+            Talking...sigh
+          </h3>
+          <p
+            style="
+              font-family: &quot;Outfit&quot;, sans-serif;
+              font-size: 1.05rem;
+              font-weight: 300;
+              color: rgba(168, 216, 234, 0.8);
+              line-height: 1.8;
+              max-width: 700px;
+              margin: 0 auto;
+            "
+          >
+            A bit longer, deeper conversations......sigh.. : ( , and those calls
+            where we..smile so much.. Maybeee when we'll start going for
+            jogging/running again ^^ I've missed talking to you with no timer
+            ticking in the background... a lot 💝
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="auto-h"
+      style="padding: 6rem 2rem; background: rgba(139, 92, 246, 0.02)"
+    >
+      <div class="sr" style="text-align: center; margin-bottom: 3rem">
+        <span
+          class="act-emoji"
+          style="
+            filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.4));
+            font-size: 4rem;
+          "
+          >🎨🖌️✨</span
+        >
+        <h2
+          style="
+            font-family: &quot;Playfair Display&quot;, serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #a8d8ea;
+            margin: 1rem 0;
+          "
+        >
+          Sketches & Paintings
+        </h2>
+        <p
+          style="
+            font-family: &quot;Outfit&quot;, sans-serif;
+            font-size: 1.2rem;
+            color: rgba(168, 216, 234, 0.8);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+          "
+        >
+          Your hands... : ) they're beautiful, and beautifully creative and
+          skilled. I've always loved seeing your art, and I can't wait to see
+          more. You are free now, you can start doing it all again. 🫂💝
+          <br />You can click on them to expand themmm.
+        </p>
+      </div>
+
+      <div class="gallery-grid sr">
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/36052.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/36053.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/46599.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_201956_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_202043_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_203432_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_203501_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_203525_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_203539_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_203604_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_203649_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_203732_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_204331_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_204358_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_204506_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_204528_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_204550_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_204656_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_204732_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_204803_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_204837_Gallery.img"
+            class="gallery-img"
+            alt="Artwork"
+            onerror="
+              this.src =
+                'src/images/Her Art/Screenshot_20260322_204837_Gallery.jpg'
+            "
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_204854_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_204908_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_204928_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Art/Screenshot_20260322_204947_Gallery.jpg"
+            class="gallery-img"
+            alt="Artwork"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="auto-h"
+      style="padding: 6rem 2rem; background: rgba(99, 102, 241, 0.02)"
+    >
+      <div class="sr" style="text-align: center; margin-bottom: 3rem">
+        <span
+          class="act-emoji"
+          style="
+            filter: drop-shadow(0 0 15px rgba(99, 102, 241, 0.4));
+            font-size: 4rem;
+          "
+          >✨📖</span
+        >
+        <h2
+          style="
+            font-family: &quot;Playfair Display&quot;, serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #a8d8ea;
+            margin: 1rem 0;
+          "
+        >
+          Your Masterpieces
+        </h2>
+        <p
+          style="
+            font-family: &quot;Outfit&quot;, sans-serif;
+            font-size: 1.2rem;
+            color: rgba(168, 216, 234, 0.8);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+          "
+        >
+          Now you will have a beautifully peaceful mind and... whatever you've
+          been holding inside,,, youuhh can pour it out, just like the ones you
+          have written until noww.
+          <strong
+            >ALTHOUGH you did NOT send me more whennnn pled you to, drishti.
+            Remember??? You had written them Looooong ago</strong
+          >
+          But anywayy, it's going to be <strong>B-E-A-U-T-I-F-U-L </strong>.
+        </p>
+      </div>
+
+      <div class="gallery-grid sr poetry-grid" style="max-width: 900px">
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Poetry/36048.jpg"
+            class="gallery-img"
+            alt="Poem"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Poetry/36049.jpg"
+            class="gallery-img"
+            alt="Poem"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Poetry/36050.jpg"
+            class="gallery-img"
+            alt="Poem"
+          />
+        </div>
+        <div class="gallery-item">
+          <img
+            src="src/images/Her Poetry/36051.jpg"
+            class="gallery-img"
+            alt="Poem"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section style="min-height: 60vh">
+      <div
+        class="sr"
+        id="closing-divider"
+        style="
+          width: 1px;
+          height: 70px;
+          margin: 0 auto 3rem;
+          transition: background 2s ease;
+        "
+      ></div>
+      <div class="sr d3" style="margin-top: 3rem">
+        <div class="caution-btn" id="caution-trigger">open with caution..</div>
+      </div>
+    </section>
+
+    <!-- ══════ SPECIAL OVERLAY ══════ -->
+    <div id="special-overlay">
+      <div
+        id="special-close"
+        style="
+          position: absolute;
+          top: 2rem;
+          right: 2rem;
+          color: #fff;
+          font-size: 2.5rem;
+          cursor: pointer;
+          opacity: 0.5;
+        "
+      >
+        &times;
+      </div>
+      <img
+        src="src/images/ilydrish.jpg"
+        class="special-img"
+        alt="Special Memory"
+      />
+      <div class="special-msg">
+        This pic might be just random for you or anyone, but for me.. i hold it
+        the dearest to me..drishti. 🫂💝 Literally get watery eyes when i look
+        at it, sometimes<br />
+
+        <div
+          class="sr d2"
+          id="closing-name"
+          style="
+            font-family: &quot;Outfit&quot;, sans-serif;
+            font-weight: 300;
+            font-size: 1.1rem;
+            letter-spacing: 0.8em;
+            text-transform: uppercase;
+            margin-top: 2.5rem;
+            transition: color 2s ease;
+            color: #4aaed9;
+            text-shadow: 0 0 15px rgba(74, 174, 217, 0.4);
+          "
+        >
+          ✦ always, always happy for you ✦
+        </div>
+      </div>
+    </div>
+    <!-- ══════ LIGHTBOX MODAL ══════ -->
+    <div id="lightbox-modal">
+      <div id="lightbox-close">&times;</div>
+      <img id="lightbox-img" src="" alt="Zoomed View" />
+    </div>
+
+    <script>
+      // ─── Color lerp ───
+      function lerpColor(a, b, t) {
+        const ah = parseInt(a.replace("#", ""), 16),
+          bh = parseInt(b.replace("#", ""), 16);
+        const ar = (ah >> 16) & 0xff,
+          ag = (ah >> 8) & 0xff,
+          ab = ah & 0xff;
+        const br = (bh >> 16) & 0xff,
+          bg = (bh >> 8) & 0xff,
+          bb = bh & 0xff;
+        const rr = Math.round(ar + (br - ar) * t),
+          rg = Math.round(ag + (bg - ag) * t),
+          rb = Math.round(ab + (bb - ab) * t);
+        return (
+          "#" + ((rr << 16) | (rg << 8) | rb).toString(16).padStart(6, "0")
+        );
+      }
+
+      // ─── Particles ───
+      (function () {
+        const c = document.getElementById("particles");
+        for (let i = 0; i < 20; i++) {
+          const d = document.createElement("div");
+          d.className = "particle";
+          const s = 2 + Math.random() * 3;
+          d.style.cssText = `width:${s}px;height:${s}px;left:${Math.random() * 100}%;bottom:-10px;background:rgba(74,174,217,${0.2 + Math.random() * 0.4});animation:particleFloat ${8 + Math.random() * 12}s ${Math.random() * 8}s linear infinite`;
+          d.dataset.idx = i;
+          c.appendChild(d);
+        }
+      })();
+
+      // ─── Scroll handler ───
+      let scrollProgress = 0;
+      const bg = document.getElementById("scene-bg");
+      const moonW = document.getElementById("moon-wrap");
+      const sunW = document.getElementById("sun-wrap");
+      const auroras = [
+        document.getElementById("aurora-0"),
+        document.getElementById("aurora-1"),
+        document.getElementById("aurora-2"),
+      ];
+      const divLine = document.querySelector(".divider-line");
+      const closingDiv = document.getElementById("closing-divider");
+      const closingQuote = document.getElementById("closing-quote");
+      const closingName = document.getElementById("closing-name");
+      const particles = document.querySelectorAll(".particle");
+
+      function getGradient(p) {
+        const steps = [
+          {
+            s: 0,
+            e: 0.15,
+            from: [
+              "#040111",
+              "#07052a",
+              "#0b1040",
+              "#0d1c58",
+              "#0c2868",
+              "#0a2255",
+              "#071838",
+              "#050f26",
+              "#030a18",
+            ],
+            to: null,
+          },
+          {
+            s: 0.15,
+            e: 0.35,
+            from: [
+              "#040111",
+              "#07052a",
+              "#0b1040",
+              "#0d1c58",
+              "#0c2868",
+              "#0a2255",
+              "#071838",
+              "#050f26",
+              "#030a18",
+            ],
+            to: [
+              "#1a0a2e",
+              "#2d1248",
+              "#4a1942",
+              "#6b2040",
+              "#8a3535",
+              "#7a2d3d",
+              "#4a1832",
+              "#2a0d22",
+              "#150818",
+            ],
+          },
+          {
+            s: 0.35,
+            e: 0.6,
+            from: [
+              "#1a0a2e",
+              "#2d1248",
+              "#4a1942",
+              "#6b2040",
+              "#8a3535",
+              "#7a2d3d",
+              "#4a1832",
+              "#2a0d22",
+              "#150818",
+            ],
+            to: [
+              "#2a1520",
+              "#4a2018",
+              "#7a3a15",
+              "#c46a20",
+              "#e8922a",
+              "#d47828",
+              "#8a4a18",
+              "#4a2510",
+              "#1a0e08",
+            ],
+          },
+          {
+            s: 0.6,
+            e: 1,
+            from: [
+              "#2a1520",
+              "#4a2018",
+              "#7a3a15",
+              "#c46a20",
+              "#e8922a",
+              "#d47828",
+              "#8a4a18",
+              "#4a2510",
+              "#1a0e08",
+            ],
+            to: [
+              "#3a2015",
+              "#5a3518",
+              "#a86020",
+              "#e8a040",
+              "#f5c060",
+              "#e8a848",
+              "#b87030",
+              "#6a3a18",
+              "#2a1508",
+            ],
+          },
+        ];
+        const pcts = [0, 10, 22, 36, 50, 64, 76, 88, 100];
+
+        if (p < 0.15) {
+          return `linear-gradient(180deg,${steps[0].from.map((c, i) => `${c} ${pcts[i]}%`).join(",")})`;
+        }
+        for (const st of steps) {
+          if (st.to && p >= st.s && p < st.e) {
+            const t = (p - st.s) / (st.e - st.s);
+            const cols = st.from.map(
+              (c, i) => `${lerpColor(c, st.to[i], t)} ${pcts[i]}%`,
+            );
+            return `linear-gradient(180deg,${cols.join(",")})`;
+          }
+        }
+        const last = steps[steps.length - 1];
+        const cols = last.from.map(
+          (c, i) => `${lerpColor(c, last.to[i], 1)} ${pcts[i]}%`,
+        );
+        return `linear-gradient(180deg,${cols.join(",")})`;
+      }
+
+      function onScroll() {
+        const st = window.scrollY;
+        const dh = document.documentElement.scrollHeight - window.innerHeight;
+        scrollProgress = Math.min(st / dh, 1);
+        const p = scrollProgress;
+
+        bg.style.background = getGradient(p);
+        moonW.style.opacity = Math.max(0, 1 - p * 3);
+        sunW.style.opacity = Math.max(0, Math.min(1, (p - 0.25) * 3));
+
+        const nightAurora = [
+          "rgba(74,174,217,.2)",
+          "rgba(55,198,170,.15)",
+          "rgba(17,87,160,.25)",
+        ];
+        const dayAurora = [
+          "rgba(255,150,50,.2)",
+          "rgba(255,120,80,.15)",
+          "rgba(200,100,50,.2)",
+        ];
+        auroras.forEach((a, i) => {
+          a.style.background = `radial-gradient(ellipse,${p > 0.3 ? dayAurora[i] : nightAurora[i]} 0%,transparent 75%)`;
+        });
+
+        // Divider colors
+        if (divLine)
+          divLine.style.background =
+            p > 0.3
+              ? "linear-gradient(to bottom,#e8922a,transparent)"
+              : "linear-gradient(to bottom,#4aaed9,transparent)";
+        if (closingDiv)
+          closingDiv.style.background =
+            p > 0.5
+              ? "linear-gradient(to bottom,#e8a040,transparent)"
+              : "linear-gradient(to bottom,#4aaed9,transparent)";
+        if (closingQuote) {
+          closingQuote.style.color =
+            p > 0.6 ? "rgba(232,180,100,.85)" : "rgba(168,216,234,.8)";
+          closingQuote.style.textShadow =
+            p > 0.6
+              ? "0 0 60px rgba(232,160,64,.25)"
+              : "0 0 60px rgba(74,174,217,.25)";
+        }
+        if (closingName)
+          closingName.style.color =
+            p > 0.6 ? "rgba(232,160,64,.5)" : "rgba(74,174,217,.5)";
+
+        // Particle color shift
+        particles.forEach((pt) => {
+          pt.style.background =
+            p > 0.4
+              ? `rgba(255,${180 + Math.random() * 75},${50 + Math.random() * 50},${0.3 + Math.random() * 0.4})`
+              : `rgba(74,174,217,${0.2 + Math.random() * 0.4})`;
+        });
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+
+      // ─── Intersection Observer ───
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("vis");
+          });
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -50px 0px" },
+      );
+      document.querySelectorAll(".sr").forEach((el) => obs.observe(el));
+
+      // ─── Mouse parallax ───
+      window.addEventListener("mousemove", (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+        moonW.style.transform = `translate(${x * -5}px,${y * -5}px)`;
+        sunW.style.transform = `translate(${x * -8}px,${y * -8}px)`;
+      });
+
+      // ─── Conquest card expand ───
+      let expandedCard = null;
+      document.querySelectorAll(".conquest-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const id = card.dataset.card;
+          const color = card.dataset.color;
+          const content = card.querySelector(".card-expanded-content");
+          const glow = card.querySelector(".card-glow-line");
+          const title = card.querySelector(".card-title");
+          const hint = card.querySelector(".card-hint");
+
+          // Close all others
+          document.querySelectorAll(".conquest-card").forEach((c) => {
+            if (c !== card) {
+              c.querySelector(".card-expanded-content").classList.remove(
+                "open",
+              );
+              c.querySelector(".card-glow-line").style.opacity = "0";
+              c.querySelector(".card-title").style.color = "#a8d8ea";
+              c.querySelector(".card-hint").textContent = "tap to read more";
+              c.style.background = "rgba(6,4,20,.58)";
+              c.style.borderColor = "rgba(75,58,138,.2)";
+              c.style.transform = "";
+              c.style.boxShadow = "";
+            }
+          });
+
+          if (expandedCard === id) {
+            content.classList.remove("open");
+            content.style.maxHeight = "0"; // Collapse
+            glow.style.opacity = "0";
+            title.style.color = "#a8d8ea";
+            hint.textContent = "tap to read more";
+            card.style.background = "rgba(6,4,20,.58)";
+            card.style.borderColor = "rgba(75,58,138,.2)";
+            card.style.transform = "";
+            card.style.boxShadow = "";
+            expandedCard = null;
+          } else {
+            content.classList.add("open");
+            // Set max-height to the actual height of the content plus some padding
+            content.style.maxHeight = content.scrollHeight + 40 + "px";
+            glow.style.opacity = "1";
+            title.style.color = color;
+            hint.textContent = "tap to close";
+            card.style.background = `radial-gradient(circle at 50% 50%,${color}26 0%,transparent 70%),rgba(6,4,20,.72)`;
+            card.style.borderColor = color + "66";
+            card.style.transform = "translateY(-4px) scale(1.02)";
+            card.style.boxShadow = `0 20px 60px rgba(0,0,0,.4),0 0 40px ${color}22`;
+            expandedCard = id;
+          }
+        });
+      });
+
+      // Initial scroll
+      onScroll();
+
+      // ─── Lightbox Logic ───
+      const modal = document.getElementById("lightbox-modal");
+      const modalImg = document.getElementById("lightbox-img");
+      const closeBtn = document.getElementById("lightbox-close");
+
+      document.querySelectorAll(".gallery-img").forEach((img) => {
+        img.addEventListener("click", (e) => {
+          e.stopPropagation();
+          modalImg.src = img.src;
+          modal.classList.add("active");
+          document.body.style.overflow = "hidden"; // Prevent scroll
+        });
+      });
+
+      const closeModal = () => {
+        modal.classList.remove("active");
+        document.body.style.overflow = ""; // Restore scroll
+      };
+
+      modal.addEventListener("click", closeModal);
+      closeBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        closeModal();
+      });
+
+      // Esc key support
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeModal();
+          closeSpecial();
+        }
+      });
+
+      // ─── Special Overlay Logic ───
+      const specialOverlay = document.getElementById("special-overlay");
+      const cautionBtn = document.getElementById("caution-trigger");
+      const specialClose = document.getElementById("special-close");
+
+      const openSpecial = () => {
+        specialOverlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+      };
+
+      const closeSpecial = () => {
+        specialOverlay.classList.remove("active");
+        document.body.style.overflow = "";
+      };
+
+      cautionBtn.addEventListener("click", openSpecial);
+      specialClose.addEventListener("click", closeSpecial);
+      specialOverlay.addEventListener("click", (e) => {
+        if (e.target === specialOverlay) closeSpecial();
+      });
+
+      // ─── Music Logic ───
+      const music = document.getElementById("bg-music");
+      const musicToggle = document.getElementById("music-toggle");
+      const musicIcon = document.getElementById("music-icon");
+      const catalogue = document.getElementById("music-catalogue");
+      const songItems = document.querySelectorAll(".song-item");
+      const playPauseBtn = document.getElementById("play-pause-btn");
+      let musicStarted = false;
+
+      // Toggle catalogue visibility
+      musicToggle.addEventListener("click", () => {
+        catalogue.classList.toggle("active");
+        const hint = document.getElementById("music-hint");
+        if (hint) hint.style.opacity = "0";
+      });
+
+      // Handle song selection
+      songItems.forEach((item) => {
+        item.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const src = item.dataset.src;
+
+          if (music.getAttribute("src") !== src) {
+            music.src = src;
+            music.play();
+            musicStarted = true;
+          } else {
+            // If clicking the same song, just toggle play/pause
+            if (music.paused) music.play();
+            else music.pause();
+          }
+
+          // Update UI
+          songItems.forEach((i) => i.classList.remove("active"));
+          item.classList.add("active");
+          updateMusicUI();
+        });
+      });
+
+      const updateMusicUI = () => {
+        if (!music.paused) {
+          musicIcon.textContent = "🔊";
+          musicToggle.classList.add("playing");
+          if (playPauseBtn) playPauseBtn.textContent = "Pause";
+        } else {
+          musicIcon.textContent = "🎵";
+          musicToggle.classList.remove("playing");
+          if (playPauseBtn) playPauseBtn.textContent = "Play";
+        }
+      };
+
+      if (playPauseBtn) {
+        playPauseBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (musicStarted) {
+            if (music.paused) music.play();
+            else music.pause();
+          } else {
+            // First time play
+            music.play().then(() => {
+              musicStarted = true;
+              updateMusicUI();
+            });
+          }
+        });
+      }
+
+      // Close catalogue when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!musicToggle.contains(e.target) && !catalogue.contains(e.target)) {
+          catalogue.classList.remove("active");
+        }
+      });
+
+      // Auto-play attempt on first interaction
+      const startMusicOnce = () => {
+        if (!musicStarted) {
+          music
+            .play()
+            .then(() => {
+              musicStarted = true;
+              updateMusicUI();
+              document.removeEventListener("click", startMusicOnce);
+              document.removeEventListener("scroll", startMusicOnce);
+            })
+            .catch(() => {});
+        }
+      };
+
+      document.addEventListener("click", startMusicOnce);
+      document.addEventListener("scroll", startMusicOnce);
+
+      // Listener for pause/play events to sync icon
+      music.onplay = updateMusicUI;
+      music.onpause = updateMusicUI;
+    </script>
+  </body>
+</html>
