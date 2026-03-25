@@ -2747,6 +2747,9 @@ opacity: 0;
     <button class="theme-link-button" onclick="window.location.href='endurance.html'">
       <span class="button-content">🏆 Endurance</span>
     </button>
+    <button class="theme-link-button" onclick="window.location.href='youreStrong.html'">
+      <span class="button-content">✨ You're Strong</span>
+    </button>
 
   </div>
 </div>
@@ -3726,8 +3729,9 @@ opacity: 0;
 
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
+      if (entry.isIntersecting && !entry.target.classList.contains('revealed')) {
         entry.target.classList.add('revealed');
+        if ("vibrate" in navigator) navigator.vibrate(50);
       }
     });
   }, { threshold: 0.05, rootMargin: '0px 0px 100px 0px' });
