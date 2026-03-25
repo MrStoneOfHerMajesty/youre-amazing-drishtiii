@@ -1,0 +1,1309 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Youre Strong drishti 🌷</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --rose: #e8a0a0;
+        --dusty-pink: #d4788a;
+        --blush: #f5dce0;
+        --cream: #fdf6f0;
+        --warm-white: #fff9f5;
+        --plum: #6b3a4a;
+        --deep: #3a2030;
+        --gold: #c9a96e;
+        --sage: #8aab94;
+        --lavender: #c4b0d8;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--cream);
+        color: var(--deep);
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      .cursor-ribbon {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.05s linear;
+      }
+      .cursor-ribbon svg {
+        width: 28px;
+        height: 28px;
+        filter: drop-shadow(0 2px 4px rgba(212, 120, 138, 0.4));
+        animation: ribbonWiggle 1.2s ease-in-out infinite;
+      }
+      @keyframes ribbonWiggle {
+        0%,
+        100% {
+          transform: rotate(-8deg) scale(1);
+        }
+        50% {
+          transform: rotate(8deg) scale(1.08);
+        }
+      }
+
+      .teddy-wrap {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9997;
+        transform: translate(-50%, -50%);
+        transition:
+          left 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+          top 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+      .teddy-wrap svg {
+        width: 48px;
+        height: 48px;
+        filter: drop-shadow(0 3px 8px rgba(107, 58, 74, 0.18));
+      }
+
+      .teddy-wrap.sleeping {
+        transition:
+          left 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+          top 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      .zzz-wrap {
+        position: absolute;
+        top: -22px;
+        right: -8px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+      }
+      .zzz-wrap.visible {
+        opacity: 1;
+      }
+      .zzz-wrap span {
+        font-family: "DM Sans", sans-serif;
+        font-size: 9px;
+        font-weight: 500;
+        color: var(--dusty-pink);
+        position: absolute;
+        animation: zzzFloat 2s ease-in-out infinite;
+        opacity: 0;
+      }
+      .zzz-wrap span:nth-child(1) {
+        bottom: 0px;
+        right: 0px;
+        font-size: 8px;
+        animation-delay: 0s;
+      }
+      .zzz-wrap span:nth-child(2) {
+        bottom: 10px;
+        right: -6px;
+        font-size: 10px;
+        animation-delay: 0.6s;
+      }
+      .zzz-wrap span:nth-child(3) {
+        bottom: 22px;
+        right: -2px;
+        font-size: 12px;
+        animation-delay: 1.2s;
+      }
+      @keyframes zzzFloat {
+        0% {
+          opacity: 0;
+          transform: translateY(0) rotate(-5deg);
+        }
+        30% {
+          opacity: 1;
+        }
+        80% {
+          opacity: 0.6;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-14px) rotate(5deg);
+        }
+      }
+
+      .teddy-body-group {
+        transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform-origin: 24px 38px;
+      }
+      .teddy-wrap.sleeping .teddy-body-group {
+        transform: translateY(6px);
+      }
+
+      .eye-open {
+        transition: opacity 0.4s ease;
+        opacity: 1;
+      }
+      .eye-closed {
+        transition: opacity 0.4s ease;
+        opacity: 0;
+      }
+      .teddy-wrap.sleeping .eye-open {
+        opacity: 0;
+      }
+      .teddy-wrap.sleeping .eye-closed {
+        opacity: 1;
+      }
+
+      @keyframes teddyWaddle {
+        0%,
+        100% {
+          transform: rotate(-4deg);
+        }
+        50% {
+          transform: rotate(4deg);
+        }
+      }
+      .teddy-wrap.moving .teddy-body-group {
+        animation: teddyWaddle 0.35s ease-in-out infinite;
+      }
+
+      .petal {
+        position: fixed;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0;
+        animation: petalFall linear infinite;
+        font-size: 14px;
+      }
+      @keyframes petalFall {
+        0% {
+          transform: translateY(-60px) rotate(0deg) translateX(0px);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.6;
+        }
+        90% {
+          opacity: 0.3;
+        }
+        100% {
+          transform: translateY(110vh) rotate(720deg) translateX(40px);
+          opacity: 0;
+        }
+      }
+
+      .bg-layer {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        transition:
+          background 1.2s ease,
+          opacity 1s ease;
+        background: radial-gradient(
+          ellipse at 30% 20%,
+          #fce4ec 0%,
+          #fdf6f0 50%,
+          #fce4ec88 100%
+        );
+      }
+
+      section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 24px;
+        position: relative;
+      }
+
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 28px;
+      }
+      .hero-eyebrow {
+        font-family: "DM Sans", sans-serif;
+        font-size: 12px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--dusty-pink);
+        opacity: 0;
+        animation: fadeUp 1s ease 0.3s forwards;
+      }
+      .hero-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(3.2rem, 10vw, 7rem);
+        font-weight: 300;
+        line-height: 1.05;
+        color: var(--plum);
+        opacity: 0;
+        animation: fadeUp 1.1s ease 0.6s forwards;
+      }
+      .hero-title em {
+        font-style: italic;
+        font-weight: 400;
+        color: var(--dusty-pink);
+      }
+      .hero-sub {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(1.1rem, 3vw, 1.6rem);
+        color: var(--plum);
+        opacity: 0;
+        animation: fadeUp 1.1s ease 0.9s forwards;
+        max-width: 500px;
+      }
+      .scroll-hint {
+        position: absolute;
+        bottom: 36px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        animation: fadeIn 1s ease 2s forwards;
+      }
+      .scroll-hint span {
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--dusty-pink);
+      }
+      .scroll-arrow {
+        width: 1px;
+        height: 40px;
+        background: linear-gradient(to bottom, var(--dusty-pink), transparent);
+        animation: scrollPulse 2s ease infinite;
+      }
+      @keyframes scrollPulse {
+        0%,
+        100% {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scaleY(0.5);
+          opacity: 0.4;
+        }
+      }
+
+      .card-wrap {
+        max-width: 780px;
+        width: 100%;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(18px);
+        border: 1px solid rgba(232, 160, 160, 0.25);
+        border-radius: 28px;
+        padding: clamp(36px, 6vw, 64px);
+        box-shadow:
+          0 24px 80px rgba(107, 58, 74, 0.08),
+          0 4px 16px rgba(107, 58, 74, 0.04);
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .card.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        top: -60px;
+        right: -60px;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(232, 160, 160, 0.18) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+
+      .section-num {
+        font-size: 11px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--rose);
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .section-num::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, var(--rose), transparent);
+        max-width: 80px;
+      }
+
+      .card-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-weight: 400;
+        line-height: 1.2;
+        color: var(--plum);
+        margin-bottom: 24px;
+      }
+      .card-title em {
+        font-style: italic;
+        color: var(--dusty-pink);
+      }
+      .body-text {
+        font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+        line-height: 1.85;
+        color: #5a3a44;
+        margin-bottom: 20px;
+      }
+      .body-text + .body-text {
+        margin-top: 4px;
+      }
+      .hindi {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(1.1rem, 2.8vw, 1.4rem);
+        color: var(--plum);
+        border-left: 3px solid var(--rose);
+        padding: 10px 20px;
+        margin: 24px 0;
+        background: rgba(232, 160, 160, 0.08);
+        border-radius: 0 12px 12px 0;
+        line-height: 1.7;
+      }
+      .highlight {
+        background: linear-gradient(
+          120deg,
+          rgba(232, 160, 160, 0.35) 0%,
+          rgba(232, 160, 160, 0.1) 100%
+        );
+        border-radius: 4px;
+        padding: 2px 4px;
+      }
+
+      .divider {
+        text-align: center;
+        margin: 32px 0;
+        color: var(--rose);
+        font-size: 1.2rem;
+        letter-spacing: 8px;
+        opacity: 0.6;
+      }
+
+      .quote-block {
+        background: rgba(201, 169, 110, 0.08);
+        border: 1px solid rgba(201, 169, 110, 0.2);
+        border-radius: 16px;
+        padding: 24px 28px;
+        margin: 28px 0;
+        position: relative;
+      }
+      .quote-block::before {
+        content: "🌷";
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.5rem;
+        color: var(--gold);
+        opacity: 0.25;
+        position: absolute;
+        top: 5px;
+        left: 16px;
+        line-height: 1;
+      }
+      .quote-text {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+        line-height: 1.75;
+        color: var(--plum);
+        padding-top: 12px;
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin: 28px 0;
+      }
+      @media (max-width: 560px) {
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+      .type-card {
+        border-radius: 16px;
+        padding: 22px;
+        position: relative;
+        overflow: hidden;
+      }
+      .type-card.good {
+        background: linear-gradient(
+          135deg,
+          rgba(138, 171, 148, 0.15),
+          rgba(138, 171, 148, 0.06)
+        );
+        border: 1px solid rgba(138, 171, 148, 0.3);
+      }
+      .type-card.bad {
+        background: linear-gradient(
+          135deg,
+          rgba(196, 176, 216, 0.15),
+          rgba(196, 176, 216, 0.06)
+        );
+        border: 1px solid rgba(196, 176, 216, 0.3);
+      }
+      .type-icon {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+      }
+      .type-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1rem;
+        color: var(--plum);
+        margin-bottom: 10px;
+      }
+      .type-desc {
+        font-size: 0.88rem;
+        line-height: 1.7;
+        color: #6b4a58;
+      }
+
+      .final-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 0;
+      }
+      .final-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(232, 160, 160, 0.3);
+        border-radius: 36px;
+        padding: clamp(48px, 8vw, 88px) clamp(36px, 6vw, 72px);
+        max-width: 720px;
+        text-align: center;
+        box-shadow: 0 32px 100px rgba(107, 58, 74, 0.12);
+        position: relative;
+        opacity: 0;
+        transform: scale(0.96);
+        transition:
+          opacity 1s ease,
+          transform 1s ease;
+      }
+      .final-card.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .final-big {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(2.2rem, 7vw, 5rem);
+        font-weight: 300;
+        line-height: 1.1;
+        color: var(--plum);
+        margin-bottom: 28px;
+      }
+      .final-big em {
+        font-style: italic;
+        color: var(--dusty-pink);
+      }
+      .final-body {
+        font-size: clamp(1rem, 2.2vw, 1.15rem);
+        line-height: 1.9;
+        color: #5a3a44;
+        margin-bottom: 16px;
+      }
+      .signature {
+        margin-top: 48px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .sig-line {
+        width: 60px;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--rose),
+          transparent
+        );
+      }
+      .sig-text {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: 1.3rem;
+        color: var(--dusty-pink);
+      }
+      .final-strong {
+        margin-top: 50px;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 800;
+        font-size: 2.2rem;
+        color: var(--plum);
+        letter-spacing: -0.5px;
+        animation: fadeUp 1.2s ease 2s both;
+      }
+
+      .deco-flower {
+        position: absolute;
+        pointer-events: none;
+        opacity: 0.12;
+        font-size: 4rem;
+        animation: floatDeco 8s ease-in-out infinite;
+      }
+      @keyframes floatDeco {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(10deg);
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        background: linear-gradient(
+          to right,
+          var(--rose),
+          var(--dusty-pink),
+          var(--gold)
+        );
+        z-index: 1000;
+        width: 0%;
+        transition: width 0.1s linear;
+      }
+
+      .nav-dots {
+        position: fixed;
+        right: 24px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        z-index: 100;
+      }
+      .nav-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--rose);
+        opacity: 0.3;
+        cursor: pointer;
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+      }
+      .nav-dot.active {
+        opacity: 1;
+        transform: scale(1.5);
+        background: var(--dusty-pink);
+      }
+
+      .emoji-pop {
+        display: inline-block;
+        animation: emojiFloat 3s ease-in-out infinite;
+      }
+      @keyframes emojiFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+      }
+
+      .tag {
+        display: inline-block;
+        background: rgba(232, 160, 160, 0.15);
+        border: 1px solid rgba(232, 160, 160, 0.4);
+        border-radius: 100px;
+        padding: 4px 14px;
+        font-size: 0.8rem;
+        color: var(--dusty-pink);
+        margin-bottom: 16px;
+        letter-spacing: 0.05em;
+      }
+      .music-toggle {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 1001;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(232, 160, 160, 0.3);
+        color: var(--dusty-pink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 4px 15px rgba(107, 58, 74, 0.08);
+      }
+      .music-toggle:hover {
+        transform: scale(1.1);
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 8px 25px rgba(107, 58, 74, 0.12);
+      }
+      .music-toggle.playing {
+        animation: musicRotate 4s linear infinite;
+      }
+      @keyframes musicRotate {
+        from {
+          transform: rotate(0deg) scale(1.1);
+        }
+        to {
+          transform: rotate(360deg) scale(1.1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <audio
+      id="bgMusic"
+      src="src/backgroundAmbient.mp3"
+      loop
+      preload="auto"
+    ></audio>
+    <div class="music-toggle" id="musicToggle" title="Toggle Music">
+      <span id="musicIcon">🎵</span>
+    </div>
+
+    <div class="cursor-ribbon" id="cursorRibbon">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M14 14 C10 10, 3 8, 4 13 C5 18, 11 16, 14 14Z"
+          fill="#e8a0a0"
+          opacity="0.9"
+        />
+        <path
+          d="M14 14 C18 10, 25 8, 24 13 C23 18, 17 16, 14 14Z"
+          fill="#d4788a"
+          opacity="0.9"
+        />
+        <path
+          d="M14 14 C10 10, 6 4, 11 4 C16 4, 15 10, 14 14Z"
+          fill="#e8a0a0"
+          opacity="0.85"
+        />
+        <path
+          d="M14 14 C18 10, 22 4, 17 4 C12 4, 13 10, 14 14Z"
+          fill="#d4788a"
+          opacity="0.85"
+        />
+        <path
+          d="M14 14 L11 22 Q10 24, 12 23 L14 17Z"
+          fill="#e8a0a0"
+          opacity="0.8"
+        />
+        <path
+          d="M14 14 L17 22 Q18 24, 16 23 L14 17Z"
+          fill="#d4788a"
+          opacity="0.8"
+        />
+        <circle cx="14" cy="14" r="2.5" fill="#c9a96e" />
+        <circle cx="14" cy="14" r="1.2" fill="#fff9f5" opacity="0.7" />
+      </svg>
+    </div>
+
+    <div class="teddy-wrap" id="teddyWrap">
+      <div class="zzz-wrap" id="zzzWrap">
+        <span>z</span>
+        <span>z</span>
+        <span>Z</span>
+      </div>
+
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g class="teddy-body-group" id="teddyBodyGroup">
+          <circle cx="12" cy="13" r="6" fill="#c9956a" />
+          <circle cx="36" cy="13" r="6" fill="#c9956a" />
+          <circle cx="12" cy="13" r="3.5" fill="#e8b89a" />
+          <circle cx="36" cy="13" r="3.5" fill="#e8b89a" />
+
+          <ellipse cx="24" cy="32" rx="13" ry="12" fill="#d4a574" />
+
+          <circle cx="24" cy="20" r="13" fill="#d4a574" />
+
+          <ellipse cx="24" cy="24" rx="7" ry="5" fill="#e8c4a0" opacity="0.8" />
+
+          <g class="eye-open">
+            <circle cx="19" cy="19" r="2.5" fill="#3a2030" />
+            <circle cx="29" cy="19" r="2.5" fill="#3a2030" />
+            <circle cx="20" cy="18.2" r="0.8" fill="white" />
+            <circle cx="30" cy="18.2" r="0.8" fill="white" />
+          </g>
+
+          <g class="eye-closed">
+            <path
+              d="M17 19 Q19 17.2 21 19"
+              stroke="#3a2030"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              fill="none"
+            />
+            <path
+              d="M27 19 Q29 17.2 31 19"
+              stroke="#3a2030"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              fill="none"
+            />
+          </g>
+
+          <ellipse cx="24" cy="23" rx="2.5" ry="1.8" fill="#a0604a" />
+
+          <path
+            d="M21.5 25.5 Q24 27.5 26.5 25.5"
+            stroke="#a0604a"
+            stroke-width="1.2"
+            stroke-linecap="round"
+            fill="none"
+          />
+
+          <circle cx="16" cy="23" r="3" fill="#e8a0a0" opacity="0.4" />
+          <circle cx="32" cy="23" r="3" fill="#e8a0a0" opacity="0.4" />
+
+          <ellipse
+            cx="10"
+            cy="33"
+            rx="4.5"
+            ry="6.5"
+            fill="#c9956a"
+            transform="rotate(-15 10 33)"
+          />
+          <ellipse
+            cx="38"
+            cy="33"
+            rx="4.5"
+            ry="6.5"
+            fill="#c9956a"
+            transform="rotate(15 38 33)"
+          />
+
+          <ellipse cx="17" cy="42" rx="5" ry="4" fill="#c9956a" />
+          <ellipse cx="31" cy="42" rx="5" ry="4" fill="#c9956a" />
+
+          <ellipse cx="24" cy="33" rx="7" ry="6" fill="#e8c4a0" opacity="0.5" />
+
+          <path
+            d="M24 8 C21 5, 17 5, 18 8 C19 11, 23 9, 24 8Z"
+            fill="#d4788a"
+          />
+          <path
+            d="M24 8 C27 5, 31 5, 30 8 C29 11, 25 9, 24 8Z"
+            fill="#e8a0a0"
+          />
+          <circle cx="24" cy="8" r="1.5" fill="#c9a96e" />
+        </g>
+      </svg>
+    </div>
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <div class="bg-layer" id="bgLayer"></div>
+
+    <nav class="nav-dots" id="navDots">
+      <div class="nav-dot active" data-index="0"></div>
+      <div class="nav-dot" data-index="1"></div>
+      <div class="nav-dot" data-index="2"></div>
+      <div class="nav-dot" data-index="3"></div>
+      <div class="nav-dot" data-index="4"></div>
+      <div class="nav-dot" data-index="5"></div>
+    </nav>
+
+    <section class="hero" data-section="0">
+      <div class="deco-flower" style="top: 12%; left: 8%; animation-delay: 0s">
+        🌸
+      </div>
+      <div
+        class="deco-flower"
+        style="top: 70%; right: 10%; animation-delay: 2s"
+      >
+        🌷
+      </div>
+      <div
+        class="deco-flower"
+        style="bottom: 15%; left: 15%; animation-delay: 4s; font-size: 2.5rem"
+      >
+        ✿
+      </div>
+
+      <p class="hero-eyebrow">You need to.. think better &nbsp;🌷</p>
+      <h1 class="hero-title">Hey,<br /><em>drishti</em></h1>
+      <p
+        class="hero-sub"
+        style="animation: fadeUp 1.1s ease 0.9s both; margin: 0 auto"
+      >
+        We did talk about this, but hmmm,, i guess this will be more effective
+        🫶
+      </p>
+    </section>
+
+    <section data-section="1">
+      <div class="card-wrap">
+        <div class="card" data-animate>
+          <div class="section-num">01 &nbsp; time...</div>
+          <h2 class="card-title">Great things<br /><em>take time.</em></h2>
+          <p class="body-text">
+            You know what? Feeling like you haven't arrived yet, haven't
+            "achieved" something yet, <strong>that restlessness</strong>, that
+            <strong>want</strong> for something more? that's not a..shortcoming.
+            That's actually a sign that you
+            <span class="highlight">care deeply</span> about what you're
+            building. It's just that you should not take it in the negative way?
+            Like i said, let that help push you, not out of your limits, but
+            more like a motivation. And tu hi boli thi na?
+          </p>
+          <div class="hindi">
+            Apna karm karte chalo, focus on karm, results ki chinta mat karo.
+          </div>
+          <p class="body-text">
+            You said it yourself. And you were right when you said it. Keep
+            doing your thing, keep working, keep creating, and the rest will
+            follow suittt. It always does ^^ hmm?
+            <span class="emoji-pop">🌷</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section data-section="2">
+      <div class="card-wrap">
+        <div class="card" data-animate>
+          <div class="section-num">02 &nbsp; your art</div>
+          <h2 class="card-title">About your<br /><em>drawings...</em></h2>
+          <p class="body-text">
+            Talking about the drawings, what are you expecting? The great
+            artists out there, that is what they do. Their entire life,
+            drishtii, it takes a lot of practice to be, i don't know, be
+            perfect? But when I saw those paintings and drawings of yours, wow..
+            : )))
+          </p>
+          <div class="quote-block">
+            <p class="quote-text">
+              You still don't fail to impress me, every single time I see them,
+              even on my watch. Kyu rakhha hai maine? Wo baat alag hai, ki..
+              I've got a.. deep, special connection with it's artist/owner. I've
+              even got a printout of the same painting in that IAF doc holder.
+              Cz it's beautiful, drishti, i really don't see why are you not
+              happy with what you create, and what you have created 🌷💝
+            </p>
+          </div>
+          <p class="body-text">
+            Your art <strong>lives</strong> with me. <em>Literally.</em>
+            <span class="emoji-pop">🌸</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section data-section="3">
+      <div class="card-wrap">
+        <div class="card" data-animate>
+          <div class="section-num">03 &nbsp; about you</div>
+          <h2 class="card-title">You are <em>not</em><br />egoistic.</h2>
+          <p class="body-text">
+            And talking about being egoistic, jo koi bhi bola hoga tujhe. Jaane
+            de na 🫂 It's you. 🌷
+          </p>
+          <p class="body-text">
+            I've been like this since my 10th standard. Keeping to myself,
+            speaking when necessary. Won't lie, but in 11th standard i guess, we
+            had an arts teacher. I was the class monitor, since 8th std,
+            teachers changed, but i still was the monitor. Anyway. So yeah, one
+            day asked in class, who's the most respected student in your class
+            😭 niggus said my name. She asked the reason too, but i don't
+            remember that FFS. I think they said jyaada bolta nahi. There's a
+            balance of everything.
+          </p>
+          <div class="hindi">
+            And you have that too.<br />
+            You just need to understand it.<br />
+            It's not being egoistic. Nope 🫂🌷
+          </div>
+          <p class="body-text">
+            The people who matter see you clearly. And they see someone
+            <span class="highlight">grounded, practical, composed, real.</span>
+            <center>
+              <br />Take the "<strong>foreseeable</strong>"-future for example.
+            </center>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section data-section="4">
+      <div class="card-wrap">
+        <div class="card" data-animate>
+          <div class="section-num">04 &nbsp; people</div>
+          <h2 class="card-title">
+            You can't keep<br /><em>everyone</em> happy.
+          </h2>
+          <p class="body-text">
+            And honestly? You don't have to. There are really just two kinds of
+            people in your world —
+          </p>
+          <div class="two-col">
+            <div class="type-card good">
+              <div class="type-icon">🌿</div>
+              <div class="type-title">
+                The ones who are genuinely happy for you
+              </div>
+              <div class="type-desc">
+                Happy for who you are. Cheering for you to grow. Wanting to see
+                you become the best version of yourself.
+              </div>
+            </div>
+            <div class="type-card bad">
+              <div class="type-icon">👁</div>
+              <div class="type-title">The ones who want to pull you down</div>
+              <div class="type-desc">
+                Jealous. Watching. And you know what that means? You're doing
+                something right.
+              </div>
+            </div>
+          </div>
+          <p class="body-text">
+            Yeppp I'm pretty sure there are <em>lots</em> of students in your
+            class who are so jealous of you. Because of how amazingly you are
+            doing, drishti.
+          </p>
+          <div class="hindi">
+            Keep doing what you are doing, getting better thodu sa by thodu sa
+            (little-little) every day. Cz that's what matters. You're not going
+            to achieve everything overnight. You have to be consistent. And keep
+            believing in yourself.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section data-section="5">
+      <div class="card-wrap">
+        <div class="card" data-animate>
+          <div class="section-num">05 &nbsp; your path</div>
+          <h2 class="card-title">It's <em>your</em> life.<br />Your call.</h2>
+          <p class="body-text">
+            No one gets to tell you what to do with it. Not relatives, not
+            friends, not anyone. You are going to have only yourself with you in
+            the future
+            <span class="highlight">(and I'll be there too, obviously)</span>,
+            and so yes. It's your call. What you want to become is yours to
+            decide.
+          </p>
+          <p class="body-text">
+            And talking about what you want to become, like we talked about
+            yesternight, you haven't even started college yet. Once you get into
+            college, you'll get to know about so much, and it'll all be so clear
+            to you.
+          </p>
+          <div class="hindi">
+            You haven't even begun, drishti. And look how far you already are.
+            🌷
+          </div>
+          <p class="body-text">
+            The world will open up in ways you can't imagine right now. Give it
+            time. Give yourself time. That's all.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-section" data-section="6">
+      <div class="final-card" data-animate-final>
+        <div
+          class="deco-flower"
+          style="top: 20px; right: 30px; font-size: 2rem; opacity: 0.15"
+        >
+          🌸
+        </div>
+        <div
+          class="deco-flower"
+          style="
+            bottom: 30px;
+            left: 20px;
+            font-size: 1.8rem;
+            opacity: 0.1;
+            animation-delay: 3s;
+          "
+        >
+          🌷
+        </div>
+
+        <span class="tag">always &nbsp;🌷</span>
+
+        <div class="final-big">I'm <em>here.</em><br />Always.</div>
+
+        <p class="final-body">
+          When it gets overwhelming, you don't have to carry it alone. I'm here
+          for you to share <em>anything</em> and <em>everything</em>, hmm? 🫂
+        </p>
+
+        <p class="final-body">
+          Every worry, every win, every little thing, no matter how tiny it
+          might be, every moment you feel too much, all of it, I'd carry it as
+          if it is/were... the most precious thing in the universe. Delicately.
+          You've got someone in your peaceful corner. <em>Always</em>.
+        </p>
+
+        <div class="signature">
+          <div class="sig-line"></div>
+          <p class="sig-text">with so much of.. hmm and care &nbsp;🌷💝</p>
+          <div class="sig-line"></div>
+        </div>
+
+        <div class="final-strong">"You're strong"</div>
+      </div>
+    </section>
+
+    <script>
+      const ribbon = document.getElementById("cursorRibbon");
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      function animRibbon() {
+        ribbon.style.left = mouseX + "px";
+        ribbon.style.top = mouseY + "px";
+        requestAnimationFrame(animRibbon);
+      }
+      animRibbon();
+
+      const teddy = document.getElementById("teddyWrap");
+      const zzzWrap = document.getElementById("zzzWrap");
+
+      let teddyX = window.innerWidth / 2;
+      let teddyY = window.innerHeight / 2;
+      let targetX = teddyX;
+      let targetY = teddyY;
+
+      let sleepTimer = null;
+      let isSleeping = false;
+      let isMoving = false;
+      let moveTimeout = null;
+
+      teddy.style.left = teddyX + "px";
+      teddy.style.top = teddyY + "px";
+
+      document.addEventListener("mousemove", (e) => {
+        targetX = e.clientX;
+        targetY = e.clientY;
+
+        if (isSleeping) {
+          isSleeping = false;
+          teddy.classList.remove("sleeping");
+          zzzWrap.classList.remove("visible");
+        }
+
+        if (!isMoving) {
+          isMoving = true;
+          teddy.classList.add("moving");
+        }
+        clearTimeout(moveTimeout);
+        moveTimeout = setTimeout(() => {
+          isMoving = false;
+          teddy.classList.remove("moving");
+        }, 150);
+
+        clearTimeout(sleepTimer);
+        sleepTimer = setTimeout(() => {
+          isSleeping = true;
+          teddy.classList.add("sleeping");
+          teddy.classList.remove("moving");
+          zzzWrap.classList.add("visible");
+        }, 3000);
+      });
+
+      function animTeddy() {
+        teddyX += (targetX - teddyX) * 0.07;
+        teddyY += (targetY - teddyY) * 0.07;
+
+        teddy.style.left = teddyX + "px";
+        teddy.style.top = teddyY + 22 + "px";
+
+        requestAnimationFrame(animTeddy);
+      }
+      animTeddy();
+
+      sleepTimer = setTimeout(() => {
+        isSleeping = true;
+        teddy.classList.add("sleeping");
+        zzzWrap.classList.add("visible");
+      }, 3000);
+
+      const petalEmojis = ["🌸", "🌷", "✿", "❀", "🌺"];
+      function spawnPetal() {
+        const p = document.createElement("div");
+        p.className = "petal";
+        p.textContent =
+          petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = 8 + Math.random() * 10 + "s";
+        p.style.animationDelay = Math.random() * 4 + "s";
+        p.style.fontSize = 10 + Math.random() * 12 + "px";
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 22000);
+      }
+      setInterval(spawnPetal, 1800);
+
+      // ─── AUDIO PLAYBACK ───
+      const playMusic = () => {
+        const music = document.getElementById("bgMusic");
+        if (music && music.paused) {
+          music.play().catch(() => {
+            console.log(
+              "Autoplay blocked by browser. Music will play on first interaction.",
+            );
+          });
+        }
+        // Remove listeners once playback starts
+        ["click", "touchstart", "scroll", "mousedown"].forEach((event) => {
+          document.removeEventListener(event, playMusic);
+        });
+      };
+
+      // Attempt play on load
+      window.addEventListener("DOMContentLoaded", playMusic);
+      // Fallback for interaction
+      ["click", "touchstart", "scroll", "mousedown"].forEach((event) => {
+        document.addEventListener(event, playMusic);
+      });
+
+      // Toggle Logic
+      const musicToggle = document.getElementById("musicToggle");
+      const musicIcon = document.getElementById("musicIcon");
+      const music = document.getElementById("bgMusic");
+
+      musicToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (music.paused) {
+          music.play();
+          musicToggle.classList.add("playing");
+          musicIcon.textContent = "🎵";
+        } else {
+          music.pause();
+          musicToggle.classList.remove("playing");
+          musicIcon.textContent = "🔇";
+        }
+      });
+
+      music.onplay = () => {
+        musicToggle.classList.add("playing");
+        musicIcon.textContent = "🎵";
+      };
+      music.onpause = () => {
+        musicToggle.classList.remove("playing");
+        musicIcon.textContent = "🔇";
+      };
+
+      const bgLayer = document.getElementById("bgLayer");
+      const progressBar = document.getElementById("progressBar");
+      const navDots = document.querySelectorAll(".nav-dot");
+      const sections = document.querySelectorAll("section");
+      const cards = document.querySelectorAll("[data-animate]");
+      const finalCard = document.querySelector("[data-animate-final]");
+
+      const bgs = [
+        "radial-gradient(ellipse at 30% 20%, #fce4ec 0%, #fdf6f0 55%, #fce4ec55 100%)",
+        "radial-gradient(ellipse at 70% 30%, #ffe0b2 0%, #fff9f5 50%, #fce4ec44 100%)",
+        "radial-gradient(ellipse at 20% 70%, #e8f5e9 0%, #f9fbe7 50%, #fce4ec33 100%)",
+        "radial-gradient(ellipse at 60% 60%, #f3e5f5 0%, #fdf6f0 50%, #ede7f644 100%)",
+        "radial-gradient(ellipse at 80% 20%, #e3f2fd 0%, #fdf6f0 55%, #fce4ec44 100%)",
+        "radial-gradient(ellipse at 40% 80%, #fce4ec 0%, #fff9f5 50%, #f8bbd044 100%)",
+        "radial-gradient(ellipse at 50% 50%, #fce4ec 0%, #fff3e0 50%, #fdf6f0 100%)",
+      ];
+
+      function onScroll() {
+        const scrollY = window.scrollY;
+        const total = document.body.scrollHeight - window.innerHeight;
+        progressBar.style.width = (scrollY / total) * 100 + "%";
+
+        const idx = Math.min(
+          Math.floor(scrollY / (total / bgs.length)),
+          bgs.length - 1,
+        );
+        bgLayer.style.background = bgs[idx];
+
+        cards.forEach((card) => {
+          if (card.getBoundingClientRect().top < window.innerHeight * 0.88)
+            card.classList.add("visible");
+        });
+        if (
+          finalCard &&
+          finalCard.getBoundingClientRect().top < window.innerHeight * 0.9
+        )
+          finalCard.classList.add("visible");
+
+        sections.forEach((sec, i) => {
+          const rect = sec.getBoundingClientRect();
+          if (
+            rect.top <= window.innerHeight * 0.5 &&
+            rect.bottom > window.innerHeight * 0.5
+          ) {
+            navDots.forEach((d) => d.classList.remove("active"));
+            if (navDots[i]) navDots[i].classList.add("active");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      navDots.forEach((dot, i) => {
+        dot.addEventListener("click", () => {
+          sections[i]?.scrollIntoView({ behavior: "smooth" });
+        });
+      });
+    </script>
+  </body>
+</html>
