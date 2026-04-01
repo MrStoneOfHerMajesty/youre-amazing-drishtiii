@@ -1,0 +1,1044 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I Value you, drish..♾️</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0e0b08;
+        --warm-0: #1a1208;
+        --warm-1: #2a1e0f;
+        --amber: #c8832a;
+        --amber-soft: #e8a84e;
+        --cream: #f5ead8;
+        --cream-dim: #c9b89a;
+        --rose: #d4856e;
+        --rose-soft: #e8b4a2;
+        --text: #ddd0bc;
+        --text-dim: #9a8870;
+        --gold: #d4a843;
+        --gold-dim: #8a6c2a;
+      }
+
+      html {
+        cursor: none;
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "EB Garamond", serif;
+        font-size: 18px;
+        line-height: 1.8;
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      #cursor-walker {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        font-size: 28px;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -80%);
+        transition: none;
+        will-change: transform;
+        filter: drop-shadow(0 2px 8px rgba(200, 131, 42, 0.4));
+      }
+      #cursor-walker.walking {
+        animation: walk-bob 0.35s ease-in-out infinite alternate;
+      }
+      #cursor-walker.kneeling {
+        animation: kneel-sway 2.5s ease-in-out infinite alternate;
+        transform: translate(-50%, -60%);
+      }
+      @keyframes walk-bob {
+        0% {
+          transform: translate(-50%, -80%) rotate(-4deg) scaleX(1);
+        }
+        50% {
+          transform: translate(-50%, -68%) rotate(0deg) scaleX(1.05);
+        }
+        100% {
+          transform: translate(-50%, -80%) rotate(4deg) scaleX(1);
+        }
+      }
+      @keyframes kneel-sway {
+        0% {
+          transform: translate(-50%, -60%) rotate(-2deg);
+        }
+        100% {
+          transform: translate(-50%, -60%) rotate(2deg);
+        }
+      }
+
+      #bg-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.6;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at center,
+          transparent 30%,
+          rgba(0, 0, 0, 0.7) 100%
+        );
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .wrapper {
+        position: relative;
+        z-index: 2;
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 24px 120px;
+      }
+
+      .site-header {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 80px 0;
+        position: relative;
+      }
+
+      .header-time {
+        font-family: "EB Garamond", serif;
+        font-style: italic;
+        color: var(--text-dim);
+        font-size: 15px;
+        letter-spacing: 0.15em;
+        opacity: 0;
+        animation: fade-up 1s 0.3s forwards;
+      }
+
+      .header-title {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(52px, 10vw, 90px);
+        color: var(--cream);
+        font-weight: 500;
+        line-height: 1.1;
+        margin: 20px 0 10px;
+        opacity: 0;
+        animation: fade-up 1.2s 0.6s forwards;
+        text-shadow:
+          0 0 60px rgba(200, 131, 42, 0.3),
+          0 0 20px rgba(200, 131, 42, 0.15);
+      }
+
+      .header-subtitle {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        color: var(--amber-soft);
+        font-size: clamp(16px, 3vw, 22px);
+        opacity: 0;
+        animation: fade-up 1s 1s forwards;
+        letter-spacing: 0.03em;
+      }
+
+      .scroll-hint {
+        position: absolute;
+        bottom: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        animation: fade-up 1s 1.8s forwards;
+        color: var(--text-dim);
+        font-size: 13px;
+        letter-spacing: 0.1em;
+      }
+      .scroll-hint::after {
+        content: "";
+        width: 1px;
+        height: 40px;
+        background: linear-gradient(to bottom, var(--amber-soft), transparent);
+        animation: pulse-line 2s ease-in-out infinite;
+      }
+      @keyframes pulse-line {
+        0%,
+        100% {
+          opacity: 0.4;
+          transform: scaleY(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scaleY(1.1);
+        }
+      }
+
+      .letter-wrap {
+        margin: 0 0 80px;
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.9s ease,
+          transform 0.9s ease;
+      }
+      .letter-wrap.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .letter {
+        background: linear-gradient(
+          135deg,
+          #1c1508 0%,
+          #241a0c 50%,
+          #1a1208 100%
+        );
+        border: 1px solid var(--gold-dim);
+        border-radius: 2px;
+        padding: 48px 52px;
+        position: relative;
+        box-shadow:
+          0 0 60px rgba(200, 131, 42, 0.08),
+          inset 0 0 80px rgba(0, 0, 0, 0.4);
+      }
+      .letter::before {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border: 1px solid rgba(212, 168, 67, 0.12);
+        border-radius: 1px;
+        pointer-events: none;
+      }
+
+      .letter-corner {
+        position: absolute;
+        font-size: 22px;
+        opacity: 0.5;
+      }
+      .letter-corner.tl {
+        top: 14px;
+        left: 14px;
+      }
+      .letter-corner.tr {
+        top: 14px;
+        right: 14px;
+        transform: scaleX(-1);
+      }
+      .letter-corner.bl {
+        bottom: 14px;
+        left: 14px;
+        transform: scaleY(-1);
+      }
+      .letter-corner.br {
+        bottom: 14px;
+        right: 14px;
+        transform: scale(-1);
+      }
+
+      .letter-body {
+        font-family: "EB Garamond", serif;
+        font-size: 19px;
+        line-height: 2;
+        color: var(--cream-dim);
+        white-space: pre-wrap;
+      }
+      .letter-body em {
+        color: var(--rose-soft);
+        font-style: italic;
+      }
+      .letter-body strong {
+        color: var(--cream);
+        font-weight: 500;
+      }
+      .letter-sig {
+        margin-top: 32px;
+        font-family: "Dancing Script", cursive;
+        font-size: 28px;
+        color: var(--amber-soft);
+        text-align: right;
+      }
+
+      .section-title {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: 13px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        text-align: center;
+        margin: 80px 0 50px;
+        position: relative;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .section-title.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .section-title::before,
+      .section-title::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 25%;
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--gold-dim));
+      }
+      .section-title::before {
+        left: 0;
+        background: linear-gradient(to right, transparent, var(--gold-dim));
+      }
+      .section-title::after {
+        right: 0;
+        background: linear-gradient(to left, transparent, var(--gold-dim));
+      }
+
+      .convo {
+        margin-bottom: 60px;
+        opacity: 0;
+        transform: translateY(50px);
+        transition:
+          opacity 1s ease,
+          transform 1s ease;
+      }
+      .convo.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .convo-her {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 20px;
+      }
+      .avatar-dot {
+        width: 10px;
+        height: 10px;
+        background: var(--rose);
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 12px;
+        box-shadow: 0 0 12px var(--rose);
+        animation: glow-pulse 3s ease-in-out infinite;
+      }
+      @keyframes glow-pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 8px var(--rose);
+        }
+        50% {
+          box-shadow:
+            0 0 18px var(--rose-soft),
+            0 0 32px rgba(212, 133, 110, 0.3);
+        }
+      }
+      .her-text {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        color: var(--rose-soft);
+        font-size: 17px;
+        line-height: 1.75;
+        background: rgba(212, 133, 110, 0.06);
+        border-left: 2px solid var(--rose);
+        padding: 14px 18px;
+        border-radius: 0 6px 6px 0;
+        flex: 1;
+      }
+      .her-label {
+        font-family: "EB Garamond", serif;
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--rose);
+        margin-bottom: 6px;
+        opacity: 0.7;
+      }
+
+      .convo-me {
+        margin-left: 24px;
+        padding: 22px 26px;
+        background: linear-gradient(
+          135deg,
+          rgba(200, 131, 42, 0.07),
+          rgba(200, 131, 42, 0.03)
+        );
+        border: 1px solid rgba(200, 131, 42, 0.18);
+        border-radius: 0 8px 8px 8px;
+        position: relative;
+      }
+      .convo-me::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -1px;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--amber), transparent);
+        border-radius: 3px 0 0 3px;
+      }
+      .me-label {
+        font-family: "EB Garamond", serif;
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--amber);
+        margin-bottom: 10px;
+        opacity: 0.7;
+      }
+      .me-text {
+        color: var(--cream-dim);
+        font-size: 17.5px;
+        line-height: 1.9;
+        white-space: pre-wrap;
+      }
+      .me-text .sigh {
+        color: var(--amber);
+        font-style: italic;
+      }
+      .me-text .emph {
+        color: var(--cream);
+      }
+      .me-text .soft {
+        color: var(--text-dim);
+        font-size: 15px;
+      }
+
+      .timestamp {
+        font-family: "EB Garamond", serif;
+        font-style: italic;
+        font-size: 13px;
+        color: var(--text-dim);
+        margin: 6px 0 12px 24px;
+        letter-spacing: 0.05em;
+        opacity: 0.6;
+      }
+
+      .divider {
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--gold-dim),
+          transparent
+        );
+        margin: 12px 0;
+        opacity: 0.4;
+      }
+
+      .closing {
+        text-align: center;
+        padding: 80px 20px 40px;
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 1s ease,
+          transform 1s ease;
+      }
+      .closing.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .closing-main {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(38px, 8vw, 68px);
+        color: var(--amber-soft);
+        line-height: 1.2;
+        text-shadow: 0 0 40px rgba(200, 131, 42, 0.25);
+        margin-bottom: 16px;
+      }
+      .closing-sub {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        color: var(--text-dim);
+        font-size: 16px;
+        letter-spacing: 0.05em;
+      }
+      .closing-heart {
+        font-size: 28px;
+        margin-top: 24px;
+        display: block;
+        animation: heartbeat 2s ease-in-out infinite;
+      }
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+          filter: drop-shadow(0 0 8px rgba(212, 133, 110, 0.5));
+        }
+        25% {
+          transform: scale(1.15);
+          filter: drop-shadow(0 0 18px rgba(212, 133, 110, 0.8));
+        }
+        50% {
+          transform: scale(1);
+          filter: drop-shadow(0 0 8px rgba(212, 133, 110, 0.5));
+        }
+        75% {
+          transform: scale(1.08);
+          filter: drop-shadow(0 0 14px rgba(212, 133, 110, 0.7));
+        }
+      }
+
+      @keyframes fade-up {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .letter {
+          padding: 32px 28px;
+        }
+        .convo-me {
+          margin-left: 0;
+        }
+        .letter-body {
+          font-size: 17px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="bg-music" loop autoplay>
+      <source src="src/signOfTheTimes.mp3" type="audio/mpeg" />
+    </audio>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const audio = document.getElementById("bg-music");
+        audio.volume = 0.6;
+        const tryPlay = () => {
+          audio.play().catch(() => {});
+        };
+        tryPlay();
+
+        const playOnInteract = () => {
+          if (audio.paused) {
+            audio.play();
+          }
+          document.removeEventListener("click", playOnInteract);
+          document.removeEventListener("touchstart", playOnInteract);
+          document.removeEventListener("keydown", playOnInteract);
+        };
+
+        document.addEventListener("click", playOnInteract);
+        document.addEventListener("touchstart", playOnInteract);
+        document.addEventListener("keydown", playOnInteract);
+      });
+    </script>
+    <div id="cursor-walker">🚶</div>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="wrapper">
+      <header class="site-header">
+        <p class="header-time">1st April, 2026</p>
+        <h1 class="header-title">i'm sorry, drishti.</h1>
+        <p class="header-subtitle">
+          for the short texts. for the silence. for not being myself.
+        </p>
+        <div class="scroll-hint">read on, you precious sweet soul</div>
+      </header>
+
+      <div class="letter-wrap" data-reveal>
+        <div class="letter">
+          <span class="letter-corner tl">✦</span>
+          <span class="letter-corner tr">✦</span>
+          <span class="letter-corner bl">✦</span>
+          <span class="letter-corner br">✦</span>
+          <div class="letter-body">
+            <em>I didn't go offline because I needed space.</em>
+
+            I <strong>want</strong> to talk to you. always. but I don't want to
+            take too much of your time..especially during exams. I am so sorry
+            for the short, lifeless texts. It's 19:37 right now. I'm just going
+            to... cry for a bit. and then come back. and reply to each of your
+            beautiful, precious texts.
+
+            <em>the ones you deserved better replies to, all along.</em>
+          </div>
+          <div class="letter-sig">— yours.. 🫂</div>
+        </div>
+      </div>
+
+      <div class="section-title" data-reveal>
+        what I...should have and wanted to say
+      </div>
+
+      <div class="convo" data-reveal>
+        <div class="convo-her">
+          <div class="avatar-dot"></div>
+          <div class="her-text">
+            <div class="her-label">You</div>
+            "And wheennn aree you planning on sending it too meeeeeeeeeeeeee" 🥺
+          </div>
+        </div>
+        <div class="convo-me">
+          <div class="me-label">me..</div>
+          <div class="me-text">
+            <span class="sigh">: )))))))))))))))))</span>
+
+            <span class="sigh">Sighhhhh.....</span> to be honest... i've been a
+            bit conscious and careful, about when to text you. Until your exams
+            end.. cz yeah well.. you know why. ek to I don't.. want to disturb
+            you. nor do I want to be overwhelming in a bad way.. so yeah.. I
+            wait for your texts. and only text first when I can't control it
+            anymore.
+
+            <span class="emph"
+              >But hmm, sigh.. maybe after your exams I won't be like this much.
+              I'll just send it to you as soon as I record it. ^^</span
+            >
+
+            And awwwhhh... goshhh soo manyy letterssss drishtiiiiiii 🫂🫂🫂
+
+            <span class="sigh">Sigh</span> I am feeling so fucking guilty and
+            bad. I'm sorry yaar drishti... I just got a bit melancholic when you
+            replied to that appearance wala text later and not when you saw it.
+            I thought you'd said something..
+
+            <span class="soft"
+              >sigh I forgot what you had said in that message about texting
+              when you actually feel like..</span
+            >
+
+            I am sorry.
+          </div>
+        </div>
+      </div>
+
+      <div class="convo" data-reveal>
+        <div class="convo-her">
+          <div class="avatar-dot"></div>
+          <div class="her-text">
+            <div class="her-label">You</div>
+            "Kaustubhhhhhhh X))))) goshhhh... That's soo... endearinggg.. and
+            the wayy you wereeee uhh.. laughing a littleeeee 🫶"
+          </div>
+        </div>
+        <div class="convo-me">
+          <div class="me-label">me..</div>
+          <div class="me-text">
+            <span class="sigh">sighh... hmm..</span> I didn't really feel the
+            emotions at that time when you sent it.. like usual. Usually it
+            makes me so happy that you'd see it in my reply itself. I'm sorry.
+
+            <span class="soft"
+              >I'll just take a break of 5 minutes.. let it all go, watch some
+              of your videos for 3-4 minutes, to get myself back again and get
+              back to this.. 🫂</span
+            >
+
+            You were right, you know. You were right when you said you can write
+            better poetry when you're melancholic. I get it now. Being
+            melancholic is what... helps me do it. What makes it real.
+            djhnfusyefgioaeuwybfrgksrabfraiseifoaxruw : (((((((((Sighhh...
+            fuckkkkkkkkkkk...... yaaar.
+            <span class="emph"
+              >tuu na. You are so 🚒 powerful drishtiiiiiiiii.</span
+            >
+
+            Goshhhhhhh 😭😭😭 goosebumpssssss. I wish I could admire and be
+            happy for just a bit longer. I'm still getting goosebumps.
+
+            <span class="emph"
+              >My name with letter overload : )))))))) 🫶💝</span
+            >
+            the way you mentioned my stupid little laughs... 🫂🫂🫂🫂 I feel so
+            bad for the way I was earlier, drishti. I am sorry.
+            <em>genuinely.</em>
+          </div>
+        </div>
+      </div>
+      <div class="convo" data-reveal>
+        <div class="convo-her">
+          <div class="avatar-dot"></div>
+          <div class="her-text">
+            <div class="her-label">You</div>
+            "I cannn imagineere.. like a millitary person 😭 acha haiiiiiii"
+          </div>
+        </div>
+        <div class="convo-me">
+          <div class="me-label">me..</div>
+          <div class="me-text">
+            <span class="sigh">: )))))))))))</span> ^^^^^^^^^ mm-hmmmmmmm.
+
+            <span class="sigh">sighhhh...</span> I will be better, drishti. This
+            young man will be better. and he will work hard. to achieve
+            "everything" he wishes for.
+
+            <span class="emph">IAF fighter pilot. and... 🫂</span>
+
+            Can't wait to see the happiness on your face. : ))) and my family's
+            too. ^^
+          </div>
+        </div>
+      </div>
+
+      <div class="convo" data-reveal>
+        <div class="convo-her">
+          <div class="avatar-dot"></div>
+          <div class="her-text">
+            <div class="her-label">You</div>
+            "Tskkk I'm sorryyyy papa isn't home yettt I'll tryy to seee"
+          </div>
+        </div>
+        <div class="convo-me">
+          <div class="me-label">me..</div>
+          <div class="me-text">
+            <span class="sigh">Sighhh..</span> you know you didn't have to say
+            sorry for that, na.
+            <em>please sorry mat bola kar.</em>
+            It's just... it's not just about my curiosity in you and everything
+            you do. I really don't want your efforts to go to waste. I want them
+            to reach me. When I say that whatever you do.. from the tiniest to
+            the grandest things.. I
+            <span class="emph">value, love, treasure, adore</span> them.
+            Literally a lot.
+            <span class="soft"
+              >another reason why i'm writing all of this. making this website.
+              because for a moment i forgot how much I really, truly value your
+              precious texts...</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="convo" data-reveal>
+        <div class="convo-her">
+          <div class="avatar-dot"></div>
+          <div class="her-text">
+            <div class="her-label">You</div>
+            "Because I didn't reply to it earlier?"
+          </div>
+        </div>
+        <div class="convo-me">
+          <div class="me-label">me..</div>
+          <div class="me-text">
+            <span class="sigh">I'm... sorry, drishti.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="convo" data-reveal>
+        <div class="convo-her">
+          <div class="avatar-dot"></div>
+          <div class="her-text">
+            <div class="her-label">You</div>
+            "Let me get my budssss"
+          </div>
+        </div>
+        <div class="convo-me">
+          <div class="me-label">me..</div>
+          <div class="me-text">
+            <span class="sigh">: ))))))))))</span>
+
+            you're such a sw..... hmm. 🫂
+          </div>
+        </div>
+      </div>
+
+      <div class="convo" data-reveal>
+        <div class="convo-her">
+          <div class="avatar-dot"></div>
+          <div class="her-text">
+            <div class="her-label">You</div>
+            "Good evening.. : ))))))))) That's better than a hot environmentttt
+            😭 Yaayyyy barely two weekss^^^^ I think xl6 will be here by the
+            next week tooo Patience.. hmmm.. welllllllllllllll i reckonnnnn
+            🫂.."
+          </div>
+        </div>
+        <div class="convo-me">
+          <div class="me-label">me..</div>
+          <div class="me-text">
+            : )))))))) awwwwwwwwhhhhhh that reminds of your beautiful smile...
+            Heheheh indeeeeeeed. Sardiiii hoo gayiii thodii siiii aaahhh.
+            Seeedha sar par aa rahi thi na hawaaa and that too with so much of
+            forceee gosh. : ))))))))))) Hehehehehehehhheheheehhehehe haiiiiiii
+            naaaaaaaaaaa. Can;ttt waittt Can'ttttt waittttttt can'ttttttttttt
+            waiiiiiiiitttttttttttttttttttttttttttttt : )))))))))
+            Yayayayaayayaayyayayayayayayayayyyyyyyyy hehehehehe Xl6 itniiii
+            jaldiii aa gayiiiiiiii 🥳🥳🥳🥳🥳🥳🥳🥳🥳 Mm-hmmmmmmmmhehhehhe
+            yeeepsieeeeees You reckonnnnnnn???? Youuuhh should be sureeeeeeee
+            X)))
+          </div>
+        </div>
+      </div>
+
+      <div class="convo" data-reveal>
+        <div class="convo-her">
+          <div class="avatar-dot"></div>
+          <div class="her-text">
+            <div class="her-label">You</div>
+            "I know I can 🫂 but I'll listen to it now.. thankeww 🫂"
+          </div>
+        </div>
+        <div class="convo-me">
+          <div class="me-label">me..</div>
+          <div class="me-text">
+            <span class="sigh">: )))</span>
+
+            and.. drishti. I am so grateful. and thankful. for that.
+            🫂🫂🫂💝💝💝💝💝💝💝💝💝💝
+
+            <span class="emph"
+              >Thank you SO much,
+              drishtiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii</span
+            >
+            🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂🫂
+            💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝💝
+            🌷🌷🌷🌷🌏🏡♾️ I'm so sorry.
+          </div>
+        </div>
+      </div>
+
+      <div class="convo" data-reveal>
+        <div class="convo-her">
+          <div class="avatar-dot"></div>
+          <div class="her-text">
+            <div class="her-label">You</div>
+            "Today's conversation..😭 welllllllllllllll yeaah it wasss. Just
+            like most of our conversations 😭"
+          </div>
+        </div>
+        <div class="convo-me">
+          <div class="me-label">me..</div>
+          <div class="me-text">
+            <span class="sigh"
+              >Awwwwwwwwwwwhhhhhhhhhhhhh : )))))))))))))))</span
+            >
+
+            <span class="emph"
+              >Youuuhhhh areeeeeee soooooooo rightttttttt : )))))))))))))</span
+            >
+
+            JUST like most of our conversations ^^
+            <span class="sigh">: ))))))</span>
+
+            <em
+              >and I love every single one of them. even tonight. even when I
+              wasn't myself. because it was still you, on the other side.</em
+            >
+            🫂
+          </div>
+        </div>
+      </div>
+
+      <div class="closing" data-reveal>
+        <div class="closing-main">i'm sorry, my lady.</div>
+        <span class="closing-heart">🫂</span>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const canvas = document.getElementById("bg-canvas");
+        const ctx = canvas.getContext("2d");
+        let W,
+          H,
+          particles = [],
+          petals = [];
+
+        function resize() {
+          W = canvas.width = window.innerWidth;
+          H = canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        for (let i = 0; i < 90; i++) {
+          particles.push({
+            x: Math.random() * 3000,
+            y: Math.random() * 3000,
+            r: Math.random() * 1.4 + 0.3,
+            dx: (Math.random() - 0.5) * 0.15,
+            dy: -(Math.random() * 0.2 + 0.05),
+            alpha: Math.random() * 0.5 + 0.1,
+            pulse: Math.random() * Math.PI * 2,
+          });
+        }
+
+        function makePetal() {
+          return {
+            x: Math.random() * W,
+            y: -30,
+            size: Math.random() * 8 + 5,
+            dx: (Math.random() - 0.5) * 0.6,
+            dy: Math.random() * 0.5 + 0.25,
+            angle: Math.random() * Math.PI * 2,
+            dangle: (Math.random() - 0.5) * 0.015,
+            alpha: Math.random() * 0.35 + 0.1,
+            hue: Math.random() > 0.5 ? 28 : 340,
+          };
+        }
+        for (let i = 0; i < 18; i++) {
+          const p = makePetal();
+          p.y = Math.random() * H;
+          petals.push(p);
+        }
+
+        let scrollY = 0;
+        window.addEventListener("scroll", () => {
+          scrollY = window.scrollY;
+        });
+
+        function draw() {
+          ctx.clearRect(0, 0, W, H);
+
+          const t = Date.now() * 0.001;
+
+          particles.forEach((p) => {
+            p.pulse += 0.012;
+            const alpha = p.alpha * (0.7 + 0.3 * Math.sin(p.pulse));
+            ctx.beginPath();
+            ctx.arc(
+              (p.x + scrollY * p.dx * 3) % W,
+              (((p.y + t * p.dy * 60) % H) + H) % H,
+              p.r,
+              0,
+              Math.PI * 2,
+            );
+            ctx.fillStyle = `rgba(200,168,100,${alpha})`;
+            ctx.fill();
+          });
+
+          petals.forEach((p, i) => {
+            p.x += p.dx;
+            p.y += p.dy;
+            p.angle += p.dangle;
+            if (p.y > H + 30) {
+              petals[i] = makePetal();
+              return;
+            }
+
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.angle);
+            ctx.scale(1, 0.5);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, p.size, p.size * 0.6, 0, 0, Math.PI * 2);
+            ctx.fillStyle = `hsla(${p.hue}, 50%, 70%, ${p.alpha})`;
+            ctx.fill();
+            ctx.restore();
+          });
+
+          requestAnimationFrame(draw);
+        }
+        draw();
+      })();
+
+      (function () {
+        const el = document.getElementById("cursor-walker");
+        let mx = window.innerWidth / 2,
+          my = window.innerHeight / 2;
+        let cx = mx,
+          cy = my;
+        let idle = false;
+        let idleTimer = null;
+        let lastX = mx,
+          lastY = my;
+        let isMoving = false;
+        let moveTimeout = null;
+
+        document.addEventListener("mousemove", (e) => {
+          mx = e.clientX;
+          my = e.clientY;
+
+          if (idle) {
+            idle = false;
+            el.textContent = "🚶";
+            el.classList.remove("kneeling");
+            el.classList.add("walking");
+          }
+
+          isMoving = true;
+          clearTimeout(moveTimeout);
+          moveTimeout = setTimeout(() => {
+            isMoving = false;
+            el.classList.remove("walking");
+          }, 120);
+
+          clearTimeout(idleTimer);
+          idleTimer = setTimeout(() => {
+            idle = true;
+            el.textContent = "🧎‍♂️";
+            el.classList.remove("walking");
+            el.classList.add("kneeling");
+          }, 8000);
+        });
+
+        function lerp(a, b, t) {
+          return a + (b - a) * t;
+        }
+
+        function tick() {
+          cx = lerp(cx, mx, 0.15);
+          cy = lerp(cy, my, 0.15);
+
+          const dx = mx - cx;
+          const moving = Math.abs(dx) > 0.5 || Math.abs(my - cy) > 0.5;
+
+          if (moving && !idle) {
+            el.classList.add("walking");
+            if (dx < -1)
+              el.style.transform = `translate(-50%, -80%) scaleX(-1)`;
+            else el.style.transform = "";
+          }
+
+          el.style.left = cx + "px";
+          el.style.top = cy + "px";
+          requestAnimationFrame(tick);
+        }
+        tick();
+      })();
+
+      (function () {
+        const els = document.querySelectorAll("[data-reveal]");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("visible");
+                observer.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
+        );
+        els.forEach((el) => observer.observe(el));
+      })();
+    </script>
+  </body>
+</html>
