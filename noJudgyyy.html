@@ -349,7 +349,6 @@
         box-shadow: 0 4px 18px rgba(0, 0, 0, 0.09);
       }
 
-      /* ── Soft pulse ── */
       .soft-pulse {
         display: inline-block;
         animation: pulse 2.5s ease-in-out infinite;
@@ -610,6 +609,110 @@
         transform: scale(1.3);
       }
 
+      .exam-card {
+        margin-top: 44px;
+        padding: 36px 32px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 248, 230, 0.7) 0%,
+          rgba(255, 230, 200, 0.6) 100%
+        );
+        border: 1px solid rgba(255, 210, 150, 0.55);
+        border-radius: 32px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(22px);
+        transition:
+          opacity 0.8s var(--ease),
+          transform 0.8s var(--ease);
+        box-shadow:
+          0 4px 24px rgba(217, 160, 80, 0.12),
+          inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      }
+
+      .exam-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .exam-card::before {
+        content: "✨";
+        position: absolute;
+        top: 12px;
+        left: 18px;
+        font-size: 1.1rem;
+        opacity: 0.6;
+        animation: pulse 3s ease-in-out infinite;
+      }
+
+      .exam-card::after {
+        content: "✨";
+        position: absolute;
+        bottom: 12px;
+        right: 18px;
+        font-size: 1.1rem;
+        opacity: 0.6;
+        animation: pulse 3s ease-in-out 1.5s infinite;
+      }
+
+      .exam-card-text {
+        font-family: "Caveat", cursive;
+        font-size: 1.55rem;
+        color: var(--text-dark);
+        line-height: 1.65;
+        font-weight: 500;
+      }
+
+      .atvb-badge {
+        display: inline-block;
+        background: linear-gradient(90deg, #f5c842, #e8964a, #f5c842);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-family: "Instrument Serif", serif;
+        font-size: 1.75rem;
+        font-style: italic;
+        font-weight: 400;
+        letter-spacing: 2px;
+        animation: goldShimmer 3s linear infinite;
+        position: relative;
+      }
+
+      .atvb-badge::after {
+        content: "";
+        position: absolute;
+        bottom: 2px;
+        left: 0;
+        width: 100%;
+        height: 7px;
+        background: linear-gradient(
+          90deg,
+          rgba(245, 200, 66, 0.35),
+          rgba(232, 150, 74, 0.35)
+        );
+        border-radius: 4px;
+        z-index: -1;
+      }
+
+      @keyframes goldShimmer {
+        0% {
+          background-position: 200% center;
+        }
+        100% {
+          background-position: 0% center;
+        }
+      }
+
+      .exam-name {
+        font-family: "Instrument Serif", serif;
+        font-style: italic;
+        color: var(--accent-pop);
+        font-size: 1.6rem;
+      }
+
       @media (max-width: 600px) {
         .glass-card {
           padding: 40px 24px;
@@ -750,11 +853,29 @@
         <div class="footer-note">
           stay as you are<span class="punctuations">,,,</span> okay?
         </div>
+
+        <div class="exam-card" id="examCard">
+          <div class="exam-card-text">
+            <span class="atvb-badge">All The Very Best</span> for tomorrow's
+            exam,
+            <br />
+            <span class="exam-name">drishtiiiiiii</span> 🌟
+            <br />
+            <small
+              style="
+                font-size: 1.1rem;
+                color: var(--text-muted);
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-weight: 300;
+              "
+              >🫂^^you've got thissss ^^🫂</small
+            >
+          </div>
+        </div>
       </div>
     </div>
 
     <script>
-      /* ── Taco rain ── */
       (function () {
         const bg = document.getElementById("tacoBg");
         const count = 22;
@@ -795,6 +916,18 @@
       );
 
       rows.forEach((r) => observer.observe(r));
+
+      const examCard = document.getElementById("examCard");
+      const examObs = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            entries[0].target.classList.add("visible");
+            examObs.disconnect();
+          }
+        },
+        { threshold: 0.15 },
+      );
+      examObs.observe(examCard);
 
       const footerObs = new IntersectionObserver(
         (entries) => {
