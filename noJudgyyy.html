@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>No Judgy Wudgy 🫂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&family=Caveat:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --soft-cream: #fffcf9;
+        --soft-lavender: #f3e9f5;
+        --soft-peach: #fff0eb;
+        --text-dark: #4a3e3e;
+        --text-muted: #8c7a7a;
+        --accent-warm: #d9b8a9;
+        --accent-pop: #c4937a;
+        --glass: rgba(255, 255, 255, 0.45);
+        --ease: cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background: var(--soft-cream);
+        color: var(--text-dark);
+        min-height: 100vh;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: default;
+      }
+
+      .background-blobs {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        filter: blur(80px);
+        opacity: 0.65;
+      }
+
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        animation: blobMove linear infinite alternate;
+      }
+
+      .blob-1 {
+        width: 420px;
+        height: 420px;
+        background: var(--soft-lavender);
+        top: -100px;
+        right: -50px;
+        animation-duration: 20s;
+      }
+
+      .blob-2 {
+        width: 520px;
+        height: 520px;
+        background: var(--soft-peach);
+        bottom: -150px;
+        left: -100px;
+        animation-duration: 25s;
+      }
+
+      .blob-3 {
+        width: 280px;
+        height: 280px;
+        background: #fde8f0;
+        top: 40%;
+        left: 60%;
+        animation-duration: 18s;
+        animation-direction: alternate-reverse;
+      }
+
+      @keyframes blobMove {
+        from {
+          transform: translate(0, 0) rotate(0deg) scale(1);
+        }
+        to {
+          transform: translate(55px, 35px) rotate(12deg) scale(1.12);
+        }
+      }
+
+      .taco-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .taco {
+        position: absolute;
+        opacity: 0;
+        animation: taco-float linear infinite;
+        user-select: none;
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.06));
+      }
+
+      @keyframes taco-float {
+        0% {
+          opacity: 0;
+          transform: translateY(0) rotate(0deg) scale(1);
+        }
+        6% {
+          opacity: 0.2;
+        }
+        50% {
+          transform: translateY(-52vh) rotate(14deg) scale(1.05);
+        }
+        92% {
+          opacity: 0.2;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-108vh) rotate(30deg) scale(0.9);
+        }
+      }
+
+      .container {
+        max-width: 660px;
+        width: 90%;
+        margin: 50px auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .glass-card {
+        background: var(--glass);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.65);
+        border-radius: 44px;
+        padding: 64px 44px;
+        box-shadow:
+          0 8px 32px rgba(217, 184, 169, 0.18),
+          0 32px 64px rgba(0, 0, 0, 0.06),
+          inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        animation: cardIn 1.2s var(--ease) forwards;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .glass-card::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        border-radius: 46px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.6) 0%,
+          rgba(255, 220, 200, 0.3) 50%,
+          rgba(243, 233, 245, 0.5) 100%
+        );
+        z-index: -1;
+        animation: cardGlow 5s ease-in-out infinite alternate;
+      }
+
+      @keyframes cardGlow {
+        0% {
+          opacity: 0.4;
+        }
+        100% {
+          opacity: 0.9;
+        }
+      }
+
+      @keyframes cardIn {
+        from {
+          opacity: 0;
+          transform: translateY(28px) scale(0.97);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .hook {
+        font-family: "Caveat", cursive;
+        font-size: 1.85rem;
+        color: var(--accent-warm);
+        margin-bottom: 18px;
+        display: block;
+        opacity: 0;
+        animation: fadeUp 0.9s var(--ease) 0.4s forwards;
+      }
+
+      .title {
+        font-family: "Instrument Serif", serif;
+        font-size: clamp(2.5rem, 8vw, 3.8rem);
+        font-weight: 400;
+        line-height: 1.1;
+        margin-bottom: 44px;
+        font-style: italic;
+        opacity: 0;
+        background: linear-gradient(
+          90deg,
+          var(--text-dark) 0%,
+          var(--accent-pop) 40%,
+          var(--text-dark) 80%
+        );
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation:
+          fadeUp 0.9s var(--ease) 0.7s forwards,
+          shimmerText 4s linear 1.5s infinite;
+      }
+
+      @keyframes shimmerText {
+        0% {
+          background-position: 200% center;
+        }
+        100% {
+          background-position: 0% center;
+        }
+      }
+
+      .message-row {
+        margin-bottom: 36px;
+        line-height: 1.9;
+        font-size: 1.15rem;
+        color: var(--text-dark);
+        font-weight: 300;
+        opacity: 0;
+        transform: translateY(22px);
+        transition:
+          opacity 0.8s var(--ease),
+          transform 0.8s var(--ease);
+        position: relative;
+      }
+
+      .message-row.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .message-row::before {
+        content: "";
+        position: absolute;
+        left: -24px;
+        top: 6px;
+        width: 3px;
+        height: 0;
+        border-radius: 2px;
+        background: linear-gradient(180deg, var(--accent-warm), transparent);
+        transition: height 0.6s var(--ease) 0.3s;
+      }
+
+      .message-row.visible::before {
+        height: calc(100% - 12px);
+      }
+
+      .highlight {
+        color: var(--text-dark);
+        font-weight: 500;
+        position: relative;
+        display: inline-block;
+        cursor: default;
+        transition: color 0.3s;
+      }
+
+      .highlight::after {
+        content: "";
+        position: absolute;
+        bottom: 1px;
+        left: 0;
+        width: 0;
+        height: 8px;
+        background: linear-gradient(90deg, var(--soft-peach), #ffd6c4);
+        z-index: -1;
+        border-radius: 3px;
+        transition: width 0.5s var(--ease);
+      }
+
+      .highlight.revealed::after {
+        width: 100%;
+      }
+
+      .highlight:hover {
+        color: var(--accent-pop);
+      }
+
+      .punctuations {
+        color: var(--accent-warm);
+        letter-spacing: 2px;
+      }
+
+      .footer-note {
+        font-family: "Caveat", cursive;
+        font-size: 1.55rem;
+        text-align: right;
+        margin-top: 44px;
+        color: var(--text-muted);
+        opacity: 0;
+        transform: translateX(10px);
+        transition:
+          opacity 0.8s var(--ease),
+          transform 0.8s var(--ease);
+        padding-top: 20px;
+        border-top: 1px solid rgba(217, 184, 169, 0.3);
+      }
+
+      .footer-note.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .back-link {
+        position: fixed;
+        top: 28px;
+        left: 28px;
+        font-size: 0.88rem;
+        text-decoration: none;
+        color: var(--text-muted);
+        font-weight: 400;
+        letter-spacing: 1px;
+        z-index: 10;
+        padding: 8px 16px;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        transition: all 0.3s var(--ease);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .back-link:hover {
+        color: var(--text-dark);
+        background: rgba(255, 255, 255, 0.8);
+        transform: translateX(-3px);
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.09);
+      }
+
+      /* ── Soft pulse ── */
+      .soft-pulse {
+        display: inline-block;
+        animation: pulse 2.5s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.15);
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .sparkle-dot {
+        position: fixed;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        animation: sparklePop 0.7s var(--ease) forwards;
+      }
+
+      @keyframes sparklePop {
+        0% {
+          opacity: 1;
+          transform: translate(0, 0) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(var(--dx), var(--dy)) scale(0);
+        }
+      }
+
+      .floatie {
+        position: fixed;
+        pointer-events: none;
+        opacity: 0;
+        z-index: 0;
+        animation: floatOrb 8s ease-in-out infinite alternate;
+      }
+
+      .floatie-1 {
+        top: 12%;
+        left: 8%;
+        animation-delay: 0s;
+        animation-duration: 9s;
+      }
+      .floatie-2 {
+        bottom: 18%;
+        right: 10%;
+        animation-delay: -4s;
+        animation-duration: 11s;
+      }
+
+      @keyframes floatOrb {
+        0% {
+          opacity: 0.25;
+          transform: translate(0, 0) rotate(0deg);
+        }
+        100% {
+          opacity: 0.45;
+          transform: translate(12px, -14px) rotate(20deg);
+        }
+      }
+
+      .media-player {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.55);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.75);
+        border-radius: 28px;
+        padding: 14px 18px;
+        width: 230px;
+        box-shadow:
+          0 4px 20px rgba(217, 184, 169, 0.25),
+          0 12px 36px rgba(0, 0, 0, 0.08);
+        animation: playerIn 0.9s var(--ease) 1.8s both;
+        transition: box-shadow 0.3s;
+      }
+
+      .media-player:hover {
+        box-shadow:
+          0 6px 28px rgba(217, 184, 169, 0.35),
+          0 16px 44px rgba(0, 0, 0, 0.1);
+      }
+
+      @keyframes playerIn {
+        from {
+          opacity: 0;
+          transform: translateY(16px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .media-player.tap-nudge {
+        animation:
+          playerIn 0.9s var(--ease) 1.8s both,
+          nudge 1.2s ease-in-out 2.8s 2;
+      }
+
+      @keyframes nudge {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+
+      .mp-song {
+        font-family: "Caveat", cursive;
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        margin-bottom: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        letter-spacing: 0.3px;
+      }
+
+      .mp-song span {
+        color: var(--accent-pop);
+        font-weight: 600;
+      }
+
+      .mp-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .mp-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: none;
+        background: linear-gradient(
+          135deg,
+          var(--soft-peach),
+          var(--soft-lavender)
+        );
+        color: var(--accent-pop);
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition:
+          transform 0.2s var(--ease),
+          box-shadow 0.2s;
+        box-shadow: 0 2px 8px rgba(196, 147, 122, 0.2);
+      }
+
+      .mp-btn:hover {
+        transform: scale(1.12);
+        box-shadow: 0 4px 14px rgba(196, 147, 122, 0.35);
+      }
+
+      .mp-btn:active {
+        transform: scale(0.95);
+      }
+
+      .mp-progress-wrap {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .mp-bar-track {
+        height: 4px;
+        background: rgba(217, 184, 169, 0.25);
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .mp-bar-fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--accent-warm),
+          var(--accent-pop)
+        );
+        transition: width 0.2s linear;
+      }
+
+      .mp-time {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .mp-vol {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 10px;
+      }
+
+      .mp-vol-icon {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        width: 16px;
+        text-align: center;
+      }
+
+      .mp-vol-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        flex: 1;
+        height: 4px;
+        border-radius: 3px;
+        background: rgba(217, 184, 169, 0.25);
+        outline: none;
+        cursor: pointer;
+      }
+
+      .mp-vol-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--accent-warm);
+        cursor: pointer;
+        box-shadow: 0 0 4px rgba(196, 147, 122, 0.4);
+        transition: transform 0.2s;
+      }
+
+      .mp-vol-slider::-webkit-slider-thumb:hover {
+        transform: scale(1.3);
+      }
+
+      @media (max-width: 600px) {
+        .glass-card {
+          padding: 40px 24px;
+          border-radius: 32px;
+        }
+        .title {
+          font-size: 2.2rem;
+        }
+        .message-row::before {
+          display: none;
+        }
+        .message-row {
+          margin-left: 0;
+        }
+        .media-player {
+          width: calc(100% - 32px);
+          right: 16px;
+          bottom: 16px;
+          border-radius: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="index.html" class="back-link">← back home</a>
+
+    <audio id="bgAudio" src="src/HerGraceF.m4a" loop preload="auto"></audio>
+
+    <div
+      class="media-player"
+      id="mediaPlayer"
+      role="region"
+      aria-label="Music player"
+    >
+      <div class="mp-song">🎵 <span>Her Grace : ))))))))</span></div>
+      <div class="mp-controls">
+        <button class="mp-btn" id="mpPlayBtn" aria-label="Play/Pause">▶</button>
+        <div class="mp-progress-wrap">
+          <div class="mp-bar-track" id="mpTrack">
+            <div class="mp-bar-fill" id="mpFill"></div>
+          </div>
+          <div class="mp-time">
+            <span id="mpCurrent">0:00</span>
+            <span id="mpDuration">-:--</span>
+          </div>
+        </div>
+      </div>
+      <div class="mp-vol">
+        <span class="mp-vol-icon">🔈</span>
+        <input
+          class="mp-vol-slider"
+          id="mpVol"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.7"
+          aria-label="Volume"
+        />
+      </div>
+    </div>
+
+    <div class="background-blobs">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+
+    <svg class="floatie floatie-1" width="22" height="22" viewBox="0 0 22 22">
+      <circle
+        cx="11"
+        cy="11"
+        r="9"
+        fill="none"
+        stroke="var(--accent-warm)"
+        stroke-width="1.2"
+      />
+    </svg>
+    <svg class="floatie floatie-2" width="32" height="32" viewBox="0 0 32 32">
+      <path
+        d="M16 4 L18.5 13 L28 16 L18.5 19 L16 28 L13.5 19 L4 16 L13.5 13 Z"
+        fill="var(--soft-lavender)"
+      />
+    </svg>
+
+    <div class="taco-bg" id="tacoBg"></div>
+
+    <div class="container">
+      <div class="glass-card">
+        <span class="hook"
+          >listeningggg? <span class="punctuations">^^^</span></span
+        >
+
+        <h1 class="title">Between you and me...</h1>
+
+        <div class="message-row">
+          So... about that word <span class="highlight">"judging"</span
+          ><span class="punctuations">,,,</span> i wanted to tell you something.
+          It just <strong>doesn't</strong> exist between us. Not until now, not
+          today, not ever.
+          <span class="soft-pulse">🫂</span>
+        </div>
+
+        <div class="message-row">
+          Forming opinions? Welllll, until now, i have always, formed
+          <span class="highlight">good and positive opinions</span> about you.
+          And no one's ever gonna change that, not you, not me. No one. 🫂
+          <span class="punctuations">💝</span>
+        </div>
+
+        <div class="message-row">
+          I believe in you. <span class="highlight">Sooo muchhh.</span> <br />
+          In who you are as a person, and in your preparation too. You've got
+          this, and truly... you're doing so much better than you're giving
+          yourself credit for. You have prepared well. Believe in that prep,
+          believe in yourself. Cz I do, A LOT. Now don't take this as
+          expectations hmm? Just like I said in that one site, I don't expect,
+          but I believe in you. I hope you see the difference in those two
+          words, hmm? And aisa kabhi lage, please say it right away. <br />
+          Look.. I care for your mood, more than my own.. and your mood is my
+          mood.. So.. I'd greatly appreciate it, rather I implore you to do so,
+          if at all I let it happen again, drish. I will take care of it 🫂🫂
+        </div>
+
+        <div class="message-row">
+          I am truly happy with how you have developed yourself<span
+            class="punctuations"
+            >...</span
+          >
+          everything that you have inherited since your childhood<span
+            class="punctuations"
+            >...</span
+          >
+          it's all just so... <span class="highlight">you</span>. And i love
+          that. <span class="punctuations">^^^^</span>
+        </div>
+
+        <div class="footer-note">
+          stay as you are<span class="punctuations">,,,</span> okay?
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* ── Taco rain ── */
+      (function () {
+        const bg = document.getElementById("tacoBg");
+        const count = 22;
+        for (let i = 0; i < count; i++) {
+          const t = document.createElement("span");
+          t.className = "taco";
+          t.textContent = "🌮";
+          const left = Math.random() * 100;
+          const dur = 13 + Math.random() * 14;
+          const delay = -(Math.random() * dur);
+          const size = 1.0 + Math.random() * 1.3;
+          t.style.cssText = `left:${left}%;bottom:-10%;font-size:${size}rem;animation-duration:${dur}s;animation-delay:${delay}s;`;
+          bg.appendChild(t);
+        }
+      })();
+
+      const rows = document.querySelectorAll(".message-row");
+      const footer = document.querySelector(".footer-note");
+      const highlights = document.querySelectorAll(".highlight");
+
+      const revealEl = (el, delay = 0) => {
+        setTimeout(() => el.classList.add("visible"), delay);
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              entry.target.querySelectorAll(".highlight").forEach((h, i) => {
+                setTimeout(() => h.classList.add("revealed"), 400 + i * 150);
+              });
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
+
+      rows.forEach((r) => observer.observe(r));
+
+      const footerObs = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            entries[0].target.classList.add("visible");
+            footerObs.disconnect();
+          }
+        },
+        { threshold: 0.4 },
+      );
+      footerObs.observe(footer);
+
+      const palette = [
+        "#d9b8a9",
+        "#f4a1c0",
+        "#b5c8f0",
+        "#c4e0b0",
+        "#f7d29a",
+        "#e0b8f5",
+      ];
+      document.addEventListener("click", (e) => {
+        if (e.target.tagName === "A") return;
+        for (let i = 0; i < 10; i++) {
+          const dot = document.createElement("div");
+          dot.className = "sparkle-dot";
+          const angle = (Math.PI * 2 * i) / 10;
+          const dist = 28 + Math.random() * 28;
+          dot.style.cssText = `
+            left:${e.clientX}px; top:${e.clientY}px;
+            background:${palette[Math.floor(Math.random() * palette.length)]};
+            --dx:${Math.cos(angle) * dist}px;
+            --dy:${Math.sin(angle) * dist}px;
+            animation-delay:${i * 18}ms;
+          `;
+          document.body.appendChild(dot);
+          dot.addEventListener("animationend", () => dot.remove());
+        }
+      });
+
+      (function () {
+        const canVibe = "vibrate" in navigator;
+        const vibe = (pattern) => {
+          if (canVibe) navigator.vibrate(pattern);
+        };
+
+        const VIBES = {
+          hello: [40, 60, 40, 60, 80],
+          paragraph: [30, 50, 30],
+          highlight: [15, 30, 15],
+          hug: [60, 40, 60, 40, 100],
+          taco: [20, 20, 20, 20, 20],
+          playPause: [50],
+          footer: [30, 60, 30, 60, 50, 60, 80],
+        };
+
+        setTimeout(() => vibe(VIBES.hello), 1500);
+
+        const rows = document.querySelectorAll(".message-row");
+        const revealedRows = new Set();
+        const rowObs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting && !revealedRows.has(entry.target)) {
+                revealedRows.add(entry.target);
+                setTimeout(() => vibe(VIBES.paragraph), 150);
+              }
+            });
+          },
+          { threshold: 0.2 },
+        );
+        rows.forEach((r) => rowObs.observe(r));
+
+        document.querySelectorAll(".highlight").forEach((h) => {
+          h.addEventListener("pointerenter", () => vibe(VIBES.highlight));
+        });
+
+        document.querySelectorAll(".soft-pulse").forEach((el) => {
+          el.addEventListener("pointerdown", () => vibe(VIBES.hug));
+        });
+
+        document
+          .getElementById("tacoBg")
+          .addEventListener("pointerdown", () => {
+            vibe(VIBES.taco);
+          });
+
+        const footerEl = document.querySelector(".footer-note");
+        const footerVibeObs = new IntersectionObserver(
+          (entries) => {
+            if (entries[0].isIntersecting) {
+              setTimeout(() => vibe(VIBES.footer), 200);
+              footerVibeObs.disconnect();
+            }
+          },
+          { threshold: 0.5 },
+        );
+        footerVibeObs.observe(footerEl);
+
+        const audio = document.getElementById("bgAudio");
+        const playBtn = document.getElementById("mpPlayBtn");
+        const fill = document.getElementById("mpFill");
+        const track = document.getElementById("mpTrack");
+        const curEl = document.getElementById("mpCurrent");
+        const durEl = document.getElementById("mpDuration");
+        const volSlider = document.getElementById("mpVol");
+        const player = document.getElementById("mediaPlayer");
+
+        audio.volume = parseFloat(volSlider.value);
+
+        function fmt(s) {
+          if (!s || isNaN(s)) return "0:00";
+          const m = Math.floor(s / 60);
+          const sec = Math.floor(s % 60);
+          return m + ":" + (sec < 10 ? "0" : "") + sec;
+        }
+
+        function setPlaying(playing) {
+          playBtn.textContent = playing ? "⏸" : "▶";
+          playBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
+        }
+
+        audio
+          .play()
+          .then(() => {
+            setPlaying(true);
+          })
+          .catch(() => {
+            player.classList.add("tap-nudge");
+            const unlock = () => {
+              audio
+                .play()
+                .then(() => {
+                  setPlaying(true);
+                  player.classList.remove("tap-nudge");
+                })
+                .catch(() => {});
+              document.removeEventListener("click", unlock);
+              document.removeEventListener("keydown", unlock);
+            };
+            document.addEventListener("click", unlock);
+            document.addEventListener("keydown", unlock);
+          });
+
+        playBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          vibe(VIBES.playPause);
+          if (audio.paused) {
+            audio.play();
+            setPlaying(true);
+          } else {
+            audio.pause();
+            setPlaying(false);
+          }
+        });
+
+        audio.addEventListener("timeupdate", () => {
+          if (!audio.duration) return;
+          const pct = (audio.currentTime / audio.duration) * 100;
+          fill.style.width = pct + "%";
+          curEl.textContent = fmt(audio.currentTime);
+          durEl.textContent = fmt(audio.duration);
+        });
+
+        audio.addEventListener("loadedmetadata", () => {
+          durEl.textContent = fmt(audio.duration);
+        });
+
+        track.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const rect = track.getBoundingClientRect();
+          const pct = Math.max(
+            0,
+            Math.min(1, (e.clientX - rect.left) / rect.width),
+          );
+          audio.currentTime = pct * audio.duration;
+        });
+
+        volSlider.addEventListener("input", (e) => {
+          audio.volume = parseFloat(e.target.value);
+        });
+        volSlider.addEventListener("click", (e) => e.stopPropagation());
+      })();
+    </script>
+  </body>
+</html>
