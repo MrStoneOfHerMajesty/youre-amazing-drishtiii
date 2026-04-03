@@ -713,6 +713,43 @@
         font-size: 1.6rem;
       }
 
+      .heartbeat-wrapper {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        pointer-events: none;
+      }
+
+      .heartbeat-emoji {
+        display: inline-block;
+        font-size: 2.2rem;
+        animation: heartBeatAnim 1.2s infinite;
+        filter: drop-shadow(0 4px 12px rgba(217, 184, 169, 0.4));
+      }
+
+      @keyframes heartBeatAnim {
+        0% {
+          transform: scale(1);
+        }
+        5% {
+          transform: scale(1.25);
+        }
+        12.5% {
+          transform: scale(1);
+        }
+        22.5% {
+          transform: scale(1.35);
+        }
+        32.5% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
       @media (max-width: 600px) {
         .glass-card {
           padding: 40px 24px;
@@ -871,6 +908,10 @@
       </div>
     </div>
 
+    <div class="heartbeat-wrapper">
+      <span class="heartbeat-emoji" id="bottomHeartbeat">💝</span>
+    </div>
+
     <script>
       (function () {
         const bg = document.getElementById("tacoBg");
@@ -977,9 +1018,18 @@
           taco: [40, 50, 80, 350],
           playPause: [50, 60, 100],
           footer: [60, 80, 120, 400, 60, 80, 120, 400, 80, 100, 160],
+          heartbeat: [60, 90, 120],
         };
 
         setTimeout(() => vibe(VIBES.hello), 1500);
+
+        const hbEmoji = document.getElementById("bottomHeartbeat");
+        if (hbEmoji) {
+          hbEmoji.addEventListener("animationiteration", () => {
+            vibe(VIBES.heartbeat);
+          });
+          vibe(VIBES.heartbeat);
+        }
 
         const rows = document.querySelectorAll(".message-row");
         const revealedRows = new Set();
