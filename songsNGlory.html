@@ -1,0 +1,1297 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>✦ the playlist ✦</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Syne:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #060810;
+        --aurora1: #0d1f3c;
+        --aurora2: #0a2a1e;
+        --aurora3: #1a0d2e;
+        --text: #e8e4dc;
+        --muted: #8a8578;
+        --accent: #4ecdc4;
+        --accent2: #a78bfa;
+        --accent3: #f472b6;
+        --glass: rgba(255, 255, 255, 0.04);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --active-glow: rgba(78, 205, 196, 0.15);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "DM Mono", monospace;
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      /* ── Background Canvas ── */
+      #bgCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* ── Layout ── */
+      .content {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ── Hero ── */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 40px 20px;
+      }
+
+      .hero-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.3em;
+        color: var(--accent);
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeUp 1s ease 0.3s forwards;
+      }
+
+      .hero-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(64px, 12vw, 140px);
+        font-weight: 300;
+        font-style: italic;
+        line-height: 0.9;
+        letter-spacing: -0.02em;
+        background: linear-gradient(
+          135deg,
+          #e8e4dc 0%,
+          #4ecdc4 50%,
+          #a78bfa 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        opacity: 0;
+        animation: fadeUp 1s ease 0.5s forwards;
+        margin-bottom: 10px;
+      }
+
+      .hero-sub {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(18px, 3vw, 28px);
+        font-weight: 300;
+        color: var(--muted);
+        letter-spacing: 0.15em;
+        opacity: 0;
+        animation: fadeUp 1s ease 0.7s forwards;
+        margin-bottom: 50px;
+      }
+
+      .scroll-hint {
+        font-size: 10px;
+        letter-spacing: 0.25em;
+        color: var(--muted);
+        opacity: 0;
+        animation:
+          fadeUp 1s ease 1.2s forwards,
+          pulse 3s ease 2.2s infinite;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .scroll-hint::after {
+        content: "";
+        width: 1px;
+        height: 40px;
+        background: linear-gradient(to bottom, var(--muted), transparent);
+        animation: scrollLine 2s ease 2.2s infinite;
+      }
+
+      /* ── Sticky Player ── */
+      .sticky-player {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background: rgba(6, 8, 16, 0.92);
+        backdrop-filter: blur(24px);
+        border-top: 1px solid var(--glass-border);
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        transform: translateY(100%);
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .sticky-player.visible {
+        transform: translateY(0);
+      }
+
+      .player-info {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .now-playing-label {
+        font-size: 9px;
+        letter-spacing: 0.3em;
+        color: var(--accent);
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+
+      .now-playing-name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 18px;
+        font-style: italic;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .player-controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .ctrl-btn {
+        background: none;
+        border: none;
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 18px;
+        padding: 6px;
+        border-radius: 50%;
+        transition:
+          color 0.2s,
+          transform 0.15s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+      }
+
+      .ctrl-btn:hover {
+        color: var(--text);
+        transform: scale(1.1);
+      }
+
+      .ctrl-btn.play-main {
+        background: var(--accent);
+        color: var(--bg);
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+      }
+
+      .ctrl-btn.play-main:hover {
+        background: #6eddd6;
+      }
+
+      .progress-wrap {
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .progress-bar-container {
+        width: 100%;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 2px;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(to right, var(--accent), var(--accent2));
+        border-radius: 2px;
+        width: 0%;
+        transition: width 0.1s linear;
+        pointer-events: none;
+      }
+
+      .time-display {
+        display: flex;
+        justify-content: space-between;
+        font-size: 9px;
+        color: var(--muted);
+      }
+
+      .volume-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .volume-slider {
+        -webkit-appearance: none;
+        width: 70px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 2px;
+        outline: none;
+        cursor: pointer;
+      }
+
+      .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+      }
+
+      /* ── Playlist Section ── */
+      .playlist-section {
+        min-height: 100vh;
+        padding: 80px 20px 120px;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .section-header {
+        margin-bottom: 48px;
+      }
+
+      .section-label {
+        font-size: 10px;
+        letter-spacing: 0.35em;
+        color: var(--accent);
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      .section-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(38px, 6vw, 72px);
+        font-weight: 300;
+        font-style: italic;
+        line-height: 1;
+        letter-spacing: -0.01em;
+      }
+
+      .section-title span {
+        color: var(--accent);
+      }
+
+      /* ── Track Cards ── */
+      .track-list {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .track-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px 20px;
+        border-radius: 12px;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .track-item::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--glass);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .track-item:hover::before {
+        opacity: 1;
+      }
+      .track-item:hover {
+        border-color: var(--glass-border);
+        transform: translateX(4px);
+      }
+
+      .track-item.active {
+        background: var(--active-glow);
+        border-color: rgba(78, 205, 196, 0.3);
+        transform: translateX(8px);
+      }
+
+      .track-item.active::before {
+        opacity: 0;
+      }
+
+      .track-num {
+        font-size: 11px;
+        color: var(--muted);
+        width: 24px;
+        text-align: right;
+        flex-shrink: 0;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .track-item.active .track-num {
+        color: var(--accent);
+      }
+
+      .bars-viz {
+        width: 18px;
+        height: 18px;
+        display: none;
+        align-items: flex-end;
+        gap: 2px;
+        flex-shrink: 0;
+      }
+
+      .track-item.active .bars-viz {
+        display: flex;
+      }
+      .track-item.active .track-num {
+        display: none;
+      }
+
+      .bar {
+        width: 3px;
+        background: var(--accent);
+        border-radius: 1px;
+        animation: barBounce var(--dur) ease-in-out infinite alternate;
+      }
+
+      .bar:nth-child(1) {
+        --dur: 0.5s;
+        height: 6px;
+      }
+      .bar:nth-child(2) {
+        --dur: 0.7s;
+        height: 12px;
+      }
+      .bar:nth-child(3) {
+        --dur: 0.4s;
+        height: 9px;
+      }
+      .bar:nth-child(4) {
+        --dur: 0.6s;
+        height: 14px;
+      }
+
+      .track-item.paused .bar {
+        animation-play-state: paused;
+      }
+
+      .track-name {
+        flex: 1;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        font-weight: 400;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: color 0.3s;
+      }
+
+      .track-item.active .track-name {
+        color: var(--accent);
+        font-style: italic;
+      }
+
+      .track-ext {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        padding: 3px 6px;
+        border: 1px solid var(--glass-border);
+        border-radius: 4px;
+        flex-shrink: 0;
+      }
+
+      .track-play-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        flex-shrink: 0;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+
+      .track-item:hover .track-play-btn {
+        opacity: 1;
+      }
+
+      /* ── Divider ── */
+      .divider {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        color: var(--muted);
+        font-size: 10px;
+        letter-spacing: 0.2em;
+      }
+
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--glass-border),
+          transparent
+        );
+      }
+
+      /* ── Stranded Deep Section ── */
+      .stranded-section {
+        position: relative;
+        padding: 100px 20px 140px;
+        overflow: hidden;
+      }
+
+      #oceanCanvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.6;
+      }
+
+      .stranded-inner {
+        position: relative;
+        z-index: 1;
+        max-width: 860px;
+        margin: 0 auto;
+      }
+
+      .stranded-hero {
+        text-align: center;
+        margin-bottom: 80px;
+      }
+
+      .stranded-title {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(48px, 9vw, 110px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 0.9;
+        background: linear-gradient(
+          135deg,
+          #0ea5e9 0%,
+          #06b6d4 30%,
+          #22d3ee 60%,
+          #67e8f9 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 16px;
+        text-shadow: none;
+        animation: oceanShift 8s ease-in-out infinite;
+        background-size: 200% 200%;
+      }
+
+      .stranded-tagline {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        font-style: italic;
+        color: rgba(103, 232, 249, 0.6);
+        letter-spacing: 0.08em;
+      }
+
+      /* ── Steps ── */
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .step {
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+        padding: 28px 32px;
+        border-radius: 20px;
+        border: 1px solid rgba(14, 165, 233, 0.15);
+        background: rgba(6, 20, 40, 0.7);
+        backdrop-filter: blur(16px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .step::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          rgba(14, 165, 233, 0.4),
+          transparent
+        );
+      }
+
+      .step:hover {
+        border-color: rgba(14, 165, 233, 0.35);
+        background: rgba(6, 28, 55, 0.85);
+        transform: translateY(-2px);
+        box-shadow: 0 20px 60px rgba(6, 182, 212, 0.12);
+      }
+
+      .step-number {
+        font-family: "Syne", sans-serif;
+        font-size: 44px;
+        font-weight: 800;
+        line-height: 1;
+        background: linear-gradient(
+          135deg,
+          rgba(14, 165, 233, 0.4),
+          rgba(103, 232, 249, 0.2)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        flex-shrink: 0;
+        min-width: 75px;
+      }
+      .step-heading {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 22px;
+        font-weight: 600;
+        color: #67e8f9;
+        margin-bottom: 8px;
+        letter-spacing: 0.02em;
+      }
+
+      .step-body {
+        font-size: 13px;
+        line-height: 1.8;
+        color: rgba(232, 228, 220, 0.75);
+        font-weight: 300;
+      }
+
+      .step-body a {
+        color: #22d3ee;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(34, 211, 238, 0.3);
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+
+      .step-body a:hover {
+        color: #67e8f9;
+        border-color: #67e8f9;
+      }
+
+      .step-body .highlight {
+        color: #67e8f9;
+        font-style: italic;
+      }
+
+      .step-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        background: rgba(14, 165, 233, 0.1);
+        border: 1px solid rgba(14, 165, 233, 0.25);
+        border-radius: 4px;
+        font-size: 11px;
+        color: #22d3ee;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+
+      /* ── Footer ── */
+      .footer {
+        text-align: center;
+        padding: 60px 20px;
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ── Animations ── */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes scrollLine {
+        0% {
+          transform: scaleY(0);
+          transform-origin: top;
+        }
+        50% {
+          transform: scaleY(1);
+          transform-origin: top;
+        }
+        51% {
+          transform: scaleY(1);
+          transform-origin: bottom;
+        }
+        100% {
+          transform: scaleY(0);
+          transform-origin: bottom;
+        }
+      }
+
+      @keyframes barBounce {
+        from {
+          transform: scaleY(0.3);
+        }
+        to {
+          transform: scaleY(1);
+        }
+      }
+
+      @keyframes oceanShift {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 600px) {
+        .sticky-player {
+          flex-wrap: wrap;
+        }
+        .progress-wrap {
+          width: 100%;
+          order: 4;
+        }
+        .volume-wrap {
+          display: none;
+        }
+        .step {
+          padding: 20px;
+          gap: 16px;
+        }
+        .step-number {
+          font-size: 32px;
+          min-width: 55px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="bgCanvas"></canvas>
+
+    <div class="content">
+      <!-- ── Hero ── -->
+      <section class="hero">
+        <p class="hero-eyebrow">✦ curated with care ✦</p>
+        <h1 class="hero-title">the playlist</h1>
+        <p class="hero-sub">47 songs — every mood, every moment</p>
+        <div class="scroll-hint">scroll to explore</div>
+      </section>
+
+      <!-- ── Playlist ── -->
+      <section class="playlist-section">
+        <div class="section-header">
+          <p class="section-label">♩ now streaming</p>
+          <h2 class="section-title">Every<br /><span>Song.</span></h2>
+        </div>
+
+        <div class="track-list" id="trackList"></div>
+      </section>
+
+      <div class="divider">stranded deep awaits below</div>
+
+      <!-- ── Stranded Deep ── -->
+      <section class="stranded-section">
+        <canvas id="oceanCanvas"></canvas>
+        <div class="stranded-inner">
+          <div class="stranded-hero">
+            <h2 class="stranded-title">STRANDED<br />DEEP</h2>
+            <p class="stranded-tagline">
+              survival awaits — let's play together
+            </p>
+          </div>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">01</div>
+              <div class="step-content">
+                <p class="step-heading">Download the Torrent File</p>
+                <p class="step-body">
+                  Pleaseee download the torrent file that I've attached herebyyy
+                  —
+                  <a
+                    href="./src/Stranded-Deep-AnkerGames.rar.torrent"
+                    target="_blank"
+                  >
+                    click right here to download it ✦ ^^
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">02</div>
+              <div class="step-content">
+                <p class="step-heading">Get a Torrent Client</p>
+                <p class="step-body">
+                  Download any torrent installer, if you don't have one
+                  alreadyy. I use <span class="highlight">Motrix</span>, sooo
+                  I'd suggest that. Here's the linkkh →
+                  <a href="https://motrix.app/" target="_blank">motrix.app</a>
+                  <br />Anddd you can click on the URL after opening the site,
+                  to see if it is secure, which it is, due to the
+                  <strong>https</strong> suffix.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">03</div>
+              <div class="step-content">
+                <p class="step-heading">Add the Torrent</p>
+                <p class="step-body">
+                  After installing the app, you can either
+                  <span class="highlight">drag n drop</span> the torrent file
+                  youuhh downloaded earlier in step 1, directly into the Motrix
+                  app. It is just 1.3 GB, so it won't take more than 3 minutes.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">04</div>
+              <div class="step-content">
+                <p class="step-heading">Choose Destination & Download</p>
+                <p class="step-body">
+                  Select the
+                  <span class="highlight">Destination folder</span> you want it
+                  to be downloaded in, and proceeeed. Let it do its thing — it
+                  might take a bit depending on your speed!
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">05</div>
+              <div class="step-content">
+                <p class="step-heading">Extract the Files</p>
+                <p class="step-body">
+                  Once it is downloaded, You'll have to
+                  <span class="highlight">extract the files</span>, as these are
+                  stored in a compressed RAR/ZIP file. Use WinRAR or 7-Zip!
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">06</div>
+              <div class="step-content">
+                <p class="step-heading">Clean Up to Free Space</p>
+                <p class="step-body">
+                  Once you extract the files, you can (please do!) delete the
+                  original compressed archive to
+                  <span class="highlight">free spaceee</span> on your drive.
+                  Keep things tidy!
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">07</div>
+              <div class="step-content">
+                <p class="step-heading">Launch Stranded Deep</p>
+                <p class="step-body">
+                  Now in the extracted folder you can see the
+                  <span class="highlight">Stranded Deep</span> executable —
+                  launch it! Keep the settings as default and you should be good
+                  to go.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">08</div>
+              <div class="step-content">
+                <p class="step-heading">Launch Steam Too 🎮</p>
+                <p class="step-body">
+                  For being able to
+                  <span class="highlight">play togetherr</span>, you'll also
+                  have to launch Steam. I'm sorrryyy if this is too much, but it
+                  is needed for connectivity, as in the end it is hosted on
+                  Steam only. I reckon you must be knowing what Steam is right?
+                  Just like Xbox and PS — it's a gaming platform. Once you log
+                  into Steam, and launch the gameee...
+                  <span class="highlight"
+                    >we can playyyy togetherr heehheheeheh ✦</span
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer">✦ made with..hmm ^^ just for you ✦</div>
+    </div>
+
+    <div class="sticky-player" id="stickyPlayer">
+      <div class="player-info">
+        <p class="now-playing-label">now playing</p>
+        <p class="now-playing-name" id="playerName">—</p>
+      </div>
+      <div class="player-controls">
+        <button class="ctrl-btn" id="prevBtn" title="Previous">
+          &#9664;&#9664;
+        </button>
+        <button class="ctrl-btn play-main" id="playPauseBtn" title="Play/Pause">
+          &#9654;
+        </button>
+        <button class="ctrl-btn" id="nextBtn" title="Next">
+          &#9654;&#9654;
+        </button>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar-container" id="progressBar">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+        <div class="time-display">
+          <span id="timeElapsed">0:00</span>
+          <span id="timeDuration">0:00</span>
+        </div>
+      </div>
+      <div class="volume-wrap">
+        <span style="font-size: 13px; color: var(--muted)">♪</span>
+        <input
+          type="range"
+          class="volume-slider"
+          id="volumeSlider"
+          min="0"
+          max="1"
+          step="0.02"
+          value="0.8"
+        />
+      </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
+
+    <script>
+      const songs = [
+        { name: "24sevennnnn", file: "./src/24sevennnnn.mp3" },
+        { name: "akunaa", file: "./src/akunaa.mp3" },
+        { name: "angel Eyes", file: "./src/angelEyes.mp3" },
+        { name: "background Ambient", file: "./src/backgroundAmbient.mp3" },
+        { name: "can't Sleep", file: "./src/cantSleep.mp3" },
+        { name: "chime", file: "./src/chime.mp3" },
+        { name: "chiraiyya", file: "./src/chiraiyya.mp3" },
+        { name: "church", file: "./src/church.mp3" },
+        { name: "click-snare", file: "./src/click-snare.mp3" },
+        { name: "cry", file: "./src/Cry.mp3" },
+        { name: "cry (Instru)", file: "./src/cryInstru.mp3" },
+        { name: "dancing Queen", file: "./src/dancingQueen.mp3" },
+        { name: "dil dariyan", file: "./src/dildariyan.mp3" },
+        { name: "dil Se Kaha", file: "./src/dilSeKaha.mp3" },
+        { name: "easy on Me", file: "./src/easyOnMe.mp3" },
+        { name: "fire to Rain", file: "./src/fireToRain.mp3" },
+        { name: "her Grace", file: "./src/HerGraceF.m4a" },
+        { name: "home", file: "./src/home.mp3" },
+        { name: "hothon pe", file: "./src/hothon.mp3" },
+        { name: "i hate u, i love you", file: "./src/ihateuiloveyou.mp3" },
+        { name: "itna Na Mujhse", file: "./src/itnaNaMujhse.mp3" },
+        { name: "Je Te", file: "./src/JeTe.mp3" },
+        { name: "judaai", file: "./src/Judaai.mp3" },
+        { name: "just the Way you Are", file: "./src/JustTheWay.mp3" },
+        { name: "kyon", file: "./src/kyon.mp3" },
+        { name: "let Down", file: "./src/letDown.mp3" },
+        { name: "lose Yourself", file: "./src/LoseYourself.mp3" },
+        { name: "love the Way you Lie", file: "./src/loveTheWayYouLie.mp3" },
+        { name: "love you So", file: "./src/LoveYouSo.mp3" },
+        { name: "main", file: "./src/main.mp3" },
+        { name: "motivational", file: "./src/motivational.mp3" },
+        { name: "the Night we Met", file: "./src/nightWeMet.mp3" },
+        { name: "no Surprises", file: "./src/noSurprises.mp3" },
+        { name: "panna", file: "./src/Panna.mp3" },
+        { name: "playing Games", file: "./src/playingGames.mp3" },
+        { name: "send", file: "./src/send.mp3" },
+        { name: "sign of the Times", file: "./src/signOfTheTimes.mp3" },
+        { name: "skyfall", file: "./src/skyfall.mp3" },
+        { name: "someone Like you", file: "./src/smnLikeYou.mp3" },
+        { name: "somebody that I used to Know", file: "./src/Somebodysme.mp3" },
+        { name: "stand by Me", file: "./src/standByMe.mp3" },
+        { name: "stop Waiting", file: "./src/stopWaiting.mp3" },
+        {
+          name: "summertime Sadness",
+          file: "./src/summerTimeSadnessInstrumental.mp3",
+        },
+        { name: "sweet CAS", file: "./src/sweetCAS.mp3" },
+        { name: "that Way", file: "./src/thatWay.mp3" },
+        { name: "where we're Going", file: "./src/whereweregoinggg.mp3" },
+        { name: "yellow", file: "./src/Yellow.mp3" },
+      ];
+
+      (function initAurora() {
+        const canvas = document.getElementById("bgCanvas");
+        const ctx = canvas.getContext("2d");
+        let W,
+          H,
+          t = 0;
+
+        function resize() {
+          W = canvas.width = window.innerWidth;
+          H = canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resize);
+        resize();
+
+        const blobs = [
+          { x: 0.2, y: 0.3, r: 0.35, color: [13, 31, 60], speed: 0.0007 },
+          { x: 0.7, y: 0.6, r: 0.4, color: [10, 42, 30], speed: 0.0005 },
+          { x: 0.5, y: 0.8, r: 0.3, color: [26, 13, 46], speed: 0.0009 },
+          { x: 0.8, y: 0.2, r: 0.28, color: [5, 25, 50], speed: 0.0006 },
+        ];
+
+        function draw() {
+          t++;
+          ctx.fillStyle = "#060810";
+          ctx.fillRect(0, 0, W, H);
+
+          blobs.forEach((b, i) => {
+            const px = (b.x + Math.sin(t * b.speed + i) * 0.15) * W;
+            const py = (b.y + Math.cos(t * b.speed * 0.8 + i) * 0.12) * H;
+            const r = b.r * Math.max(W, H);
+            const grad = ctx.createRadialGradient(px, py, 0, px, py, r);
+            grad.addColorStop(
+              0,
+              `rgba(${b.color[0]},${b.color[1]},${b.color[2]},0.55)`,
+            );
+            grad.addColorStop(1, "rgba(0,0,0,0)");
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, W, H);
+          });
+
+          if (t % 3 === 0) {
+            for (let i = 0; i < 40; i++) {
+              const x = Math.random() * W;
+              const y = Math.random() * H;
+              const a = Math.random() * 0.03;
+              ctx.fillStyle = `rgba(78,205,196,${a})`;
+              ctx.fillRect(x, y, 1, 1);
+            }
+          }
+
+          requestAnimationFrame(draw);
+        }
+        draw();
+      })();
+
+      (function initOcean() {
+        const canvas = document.getElementById("oceanCanvas");
+        const ctx = canvas.getContext("2d");
+        let W,
+          H,
+          t = 0;
+
+        function resize() {
+          W = canvas.width = canvas.parentElement.offsetWidth;
+          H = canvas.height = canvas.parentElement.offsetHeight;
+        }
+        const ro = new ResizeObserver(resize);
+        ro.observe(canvas.parentElement);
+        resize();
+
+        function draw() {
+          t += 0.008;
+          ctx.clearRect(0, 0, W, H);
+
+          const layers = [
+            {
+              amp: 28,
+              freq: 0.008,
+              speed: 0.9,
+              color: [6, 182, 212],
+              alpha: 0.08,
+              offset: 0,
+            },
+            {
+              amp: 20,
+              freq: 0.012,
+              speed: 1.1,
+              color: [14, 165, 233],
+              alpha: 0.1,
+              offset: 1.2,
+            },
+            {
+              amp: 35,
+              freq: 0.005,
+              speed: 0.6,
+              color: [34, 211, 238],
+              alpha: 0.06,
+              offset: 2.4,
+            },
+            {
+              amp: 18,
+              freq: 0.018,
+              speed: 1.5,
+              color: [103, 232, 249],
+              alpha: 0.09,
+              offset: 3.6,
+            },
+            {
+              amp: 45,
+              freq: 0.004,
+              speed: 0.4,
+              color: [2, 132, 199],
+              alpha: 0.05,
+              offset: 4.8,
+            },
+          ];
+
+          layers.forEach((layer) => {
+            ctx.beginPath();
+            ctx.moveTo(0, H);
+            for (let x = 0; x <= W; x += 3) {
+              const y =
+                H * 0.5 +
+                Math.sin(x * layer.freq + t * layer.speed + layer.offset) *
+                  layer.amp +
+                Math.sin(
+                  x * layer.freq * 2.3 + t * layer.speed * 0.7 + layer.offset,
+                ) *
+                  (layer.amp * 0.4);
+              ctx.lineTo(x, y);
+            }
+            ctx.lineTo(W, H);
+            ctx.closePath();
+            const grad = ctx.createLinearGradient(0, H * 0.3, 0, H);
+            grad.addColorStop(
+              0,
+              `rgba(${layer.color.join(",")},${layer.alpha})`,
+            );
+            grad.addColorStop(1, `rgba(${layer.color.join(",")},0)`);
+            ctx.fillStyle = grad;
+            ctx.fill();
+          });
+
+          [0.3, 0.55, 0.75].forEach((yFrac, li) => {
+            ctx.beginPath();
+            for (let x = 0; x <= W; x += 2) {
+              const y =
+                H * yFrac +
+                Math.sin(x * 0.006 + t * 0.8 + li * 1.5) * 18 +
+                Math.cos(x * 0.01 + t * 1.1 + li) * 10;
+              li === 0 && x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = `rgba(103,232,249,${0.06 - li * 0.015})`;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+          });
+
+          requestAnimationFrame(draw);
+        }
+        draw();
+      })();
+
+      const audio = document.getElementById("audioPlayer");
+      const trackList = document.getElementById("trackList");
+      const player = document.getElementById("stickyPlayer");
+      const playerName = document.getElementById("playerName");
+      const playBtn = document.getElementById("playPauseBtn");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const progressBar = document.getElementById("progressBar");
+      const progressFill = document.getElementById("progressFill");
+      const timeElapsed = document.getElementById("timeElapsed");
+      const timeDuration = document.getElementById("timeDuration");
+      const volumeSlider = document.getElementById("volumeSlider");
+
+      let currentIndex = -1;
+      let isPlaying = false;
+
+      function fmt(s) {
+        const m = Math.floor(s / 60);
+        const ss = Math.floor(s % 60)
+          .toString()
+          .padStart(2, "0");
+        return `${m}:${ss}`;
+      }
+
+      songs.forEach((song, i) => {
+        const ext = song.file.split(".").pop().toUpperCase();
+        const el = document.createElement("div");
+        el.className = "track-item";
+        el.innerHTML = `
+    <div class="track-num">${String(i + 1).padStart(2, "0")}</div>
+    <div class="bars-viz">
+      <div class="bar"></div><div class="bar"></div>
+      <div class="bar"></div><div class="bar"></div>
+    </div>
+    <div class="track-name">${song.name}</div>
+    <span class="track-ext">${ext}</span>
+    <div class="track-play-btn">▶</div>
+  `;
+        el.addEventListener("click", () => playSong(i));
+        trackList.appendChild(el);
+      });
+
+      function playSong(index) {
+        const items = trackList.querySelectorAll(".track-item");
+
+        // Deactivate previous
+        if (currentIndex >= 0) {
+          items[currentIndex].classList.remove("active", "paused");
+        }
+
+        currentIndex = index;
+        const song = songs[index];
+
+        audio.src = song.file;
+        audio.volume = parseFloat(volumeSlider.value);
+        audio.play().catch(() => {});
+
+        items[index].classList.add("active");
+        items[index].scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+        playerName.textContent = song.name;
+        player.classList.add("visible");
+        playBtn.innerHTML = "⏸";
+        isPlaying = true;
+      }
+
+      function togglePlay() {
+        if (currentIndex < 0) {
+          playSong(0);
+          return;
+        }
+        if (isPlaying) {
+          audio.pause();
+          playBtn.innerHTML = "▶";
+          isPlaying = false;
+          const items = trackList.querySelectorAll(".track-item");
+          items[currentIndex].classList.add("paused");
+        } else {
+          audio.play();
+          playBtn.innerHTML = "⏸";
+          isPlaying = true;
+          const items = trackList.querySelectorAll(".track-item");
+          items[currentIndex].classList.remove("paused");
+        }
+      }
+
+      playBtn.addEventListener("click", togglePlay);
+      prevBtn.addEventListener("click", () => {
+        const prev = (currentIndex - 1 + songs.length) % songs.length;
+        playSong(prev);
+      });
+      nextBtn.addEventListener("click", () => {
+        const next = (currentIndex + 1) % songs.length;
+        playSong(next);
+      });
+
+      audio.addEventListener("ended", () => {
+        const next = (currentIndex + 1) % songs.length;
+        playSong(next);
+      });
+
+      audio.addEventListener("timeupdate", () => {
+        if (!audio.duration) return;
+        const pct = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = pct + "%";
+        timeElapsed.textContent = fmt(audio.currentTime);
+        timeDuration.textContent = fmt(audio.duration);
+      });
+
+      progressBar.addEventListener("click", (e) => {
+        const rect = progressBar.getBoundingClientRect();
+        const pct = (e.clientX - rect.left) / rect.width;
+        audio.currentTime = pct * audio.duration;
+      });
+
+      volumeSlider.addEventListener("input", () => {
+        audio.volume = parseFloat(volumeSlider.value);
+      });
+
+      // Background color shift on song change
+      const bgShifts = [
+        ["#060810", "#0d1f3c"],
+        ["#08060e", "#1a0d2e"],
+        ["#060e0c", "#0a2a1e"],
+        ["#0a0608", "#2a0d1a"],
+        ["#07090f", "#0d1f3c"],
+      ];
+      let shiftIdx = 0;
+
+      audio.addEventListener("play", () => {
+        shiftIdx = (shiftIdx + 1) % bgShifts.length;
+      });
+    </script>
+  </body>
+</html>
