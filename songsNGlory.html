@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>✦ the playlist ✦</title>
+    <title>Songsss N Gloryy heheh</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Syne:wght@400;700;800&display=swap"
       rel="stylesheet"
@@ -42,7 +42,6 @@
         min-height: 100vh;
       }
 
-      /* ── Background Canvas ── */
       #bgCanvas {
         position: fixed;
         top: 0;
@@ -53,13 +52,11 @@
         pointer-events: none;
       }
 
-      /* ── Layout ── */
       .content {
         position: relative;
         z-index: 1;
       }
 
-      /* ── Hero ── */
       .hero {
         min-height: 100vh;
         display: flex;
@@ -135,7 +132,6 @@
         animation: scrollLine 2s ease 2.2s infinite;
       }
 
-      /* ── Sticky Player ── */
       .sticky-player {
         position: fixed;
         bottom: 0;
@@ -277,7 +273,6 @@
         cursor: pointer;
       }
 
-      /* ── Playlist Section ── */
       .playlist-section {
         min-height: 100vh;
         padding: 80px 20px 120px;
@@ -310,7 +305,6 @@
         color: var(--accent);
       }
 
-      /* ── Track Cards ── */
       .track-list {
         display: flex;
         flex-direction: column;
@@ -342,6 +336,7 @@
       .track-item:hover::before {
         opacity: 1;
       }
+
       .track-item:hover {
         border-color: var(--glass-border);
         transform: translateX(4px);
@@ -382,6 +377,7 @@
       .track-item.active .bars-viz {
         display: flex;
       }
+
       .track-item.active .track-num {
         display: none;
       }
@@ -462,7 +458,6 @@
         opacity: 1;
       }
 
-      /* ── Divider ── */
       .divider {
         max-width: 900px;
         margin: 0 auto;
@@ -488,7 +483,6 @@
         );
       }
 
-      /* ── Stranded Deep Section ── */
       .stranded-section {
         position: relative;
         padding: 100px 20px 140px;
@@ -545,7 +539,6 @@
         letter-spacing: 0.08em;
       }
 
-      /* ── Steps ── */
       .steps {
         display: flex;
         flex-direction: column;
@@ -604,6 +597,7 @@
         flex-shrink: 0;
         min-width: 75px;
       }
+
       .step-heading {
         font-family: "Cormorant Garamond", serif;
         font-size: 22px;
@@ -651,7 +645,6 @@
         vertical-align: middle;
       }
 
-      /* ── Footer ── */
       .footer {
         text-align: center;
         padding: 60px 20px;
@@ -662,7 +655,6 @@
         z-index: 1;
       }
 
-      /* ── Animations ── */
       @keyframes fadeUp {
         from {
           opacity: 0;
@@ -722,7 +714,6 @@
         }
       }
 
-      /* ── Responsive ── */
       @media (max-width: 600px) {
         .sticky-player {
           flex-wrap: wrap;
@@ -749,27 +740,24 @@
     <canvas id="bgCanvas"></canvas>
 
     <div class="content">
-      <!-- ── Hero ── -->
       <section class="hero">
         <p class="hero-eyebrow">✦ curated with care ✦</p>
         <h1 class="hero-title">the playlist</h1>
-        <p class="hero-sub">47 songs — every mood, every moment</p>
-        <div class="scroll-hint">scroll to explore</div>
+        <p class="hero-sub">All the songssss until nowww</p>
       </section>
 
-      <!-- ── Playlist ── -->
       <section class="playlist-section">
         <div class="section-header">
-          <p class="section-label">♩ now streaming</p>
-          <h2 class="section-title">Every<br /><span>Song.</span></h2>
+          <p class="section-label">Listenn awayyy</p>
+          <h2 class="section-title">
+            Precious<br /><span>Young Lady...^^🫂</span>
+          </h2>
         </div>
-
         <div class="track-list" id="trackList"></div>
       </section>
 
       <div class="divider">stranded deep awaits below</div>
 
-      <!-- ── Stranded Deep ── -->
       <section class="stranded-section">
         <canvas id="oceanCanvas"></canvas>
         <div class="stranded-inner">
@@ -806,9 +794,10 @@
                   Download any torrent installer, if you don't have one
                   alreadyy. I use <span class="highlight">Motrix</span>, sooo
                   I'd suggest that. Here's the linkkh →
-                  <a href="https://motrix.app/" target="_blank">motrix.app</a>
-                  <br />Anddd you can click on the URL after opening the site,
-                  to see if it is secure, which it is, due to the
+                  <a href="https://motrix.app/" target="_blank">motrix.app</a
+                  ><br />
+                  Anddd you can click on the URL after opening the site, to see
+                  if it is secure, which it is, due to the
                   <strong>https</strong> suffix.
                 </p>
               </div>
@@ -942,7 +931,7 @@
       </div>
     </div>
 
-    <audio id="audioPlayer"></audio>
+    <audio id="audioPlayer" crossorigin="anonymous"></audio>
 
     <script>
       const songs = [
@@ -951,10 +940,8 @@
         { name: "angel Eyes", file: "./src/angelEyes.mp3" },
         { name: "background Ambient", file: "./src/backgroundAmbient.mp3" },
         { name: "can't Sleep", file: "./src/cantSleep.mp3" },
-        { name: "chime", file: "./src/chime.mp3" },
         { name: "chiraiyya", file: "./src/chiraiyya.mp3" },
         { name: "church", file: "./src/church.mp3" },
-        { name: "click-snare", file: "./src/click-snare.mp3" },
         { name: "cry", file: "./src/Cry.mp3" },
         { name: "cry (Instru)", file: "./src/cryInstru.mp3" },
         { name: "dancing Queen", file: "./src/dancingQueen.mp3" },
@@ -981,7 +968,6 @@
         { name: "no Surprises", file: "./src/noSurprises.mp3" },
         { name: "panna", file: "./src/Panna.mp3" },
         { name: "playing Games", file: "./src/playingGames.mp3" },
-        { name: "send", file: "./src/send.mp3" },
         { name: "sign of the Times", file: "./src/signOfTheTimes.mp3" },
         { name: "skyfall", file: "./src/skyfall.mp3" },
         { name: "someone Like you", file: "./src/smnLikeYou.mp3" },
@@ -998,6 +984,62 @@
         { name: "yellow", file: "./src/Yellow.mp3" },
       ];
 
+      const audio = document.getElementById("audioPlayer");
+
+      let audioCtx = null;
+      let analyser = null;
+      let dataArray = null;
+      let sourceNode = null;
+
+      const amp = {
+        bass: 0,
+        mid: 0,
+        treble: 0,
+        overall: 0,
+        beat: 0,
+      };
+
+      let lastBass = 0;
+
+      function initAudio() {
+        if (audioCtx) return;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 256;
+        analyser.smoothingTimeConstant = 0.82;
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        sourceNode = audioCtx.createMediaElementSource(audio);
+        sourceNode.connect(analyser);
+        analyser.connect(audioCtx.destination);
+      }
+
+      function readAmplitude() {
+        if (!analyser) return;
+        analyser.getByteFrequencyData(dataArray);
+        const bins = dataArray.length;
+
+        const slice = (lo, hi) => {
+          let sum = 0;
+          for (let i = lo; i <= hi; i++) sum += dataArray[i];
+          return sum / ((hi - lo + 1) * 255);
+        };
+
+        const rawBass = slice(0, 5);
+        const rawMid = slice(6, 25);
+        const rawTreble = slice(26, 80);
+
+        amp.bass += (rawBass - amp.bass) * 0.18;
+        amp.mid += (rawMid - amp.mid) * 0.14;
+        amp.treble += (rawTreble - amp.treble) * 0.1;
+        amp.overall = amp.bass * 0.5 + amp.mid * 0.3 + amp.treble * 0.2;
+
+        const bassDelta = rawBass - lastBass;
+        if (bassDelta > 0.12 && rawBass > 0.28) {
+          amp.beat = 1.0;
+        }
+        amp.beat *= 0.88;
+        lastBass = rawBass;
+      }
       (function initAurora() {
         const canvas = document.getElementById("bgCanvas");
         const ctx = canvas.getContext("2d");
@@ -1013,39 +1055,112 @@
         resize();
 
         const blobs = [
-          { x: 0.2, y: 0.3, r: 0.35, color: [13, 31, 60], speed: 0.0007 },
-          { x: 0.7, y: 0.6, r: 0.4, color: [10, 42, 30], speed: 0.0005 },
-          { x: 0.5, y: 0.8, r: 0.3, color: [26, 13, 46], speed: 0.0009 },
-          { x: 0.8, y: 0.2, r: 0.28, color: [5, 25, 50], speed: 0.0006 },
+          {
+            x: 0.2,
+            y: 0.3,
+            r: 0.35,
+            speed: 0.0007,
+            baseColor: [13, 31, 60],
+            beatColor: [30, 80, 160],
+          },
+          {
+            x: 0.7,
+            y: 0.6,
+            r: 0.4,
+            speed: 0.0005,
+            baseColor: [10, 42, 30],
+            beatColor: [20, 120, 80],
+          },
+          {
+            x: 0.5,
+            y: 0.8,
+            r: 0.3,
+            speed: 0.0009,
+            baseColor: [26, 13, 46],
+            beatColor: [80, 30, 140],
+          },
+          {
+            x: 0.8,
+            y: 0.2,
+            r: 0.28,
+            speed: 0.0006,
+            baseColor: [5, 25, 50],
+            beatColor: [10, 60, 140],
+          },
         ];
+
+        function lerpColor(a, b, t) {
+          return a.map((v, i) => Math.round(v + (b[i] - v) * t));
+        }
 
         function draw() {
           t++;
+          readAmplitude();
+
           ctx.fillStyle = "#060810";
           ctx.fillRect(0, 0, W, H);
 
           blobs.forEach((b, i) => {
-            const px = (b.x + Math.sin(t * b.speed + i) * 0.15) * W;
-            const py = (b.y + Math.cos(t * b.speed * 0.8 + i) * 0.12) * H;
-            const r = b.r * Math.max(W, H);
+            const speedMult = 1 + amp.mid * 4.5;
+
+            const px = (b.x + Math.sin(t * b.speed * speedMult + i) * 0.15) * W;
+            const py =
+              (b.y + Math.cos(t * b.speed * speedMult * 0.8 + i) * 0.12) * H;
+
+            const rMult = 1 + amp.bass * 1.8 + amp.beat * 0.6;
+            const r = b.r * rMult * Math.max(W, H);
+
+            const colour = lerpColor(
+              b.baseColor,
+              b.beatColor,
+              amp.bass * 1.2 + amp.beat * 0.5,
+            );
+
+            const baseAlpha = 0.45 + amp.overall * 0.35 + amp.beat * 0.25;
+
             const grad = ctx.createRadialGradient(px, py, 0, px, py, r);
             grad.addColorStop(
               0,
-              `rgba(${b.color[0]},${b.color[1]},${b.color[2]},0.55)`,
+              `rgba(${colour[0]},${colour[1]},${colour[2]},${Math.min(baseAlpha, 0.85)})`,
             );
             grad.addColorStop(1, "rgba(0,0,0,0)");
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, W, H);
           });
+          if (amp.beat > 0.05) {
+            const bx = W * 0.5,
+              by = H * 0.5;
+            const br = Math.max(W, H) * (0.3 + amp.beat * 0.5);
+            const bg = ctx.createRadialGradient(bx, by, 0, bx, by, br);
+            bg.addColorStop(0, `rgba(78,205,196,${amp.beat * 0.12})`);
+            bg.addColorStop(0.4, `rgba(167,139,250,${amp.beat * 0.06})`);
+            bg.addColorStop(1, "rgba(0,0,0,0)");
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, W, H);
+          }
 
-          if (t % 3 === 0) {
-            for (let i = 0; i < 40; i++) {
-              const x = Math.random() * W;
-              const y = Math.random() * H;
-              const a = Math.random() * 0.03;
-              ctx.fillStyle = `rgba(78,205,196,${a})`;
-              ctx.fillRect(x, y, 1, 1);
-            }
+          const sparkleCount = Math.floor(amp.treble * 120 + amp.overall * 30);
+          for (let i = 0; i < sparkleCount; i++) {
+            const x = Math.random() * W;
+            const y = Math.random() * H;
+            const a = Math.random() * (0.02 + amp.treble * 0.06);
+            const sc =
+              amp.treble > 0.35
+                ? `rgba(167,139,250,${a})`
+                : `rgba(78,205,196,${a})`;
+            ctx.fillStyle = sc;
+            ctx.fillRect(x, y, 1, 1);
+          }
+
+          const scanY = H * 0.5 + Math.sin(t * 0.012) * H * 0.3;
+          const scanAlpha = amp.bass * 0.08 + amp.beat * 0.12;
+          if (scanAlpha > 0.01) {
+            const sg = ctx.createLinearGradient(0, scanY - 60, 0, scanY + 60);
+            sg.addColorStop(0, "rgba(0,0,0,0)");
+            sg.addColorStop(0.5, `rgba(78,205,196,${scanAlpha})`);
+            sg.addColorStop(1, "rgba(0,0,0,0)");
+            ctx.fillStyle = sg;
+            ctx.fillRect(0, scanY - 60, W, 120);
           }
 
           requestAnimationFrame(draw);
@@ -1071,6 +1186,8 @@
         function draw() {
           t += 0.008;
           ctx.clearRect(0, 0, W, H);
+
+          const waveMult = 1 + amp.bass * 2.2 + amp.mid * 0.8;
 
           const layers = [
             {
@@ -1122,11 +1239,11 @@
               const y =
                 H * 0.5 +
                 Math.sin(x * layer.freq + t * layer.speed + layer.offset) *
-                  layer.amp +
+                  (layer.amp * waveMult) +
                 Math.sin(
                   x * layer.freq * 2.3 + t * layer.speed * 0.7 + layer.offset,
                 ) *
-                  (layer.amp * 0.4);
+                  (layer.amp * waveMult * 0.4);
               ctx.lineTo(x, y);
             }
             ctx.lineTo(W, H);
@@ -1134,7 +1251,7 @@
             const grad = ctx.createLinearGradient(0, H * 0.3, 0, H);
             grad.addColorStop(
               0,
-              `rgba(${layer.color.join(",")},${layer.alpha})`,
+              `rgba(${layer.color.join(",")},${layer.alpha + amp.overall * 0.08})`,
             );
             grad.addColorStop(1, `rgba(${layer.color.join(",")},0)`);
             ctx.fillStyle = grad;
@@ -1146,12 +1263,13 @@
             for (let x = 0; x <= W; x += 2) {
               const y =
                 H * yFrac +
-                Math.sin(x * 0.006 + t * 0.8 + li * 1.5) * 18 +
-                Math.cos(x * 0.01 + t * 1.1 + li) * 10;
+                Math.sin(x * 0.006 + t * 0.8 + li * 1.5) *
+                  (18 + amp.bass * 30) +
+                Math.cos(x * 0.01 + t * 1.1 + li) * (10 + amp.mid * 15);
               li === 0 && x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
             }
-            ctx.strokeStyle = `rgba(103,232,249,${0.06 - li * 0.015})`;
-            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = `rgba(103,232,249,${0.06 - li * 0.015 + amp.treble * 0.06})`;
+            ctx.lineWidth = 1.5 + amp.bass * 2;
             ctx.stroke();
           });
 
@@ -1160,7 +1278,6 @@
         draw();
       })();
 
-      const audio = document.getElementById("audioPlayer");
       const trackList = document.getElementById("trackList");
       const player = document.getElementById("stickyPlayer");
       const playerName = document.getElementById("playerName");
@@ -1189,26 +1306,28 @@
         const el = document.createElement("div");
         el.className = "track-item";
         el.innerHTML = `
-    <div class="track-num">${String(i + 1).padStart(2, "0")}</div>
-    <div class="bars-viz">
-      <div class="bar"></div><div class="bar"></div>
-      <div class="bar"></div><div class="bar"></div>
-    </div>
-    <div class="track-name">${song.name}</div>
-    <span class="track-ext">${ext}</span>
-    <div class="track-play-btn">▶</div>
-  `;
+          <div class="track-num">${String(i + 1).padStart(2, "0")}</div>
+          <div class="bars-viz">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+          <div class="track-name">${song.name}</div>
+          <span class="track-ext">${ext}</span>
+          <div class="track-play-btn">▶</div>
+        `;
         el.addEventListener("click", () => playSong(i));
         trackList.appendChild(el);
       });
 
       function playSong(index) {
-        const items = trackList.querySelectorAll(".track-item");
+        initAudio();
+        if (audioCtx.state === "suspended") audioCtx.resume();
 
-        // Deactivate previous
-        if (currentIndex >= 0) {
+        const items = trackList.querySelectorAll(".track-item");
+        if (currentIndex >= 0)
           items[currentIndex].classList.remove("active", "paused");
-        }
 
         currentIndex = index;
         const song = songs[index];
@@ -1231,34 +1350,36 @@
           playSong(0);
           return;
         }
+
+        initAudio();
+        if (audioCtx.state === "suspended") audioCtx.resume();
+
+        const items = trackList.querySelectorAll(".track-item");
         if (isPlaying) {
           audio.pause();
           playBtn.innerHTML = "▶";
           isPlaying = false;
-          const items = trackList.querySelectorAll(".track-item");
           items[currentIndex].classList.add("paused");
         } else {
           audio.play();
           playBtn.innerHTML = "⏸";
           isPlaying = true;
-          const items = trackList.querySelectorAll(".track-item");
           items[currentIndex].classList.remove("paused");
         }
       }
 
       playBtn.addEventListener("click", togglePlay);
+
       prevBtn.addEventListener("click", () => {
-        const prev = (currentIndex - 1 + songs.length) % songs.length;
-        playSong(prev);
+        playSong((currentIndex - 1 + songs.length) % songs.length);
       });
+
       nextBtn.addEventListener("click", () => {
-        const next = (currentIndex + 1) % songs.length;
-        playSong(next);
+        playSong((currentIndex + 1) % songs.length);
       });
 
       audio.addEventListener("ended", () => {
-        const next = (currentIndex + 1) % songs.length;
-        playSong(next);
+        playSong((currentIndex + 1) % songs.length);
       });
 
       audio.addEventListener("timeupdate", () => {
@@ -1271,26 +1392,12 @@
 
       progressBar.addEventListener("click", (e) => {
         const rect = progressBar.getBoundingClientRect();
-        const pct = (e.clientX - rect.left) / rect.width;
-        audio.currentTime = pct * audio.duration;
+        audio.currentTime =
+          ((e.clientX - rect.left) / rect.width) * audio.duration;
       });
 
       volumeSlider.addEventListener("input", () => {
         audio.volume = parseFloat(volumeSlider.value);
-      });
-
-      // Background color shift on song change
-      const bgShifts = [
-        ["#060810", "#0d1f3c"],
-        ["#08060e", "#1a0d2e"],
-        ["#060e0c", "#0a2a1e"],
-        ["#0a0608", "#2a0d1a"],
-        ["#07090f", "#0d1f3c"],
-      ];
-      let shiftIdx = 0;
-
-      audio.addEventListener("play", () => {
-        shiftIdx = (shiftIdx + 1) % bgShifts.length;
       });
     </script>
   </body>
