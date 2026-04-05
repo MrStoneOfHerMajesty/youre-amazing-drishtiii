@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>welcome home, XL6.</title>
+    <meta
+      name="description"
+      content="a celebration for drishti's family — the xl6 is coming home."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js"></script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: #07091a;
+        color: #fef8ec;
+        font-family: "DM Sans", sans-serif;
+        overflow-x: hidden;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Cormorant Garamond", serif;
+      }
+      .serif {
+        font-family: "Cormorant Garamond", serif;
+      }
+      .sans {
+        font-family: "DM Sans", sans-serif;
+      }
+
+      /* Starfield canvas */
+      #starfield {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* Fade-up animation */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.8s ease-out,
+          transform 0.8s ease-out;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Hero */
+      .hero {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 1.5rem;
+      }
+      .hero h1 {
+        font-size: clamp(2.8rem, 8vw, 6rem);
+        font-weight: 300;
+        letter-spacing: -0.02em;
+        opacity: 0;
+        animation: fadeIn 1.2s 0.2s ease-out forwards;
+      }
+      .hero h1 span {
+        color: #fbbf24;
+        font-style: italic;
+      }
+      .hero .subtitle {
+        color: rgba(254, 248, 236, 0.4);
+        margin-top: 1.25rem;
+        font-size: clamp(0.85rem, 2vw, 1rem);
+        opacity: 0;
+        animation: fadeIn 1s 0.9s ease-out forwards;
+      }
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Headlight beams */
+      .beam {
+        position: absolute;
+        bottom: 0;
+        width: 7%;
+        height: 55%;
+        opacity: 0.15;
+        pointer-events: none;
+      }
+      .beam-l {
+        left: 42%;
+        background: linear-gradient(
+          to top,
+          hsla(45, 97%, 56%, 0.15),
+          transparent
+        );
+        clip-path: polygon(20% 100%, 80% 100%, 58% 0%, 42% 0%);
+      }
+      .beam-r {
+        left: 51%;
+        background: linear-gradient(
+          to top,
+          hsla(45, 97%, 56%, 0.15),
+          transparent
+        );
+        clip-path: polygon(20% 100%, 80% 100%, 58% 0%, 42% 0%);
+      }
+      .road-line {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 40%;
+        background: linear-gradient(
+          to top,
+          hsla(45, 97%, 56%, 0.25),
+          transparent
+        );
+        pointer-events: none;
+      }
+
+      /* Countdown */
+      .countdown {
+        display: flex;
+        gap: 2rem;
+        margin-top: 2rem;
+        opacity: 0;
+        animation: fadeIn 0.8s 1.3s ease-out forwards;
+      }
+      .countdown .unit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .countdown .val {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        color: #fbbf24;
+        font-variant-numeric: tabular-nums;
+      }
+      .countdown .lbl {
+        font-size: 0.75rem;
+        color: rgba(254, 248, 236, 0.4);
+        margin-top: 0.25rem;
+      }
+      .arrived {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        color: #fbbf24;
+        margin-top: 2rem;
+        opacity: 0;
+        animation: fadeIn 0.8s 0.2s ease-out forwards;
+      }
+
+      .scroll-hint {
+        position: absolute;
+        bottom: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0;
+        animation: fadeIn 1s 2.5s ease-out forwards;
+      }
+      .scroll-hint span {
+        color: rgba(254, 248, 236, 0.2);
+        font-size: 0.75rem;
+      }
+      .scroll-hint .line {
+        width: 1px;
+        height: 2rem;
+        background: linear-gradient(
+          to bottom,
+          rgba(254, 248, 236, 0.2),
+          transparent
+        );
+      }
+
+      /* Sections */
+      .section {
+        position: relative;
+        z-index: 1;
+        padding: 0 1.5rem;
+      }
+      @media (min-width: 768px) {
+        .section {
+          padding: 0 3rem;
+        }
+      }
+
+      /* Love letter */
+      .letter {
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 7rem 0;
+      }
+      .letter h2 {
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        color: #fbbf24;
+        margin-bottom: 2.5rem;
+      }
+      .letter p {
+        color: rgba(254, 248, 236, 0.75);
+        line-height: 1.8;
+        font-size: clamp(1rem, 1.8vw, 1.125rem);
+        margin-bottom: 1.5rem;
+      }
+      .letter em {
+        color: rgba(251, 191, 36, 0.8);
+        font-style: italic;
+      }
+      .letter .sign-off {
+        color: rgba(254, 248, 236, 0.4);
+        padding-top: 1rem;
+      }
+
+      /* Adventures grid */
+      .adventures {
+        max-width: 56rem;
+        margin: 0 auto;
+        padding: 6rem 0;
+      }
+      .adventures h2 {
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        color: #fbbf24;
+        text-align: center;
+        margin-bottom: 3.5rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+      @media (min-width: 640px) {
+        .grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (min-width: 1024px) {
+        .grid {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+      }
+      .card {
+        padding: 1.5rem;
+        border-radius: 1rem;
+        background: rgba(254, 248, 236, 0.04);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(254, 248, 236, 0.06);
+        transition: all 0.3s ease;
+        cursor: default;
+      }
+      .card:hover {
+        border-color: rgba(251, 191, 36, 0.25);
+        background: rgba(254, 248, 236, 0.07);
+        transform: translateY(-4px);
+      }
+      .card .emoji {
+        font-size: 1.875rem;
+      }
+      .card h3 {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.125rem;
+        margin-top: 0.75rem;
+      }
+      .card p {
+        color: rgba(254, 248, 236, 0.4);
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+        line-height: 1.6;
+      }
+
+      /* 3D car */
+      .car-section {
+        position: relative;
+        height: 250vh;
+      }
+      .car-sticky {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .car-sticky .hint {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        color: rgba(254, 248, 236, 0.3);
+        margin-bottom: 1rem;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+      #car-canvas {
+        width: 100%;
+        max-width: 48rem;
+        height: 60vh;
+        margin: 0 auto;
+        display: block;
+      }
+
+      /* Adventure map */
+      .map-section {
+        max-width: 48rem;
+        margin: 0 auto;
+        padding: 7rem 0;
+        text-align: center;
+      }
+      .map-section h2 {
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        color: #fbbf24;
+        margin-bottom: 0.75rem;
+      }
+      .map-section > p {
+        color: rgba(254, 248, 236, 0.4);
+      }
+      .map-svg {
+        width: 100%;
+        max-width: 28rem;
+        margin: 2rem auto 0;
+      }
+
+      /* Milestone */
+      .milestone {
+        max-width: 42rem;
+        margin: 0 auto;
+        padding: 8rem 0;
+        text-align: center;
+      }
+      .milestone h2 {
+        font-size: clamp(1.875rem, 5vw, 3rem);
+        line-height: 1.3;
+        margin-bottom: 2rem;
+      }
+      .milestone .body {
+        color: rgba(254, 248, 236, 0.5);
+        line-height: 1.7;
+        max-width: 32rem;
+        margin: 0 auto 1rem;
+      }
+      .milestone .quiet {
+        color: rgba(254, 248, 236, 0.3);
+        font-style: italic;
+        margin-bottom: 3.5rem;
+      }
+      .celebrate-btn {
+        padding: 1rem 2rem;
+        border-radius: 9999px;
+        background: #fbbf24;
+        color: #07091a;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 600;
+        font-size: 1.125rem;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 10px 25px -5px rgba(251, 191, 36, 0.2);
+        transition: transform 0.2s;
+      }
+      .celebrate-btn:hover {
+        transform: scale(1.05);
+      }
+      .celebrate-btn:active {
+        transform: scale(0.95);
+      }
+
+      /* Footer */
+      footer {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 3.5rem 0;
+        color: rgba(254, 248, 236, 0.25);
+        font-size: 0.875rem;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="starfield"></canvas>
+
+    <section class="hero">
+      <div class="beam beam-l"></div>
+      <div class="beam beam-r"></div>
+      <div class="road-line"></div>
+      <h1>welcome home, <span>xl6.</span></h1>
+      <p class="subtitle sans">arriving april 6, 2026</p>
+      <div id="countdown" class="countdown"></div>
+      <br />assummingggg @ 11:11 ^^
+    </section>
+
+    <section class="section letter fade-up">
+      <h2>Dear Suzukiii XL6,</h2>
+      <p>
+        welcome to drishti's family, to her life. You.. don't know it yet, but
+        you've just been entrusted with the most precious people i
+        know..(including my familia) her and her beautiful family. You,
+        Xcyy(let's pronounce it as excyyy?), are lucky enough to be taken care
+        by a family having a car loving dad, AND son, who's a bit of a
+        petrolhead who knows SO much about cars, like me X), mumma ke baare mei
+        can't say muchhh, cz i donnn'ttt know whether she likes/loves cars that
+        muchh.. and..a beautiful young lady who likes cars too, thanks to the
+        influence of dad and Vihaaan and maybe me tooo? by a planckk? X)))
+      </p>
+      <p>
+        i want and wish you to take them on.. peaceful, beautiful, cheerful,
+        happy and everything positive drives. Keep them safe on late nights
+        where the music is low and subtle. PS: This young lady
+        <strong><em>Loves</em></strong> to travel at night timeeee so please be
+        an extraaaa good girl to her.
+      </p>
+      <p class="sign-off">
+        protect them, from the God-aweful weather and AQI, and every bad
+        element, keep them safe, and take care of them all. they mean...the
+        world to me.
+      </p>
+    </section>
+
+    <section class="section adventures fade-up">
+      <h2>memories she'll make with you</h2>
+      <div class="grid" id="adventures-grid"></div>
+    </section>
+
+    <section class="section map-section fade-up" id="map-section">
+      <h2>countlessss adventures aheaddd</h2>
+      <svg class="map-svg" viewBox="0 0 420 260" aria-label="Adventure map">
+        <circle
+          cx="210"
+          cy="210"
+          r="9"
+          fill="#fbbf24"
+          class="map-el"
+          style="--delay: 0s"
+        />
+        <circle
+          cx="210"
+          cy="210"
+          r="16"
+          fill="none"
+          stroke="#fbbf24"
+          stroke-width="1.5"
+          opacity="0.3"
+          class="map-el"
+          style="--delay: 0.3s"
+        />
+        <text
+          x="210"
+          y="240"
+          text-anchor="middle"
+          fill="rgba(254,248,236,0.7)"
+          font-size="12"
+          font-family="'DM Sans',sans-serif"
+          class="map-el"
+          style="--delay: 0.4s"
+        >
+          home (physical) X)
+        </text>
+        <g id="map-routes"></g>
+      </svg>
+    </section>
+
+    <!-- Milestone -->
+    <section class="section milestone fade-up">
+      <h2 class="serif">her new chapter begins.</h2>
+      <p class="body sans">
+        A car is much more than just a machine.. it's a feeling, a connection..
+        that forms over time, as you drive her. Althoughhhh I won't be able to
+        get that "goshh" the way i feel when i see a Virtus, after parking our
+        Syrosss, but XL6? : )) Damn she's sweeeeeet. I used to love that car soo
+        muchh. <br />
+        Enough about me 😭 kept on rambling. This is about youuuhhh. I am truly
+        happy for you andd familyyy for the new vdfgyg kyootie carrrooo. Here's
+        to all the upcoming happy drives and vacations together. 🫂
+        <br />
+      </p>
+      <button class="celebrate-btn" onclick="fireConfetti()">
+        ^^ celebrate the new beginning 🎉 ^^
+      </button>
+    </section>
+
+    <script>
+      // ─── Starfield ───
+      (function () {
+        const c = document.getElementById("starfield"),
+          ctx = c.getContext("2d");
+        function resize() {
+          c.width = innerWidth;
+          c.height = innerHeight;
+        }
+        resize();
+        addEventListener("resize", resize);
+        const stars = Array.from({ length: 180 }, () => ({
+          x: Math.random() * innerWidth,
+          y: Math.random() * innerHeight,
+          s: Math.random() * 1.8 + 0.3,
+          sp: Math.random() * 0.015 + 0.003,
+          ph: Math.random() * Math.PI * 2,
+        }));
+        (function draw(t) {
+          ctx.clearRect(0, 0, c.width, c.height);
+          stars.forEach((s) => {
+            const tw = (Math.sin(t * s.sp + s.ph) + 1) / 2;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.s, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(254,248,236,${tw * 0.7 + 0.05})`;
+            ctx.fill();
+          });
+          requestAnimationFrame(draw);
+        })(0);
+      })();
+
+      // ─── Countdown ───
+      const TARGET = new Date("2026-04-06T11:11:00+05:30").getTime();
+      function updateCountdown() {
+        const el = document.getElementById("countdown");
+        const diff = TARGET - Date.now();
+        if (diff <= 0) {
+          el.innerHTML = '<div class="arrived">🎉 she\'s home.</div>';
+          confetti({
+            particleCount: 150,
+            spread: 100,
+            origin: { y: 0.5 },
+            colors: ["#fbbf24", "#fb923c", "#fef8ec"],
+          });
+          return;
+        }
+        const h = Math.floor(diff / 36e5),
+          m = Math.floor((diff % 36e5) / 6e4),
+          s = Math.floor((diff % 6e4) / 1e3);
+        el.innerHTML = [
+          { v: h, l: "hours" },
+          { v: m, l: "minutes" },
+          { v: s, l: "seconds" },
+        ]
+          .map(
+            (u) =>
+              `<div class="unit"><span class="val">${String(u.v).padStart(2, "0")}</span><span class="lbl sans">${u.l}</span></div>`,
+          )
+          .join("");
+        setTimeout(updateCountdown, 1000);
+      }
+      updateCountdown();
+
+      // ─── Confetti ───
+      function fireConfetti() {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ["#fbbf24", "#fb923c", "#fef8ec", "#f59e0b"],
+        });
+        setTimeout(() => {
+          confetti({
+            particleCount: 60,
+            spread: 120,
+            origin: { y: 0.45, x: 0.3 },
+            colors: ["#fbbf24", "#fb923c"],
+          });
+          confetti({
+            particleCount: 60,
+            spread: 120,
+            origin: { y: 0.45, x: 0.7 },
+            colors: ["#fbbf24", "#fef8ec"],
+          });
+        }, 250);
+      }
+
+      const adventures = [
+        {
+          emoji: "🌙",
+          title: "late-night drives",
+          desc: "energy a bit low, spacious interior, comforting music.. I reckon that's the way you like it? ^^",
+        },
+        {
+          emoji: "🌮",
+          title: "Taco Bell stops",
+          desc: "Ahem pardon meee, if i made you crave for one, cz goshhh I love itt tooo (lots of crying emojisss).",
+        },
+        {
+          emoji: "🛣️",
+          title: "looong road trips",
+          desc: "Hmmmm..... I can't think of what to say hereee, welll its somethinggg to be experienceddd ^^",
+        },
+        {
+          emoji: "🌧️",
+          title: "monsoon rides",
+          desc: "Wharrr's[whatsapp cat sticker referenceX)))] better than a ride in monsooon hmmmm?? Water droplets falling on the windshield and the rooftop. I hate Kia for the delay ugh",
+        },
+        {
+          emoji: "👨‍👩‍👧‍👦",
+          title: "family everything",
+          desc: "Long drivess, or weddings, festivals, excyyy's gonna be thereeeee.",
+        },
+        {
+          emoji: "🌅",
+          title: "sunrise drives",
+          desc: "Welllll... like you said, you will get to first learn on the SX4, you cannn go onnnn earlyyyy momrninggg drives withh dad just beforeee sunriseee.",
+        },
+      ];
+      document.getElementById("adventures-grid").innerHTML = adventures
+        .map(
+          (a, i) =>
+            `<div class="card fade-up" style="transition-delay:${i * 80}ms"><span class="emoji">${a.emoji}</span><h3>${a.title}</h3><p class="sans">${a.desc}</p></div>`,
+        )
+        .join("");
+
+      const dests = [
+        { name: "hillsss", x: 120, y: 55 },
+        { name: "ghatssss", x: 340, y: 190 },
+        { name: "mistyyy mountanious roadss", x: 70, y: 190 },
+        { name: "empty straight stretches of roaddd", x: 310, y: 65 },
+      ];
+      document.getElementById("map-routes").innerHTML = dests
+        .map((d, i) => {
+          const mx = 210 + (d.x - 210) * 0.4,
+            my = 210 + (d.y - 210) * 0.3;
+          return `<path d="M210 210 Q${mx} ${my} ${d.x} ${d.y}" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="300" stroke-dashoffset="300" opacity="0.5" class="map-path" style="--delay:${i * 0.35 + 0.5}s"/>
+      <circle cx="${d.x}" cy="${d.y}" r="5" fill="#fb923c" class="map-el" style="--delay:${i * 0.35 + 1.5}s"/>
+      <text x="${d.x}" y="${d.y - 14}" text-anchor="middle" fill="rgba(254,248,236,0.7)" font-size="11" font-family="'DM Sans',sans-serif" class="map-el" style="--delay:${i * 0.35 + 1.8}s">${d.name}</text>`;
+        })
+        .join("");
+
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.15, rootMargin: "-40px" },
+      );
+      document.querySelectorAll(".fade-up").forEach((el) => obs.observe(el));
+
+      const mapObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.querySelectorAll(".map-el").forEach((el) => {
+                el.style.transition = `opacity 0.6s ease-out var(--delay)`;
+                el.style.opacity = "1";
+              });
+              e.target.querySelectorAll(".map-path").forEach((el) => {
+                el.style.transition = `stroke-dashoffset 1.8s ease-out var(--delay)`;
+                el.style.strokeDashoffset = "0";
+              });
+            }
+          });
+        },
+        { threshold: 0.3 },
+      );
+      document.querySelectorAll(".map-svg").forEach((el) => {
+        el.querySelectorAll(".map-el").forEach((e) => (e.style.opacity = "0"));
+        mapObs.observe(el);
+      });
+
+      const glassMat = new THREE.MeshPhysicalMaterial({
+        color: 0x0c1525,
+        metalness: 0.3,
+        roughness: 0.05,
+        transparent: true,
+        opacity: 0.6,
+      });
+
+      function box(w, h, d, mat, pos) {
+        const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+        m.position.set(...pos);
+        return m;
+      }
+
+      car.add(box(3.6, 0.55, 1.5, bodyMat, [0, 0.35, 0]));
+      car.add(box(3.2, 0.3, 1.45, bodyMat, [0, 0.7, 0]));
+      car.add(box(2.1, 0.55, 1.32, glassMat, [0.15, 1.1, 0]));
+      car.add(box(2.0, 0.08, 1.35, bodyMat, [0.1, 1.42, 0]));
+      car.add(
+        box(
+          0.15,
+          0.35,
+          1.4,
+          new THREE.MeshStandardMaterial({
+            color: 0x111827,
+            metalness: 0.6,
+            roughness: 0.4,
+          }),
+          [1.85, 0.25, 0],
+        ),
+      );
+      car.add(
+        box(
+          0.15,
+          0.35,
+          1.4,
+          new THREE.MeshStandardMaterial({
+            color: 0x111827,
+            metalness: 0.6,
+            roughness: 0.4,
+          }),
+          [-1.85, 0.25, 0],
+        ),
+      );
+      car.add(
+        box(
+          0.02,
+          0.2,
+          0.8,
+          new THREE.MeshStandardMaterial({
+            color: 0x374151,
+            metalness: 0.9,
+            roughness: 0.2,
+          }),
+          [1.92, 0.45, 0],
+        ),
+      );
+
+      // Wheels
+      [
+        [-1.15, 0.15, 0.78],
+        [-1.15, 0.15, -0.78],
+        [1.15, 0.15, 0.78],
+        [1.15, 0.15, -0.78],
+      ].forEach((p) => {
+        const g = new THREE.Group();
+        g.position.set(...p);
+        const tire = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.32, 0.32, 0.22, 20),
+          new THREE.MeshStandardMaterial({
+            color: 0x0a0a0a,
+            metalness: 0.4,
+            roughness: 0.6,
+          }),
+        );
+        tire.rotation.x = Math.PI / 2;
+        g.add(tire);
+        const rim = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.18, 0.18, 0.24, 6),
+          new THREE.MeshStandardMaterial({
+            color: 0x6b7280,
+            metalness: 0.9,
+            roughness: 0.2,
+          }),
+        );
+        rim.rotation.x = Math.PI / 2;
+        g.add(rim);
+        car.add(g);
+      });
+
+      // Headlights
+      [0.5, -0.5].forEach((z) => {
+        const m = new THREE.Mesh(
+          new THREE.SphereGeometry(0.07, 8, 8),
+          new THREE.MeshStandardMaterial({
+            color: 0xfbbf24,
+            emissive: 0xfbbf24,
+            emissiveIntensity: 4,
+          }),
+        );
+        m.position.set(1.82, 0.5, z);
+        car.add(m);
+      });
+      // Tail lights
+      [0.55, -0.55].forEach((z) => {
+        const m = new THREE.Mesh(
+          new THREE.BoxGeometry(0.04, 0.12, 0.18),
+          new THREE.MeshStandardMaterial({
+            color: 0xdc2626,
+            emissive: 0xdc2626,
+            emissiveIntensity: 2,
+          }),
+        );
+        m.position.set(-1.82, 0.45, z);
+        car.add(m);
+      });
+
+      scene.add(car);
+
+      let targetRot = Math.PI * 0.25;
+      function onScroll() {
+        const sec = document.getElementById("car-section");
+        const rect = sec.getBoundingClientRect();
+        const total = sec.offsetHeight - innerHeight;
+        const progress = Math.max(0, Math.min(1, -rect.top / total));
+        targetRot = Math.PI * 0.25 + progress * Math.PI * 2.5;
+      }
+      addEventListener("scroll", onScroll, { passive: true });
+
+      function resize() {
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+      }
+      addEventListener("resize", resize);
+
+      (function animate() {
+        requestAnimationFrame(animate);
+        car.rotation.y += (targetRot - car.rotation.y) * 0.04;
+        renderer.render(scene, camera);
+      })();
+    </script>
+  </body>
+</html>
