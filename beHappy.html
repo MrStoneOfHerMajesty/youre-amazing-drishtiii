@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hey, drishti...</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #0e0c10;
+        --warm: #e8c99a;
+        --soft: #d4a8c7;
+        --muted: rgba(232, 201, 154, 0.45);
+        --faint: rgba(255, 255, 255, 0.06);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--warm);
+        font-family: "DM Sans", sans-serif;
+        font-weight: 300;
+        min-height: 100vh;
+        overflow-x: hidden;
+        cursor: default;
+      }
+
+      .peaceful-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .peaceful-bg::before,
+      .peaceful-bg::after {
+        content: "";
+        position: absolute;
+        width: 70vw;
+        height: 70vh;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.55;
+        animation: floatAura 25s infinite alternate ease-in-out;
+      }
+      .peaceful-bg::before {
+        background: rgba(82, 59, 107, 0.35);
+        top: -15vh;
+        left: -15vw;
+      }
+      .peaceful-bg::after {
+        background: rgba(43, 91, 114, 0.35);
+        bottom: -15vh;
+        right: -15vw;
+        animation-delay: -12s;
+      }
+      @keyframes floatAura {
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(8vw, 12vh) scale(1.1);
+        }
+        100% {
+          transform: translate(-5vw, -8vh) scale(0.95);
+        }
+      }
+
+      #constellation {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .dust {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .dust span {
+        position: absolute;
+        border-radius: 50%;
+        background: var(--warm);
+        opacity: 0;
+        animation: drift linear infinite;
+      }
+
+      @keyframes drift {
+        0% {
+          opacity: 0;
+          transform: translateY(0) scale(1);
+        }
+        15% {
+          opacity: 0.35;
+        }
+        85% {
+          opacity: 0.2;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-110vh) scale(0.4);
+        }
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at 50% 40%,
+          transparent 30%,
+          rgba(5, 4, 8, 0.7) 100%
+        );
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      section {
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 2rem;
+        text-align: center;
+      }
+
+      #hero {
+        gap: 1.8rem;
+      }
+
+      .eyebrow {
+        font-size: 0.72rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--muted);
+        opacity: 0;
+        animation: fadeUp 1s 0.3s forwards;
+      }
+
+      h1 {
+        font-family: "Lora", serif;
+        font-style: italic;
+        font-size: clamp(2.4rem, 7vw, 4.8rem);
+        font-weight: 400;
+        line-height: 1.2;
+        color: var(--warm);
+        opacity: 0;
+        animation: fadeUp 1s 0.6s forwards;
+      }
+
+      .sub {
+        font-size: clamp(0.9rem, 2.2vw, 1.05rem);
+        color: rgba(232, 201, 154, 0.6);
+        max-width: 460px;
+        line-height: 1.85;
+        opacity: 0;
+        animation: fadeUp 1s 0.9s forwards;
+      }
+
+      .divider {
+        width: 40px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--warm),
+          transparent
+        );
+        opacity: 0;
+        animation: fadeUp 1s 1.1s forwards;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .scroll-cue {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.68rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--muted);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0;
+        animation: fadeUp 1s 1.8s forwards;
+      }
+      .scroll-cue::after {
+        content: "";
+        width: 1px;
+        height: 36px;
+        background: linear-gradient(to bottom, var(--warm), transparent);
+        animation: pulse 2s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.3;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.9s ease,
+          transform 0.9s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+      #cards {
+        gap: 1.2rem;
+        min-height: auto;
+        padding: 6rem 2rem;
+      }
+      .card-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        max-width: 720px;
+        width: 100%;
+      }
+      .card {
+        background: var(--faint);
+        border: 1px solid rgba(232, 201, 154, 0.12);
+        border-radius: 16px;
+        padding: 1.6rem 1.8rem;
+        text-align: left;
+        max-width: 340px;
+        flex: 1 1 280px;
+        transition:
+          border-color 0.3s,
+          background 0.3s;
+      }
+      .card:hover {
+        border-color: rgba(232, 201, 154, 0.3);
+        background: rgba(232, 201, 154, 0.06);
+      }
+      .card-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
+        display: block;
+      }
+      .card-title {
+        font-family: "Lora", serif;
+        font-style: italic;
+        font-size: 1.05rem;
+        color: var(--warm);
+        margin-bottom: 0.5rem;
+      }
+      .card-text {
+        font-size: 0.85rem;
+        color: rgba(232, 201, 154, 0.55);
+        line-height: 1.75;
+      }
+      #quote {
+        background: radial-gradient(
+          ellipse at center,
+          rgba(212, 168, 199, 0.06) 0%,
+          transparent 70%
+        );
+      }
+      blockquote {
+        font-family: "Lora", serif;
+        font-style: italic;
+        font-size: clamp(1.3rem, 3.5vw, 2rem);
+        color: var(--soft);
+        max-width: 600px;
+        line-height: 1.65;
+        position: relative;
+      }
+      blockquote::before {
+        content: '"';
+        font-size: 6rem;
+        color: rgba(212, 168, 199, 0.12);
+        position: absolute;
+        top: -1.5rem;
+        left: -2rem;
+        font-family: "Lora", serif;
+        line-height: 1;
+      }
+
+      .petal {
+        position: fixed;
+        font-size: 1rem;
+        pointer-events: none;
+        animation: fall linear forwards;
+        z-index: 0;
+        opacity: 0;
+      }
+      @keyframes fall {
+        0% {
+          opacity: 0;
+          transform: translateY(-5vh) rotate(0deg);
+        }
+        10% {
+          opacity: 0.7;
+        }
+        90% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(105vh) rotate(360deg);
+        }
+      }
+
+      .glow-word {
+        color: var(--soft);
+        cursor: pointer;
+        transition: text-shadow 0.3s;
+        display: inline-block;
+      }
+      .glow-word:hover {
+        text-shadow:
+          0 0 18px rgba(212, 168, 199, 0.7),
+          0 0 40px rgba(212, 168, 199, 0.3);
+      }
+
+      #closing {
+        gap: 1.4rem;
+      }
+      .sig {
+        font-family: "Lora", serif;
+        font-style: italic;
+        font-size: 1rem;
+        color: var(--muted);
+        margin-top: 1.2rem;
+      }
+
+      #tap-zone {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+        cursor: pointer;
+        user-select: none;
+        padding: 1rem;
+        border-radius: 50%;
+        transition: transform 0.15s;
+      }
+      #tap-zone:active {
+        transform: scale(0.9);
+      }
+      #heart {
+        font-size: 3.2rem;
+        transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        display: block;
+      }
+      .tap-label {
+        font-size: 0.68rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .hearts-explode {
+        position: fixed;
+        pointer-events: none;
+        z-index: 999;
+        font-size: 1.5rem;
+        animation: explode 1s forwards;
+      }
+      @keyframes explode {
+        0% {
+          opacity: 1;
+          transform: translate(0, 0) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(var(--dx), var(--dy)) scale(0.3);
+        }
+      }
+      .dots {
+        position: fixed;
+        right: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        z-index: 99;
+      }
+      .dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(232, 201, 154, 0.25);
+        transition:
+          background 0.3s,
+          transform 0.3s;
+      }
+      .dot.active {
+        background: var(--warm);
+        transform: scale(1.5);
+      }
+
+      #music-player {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 99;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        background: rgba(232, 201, 154, 0.05);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(232, 201, 154, 0.15);
+        border-radius: 50px;
+        padding: 0.5rem 0.8rem 0.5rem 0.5rem;
+        transition:
+          transform 0.3s,
+          background 0.3s;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        animation: fadeUp 1s 2s forwards;
+      }
+      #music-player:hover {
+        background: rgba(232, 201, 154, 0.1);
+        transform: translateY(-2px);
+      }
+      .music-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(232, 201, 154, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--warm);
+        font-size: 0.9rem;
+        transition: all 0.3s;
+      }
+      .music-btn:hover {
+        background: var(--warm);
+        color: var(--bg);
+      }
+      .music-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        pointer-events: none;
+      }
+      .song-title {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--warm);
+        letter-spacing: 0.5px;
+      }
+      .song-artist {
+        font-size: 0.65rem;
+        color: rgba(232, 201, 154, 0.6);
+        letter-spacing: 0.5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="peaceful-bg"></div>
+    <canvas id="constellation"></canvas>
+    <div class="dust" id="dust"></div>
+
+    <div class="dots">
+      <div class="dot active" data-target="hero"></div>
+      <div class="dot" data-target="cards"></div>
+      <div class="dot" data-target="quote"></div>
+      <div class="dot" data-target="closing"></div>
+    </div>
+
+    <section id="hero">
+      <p class="eyebrow">just because..yes</p>
+      <h1>it's okay<br />to feel this way.</h1>
+      <div class="divider"></div>
+      <p class="sub">
+        some days just feel heavier than others, for no reason at all. that's
+        not.. something bad.. that's just being human.. and you are the most
+        amazing person i know. Not just amazing but everything good and
+        positive.
+      </p>
+    </section>
+
+    <section id="cards">
+      <div class="card-row reveal">
+        <div class="card">
+          <span class="card-icon">🌧️</span>
+          <p class="card-title">you don't have to figure it out right now..</p>
+          <p class="card-text">
+            those heavy feelings... they just wash over you out of nowhere
+            sometimes, don't they? Just let your heart take a break.. do
+            something to feel better. Maybe the melancholic weather played a
+            role in it? Let it cheer you up. Put some upbeat music, be happy..
+          </p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🫂</span>
+          <p class="card-title">you just finished something ENORMOUS</p>
+          <p class="card-text">
+            Boards, headaches, some health issues, hmm? that was a lot, and
+            during such stress of exams? That's not nothing. That takes a lot of
+            efforts and courage. And you held it all together. your body...
+            might just be sighing in relief.. hmm?
+          </p>
+        </div>
+      </div>
+      <div class="card-row reveal" style="transition-delay: 0.15s">
+        <div class="card">
+          <span class="card-icon">🌸</span>
+          <p class="card-title">you're allowed to cry..</p>
+          <p class="card-text">
+            it doesn't mean something is wrong.. but i think its just a way
+            of...coping? sometimes it's the kindest thing you can do for
+            yourself.. just let it out.. just.. please don't cry much.
+          </p>
+        </div>
+        <div class="card">
+          <span class="card-icon">✨</span>
+          <p class="card-title">you are not alone in it</p>
+          <p class="card-text">
+            There's someone, somebody, (somebody's mee ^^) 1,363 km away, who
+            thinks about you every single day, obviously, if not every hour or
+            minutes... and especially in moments like this.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="quote">
+      <blockquote class="reveal">
+        strength isn't about never breaking.<br />
+        It's about what you do
+        <span class="glow-word" id="after-word">after</span> you break.
+      </blockquote>
+      <p class="sub reveal" style="margin-top: 1.5rem; transition-delay: 0.2s">
+        <strong><em>you</em></strong> said that... remember? Applies to the
+        strongest souls like you too, drish.
+      </p>
+    </section>
+
+    <section id="closing">
+      <p class="eyebrow reveal">a gentle reminder</p>
+      <h1
+        class="reveal"
+        style="
+          font-size: clamp(1.6rem, 4.5vw, 3rem);
+          animation: none;
+          transition-delay: 0.1s;
+        "
+      >
+        you are so deeply,<br />quietly
+        <span class="glow-word">treasured</span>,
+        <span class="glow-word"> loved</span>,
+        <span class="glow-word">cared for</span> <br />and
+        <span class="glow-word">valued</span>
+      </h1>
+      <p class="sub reveal" style="transition-delay: 0.2s">
+        your paintings. your poems. the way you listen. your "heeeeyyyy"s. your
+        voice. your patience. the handwritten letter. <em>you</em>. all of it..
+        I value and love it all.
+      </p>
+
+      <div class="reveal" style="margin-top: 2rem; transition-delay: 0.3s">
+        <div id="tap-zone" onclick="tapHeart()">
+          <span id="heart">🤍</span>
+          <span class="tap-label">tap</span>
+        </div>
+      </div>
+
+      <p class="sub reveal" style="margin-top: 2rem; transition-delay: 0.4s">
+        You..were feeling like crying since the morning... why do i feel as if..
+        we're..connected. sigh. might sound stupid but who knows.. maybe all
+        these aren't coincidences at all...
+      </p>
+
+      <p class="sig reveal" style="transition-delay: 0.45s">
+        — yours, for the foreseeable future..that is <em>always</em> 🫂
+      </p>
+    </section>
+
+    <div id="music-player">
+      <audio id="bg-music" src="./src/  yellow.mp3" loop></audio>
+      <div
+        id="play-pause-btn"
+        class="music-btn playing"
+        onclick="toggleMusic()"
+      >
+        <span class="icon pause-icon">⏸</span>
+        <span class="icon play-icon" style="display: none">▶</span>
+      </div>
+      <div class="music-info">
+        <span class="song-title">Yellow</span>
+        <span class="song-artist">Coldplay</span>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("constellation");
+      const ctx = canvas.getContext("2d");
+      let width, height;
+      let particlesList = [];
+      let mouse = { x: -1000, y: -1000 };
+
+      window.addEventListener("mousemove", (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+
+      function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      class CParticle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.25;
+          this.vy = (Math.random() - 0.5) * 0.25;
+          this.radius = Math.random() * 1.2 + 0.4;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > width) this.vx = -this.vx;
+          if (this.y < 0 || this.y > height) this.vy = -this.vy;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(232, 201, 154, 0.4)";
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < 45; i++) {
+        particlesList.push(new CParticle());
+      }
+
+      function animateConstellation() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < particlesList.length; i++) {
+          particlesList[i].update();
+          particlesList[i].draw();
+
+          for (let j = i + 1; j < particlesList.length; j++) {
+            const dx = particlesList[i].x - particlesList[j].x;
+            const dy = particlesList[i].y - particlesList[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 130) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(232, 201, 154, ${0.12 - dist / 1100})`;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(particlesList[i].x, particlesList[i].y);
+              ctx.lineTo(particlesList[j].x, particlesList[j].y);
+              ctx.stroke();
+            }
+          }
+
+          const dxMouse = particlesList[i].x - mouse.x;
+          const dyMouse = particlesList[i].y - mouse.y;
+          const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+          if (distMouse < 180) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(212, 168, 199, ${0.25 - distMouse / 720})`;
+            ctx.lineWidth = 0.8;
+            ctx.moveTo(particlesList[i].x, particlesList[i].y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+          }
+        }
+        requestAnimationFrame(animateConstellation);
+      }
+      animateConstellation();
+      const dust = document.getElementById("dust");
+      for (let i = 0; i < 28; i++) {
+        const s = document.createElement("span");
+        const size = Math.random() * 2.5 + 1;
+        s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random() * 100}%;
+      top:${Math.random() * 100}%;
+      animation-duration:${12 + Math.random() * 20}s;
+      animation-delay:${Math.random() * 15}s;
+    `;
+        dust.appendChild(s);
+      }
+
+      const petalSymbols = ["🌸", "✨", "🌷", "💐", "🍃"];
+      function spawnPetal() {
+        const p = document.createElement("div");
+        p.className = "petal";
+        p.textContent =
+          petalSymbols[Math.floor(Math.random() * petalSymbols.length)];
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = 6 + Math.random() * 7 + "s";
+        p.style.animationDelay = "0s";
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 14000);
+      }
+      setInterval(spawnPetal, 2800);
+
+      const reveals = document.querySelectorAll(".reveal");
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.15 },
+      );
+      reveals.forEach((r) => obs.observe(r));
+
+      const sections = ["hero", "cards", "quote", "closing"].map((id) =>
+        document.getElementById(id),
+      );
+      const dotEls = document.querySelectorAll(".dot");
+      dotEls.forEach((d, i) => {
+        d.addEventListener("click", () =>
+          sections[i].scrollIntoView({ behavior: "smooth" }),
+        );
+      });
+      const dotObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              dotEls.forEach((d) => d.classList.remove("active"));
+              const idx = sections.indexOf(e.target);
+              if (idx >= 0) dotEls[idx].classList.add("active");
+            }
+          });
+        },
+        { threshold: 0.5 },
+      );
+      sections.forEach((s) => s && dotObs.observe(s));
+
+      document.getElementById("after-word").addEventListener("click", () => {
+        for (let i = 0; i < 6; i++) spawnPetal();
+      });
+
+      let taps = 0;
+      const hearts = ["🤍", "🩷", "💗", "💖", "💝", "🫂"];
+      function tapHeart() {
+        taps++;
+        const h = document.getElementById("heart");
+        h.textContent = hearts[Math.min(taps, hearts.length - 1)];
+        h.style.transform = "scale(1.4)";
+        setTimeout(() => (h.style.transform = "scale(1)"), 200);
+        for (let i = 0; i < 8; i++) {
+          const el = document.createElement("div");
+          el.className = "hearts-explode";
+          el.textContent = ["💗", "✨", "🌸", "💖"][
+            Math.floor(Math.random() * 4)
+          ];
+          el.style.left = 40 + Math.random() * 20 + "vw";
+          el.style.top = 40 + Math.random() * 20 + "vh";
+          el.style.setProperty("--dx", (Math.random() - 0.5) * 120 + "px");
+          el.style.setProperty("--dy", (Math.random() - 1.2) * 120 + "px");
+          el.style.animationDelay = Math.random() * 0.2 + "s";
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 1200);
+        }
+      }
+
+      const music = document.getElementById("bg-music");
+      const playPauseBtn = document.getElementById("play-pause-btn");
+      const playIcon = playPauseBtn.querySelector(".play-icon");
+      const pauseIcon = playPauseBtn.querySelector(".pause-icon");
+      let interactionDone = false;
+
+      function updatePlayerUI() {
+        if (music.paused) {
+          playIcon.style.display = "block";
+          pauseIcon.style.display = "none";
+        } else {
+          playIcon.style.display = "none";
+          pauseIcon.style.display = "block";
+        }
+      }
+
+      function toggleMusic() {
+        if (music.paused) {
+          music
+            .play()
+            .then(() => {
+              interactionDone = true;
+            })
+            .catch(console.error);
+        } else {
+          music.pause();
+        }
+        updatePlayerUI();
+      }
+
+      function startMusic() {
+        if (interactionDone) return;
+        music
+          .play()
+          .then(() => {
+            interactionDone = true;
+            updatePlayerUI();
+          })
+          .catch(() => {
+            updatePlayerUI();
+          });
+      }
+
+      startMusic();
+
+      document.body.addEventListener(
+        "click",
+        () => {
+          if (!interactionDone && music.paused) {
+            music
+              .play()
+              .then(() => {
+                interactionDone = true;
+                updatePlayerUI();
+              })
+              .catch(() => {});
+          }
+        },
+        { once: true },
+      );
+    </script>
+  </body>
+</html>
