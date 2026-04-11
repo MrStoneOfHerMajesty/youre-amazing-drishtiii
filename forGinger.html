@@ -1,0 +1,1218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For Ginger, by drishti</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400&family=Dancing+Script:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --cream: #fdf6ee;
+        --blush: #e8c4b3;
+        --rose: #c9806a;
+        --brown: #3d2318;
+        --brown-mid: #7a4a36;
+        --sage: #a9b99e;
+        --gold: #c8a97a;
+        --soft-white: #fff9f4;
+        --amber: #d4a96a;
+        --warm-shadow: rgba(61, 35, 24, 0.06);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background-color: var(--cream);
+        color: var(--brown);
+        font-family: "Jost", sans-serif;
+        font-weight: 300;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.4;
+      }
+
+      section {
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 4rem 2rem 6rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-bg-blob {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+      }
+      .hero-bg-blob.b1 {
+        width: 700px;
+        height: 700px;
+        top: -200px;
+        right: -200px;
+        background: radial-gradient(circle, #f2ddd0 0%, transparent 65%);
+        opacity: 0.45;
+      }
+      .hero-bg-blob.b2 {
+        width: 500px;
+        height: 500px;
+        bottom: -150px;
+        left: -150px;
+        background: radial-gradient(circle, #dde8d6 0%, transparent 65%);
+        opacity: 0.4;
+      }
+      .hero-bg-blob.b3 {
+        width: 300px;
+        height: 300px;
+        top: 30%;
+        left: 5%;
+        background: radial-gradient(circle, #f7e4d0 0%, transparent 65%);
+        opacity: 0.3;
+      }
+
+      .paw {
+        position: absolute;
+        font-size: 1.2rem;
+        opacity: 0;
+        animation: pawFloat linear infinite;
+        pointer-events: none;
+      }
+
+      @keyframes pawFloat {
+        0% {
+          transform: translateY(0px) rotate(-15deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.18;
+        }
+        90% {
+          opacity: 0.08;
+        }
+        100% {
+          transform: translateY(-110vh) rotate(20deg);
+          opacity: 0;
+        }
+      }
+
+      .hero-eyebrow {
+        font-family: "Jost", sans-serif;
+        font-weight: 300;
+        font-size: 0.72rem;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--rose);
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 0.3s;
+        margin-bottom: 1.8rem;
+      }
+
+      .hero-title {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 300;
+        font-size: clamp(4rem, 12vw, 8.5rem);
+        line-height: 1.05;
+        color: var(--brown);
+        opacity: 0;
+        animation: fadeUp 1.1s ease forwards 0.6s;
+        margin-bottom: 1.2rem;
+      }
+
+      .hero-title em {
+        font-style: italic;
+        color: var(--rose);
+      }
+
+      .hero-sub {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+        color: var(--brown-mid);
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 1s;
+        max-width: 480px;
+        line-height: 1.9;
+        margin-bottom: 3rem;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 0.72rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--soft-white);
+        background: var(--brown);
+        padding: 0.5rem 1.4rem;
+        border-radius: 100px;
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 1.3s;
+      }
+
+      .hero-scroll {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 1.8s;
+      }
+
+      .hero-scroll span {
+        font-size: 0.65rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--brown-mid);
+        opacity: 0.5;
+      }
+
+      .scroll-line {
+        width: 1px;
+        height: 45px;
+        background: linear-gradient(to bottom, var(--rose), transparent);
+        animation: scrollPulse 2s ease infinite;
+      }
+
+      @keyframes scrollPulse {
+        0%,
+        100% {
+          transform: scaleY(1);
+          opacity: 0.5;
+        }
+        50% {
+          transform: scaleY(1.4);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .painting-section {
+        padding: 8rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .painting-bg {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          160deg,
+          #f0e9e0 0%,
+          #f7f0e8 40%,
+          #eee6da 100%
+        );
+        z-index: 0;
+      }
+
+      .painting-inner {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .painting-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--sage);
+        margin-bottom: 2rem;
+        display: block;
+      }
+
+      .painting-title {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 300;
+        font-size: clamp(2.5rem, 7vw, 5rem);
+        line-height: 1.15;
+        color: var(--brown);
+        margin-bottom: 3rem;
+      }
+
+      .painting-title em {
+        font-style: italic;
+        color: var(--rose);
+      }
+
+      .painting-frame-outer {
+        display: inline-block;
+        position: relative;
+        padding: 20px;
+        background: linear-gradient(145deg, #d4b896, #c8a87a, #d4b896, #b8956a);
+        border-radius: 6px;
+        box-shadow:
+          0 30px 80px rgba(61, 35, 24, 0.18),
+          0 8px 24px rgba(61, 35, 24, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+
+      .painting-frame-inner {
+        border: 3px solid rgba(100, 65, 35, 0.3);
+        border-radius: 3px;
+        padding: 8px;
+        background: linear-gradient(145deg, #c9a876, #b8946a);
+      }
+
+      .painting-placeholder {
+        width: 100%;
+        max-width: 520px;
+        border-radius: 2px;
+        display: block;
+        overflow: hidden;
+        line-height: 0;
+      }
+
+      .painting-placeholder img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 2px;
+      }
+
+      .painting-placeholder::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse at 30% 35%,
+            rgba(180, 160, 130, 0.3) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 70% 65%,
+            rgba(160, 140, 110, 0.2) 0%,
+            transparent 50%
+          );
+      }
+
+      .painting-cat-icon {
+        font-size: 6rem;
+        filter: drop-shadow(0 4px 8px rgba(61, 35, 24, 0.15));
+        position: relative;
+        z-index: 1;
+        animation: floatCat 4s ease-in-out infinite;
+      }
+
+      @keyframes floatCat {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .painting-placeholder-text {
+        font-family: "Dancing Script", cursive;
+        font-size: 1.8rem;
+        color: var(--brown);
+        opacity: 0.5;
+        position: relative;
+        z-index: 1;
+      }
+
+      .painting-placeholder-sub {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: 0.95rem;
+        color: var(--brown-mid);
+        opacity: 0.5;
+        letter-spacing: 0.05em;
+        position: relative;
+        z-index: 1;
+      }
+
+      .painting-caption {
+        margin-top: 2.5rem;
+        font-family: "Dancing Script", cursive;
+        font-size: 1.5rem;
+        color: var(--brown-mid);
+        opacity: 0.7;
+        letter-spacing: 0.02em;
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        max-width: 440px;
+        margin: 0 auto;
+        padding: 2rem 2rem;
+      }
+
+      .divider-line {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          var(--blush),
+          transparent
+        );
+      }
+
+      .divider-icon {
+        font-size: 1rem;
+        color: var(--rose);
+        opacity: 0.6;
+      }
+
+      .letter-section {
+        padding: 7rem 2rem;
+        max-width: 780px;
+        margin: 0 auto;
+      }
+
+      .letter-eyebrow {
+        font-size: 0.7rem;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--sage);
+        margin-bottom: 2.5rem;
+        display: block;
+      }
+
+      .letter-title {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 300;
+        font-size: clamp(2.2rem, 6vw, 3.8rem);
+        line-height: 1.2;
+        color: var(--brown);
+        margin-bottom: 3.5rem;
+      }
+
+      .letter-title em {
+        font-style: italic;
+        color: var(--rose);
+      }
+
+      .prose {
+        font-size: clamp(1rem, 2vw, 1.13rem);
+        line-height: 2.1;
+        color: var(--brown-mid);
+        max-width: 680px;
+      }
+
+      .prose p + p {
+        margin-top: 1.8rem;
+      }
+
+      .prose .emphasis {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: 1.15em;
+        color: var(--rose);
+      }
+
+      .prose strong {
+        font-weight: 400;
+        color: var(--brown);
+      }
+
+      .details-section {
+        padding: 7rem 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .details-bg {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          #ede8e020,
+          transparent
+        );
+        z-index: 0;
+      }
+
+      .details-inner {
+        max-width: 780px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.4rem;
+        margin-top: 3.5rem;
+      }
+
+      .detail-card {
+        background: var(--soft-white);
+        border: 1px solid #e8ddd4;
+        border-radius: 18px;
+        padding: 2rem 1.75rem;
+        transition:
+          transform 0.4s ease,
+          box-shadow 0.4s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .detail-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--blush),
+          var(--rose),
+          var(--blush)
+        );
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .detail-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 16px 48px rgba(61, 35, 24, 0.08);
+      }
+
+      .detail-card:hover::before {
+        opacity: 1;
+      }
+
+      .detail-icon {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      .detail-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.2rem;
+        font-style: italic;
+        color: var(--brown);
+        margin-bottom: 0.75rem;
+        font-weight: 400;
+      }
+
+      .detail-text {
+        font-size: 0.92rem;
+        line-height: 1.9;
+        color: var(--brown-mid);
+      }
+
+      .quote-section {
+        padding: 7rem 2rem;
+        text-align: center;
+        position: relative;
+      }
+
+      .quote-bg {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          #eee8e0 0%,
+          #f5ede4 50%,
+          #e8e4dc 100%
+        );
+        z-index: 0;
+      }
+
+      .quote-inner {
+        position: relative;
+        z-index: 1;
+        max-width: 680px;
+        margin: 0 auto;
+      }
+
+      .quote-mark {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 9rem;
+        color: var(--blush);
+        opacity: 0.45;
+        line-height: 0.5;
+        display: block;
+        margin-bottom: 1.5rem;
+      }
+
+      .quote-text {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(1.7rem, 4.5vw, 2.8rem);
+        line-height: 1.65;
+        color: var(--brown);
+        margin-bottom: 2rem;
+      }
+
+      .quote-attr {
+        font-size: 0.72rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--rose);
+      }
+
+      .closing-section {
+        padding: 8rem 2rem 6rem;
+        max-width: 760px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .closing-title {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 300;
+        font-size: clamp(2.5rem, 7vw, 5rem);
+        line-height: 1.15;
+        color: var(--brown);
+        margin-bottom: 1.5rem;
+      }
+
+      .closing-title em {
+        font-style: italic;
+        color: var(--rose);
+      }
+
+      .closing-prose {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+        line-height: 1.9;
+        color: var(--brown-mid);
+        max-width: 560px;
+        margin: 0 auto 3.5rem;
+      }
+
+      .footer {
+        padding: 5rem 2rem 4rem;
+        text-align: center;
+        border-top: 1px solid #e8ddd4;
+      }
+
+      .footer-sig {
+        font-family: "Dancing Script", cursive;
+        font-size: clamp(1.5rem, 4vw, 2.2rem);
+        color: var(--brown-mid);
+        opacity: 0.8;
+        line-height: 1.8;
+        margin-bottom: 2rem;
+      }
+
+      .footer-paw {
+        font-size: 1.5rem;
+        opacity: 0.3;
+        letter-spacing: 0.5rem;
+      }
+
+      .footer-bottom {
+        margin-top: 3rem;
+        font-size: 0.68rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--sage);
+        opacity: 0.6;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.9s ease,
+          transform 0.9s ease;
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .reveal-delay-1 {
+        transition-delay: 0.1s;
+      }
+      .reveal-delay-2 {
+        transition-delay: 0.22s;
+      }
+      .reveal-delay-3 {
+        transition-delay: 0.34s;
+      }
+      .reveal-delay-4 {
+        transition-delay: 0.46s;
+      }
+      .reveal-delay-5 {
+        transition-delay: 0.58s;
+      }
+
+      @media (max-width: 600px) {
+        .details-grid {
+          grid-template-columns: 1fr;
+        }
+        .painting-placeholder {
+          max-width: 100%;
+        }
+        .letter-section {
+          padding: 5rem 1.5rem;
+        }
+      }
+
+      .petal-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* Music Player */
+      .music-player {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        z-index: 100;
+        background: rgba(253, 246, 238, 0.75);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid rgba(201, 128, 106, 0.18);
+        border-radius: 20px;
+        padding: 0.85rem 1.1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        box-shadow: 0 8px 32px rgba(61, 35, 24, 0.13);
+        min-width: 220px;
+        max-width: 260px;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+      .music-player:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(61, 35, 24, 0.18);
+      }
+      .mp-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: none;
+        background: var(--rose);
+        color: #fff;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition:
+          background 0.2s ease,
+          transform 0.15s ease;
+        box-shadow: 0 2px 8px rgba(201, 128, 106, 0.35);
+      }
+      .mp-btn:hover {
+        background: var(--brown);
+        transform: scale(1.08);
+      }
+      .mp-info {
+        flex: 1;
+        overflow: hidden;
+      }
+      .mp-title {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        font-size: 0.85rem;
+        color: var(--brown);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 0.3rem;
+      }
+      .mp-bar-track {
+        height: 3px;
+        background: rgba(61, 35, 24, 0.1);
+        border-radius: 99px;
+        overflow: hidden;
+        cursor: pointer;
+      }
+      .mp-bar-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--blush), var(--rose));
+        border-radius: 99px;
+        transition: width 0.4s linear;
+      }
+      .mp-note {
+        font-size: 0.7rem;
+        color: var(--rose);
+        opacity: 0.6;
+        flex-shrink: 0;
+        animation: notePulse 2s ease-in-out infinite;
+      }
+      @keyframes notePulse {
+        0%,
+        100% {
+          opacity: 0.4;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.9;
+          transform: scale(1.15);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas class="petal-canvas" id="petals"></canvas>
+
+    <!-- Audio -->
+    <audio id="bgMusic" src="./src/chiraiyya.mp3" loop preload="auto"></audio>
+
+    <!-- Music Player UI -->
+    <div class="music-player" id="musicPlayer">
+      <button class="mp-btn" id="mpToggle" title="Play / Pause">▶</button>
+      <div class="mp-info">
+        <div class="mp-title">Chiraiyya</div>
+        <div class="mp-bar-track" id="mpBarTrack">
+          <div class="mp-bar-fill" id="mpBarFill"></div>
+        </div>
+      </div>
+      <span class="mp-note">♪</span>
+    </div>
+
+    <script>
+      const paws = ["🐾", "🐱", "✦", "·"];
+      for (let i = 0; i < 14; i++) {
+        const p = document.createElement("div");
+        p.className = "paw";
+        p.textContent = paws[Math.floor(Math.random() * paws.length)];
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.bottom = "-40px";
+        p.style.fontSize = 0.8 + Math.random() * 1 + "rem";
+        p.style.animationDuration = 14 + Math.random() * 20 + "s";
+        p.style.animationDelay = Math.random() * 18 + "s";
+        document.body.appendChild(p);
+      }
+    </script>
+
+    <section class="hero">
+      <div class="hero-bg-blob b1"></div>
+      <div class="hero-bg-blob b2"></div>
+      <div class="hero-bg-blob b3"></div>
+
+      <p class="hero-eyebrow">10th april 2026 &nbsp;·&nbsp;</p>
+
+      <h1 class="hero-title">for <em>Ginger.</em></h1>
+
+      <p class="hero-sub">
+        my child. my brother. my whole little world.<br />
+        painted with love, by you,,, drishti.
+      </p>
+
+      <span class="hero-badge"> &nbsp; the most precious one</span>
+    </section>
+
+    <section class="painting-section">
+      <div class="painting-bg"></div>
+      <div class="painting-inner">
+        <span class="painting-label reveal">the painting</span>
+        <h2 class="painting-title reveal reveal-delay-1">
+          love made <em>visible.</em>
+        </h2>
+
+        <div class="painting-frame-outer reveal reveal-delay-2">
+          <div class="painting-frame-inner">
+            <div class="painting-placeholder">
+              <img src="./src/images/Ginger's_Masterpiece1.jpg" alt="" />
+            </div>
+          </div>
+        </div>
+
+        <p class="painting-caption reveal reveal-delay-3">
+          For Ginger, in your... beautiful handwriting, soft and full of
+          feeling.
+        </p>
+      </div>
+    </section>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-icon">✦</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <section class="letter-section">
+      <span class="letter-eyebrow reveal"
+        >what I felt, when I saw it <br />(tryng to put into wordss)</span
+      >
+      <h2 class="letter-title reveal reveal-delay-1">
+        I don't even know<br />where to <em>begin.</em>
+      </h2>
+
+      <div class="prose reveal reveal-delay-2">
+        <p>
+          This painting feels like something beyond just art, just a
+          masterpiece.. It truly shows the
+          <span class="emphasis">love</span> and
+          <span class="emphasis">genuine care</span> that you have poured into
+          it.
+        </p>
+        <p>
+          The moment I saw it, I just froze. Goosebumps taking all over mme... A
+          chill down my spine, in the most beautiful way possible. Every single
+          detail pulled me in. Ginger doesn't just <em>look</em> like himself in
+          it..like gosh look at itttttt!!!!!!!!!!!!!!!!!!!! His
+          <em>comfort</em> and <em>warmth</em> can be felt in it. That calm,
+          calm, cozy little presence.. like he knows he's loved, by just
+          everyone. You, especially.. Like wow.. I could've
+          <strong><em>NEVER</em></strong> imagined..
+        </p>
+        <p>
+          The sweater… oh my God, <strong>the sweater.</strong> The soft blue
+          shade, the tiny patterns, just like in the image, the way it wraps
+          around him like warmth you can pseudo-almostttt feel just by looking
+          at it, and that's not a small thing..Just impeccable, drish. He
+          actually looks so comfortable in it. In your sweet..world of
+          masterpieces.
+        </p>
+        <p>
+          And the details.. I can't get over them, i will never get over
+          ANYTHING ABOUT YOU, fgsdnytcersut drishtiiiii tu naaaa. Gosh... The
+          dark stripes on his fur, the soft shading around his face, the tiny
+          shadows that are so realistic. The ears, with that gentle depth inside
+          them. The little black spots on his nose... just..wow, drishti. The
+          damn attention to detail is just....tsk. yaar it's.. indescribable.
+          Even the faint shadows under his lips… I noticed everything..
+          everything.. I <em>felt</em> everything.
+        </p>
+        <p>
+          And those delicate strands of fur you have so enderingly and
+          delicately..drawn or painted, just adorned on his paw, his head, along
+          his body — they're so subtly beautiful, making it even more
+          <strong>realistic</strong>.
+        </p>
+      </div>
+    </section>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-icon">🐾</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <section class="details-section">
+      <div class="details-bg"></div>
+      <div class="details-inner">
+        <h2 class="letter-title reveal reveal-delay-1">
+          What you <em>captured</em>
+        </h2>
+
+        <div class="details-grid">
+          <div class="detail-card reveal reveal-delay-1">
+            <span class="detail-icon">🧶</span>
+            <div class="detail-title">the sweater</div>
+            <p class="detail-text">
+              Soft blue, the tiny patterns...wrapping around him just like in
+              real life, that image..It's just <strong><em>perfect</em></strong
+              >.
+            </p>
+          </div>
+          <div class="detail-card reveal reveal-delay-2">
+            <span class="detail-icon">🐈</span>
+            <div class="detail-title">his stripes</div>
+            <p class="detail-text">
+              The dark stripes on his fur, the soft shading around his face.
+              Tiny shadows are just...😶 no words...
+            </p>
+          </div>
+          <div class="detail-card reveal reveal-delay-3">
+            <span class="detail-icon">🌷</span>
+            <div class="detail-title">the ears</div>
+            <p class="detail-text">
+              With that gentle depth inside them... Small and perfect.
+            </p>
+          </div>
+          <div class="detail-card reveal reveal-delay-4">
+            <span class="detail-icon">🖊️</span>
+            <div class="detail-title">the handwriting</div>
+            <p class="detail-text">
+              Your handwriting doesn't even look real. It is so.. you know what?
+              It is actually the most elegant, expressive, beautiful,
+              heartwarming, heart stealing.. I was staring at it for so long,
+              drishti... So long...
+            </p>
+          </div>
+          <div class="detail-card reveal reveal-delay-5">
+            <span class="detail-icon">🌿</span>
+            <div class="detail-title">the wish</div>
+            <p class="detail-text">
+              A long, healthy, safe, and happy life for him. That..touched me so
+              deeply.. Because it's exactly what I want for him.. Thank you....
+            </p>
+          </div>
+          <div class="detail-card reveal reveal-delay-1">
+            <span class="detail-icon">✨</span>
+            <div class="detail-title">delicately painted fur strands</div>
+            <p class="detail-text">
+              On his paw, his head, along his body..sighh you..render me
+              speechless (where tf did i even read this?!) Tujhhhseee bolta hu
+              na mujhe khud yaad aane lagta hai aisa sabb (crying emojiiiis)
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" style="padding: 3rem 2rem">
+      <div class="divider-line"></div>
+      <div class="divider-icon">✦</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <section class="letter-section">
+      <h2 class="letter-title reveal reveal-delay-1">
+        you didn't just <em>imagine</em> this.
+      </h2>
+
+      <div class="prose reveal reveal-delay-2">
+        <p>
+          I'm still in disbelief...theeeeeee......X).. heheh denial phase, that
+          you didn't just imagine this… but actually sat down and
+          <em>created</em> it...just like the very first letter you had
+          written.. You drew this. You painted this. You put time, care, and so
+          much love into something that means the world to me...drishti.. <br />
+          A world..painting a world.. <br />
+          Gosh..goosebumps.. they won't leave me alone.
+        </p>
+        <p>
+          <span class="emphasis">This isn't just a painting of Ginger.</span>
+        </p>
+        <p>
+          This is how much you care.<br />
+          This is how deeply you feel. <br />
+          How much he matters to you
+        </p>
+        <p>
+          And I don't think I'll ever be able to fully explain what that means
+          to me.
+        </p>
+        <p>
+          <strong>It's perfect. Truly… perfect.</strong>
+        </p>
+      </div>
+    </section>
+
+    <section class="closing-section">
+      <h2 class="closing-title reveal">
+        <em>Ginger, baby, </em><br />
+        you are <strong>so</strong> loved.
+      </h2>
+      <p class="closing-prose reveal reveal-delay-2">
+        my child. my tiny brother. my most cozy, precious little presence in the
+        world. We wish you a looooooooong, healthy, safe, and happy life. (Thank
+        you, drishti)
+        <br />uhm... i was making this today only, but uhm thoda incomplete sa
+        reh gaya. I will upload it and sleep now. I... : ) sigh <br />
+        hmm.. i cannot wait to show this to you on the run tomorrow fghydksyjtg
+        ON THE CALL. my <strong>goodnesss</strong> your reactions on calls are
+        SO priceless.. wow.. cannot wait, drishti. Rest well, angel.. good night
+        ^^
+      </p>
+    </section>
+    <footer class="footer">
+      <div class="footer-sig reveal">with both our hearts,<br /></div>
+      <div class="footer-paw reveal reveal-delay-1">🐾 🐱 🐾</div>
+      <div class="footer-bottom reveal reveal-delay-2">
+        painted by drishti &nbsp;·&nbsp; for my baby
+      </div>
+    </footer>
+
+    <script>
+      const revealEls = document.querySelectorAll(".reveal");
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      revealEls.forEach((el) => io.observe(el));
+    </script>
+
+    <script>
+      const canvas = document.getElementById("petals");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+
+      const PETAL_COUNT = 22;
+      const petals = [];
+
+      for (let i = 0; i < PETAL_COUNT; i++) {
+        petals.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height * 2 - canvas.height,
+          r: 4 + Math.random() * 7,
+          speed: 0.3 + Math.random() * 0.5,
+          drift: (Math.random() - 0.5) * 0.4,
+          spin: (Math.random() - 0.5) * 0.02,
+          angle: Math.random() * Math.PI * 2,
+          opacity: 0.15 + Math.random() * 0.25,
+          color: Math.random() > 0.5 ? "#c9897a" : "#f0e0d6",
+        });
+      }
+
+      function drawPetal(ctx, x, y, r, angle, color, opacity) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(angle);
+        ctx.globalAlpha = opacity;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, r, r * 1.7, 0, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function animatePetals() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        petals.forEach((p) => {
+          p.y += p.speed;
+          p.x += p.drift + Math.sin(p.y * 0.01) * 0.3;
+          p.angle += p.spin;
+          if (p.y > canvas.height + 20) {
+            p.y = -20;
+            p.x = Math.random() * canvas.width;
+          }
+          drawPetal(ctx, p.x, p.y, p.r, p.angle, p.color, p.opacity);
+        });
+        requestAnimationFrame(animatePetals);
+      }
+      animatePetals();
+    </script>
+
+    <script>
+      const audio = document.getElementById("bgMusic");
+      const mpToggle = document.getElementById("mpToggle");
+      const mpBarFill = document.getElementById("mpBarFill");
+      let playing = false;
+
+      function startPlay() {
+        audio
+          .play()
+          .then(() => {
+            playing = true;
+            mpToggle.textContent = "⏸";
+          })
+          .catch(() => {});
+      }
+
+      const autoStart = () => {
+        if (!playing) startPlay();
+        document.removeEventListener("click", autoStart);
+        document.removeEventListener("touchstart", autoStart);
+        document.removeEventListener("keydown", autoStart);
+        document.removeEventListener("scroll", autoStart);
+      };
+      document.addEventListener("click", autoStart);
+      document.addEventListener("touchstart", autoStart);
+      document.addEventListener("keydown", autoStart);
+      document.addEventListener("scroll", autoStart);
+
+      // Also try immediate autoplay (works in some browsers)
+      audio
+        .play()
+        .then(() => {
+          playing = true;
+          mpToggle.textContent = "⏸";
+          document.removeEventListener("click", autoStart);
+          document.removeEventListener("touchstart", autoStart);
+          document.removeEventListener("keydown", autoStart);
+          document.removeEventListener("scroll", autoStart);
+        })
+        .catch(() => {});
+
+      // Toggle button
+      mpToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (playing) {
+          audio.pause();
+          playing = false;
+          mpToggle.textContent = "▶";
+        } else {
+          audio.play();
+          playing = true;
+          mpToggle.textContent = "⏸";
+        }
+      });
+
+      // Progress bar
+      audio.addEventListener("timeupdate", () => {
+        if (audio.duration) {
+          mpBarFill.style.width =
+            (audio.currentTime / audio.duration) * 100 + "%";
+        }
+      });
+
+      // Click on bar to seek
+      document.getElementById("mpBarTrack").addEventListener("click", (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const ratio = (e.clientX - rect.left) / rect.width;
+        audio.currentTime = ratio * audio.duration;
+      });
+    </script>
+  </body>
+</html>
