@@ -1,0 +1,1005 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happyyyyy...7 months ^^</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #0a0812;
+        --text: #f0dfc8;
+        --muted: rgba(240, 223, 200, 0.42);
+        --accent: #c8784e;
+        --rose: #b84e6e;
+        --glass: rgba(200, 120, 80, 0.07);
+        --glass-b: rgba(200, 120, 80, 0.26);
+      }
+
+      html {
+        scroll-behavior: smooth;
+        overflow: hidden;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Cormorant Garamond", Georgia, serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      #aurora {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        position: relative;
+      }
+
+      .date-pair {
+        font-family: "DM Mono", monospace;
+        font-size: clamp(0.8rem, 2.5vw, 1.1rem);
+        font-weight: 300;
+        letter-spacing: 0.28em;
+        color: var(--accent);
+        opacity: 0;
+        animation: fadeUp 1.2s ease forwards 0.4s;
+      }
+
+      .hero-num {
+        font-size: clamp(5rem, 20vw, 12rem);
+        font-weight: 300;
+        line-height: 0.9;
+        letter-spacing: -0.04em;
+        opacity: 0;
+        animation: fadeUp 1.4s ease forwards 0.8s;
+        margin: 1.2rem 0 0.8rem;
+      }
+
+      .hero-sub {
+        font-size: clamp(1rem, 2.5vw, 1.3rem);
+        font-style: italic;
+        font-weight: 300;
+        color: var(--muted);
+        opacity: 0;
+        animation: fadeUp 1.2s ease forwards 1.3s;
+      }
+
+      .scroll-hint {
+        position: absolute;
+        bottom: 2.8rem;
+        font-family: "DM Mono", monospace;
+        font-size: 0.62rem;
+        letter-spacing: 0.28em;
+        color: var(--muted);
+        opacity: 0;
+        animation:
+          fadeUp 1s ease forwards 2.2s,
+          breathe 3s ease-in-out infinite 3.2s;
+      }
+
+      .counter-section {
+        padding: 7rem 2rem;
+        max-width: 820px;
+        margin: 0 auto;
+      }
+
+      .tag {
+        font-family: "DM Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.28em;
+        color: var(--accent);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 1.8rem;
+        opacity: 0;
+        transform: translateY(18px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .tag.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .counter-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        opacity: 0;
+        transform: translateY(22px);
+        transition:
+          opacity 0.9s ease 0.15s,
+          transform 0.9s ease 0.15s;
+      }
+      .counter-grid.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .c-box {
+        background: var(--glass);
+        border: 1px solid var(--glass-b);
+        border-radius: 14px;
+        padding: 1.6rem 1rem;
+        text-align: center;
+        backdrop-filter: blur(10px);
+      }
+      .c-num {
+        font-family: "DM Mono", monospace;
+        font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+        font-weight: 300;
+        color: var(--accent);
+        display: block;
+      }
+      .c-lbl {
+        font-size: 0.72rem;
+        font-style: italic;
+        color: var(--muted);
+        display: block;
+        margin-top: 0.35rem;
+      }
+
+      .counter-note {
+        margin-top: 2rem;
+        font-size: 1.1rem;
+        font-style: italic;
+        color: var(--muted);
+        text-align: center;
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.8s ease 0.35s,
+          transform 0.8s ease 0.35s;
+      }
+      .counter-note.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .cards-section {
+        padding: 4rem 2rem 6rem;
+        max-width: 860px;
+        margin: 0 auto;
+      }
+
+      .section-head {
+        text-align: center;
+        margin-bottom: 3.5rem;
+        opacity: 0;
+        transform: translateY(18px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .section-head.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .section-head h2 {
+        font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+        font-weight: 300;
+        font-style: italic;
+        line-height: 1.85;
+        color: var(--muted);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .card-stack {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.1rem;
+      }
+
+      .mcard {
+        background: var(--glass);
+        border: 1px solid var(--glass-b);
+        border-radius: 16px;
+        padding: 1.8rem 2.2rem;
+        backdrop-filter: blur(12px);
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateX(-22px);
+        transition:
+          opacity 0.65s ease,
+          transform 0.65s ease,
+          background 0.3s;
+      }
+      .mcard:nth-child(even) {
+        transform: translateX(22px);
+      }
+      .mcard.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .mcard::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, var(--accent), var(--rose));
+        opacity: 0.55;
+      }
+      .mcard:hover {
+        background: rgba(200, 120, 80, 0.11);
+      }
+
+      .mmonth {
+        font-family: "DM Mono", monospace;
+        font-size: 0.62rem;
+        letter-spacing: 0.22em;
+        color: var(--accent);
+        text-transform: uppercase;
+        margin-bottom: 0.65rem;
+      }
+      .mtext {
+        font-size: clamp(1rem, 2vw, 1.15rem);
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.72;
+        color: var(--text);
+      }
+
+      .dots {
+        text-align: center;
+        font-family: "DM Mono", monospace;
+        font-size: 0.62rem;
+        letter-spacing: 0.5em;
+        color: var(--muted);
+        opacity: 0.28;
+        padding: 0.5rem 0;
+      }
+
+      .moon-section {
+        padding: 7rem 2rem;
+        max-width: 680px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .moon-pair {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(2rem, 8vw, 5rem);
+        margin: 3rem 0;
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 1s ease,
+          transform 1s ease;
+      }
+      .moon-pair.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .moon-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.9rem;
+      }
+      .moon-lbl {
+        font-family: "DM Mono", monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.22em;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+      .moon-img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        opacity: 0.9;
+        filter: brightness(1.1) contrast(1.1);
+      }
+      .moon-arr {
+        font-size: 1.2rem;
+        color: var(--muted);
+        opacity: 0.35;
+      }
+
+      .moon-note {
+        font-size: clamp(0.95rem, 2vw, 1.1rem);
+        font-style: italic;
+        color: var(--muted);
+        line-height: 1.8;
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.8s ease 0.3s,
+          transform 0.8s ease 0.3s;
+      }
+      .moon-note.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .letter-section {
+        padding: 5rem 2rem;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .open-btn {
+        display: inline-block;
+        font-family: "DM Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--accent);
+        border: 1px solid var(--glass-b);
+        padding: 0.75rem 2.2rem;
+        border-radius: 40px;
+        cursor: pointer;
+        background: var(--glass);
+        backdrop-filter: blur(8px);
+        transition:
+          background 0.3s,
+          border-color 0.3s;
+        margin-bottom: 2rem;
+        user-select: none;
+        opacity: 0;
+        transform: translateY(16px);
+        animation-fill-mode: forwards;
+      }
+      .open-btn.visible {
+        opacity: 1;
+        transform: translateY(0);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease,
+          background 0.3s,
+          border-color 0.3s;
+      }
+      .open-btn:hover {
+        background: rgba(200, 120, 80, 0.14);
+        border-color: rgba(200, 120, 80, 0.38);
+      }
+
+      .letter-wrap {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .letter-wrap.open {
+        max-height: 700px;
+      }
+
+      .letter-body {
+        background: var(--glass);
+        border: 1px solid var(--glass-b);
+        border-radius: 18px;
+        padding: 2.8rem 3rem;
+        text-align: left;
+        font-size: clamp(0.95rem, 2vw, 1.08rem);
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.95;
+        backdrop-filter: blur(12px);
+      }
+      .letter-body p {
+        margin-bottom: 1.1rem;
+      }
+      .letter-body p:last-child {
+        margin-bottom: 0;
+      }
+      .lsign {
+        font-style: normal;
+        font-family: "DM Mono", monospace;
+        font-size: 0.8rem;
+        color: var(--accent);
+      }
+
+      .ending {
+        padding: 7rem 2rem 11rem;
+        text-align: center;
+      }
+      .ending-big {
+        font-size: clamp(2.5rem, 8vw, 5.5rem);
+        font-weight: 300;
+        opacity: 0;
+        transform: translateY(18px);
+        transition:
+          opacity 1s ease,
+          transform 1s ease;
+      }
+      .ending-big.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .ending-small {
+        margin-top: 1.2rem;
+        font-size: clamp(0.95rem, 2vw, 1.1rem);
+        font-style: italic;
+        color: var(--muted);
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.8s ease 0.35s,
+          transform 0.8s ease 0.35s;
+      }
+      .ending-small.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .music-player {
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--glass);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-b);
+        padding: 8px 16px;
+        border-radius: 40px;
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: all 1s ease 1s;
+      }
+      .music-player.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .music-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--accent);
+        border: none;
+        color: var(--bg);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        transition: transform 0.3s ease;
+      }
+      .music-btn:hover {
+        transform: scale(1.1);
+      }
+      .music-info {
+        font-family: "DM Mono", monospace;
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+        color: var(--text);
+        text-transform: uppercase;
+      }
+      .music-visualizer {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        height: 12px;
+      }
+      .v-bar {
+        width: 2px;
+        height: 100%;
+        background: var(--accent);
+        border-radius: 1px;
+        animation: v-dance 1.2s ease-in-out infinite alternate;
+        animation-play-state: paused;
+      }
+      .v-bar:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .v-bar:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes v-dance {
+        from {
+          height: 20%;
+        }
+        to {
+          height: 100%;
+        }
+      }
+      .playing .v-bar {
+        animation-play-state: running;
+      }
+
+      .entry-overlay {
+        position: fixed;
+        inset: 0;
+        background: var(--bg);
+        z-index: 2000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          opacity 1.5s ease,
+          visibility 1.5s;
+      }
+      .entry-overlay.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      .entry-content {
+        text-align: center;
+      }
+      .entry-btn {
+        font-family: "DM Mono", monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--accent);
+        background: transparent;
+        border: 1px solid var(--glass-b);
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        animation: pulseBtn 2s infinite;
+      }
+      .entry-btn:hover {
+        background: var(--glass);
+        border-color: var(--accent);
+        letter-spacing: 0.4em;
+      }
+      @keyframes pulseBtn {
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow: 0 0 0 0 rgba(200, 120, 80, 0);
+        }
+        50% {
+          transform: scale(1.02);
+          box-shadow: 0 0 20px 5px rgba(200, 120, 80, 0.1);
+        }
+      }
+
+      .petal {
+        position: fixed;
+        width: 7px;
+        height: 11px;
+        border-radius: 50% 50% 50% 0;
+        pointer-events: none;
+        z-index: 2;
+        opacity: 0;
+        animation: petalFall linear infinite;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes breathe {
+        0%,
+        100% {
+          opacity: 0.35;
+        }
+        50% {
+          opacity: 0.75;
+        }
+      }
+      @keyframes petalFall {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px) rotate(0deg) translateX(0);
+        }
+        8% {
+          opacity: 0.55;
+        }
+        92% {
+          opacity: 0.35;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(105vh) rotate(420deg) translateX(30px);
+        }
+      }
+
+      @media (max-width: 580px) {
+        .counter-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .moon-pair {
+          gap: 1.8rem;
+        }
+        .letter-body {
+          padding: 2rem 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="entry-overlay" id="entryOverlay">
+      <div class="entry-content">
+        <button class="entry-btn" onclick="enterWorld()">
+          for ussss..drishtiiii??
+        </button>
+      </div>
+    </div>
+
+    <div class="music-player" id="musicPlayer">
+      <div class="music-visualizer" id="visualizer">
+        <div class="v-bar"></div>
+        <div class="v-bar"></div>
+        <div class="v-bar"></div>
+      </div>
+      <div class="music-info">Shooting Star..:)))</div>
+      <button class="music-btn" id="musicToggle" onclick="toggleMusic()">
+        ▶
+      </button>
+    </div>
+
+    <audio id="bgMusic" loop>
+      <source src="src/ShootingStar.mp3" type="audio/mpeg" />
+    </audio>
+
+    <canvas id="aurora"></canvas>
+
+    <div class="content">
+      <section class="hero">
+        <div class="date-pair">:)))))))))))))))))))...............</div>
+        <div class="hero-num">7, seven</div>
+        <p class="hero-sub">
+          What even were the odds.. yet I got so luckyy... : ))... ^^
+        </p>
+      </section>
+
+      <!-- COUNTER -->
+      <section class="counter-section">
+        <span class="tag" id="tag-counter">this...is how long..</span>
+        <div class="counter-grid" id="counter-grid">
+          <div class="c-box">
+            <span class="c-num" id="cd">210</span
+            ><span class="c-lbl">days</span>
+          </div>
+          <div class="c-box">
+            <span class="c-num" id="ch">00</span
+            ><span class="c-lbl">hours</span>
+          </div>
+          <div class="c-box">
+            <span class="c-num" id="cm">00</span
+            ><span class="c-lbl">minutes</span>
+          </div>
+          <div class="c-box">
+            <span class="c-num" id="cs">00</span
+            ><span class="c-lbl">seconds</span>
+          </div>
+        </div>
+        <p class="counter-note" id="counter-note">
+          Manyyy years to come and go like 🏎️🏎️🏎️ 🏎️ ; ) X)...
+        </p>
+      </section>
+
+      <div class="dots">· &nbsp; · &nbsp; ·</div>
+
+      <!-- SEVEN CARDS -->
+      <section class="cards-section">
+        <div class="section-head" id="cards-head">
+          <h2>
+            seven months of things...building quietly, like the foundation of an
+            entire edifice..palace..or well.. skyscraper for modern terms.. but
+            we like ancient, royal like things..don't we? (I hope youuhh dooo
+            hsufvus)
+          </h2>
+        </div>
+        <div class="card-stack">
+          <div class="mcard">
+            <div class="mmonth">September 2025</div>
+            <div class="mtext">
+              The day...none like any other... it just..happened. And then kept
+              happening, everyday after.. so naturally.. Every single
+              conversation at night..left me thinking..wondering.. hmmm... that
+              stays uhhhhh.. Christopher's cat ffs i NEVER remember the right
+              name kyaa naam hai uska irritating 😭😭😭😭 but hmm.. that day..
+              is engraved into my life... for the foreseeable future (forever
+              for me ^^).
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="mmonth">October 2025</div>
+            <div class="mtext">
+              Found myself saving thingsss...for you, whenever you'd come back
+              from that...🥺🥺 deactivated state... Stuff i never told anyone,
+              songs... little pseudo-nothings that had nowhere else to go... But
+              then you.. happened.. made sense of it <strong>all</strong>..
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="mmonth">November 2025</div>
+            <div class="mtext">
+              Your...voice.. became my favourite sound..let alone fav voice...
+              sighhh.. so perfect.. i used to listen to them over and over
+              again.. with a soft little smile on my stoopid face which.. used
+              to grow into uhh blushing whenever your giggle showed
+              up..zrsynkhfjxseznv whyyy am i tellinggg youthissirsyncjhfzguigb..
+              : ))) gosh im still smiling like an idiot. Told you.. whenever i
+              talk to you..think of you, write to you, do something related to
+              you.. gosh.. cant help but smile.
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="mmonth">December 2025</div>
+            <div class="mtext">
+              Decemberrr... it was a bit.. eventfull.. I reckon.. naii??.. I
+              guess I can't say much about thatttt rn...sooo next month ^^
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="mmonth">January 2026</div>
+            <div class="mtext">
+              New yearrrrr... New..resolutions ^^ amongst which, one i knew was
+              going to stick with me for the rest of my lifeee... : )))))..
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="mmonth">february 2026</div>
+            <div class="mtext">
+              😬😬😬kya likhhuuu....(more grimacinggg emojiiiiiiiisss)
+            </div>
+          </div>
+          <div class="mcard">
+            <div class="mmonth">March → April 2026</div>
+            <div class="mtext">
+              ...: )))... you are the most important to me, drishti..just like
+              mi familia 💝🏡... anddd duuur duuur tak koi naiii hai X) heheh..
+              🫂
+              <br />
+              God bless you, drish 🫶🌷
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="dots">· &nbsp; · &nbsp; ·</div>
+
+      <section class="moon-section">
+        <span class="tag" id="tag-moon" style="text-align: center"
+          >Kinda real pics ^^</span
+        >
+        <div class="moon-pair" id="moon-pair">
+          <div class="moon-item">
+            <img
+              src="src/images/moon_sept28.jpg"
+              class="moon-img"
+              id="moon1-img"
+            />
+            <span class="moon-lbl">28 Sept 25</span>
+          </div>
+          <div class="moon-arr">→</div>
+          <div class="moon-item">
+            <img
+              src="src/images/moon_april28.jpg"
+              class="moon-img"
+              id="moon2-img"
+            />
+            <span class="moon-lbl">28 April 26</span>
+          </div>
+        </div>
+        <p class="moon-note" id="moon-note">
+          You..are one too.. as beautiful as the moon..genuinely.. sigh..
+          goosebumps.. <br />
+          I literally saw you in my mind.. that one pic, <br />
+          in which a hair flick.. i reckon is in front of your right eye...
+          <br />
+          🌷😭😭😭😭😭😭😭😭😭😭😭😭😭😭😭
+        </p>
+      </section>
+
+      <div class="dots">· &nbsp; · &nbsp; ·</div>
+      <section class="ending">
+        <div class="ending-big" id="ending-big">and counting.</div>
+      </section>
+    </div>
+
+    <script>
+      const aCanvas = document.getElementById("aurora");
+      const actx = aCanvas.getContext("2d");
+      let aW, aH;
+
+      const resize = () => {
+        aW = aCanvas.width = innerWidth;
+        aH = aCanvas.height = innerHeight;
+      };
+      resize();
+      addEventListener("resize", resize);
+
+      const blobs = [
+        { x: 0.15, y: 0.2, r: 0.6, hue: 275, speed: 0.00018, ph: 0 },
+        { x: 0.75, y: 0.15, r: 0.5, hue: 330, speed: 0.00022, ph: 1.8 },
+        { x: 0.5, y: 0.65, r: 0.65, hue: 25, speed: 0.00015, ph: 3.5 },
+        { x: 0.85, y: 0.55, r: 0.45, hue: 300, speed: 0.0002, ph: 5.2 },
+        { x: 0.35, y: 0.8, r: 0.48, hue: 345, speed: 0.00016, ph: 2.4 },
+        { x: 0.6, y: 0.3, r: 0.4, hue: 40, speed: 0.00025, ph: 4.1 },
+      ];
+
+      let t = 0;
+      (function tick() {
+        t++;
+        actx.clearRect(0, 0, aW, aH);
+        blobs.forEach((b) => {
+          const ox = Math.sin(t * b.speed + b.ph) * 0.13;
+          const oy = Math.cos(t * b.speed * 0.72 + b.ph) * 0.09;
+          const x = (b.x + ox) * aW,
+            y = (b.y + oy) * aH;
+          const r = b.r * Math.min(aW, aH);
+          const g = actx.createRadialGradient(x, y, 0, x, y, r);
+          g.addColorStop(0, `hsla(${b.hue},55%,62%,0.14)`);
+          g.addColorStop(0.35, `hsla(${b.hue},50%,55%,0.07)`);
+          g.addColorStop(0.7, `hsla(${b.hue},45%,50%,0.025)`);
+          g.addColorStop(1, `hsla(${b.hue},40%,48%,0)`);
+          actx.beginPath();
+          actx.arc(x, y, r, 0, Math.PI * 2);
+          actx.fillStyle = g;
+          actx.fill();
+        });
+        requestAnimationFrame(tick);
+      })();
+
+      const start = new Date("2025-09-28T00:00:00");
+      const pad = (n, l = 2) => String(n).padStart(l, "0");
+
+      function tick2() {
+        const diff = Math.max(0, Date.now() - start);
+        const s = Math.floor(diff / 1000);
+        document.getElementById("cd").textContent = pad(
+          Math.floor(s / 86400),
+          3,
+        );
+        document.getElementById("ch").textContent = pad(
+          Math.floor((s % 86400) / 3600),
+        );
+        document.getElementById("cm").textContent = pad(
+          Math.floor((s % 3600) / 60),
+        );
+        document.getElementById("cs").textContent = pad(s % 60);
+      }
+      tick2();
+      setInterval(tick2, 1000);
+
+      function toggleLetter() {
+        const w = document.getElementById("letter-wrap");
+        const b = document.getElementById("open-btn");
+        w.classList.toggle("open");
+        b.textContent = w.classList.contains("open") ? "close it" : "open it";
+      }
+
+      const toReveal = [
+        "tag-counter",
+        "counter-grid",
+        "counter-note",
+        "cards-head",
+        "tag-moon",
+        "moon-pair",
+        "moon-note",
+        "tag-letter",
+        "open-btn",
+        "ending-big",
+        "ending-small",
+      ];
+
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+
+      toReveal.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) obs.observe(el);
+      });
+
+      document.querySelectorAll(".mcard").forEach((card, i) => {
+        const cardObs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                setTimeout(() => e.target.classList.add("visible"), i * 90);
+                cardObs.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.1 },
+        );
+        cardObs.observe(card);
+      });
+
+      const pColors = [
+        "rgba(200,100,76,0.52)",
+        "rgba(185,78,110,0.48)",
+        "rgba(220,140,96,0.50)",
+        "rgba(200,116,88,0.45)",
+      ];
+
+      function petal() {
+        const p = document.createElement("div");
+        p.className = "petal";
+        Object.assign(p.style, {
+          left: Math.random() * 100 + "vw",
+          top: "-12px",
+          background: pColors[Math.floor(Math.random() * pColors.length)],
+          animationDuration: 7 + Math.random() * 9 + "s",
+          animationDelay: Math.random() * 1.5 + "s",
+          transform: `rotate(${Math.random() * 360}deg)`,
+        });
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 18000);
+      }
+
+      setInterval(petal, 1200);
+
+      const bgMusic = document.getElementById("bgMusic");
+      const musicPlayer = document.getElementById("musicPlayer");
+      const entryOverlay = document.getElementById("entryOverlay");
+      const musicToggle = document.getElementById("musicToggle");
+      const visualizer = document.getElementById("visualizer");
+
+      function enterWorld() {
+        entryOverlay.classList.add("hidden");
+        document.documentElement.style.overflow = "auto";
+        bgMusic.play();
+        musicPlayer.classList.add("visible");
+        musicPlayer.classList.add("playing");
+        musicToggle.textContent = "⏸";
+
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 100);
+      }
+
+      function toggleMusic() {
+        if (bgMusic.paused) {
+          bgMusic.play();
+          musicToggle.textContent = "⏸";
+          musicPlayer.classList.add("playing");
+        } else {
+          bgMusic.pause();
+          musicToggle.textContent = "▶";
+          musicPlayer.classList.remove("playing");
+        }
+      }
+    </script>
+  </body>
+</html>
