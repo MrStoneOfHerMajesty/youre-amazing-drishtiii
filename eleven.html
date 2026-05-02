@@ -300,50 +300,184 @@
         }
       }
 
-      function drawFigure(x, baseY, flip) {
+      function drawBoy(x, baseY) {
         ctx.save();
         ctx.translate(x, baseY);
-        if (flip) ctx.scale(-1, 1);
-        ctx.fillStyle = "rgba(12,8,25,1)";
-
+        const s = Math.min(W, H) / 700;
+        ctx.scale(s, s);
+        ctx.fillStyle = "rgba(10,6,22,1)";
+        // legs
         ctx.beginPath();
-        ctx.ellipse(0, -6, 24, 6, 0, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(-30, -9, 7.5, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.ellipse(-35, -12, 7, 5, -0.4, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.beginPath();
-        ctx.moveTo(18, -2);
-        ctx.quadraticCurveTo(34, -4, 42, -1);
-        ctx.lineTo(42, 3);
-        ctx.quadraticCurveTo(34, 1, 18, 3);
+        ctx.moveTo(-8, 0);
+        ctx.lineTo(-10, -50);
+        ctx.lineTo(-3, -50);
+        ctx.lineTo(-2, 0);
         ctx.closePath();
         ctx.fill();
         ctx.beginPath();
-        ctx.moveTo(18, 0);
-        ctx.quadraticCurveTo(32, -6, 38, -5);
-        ctx.lineTo(37, -1);
-        ctx.quadraticCurveTo(30, -2, 18, 3);
+        ctx.moveTo(2, 0);
+        ctx.lineTo(3, -50);
+        ctx.lineTo(10, -50);
+        ctx.lineTo(8, 0);
         ctx.closePath();
         ctx.fill();
-
+        // torso
         ctx.beginPath();
-        ctx.moveTo(-12, -10);
-        ctx.quadraticCurveTo(-18, -28, -14, -38);
-        ctx.lineTo(-11, -37);
-        ctx.quadraticCurveTo(-14, -26, -9, -10);
+        ctx.moveTo(-13, -50);
+        ctx.quadraticCurveTo(-15, -75, -14, -95);
+        ctx.lineTo(14, -95);
+        ctx.quadraticCurveTo(15, -75, 13, -50);
+        ctx.closePath();
+        ctx.fill();
+        // shoulders
+        ctx.beginPath();
+        ctx.ellipse(0, -95, 16, 5, 0, 0, Math.PI * 2);
+        ctx.fill();
+        // neck
+        ctx.fillRect(-4, -103, 8, 10);
+        // head
+        ctx.beginPath();
+        ctx.arc(0, -113, 11, 0, Math.PI * 2);
+        ctx.fill();
+        // arms
+        ctx.beginPath();
+        ctx.moveTo(-16, -92);
+        ctx.quadraticCurveTo(-19, -72, -16, -55);
+        ctx.lineTo(-13, -55);
+        ctx.quadraticCurveTo(-15, -72, -13, -92);
         ctx.closePath();
         ctx.fill();
         ctx.beginPath();
-        ctx.ellipse(5, -10, 10, 2.5, 0.15, 0, Math.PI * 2);
+        ctx.moveTo(16, -92);
+        ctx.quadraticCurveTo(19, -72, 16, -55);
+        ctx.lineTo(13, -55);
+        ctx.quadraticCurveTo(15, -72, 13, -92);
+        ctx.closePath();
         ctx.fill();
-
         ctx.restore();
+      }
+
+      function drawGirl(x, baseY) {
+        ctx.save();
+        ctx.translate(x, baseY);
+        const s = Math.min(W, H) / 700;
+        ctx.scale(s, s);
+        ctx.fillStyle = "rgba(10,6,22,1)";
+        // legs (same height as boy)
+        ctx.beginPath();
+        ctx.moveTo(-7, 0);
+        ctx.lineTo(-8, -50);
+        ctx.lineTo(-2, -50);
+        ctx.lineTo(-1, 0);
+        ctx.closePath();
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(1, 0);
+        ctx.lineTo(2, -50);
+        ctx.lineTo(8, -50);
+        ctx.lineTo(7, 0);
+        ctx.closePath();
+        ctx.fill();
+        // torso (slimmer)
+        ctx.beginPath();
+        ctx.moveTo(-10, -50);
+        ctx.quadraticCurveTo(-12, -72, -11, -90);
+        ctx.lineTo(11, -90);
+        ctx.quadraticCurveTo(12, -72, 10, -50);
+        ctx.closePath();
+        ctx.fill();
+        // shoulders (narrower)
+        ctx.beginPath();
+        ctx.ellipse(0, -90, 13, 4, 0, 0, Math.PI * 2);
+        ctx.fill();
+        // neck
+        ctx.fillRect(-3, -98, 6, 9);
+        // head
+        ctx.beginPath();
+        ctx.arc(0, -108, 10, 0, Math.PI * 2);
+        ctx.fill();
+        // long flowing hair (from head, not a hat)
+        ctx.beginPath();
+        ctx.moveTo(-10, -112);
+        ctx.quadraticCurveTo(-14, -100, -15, -78);
+        ctx.quadraticCurveTo(-14, -68, -12, -62);
+        ctx.lineTo(-10, -65);
+        ctx.quadraticCurveTo(-11, -78, -10, -90);
+        ctx.closePath();
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(10, -112);
+        ctx.quadraticCurveTo(14, -100, 15, -78);
+        ctx.quadraticCurveTo(14, -68, 12, -62);
+        ctx.lineTo(10, -65);
+        ctx.quadraticCurveTo(11, -78, 10, -90);
+        ctx.closePath();
+        ctx.fill();
+        // arms
+        ctx.beginPath();
+        ctx.moveTo(-13, -88);
+        ctx.quadraticCurveTo(-15, -68, -13, -52);
+        ctx.lineTo(-10, -52);
+        ctx.quadraticCurveTo(-12, -68, -10, -88);
+        ctx.closePath();
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(13, -88);
+        ctx.quadraticCurveTo(15, -68, 13, -52);
+        ctx.lineTo(10, -52);
+        ctx.quadraticCurveTo(12, -68, 10, -88);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function drawTree(x, baseY, h, w) {
+        ctx.save();
+        ctx.translate(x, baseY);
+        ctx.fillStyle = "rgba(8,5,18,1)";
+        // trunk
+        ctx.fillRect(-w * 0.08, -h * 0.3, w * 0.16, h * 0.3);
+        // pine layers
+        for (let i = 0; i < 3; i++) {
+          const ly = -h * 0.25 - i * h * 0.25;
+          const lw = w * (1 - i * 0.25);
+          ctx.beginPath();
+          ctx.moveTo(0, ly - h * 0.3);
+          ctx.lineTo(-lw / 2, ly);
+          ctx.lineTo(lw / 2, ly);
+          ctx.closePath();
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      function drawScenery() {
+        const s = Math.min(W, H) / 700;
+        ctx.fillStyle = "rgba(8,5,18,1)";
+        // trees at various positions
+        const treeData = [
+          { xf: 0.04, h: 90, w: 30 },
+          { xf: 0.08, h: 110, w: 36 },
+          { xf: 0.13, h: 70, w: 24 },
+          { xf: 0.88, h: 100, w: 32 },
+          { xf: 0.93, h: 120, w: 38 },
+          { xf: 0.97, h: 75, w: 26 },
+        ];
+        treeData.forEach((t) => {
+          drawTree(W * t.xf, getHillY(W * t.xf), t.h * s, t.w * s);
+        });
+        // grass tufts along the ground
+        for (let i = 0; i < 40; i++) {
+          const gx = Math.random() * W;
+          const gy = getHillY(gx);
+          const gh = (4 + Math.random() * 8) * s;
+          ctx.beginPath();
+          ctx.moveTo(gx - 2 * s, gy);
+          ctx.quadraticCurveTo(gx - 3 * s, gy - gh, gx, gy - gh * 0.7);
+          ctx.quadraticCurveTo(gx + 3 * s, gy - gh, gx + 2 * s, gy);
+          ctx.closePath();
+          ctx.fill();
+        }
       }
 
       function drawSky() {
@@ -565,10 +699,11 @@
         drawShootingStar(t);
         drawParticles();
         drawGround();
+        drawScenery();
         drawFireflies(t);
 
-        drawFigure(W * 0.25, getHillY(W * 0.25), false);
-        drawFigure(W * 0.75, getHillY(W * 0.75), true);
+        drawGirl(W * 0.44, getHillY(W * 0.44));
+        drawBoy(W * 0.56, getHillY(W * 0.56));
 
         requestAnimationFrame(draw);
       }
@@ -643,7 +778,7 @@
         },
         { passive: true },
       );
-      window.addEventListener("keydown", () => {
+      window.addEventListener("keydown", (e) => {
         if (e.code === "Space") {
           ensureMusic();
           trigger();
